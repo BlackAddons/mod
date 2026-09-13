@@ -1,17 +1,30 @@
-MIT License
+Source-Available License (All Rights Reserved)
 
-Copyright (c) 2026 BLACKUM
+Copyright (c) 2026 BLACKUM. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. PERMISSION TO VIEW
+Permission is hereby granted to any natural person to view, inspect, and read 
+the source code of this Software solely for personal, educational, and security 
+auditing purposes.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. RESTRICTIONS
+Except as expressly permitted in Section 1, NO PERMISSION is granted to any 
+person or entity to:
+  a) Copy, modify, adapt, merge, translate, or create derivative works of this 
+     Software or any portion thereof;
+  b) Distribute, publish, sublicense, rent, sell, or otherwise transfer this 
+     Software or any portion thereof;
+  c) Include or integrate any portion of this Software into any other software, 
+     mods, or projects.
 
+3. ARTIFICIAL INTELLIGENCE & MACHINE LEARNING PROHIBITION
+No permission is granted for any entity or individual to use this Software, 
+its source code, or associated documentation (including snippets and derivative 
+data) to train, fine-tune, evaluate, test, or feed any Artificial Intelligence (AI), 
+Machine Learning (ML), Large Language Model (LLM), or automated code generation 
+models/systems.
+
+4. DISCLAIMER
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
