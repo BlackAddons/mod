@@ -1,3 +1,7 @@
+LEGACY - EOL SOON. Join discord to get updates on new version (BlackAddons-Reimagined). BETA is out! Ping any of the developers in discord to get access!
+discord.gg/YBDRvNRrrp
+
+
 # BlackAddons
 
 BlackAddons is a utility and quality-of-life mod for Minecraft, designed to enhance the player experience with advanced personalization, privacy tools, and dungeon utilities. I totally didn't make readme with ai. Totally.
