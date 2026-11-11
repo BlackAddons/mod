@@ -1,4 +1,5 @@
-# LEGACY - EOL. USE UPDATED VERSION: BlackAddons-Reimagined
+# LEGACY - EOL. 
+USE UPDATED VERSION: BlackAddons-Reimagined.
 
 Official website: https://blackaddons.com/
 
