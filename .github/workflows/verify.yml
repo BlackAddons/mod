@@ -22,7 +22,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    container: gradle:9.7.1-jdk25-noble
+    container: gradle:9.9.1-jdk25-noble
     env:
       # A fixed path inside the container: github.workspace names the host's path, not the container's.
       GRADLE_USER_HOME: /gradle-home

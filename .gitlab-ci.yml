@@ -16,7 +16,7 @@ variables:
   # The image pins the same Gradle the repo does (gradle/wrapper/gradle-wrapper.properties) on the JDK
   # every module targets. Two versions in two files is a drift waiting to happen, so when one moves,
   # move the other.
-  GRADLE_IMAGE: gradle:9.7.1-jdk25-noble
+  GRADLE_IMAGE: gradle:9.9.1-jdk25-noble
   # Inside the project directory on purpose: GitLab can only cache paths under it, and Loom's game and
   # mapping downloads live in this home. Left at its default (~/.gradle) every pipeline would re-fetch
   # Minecraft.
