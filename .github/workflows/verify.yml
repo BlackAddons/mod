@@ -42,13 +42,27 @@ jobs:
 
       # The same two directories the GitLab cache keeps. An Actions cache entry never changes once saved, so the
       # key follows the build files and a dependency bump starts a fresh entry from the closest old one.
-      - uses: actions/cache@v6
+      # Restore and save are separate steps with the key hashed once, up front: the combined action hashes again
+      # in its post step, and by then the build (root, in the container) has left directories the runner cannot read.
+      - id: cache-key
+        run: echo "key=gradle-${{ hashFiles('gradle.properties', '**/*.gradle.kts', 'gradle/**') }}" >> "$GITHUB_OUTPUT"
+
+      - id: restore
+        uses: actions/cache/restore@v6
         with:
           path: |
             /gradle-home/caches/modules-2
             /gradle-home/caches/fabric-loom
-          key: gradle-${{ hashFiles('gradle.properties', '**/*.gradle.kts', 'gradle/**') }}
+          key: ${{ steps.cache-key.outputs.key }}
           restore-keys: gradle-
 
       - name: Build
         run: gradle build-all --stacktrace
+
+      - if: github.event_name == 'push' && steps.restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            /gradle-home/caches/modules-2
+            /gradle-home/caches/fabric-loom
+          key: ${{ steps.cache-key.outputs.key }}
