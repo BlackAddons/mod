@@ -1,0 +1,13 @@
+#!/bin/sh
+# Reject commit messages that aren't Conventional Commits. The rules are ci/check-commits.sh, the same
+# script CI runs over every merge request and pull request.
+#
+# Tracked in the repo rather than left in .git/hooks, which git never clones.
+# Enable once per clone:  git config core.hooksPath .githooks
+#
+# A hook is a courtesy, not a gate: `git commit --no-verify` skips it, and it never runs on the server.
+
+# Hooks run from the repo root.
+sh ci/check-commits.sh --file "$1" && exit 0
+printf '  To bypass once (you almost never should): git commit --no-verify\n\n' >&2
+exit 1

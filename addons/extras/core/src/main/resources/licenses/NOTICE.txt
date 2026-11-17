@@ -1,0 +1,6 @@
+assets/blackaddons-extras/bars_v2.png is taken from SkyblockAddons
+(https://github.com/BiscuitDevelopment/SkyblockAddons), where it is named barsV2.png,
+© Biscuit Development, licensed under the MIT License. It is reused here under
+the same license for the Extras stat-bar feature, a port of SkyblockAddons'
+HEALTH_BAR / MANA_BAR rendering. Renamed only because Minecraft resource paths
+are lowercase-only; the image is unmodified.

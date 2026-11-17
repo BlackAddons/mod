@@ -1,0 +1,923 @@
+{
+  "addon": {
+    "blackaddons-cheat": "Cheats"
+  },
+  "setting_group": {
+    "menus": "Menus",
+    "experimental": "Experimental",
+    "delays": "Delays",
+    "look_at_filter": "Look At Filter",
+    "item_filter": "Item Filter",
+    "location_conditions": "Location Conditions",
+    "swap_back": "Swap Back",
+    "cheats": "Cheats",
+    "room_colors": "Room Colors",
+    "auto_solve": "Auto Solve",
+    "auto_start": "Auto Start"
+  },
+  "feature": {
+    "arrowaligntriggerbot": {
+      "name": "Arrow Align Triggerbot",
+      "desc": "Turns the arrows of the F7/M7 arrow align device into place while your crosshair is on them.",
+      "setting": {
+        "click_delay": {
+          "name": "Click Delay",
+          "desc": "Least time between two clicks."
+        }
+      }
+    },
+    "lightsdevicetriggerbot": {
+      "name": "Lights Device Triggerbot",
+      "desc": "Flips the six lights device levers of F7/M7 phase 3 when your crosshair is on one.",
+      "setting": {
+        "click_delay": {
+          "name": "Click Delay",
+          "desc": "Least time between two flips."
+        }
+      }
+    },
+    "norotatebuttontest": {
+      "name": "No Rotate Button Test",
+      "desc": "Alternates silent clicks on the two stone buttons at (-2, 85, -93) and (-2, 85, -90)."
+    },
+    "autobm": {
+      "name": "Auto BM",
+      "desc": "Automatically upgrades Ballista Mechanic in Kuudra.",
+      "setting": {
+        "min_click_delay": {
+          "name": "Min Click Delay",
+          "desc": "Shortest wait between upgrade clicks."
+        },
+        "max_click_delay": {
+          "name": "Max Click Delay",
+          "desc": "Longest wait between upgrade clicks."
+        },
+        "min_first_click_delay": {
+          "name": "Min First Click Delay",
+          "desc": "Shortest wait before the first upgrade click."
+        },
+        "max_first_click_delay": {
+          "name": "Max First Click Delay",
+          "desc": "Longest wait before the first upgrade click."
+        }
+      }
+    },
+    "autoclicker": {
+      "name": "Auto Clicker",
+      "desc": "Automatically clicks left/right mouse buttons with customizable speeds and filters.",
+      "setting": {
+        "button": {
+          "name": "Button",
+          "option": {
+            "left": "Left",
+            "right": "Right",
+            "both": "Both"
+          }
+        },
+        "min_cps": {
+          "name": "Min CPS"
+        },
+        "max_cps": {
+          "name": "Max CPS"
+        },
+        "hold_keybind": {
+          "name": "Hold Keybind",
+          "desc": "Active only while the hotkey is held down. If disabled, the hotkey toggles on/off."
+        },
+        "hold_click": {
+          "name": "Hold Click",
+          "desc": "Hold down the click button continuously instead of rapid tapping."
+        },
+        "ground_only": {
+          "name": "Ground Only",
+          "desc": "Only click while the player is on the ground."
+        },
+        "hotkey": {
+          "name": "Hotkey",
+          "desc": "Press/hold to activate the clicker."
+        },
+        "look_at_filter": {
+          "name": "Look At Filter"
+        },
+        "look_at_targets": {
+          "name": "Look At Targets"
+        },
+        "look_at_distance": {
+          "name": "Look At Distance"
+        },
+        "item_filter": {
+          "name": "Item Filter"
+        },
+        "item_name_filters": {
+          "name": "Item Name Filters"
+        },
+        "location_conditions": {
+          "name": "Location Conditions"
+        },
+        "dungeon_only": {
+          "name": "Dungeon Only"
+        },
+        "floor_filter": {
+          "name": "Floor Filter",
+          "option": {
+            "any": "Any"
+          }
+        },
+        "boss_room_only": {
+          "name": "Boss Room Only"
+        },
+        "phase_filter": {
+          "name": "Phase Filter",
+          "option": {
+            "any": "Any"
+          }
+        }
+      }
+    },
+    "autotnt": {
+      "name": "Auto TNT",
+      "desc": "Blows up cracked Catacombs walls with Superboom TNT while you look at them.",
+      "setting": {
+        "button": {
+          "name": "Button",
+          "desc": "Which click blows the wall. Both work; right click is the one the item's own ability is written for.",
+          "option": {
+            "right": "Right",
+            "left": "Left"
+          }
+        },
+        "use_delay": {
+          "name": "Use Delay",
+          "desc": "Wait between taking the TNT and clicking. Nothing needs it to work - it is here so the swap and the click are not the same instant every time.",
+          "unsafe": "Clicking in the same tick you swapped is a gap no hand produces."
+        },
+        "delay_jitter": {
+          "name": "Delay Jitter",
+          "desc": "Up to this many extra ticks are added to each wait, drawn fresh every time.",
+          "unsafe": "With no jitter every boom sits the identical number of ticks after the swap, wall after wall."
+        },
+        "reach": {
+          "name": "Reach",
+          "desc": "How close the wall has to be before it fires. Measured from where you stand to the block's own outline, not to the middle of the space it sits in."
+        },
+        "retries": {
+          "name": "Retries",
+          "desc": "Extra clicks if the wall is still standing afterwards. A wall that broke stops being a target, so these cost nothing in the normal case."
+        },
+        "swap_back": {
+          "name": "Swap Back",
+          "desc": "Put the slot you were holding back once the wall is dealt with. Off leaves you on the TNT."
+        },
+        "swap_back_delay": {
+          "name": "Swap Back Delay",
+          "desc": "How long to keep the TNT out after clicking. One tick is the mechanical floor; more of them is what a hand looks like."
+        }
+      }
+    },
+    "rotations": {
+      "name": "Rotations",
+      "desc": "Skill presets for the Blackum Algorithm and the simulated hand behind its turns.",
+      "setting": {
+        "presets": {
+          "name": "Presets",
+          "desc": "Built-in skill levels and your own. AutoSS, Actions and Secret Utils pick one in their Rotation Curve.",
+          "label": "Edit"
+        },
+        "norotate_cam": {
+          "name": "NoRotate Cam",
+          "desc": "While a silent rotation is active, show what the server sees in the top-left corner. Hidden while a shader pack is in use."
+        },
+        "norotate_cam_fps": {
+          "name": "NoRotate Cam FPS",
+          "desc": "How often the view is redrawn. Every redraw renders the world once more."
+        }
+      }
+    },
+    "autoclosechest": {
+      "name": "Auto Close Chest",
+      "desc": "Keeps dungeon secret chests from opening their window.",
+      "setting": {
+        "mode": {
+          "name": "Mode",
+          "desc": "Sneak: sneak as you click a chest, so it counts without opening.\nClose On Open: close the chest window the moment the server opens it.",
+          "option": {
+            "sneak": "Sneak",
+            "close_on_open": "Close On Open"
+          }
+        },
+        "min_sneak_ticks": {
+          "name": "Min Sneak Ticks",
+          "desc": "Shortest time sneak stays held after the click."
+        },
+        "max_sneak_ticks": {
+          "name": "Max Sneak Ticks",
+          "desc": "Longest time sneak stays held after the click. Each click picks a random length between the two."
+        }
+      }
+    },
+    "secrethitboxes": {
+      "name": "Secret Utils",
+      "desc": "Enlarges the hitboxes of buttons, levers, secret skulls and mushrooms, and can click secrets for you.",
+      "setting": {
+        "levers": {
+          "name": "Levers",
+          "desc": "Enlarge lever hitboxes. The Floor 7 lights device levers keep theirs."
+        },
+        "lever_size": {
+          "name": "Lever Size",
+          "desc": "Side of the lever hitbox, in blocks."
+        },
+        "buttons": {
+          "name": "Buttons",
+          "desc": "Enlarge button hitboxes."
+        },
+        "button_size": {
+          "name": "Button Size",
+          "desc": "Side of the button hitbox, in blocks."
+        },
+        "secret_skulls": {
+          "name": "Secret Skulls",
+          "desc": "Give wither essence and redstone key skulls a full-block hitbox."
+        },
+        "mushrooms": {
+          "name": "Mushrooms",
+          "desc": "Give mushrooms a full-block hitbox."
+        },
+        "click_real_hitbox": {
+          "name": "Click Real Hitbox",
+          "desc": "When a click lands only on the enlarged part, cancel it, turn onto the real hitbox and click that instead. A real hitbox that cannot be hit is not clicked at all."
+        },
+        "snap": {
+          "name": "Snap",
+          "desc": "Jump onto the real hitbox and click within a tick instead of turning."
+        },
+        "rotation_curve": {
+          "name": "Rotation Curve",
+          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
+          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Human (Old)",
+            "ease_out": "Ease Out",
+            "linear": "Linear"
+          }
+        },
+        "aim_preset": {
+          "name": "Aim Preset",
+          "desc": "The skill level the Blackum Curve aims at. Edit presets in Settings > Rotations."
+        },
+        "correction_speed": {
+          "name": "Correction Speed",
+          "desc": "How fast the aim turns onto the real hitbox, and back again with No Rotate."
+        },
+        "no_rotate": {
+          "name": "No Rotate",
+          "desc": "Turn only the aim the server sees; your camera stays put."
+        },
+        "click_on_contact": {
+          "name": "Click On Contact",
+          "desc": "Click as soon as the crosshair reaches the real hitbox; the turn still finishes after the click."
+        },
+        "contact_delay": {
+          "name": "Contact Delay",
+          "desc": "Wait a random number of ticks on the real hitbox, up to this many, before an on-contact click."
+        },
+        "aim_spread": {
+          "name": "Aim Spread",
+          "desc": "How much of the real hitbox the corrected aim may land on, as a share of its width, height and depth. The aim point is picked at random inside that share.",
+          "unsafe": "Below 20% every corrected aim lands on nearly the same pixel of the hitbox."
+        },
+        "triggerbot": {
+          "name": "Triggerbot",
+          "desc": "In dungeon rooms, click chests, wither essence and redstone key skulls, and the room's secret levers once each when your crosshair lands on them, and stop breaking them while attack is held so the clicks go through. Uses Click Real Hitbox when that is on."
+        },
+        "trigger_delay": {
+          "name": "Trigger Delay",
+          "desc": "Wait a random number of ticks on a secret, up to this many, before the triggerbot clicks it."
+        }
+      }
+    },
+    "dungeonmapcheats": {
+      "setting": {
+        "cheater_map": {
+          "name": "Cheater Map",
+          "desc": "Show all rooms on the map, including undiscovered ones."
+        },
+        "mode_keybind": {
+          "name": "Mode Keybind",
+          "desc": "Keybind to switch between cheat and legit map mode."
+        },
+        "keybind_mode": {
+          "name": "Keybind Mode",
+          "desc": "Toggle switches mode on press; Hold temporarily switches mode while held down.",
+          "option": {
+            "toggle": "Toggle",
+            "hold": "Hold"
+          }
+        },
+        "highlight_mimic": {
+          "name": "Highlight Mimic",
+          "desc": "Highlight the mimic room on the map."
+        },
+        "instant_room_update": {
+          "name": "Instant Room Update",
+          "desc": "Update entered rooms and their neighbors without waiting for the hotbar map."
+        },
+        "instant_room_update_scope": {
+          "name": "Instant Room Update Scope",
+          "desc": "Choose which runs use instant room updates.",
+          "option": {
+            "all_runs": "All Runs",
+            "solo_clears": "Solo Clears",
+            "party_runs": "Party Runs"
+          }
+        },
+        "mimic_color": {
+          "name": "Mimic Color",
+          "desc": "Color for the mimic room highlight."
+        },
+        "mimic_esp": {
+          "name": "Mimic ESP",
+          "desc": "Highlight the mimic chest in the world."
+        },
+        "mimic_esp_mode": {
+          "name": "Mimic ESP Mode",
+          "desc": "How to render the mimic chest ESP.",
+          "option": {
+            "outline": "Outline",
+            "fill": "Fill",
+            "filled_outline": "Filled Outline"
+          }
+        },
+        "mimic_esp_color": {
+          "name": "Mimic ESP Color",
+          "desc": "Color for the mimic chest ESP."
+        }
+      }
+    },
+    "screenqolcheats": {
+      "setting": {
+        "clear_water_vision": {
+          "name": "Clear Water Vision",
+          "desc": "Removes the fog and the screen overlay while your head is underwater."
+        },
+        "clear_lava_vision": {
+          "name": "Clear Lava Vision",
+          "desc": "Removes the thick fog while your head is in lava."
+        },
+        "clear_effect_vision": {
+          "name": "Clear Effect Vision",
+          "desc": "Removes the fog from Blindness and Darkness, and the Darkness pulse."
+        },
+        "clear_block_vision": {
+          "name": "Clear Block Vision",
+          "desc": "Removes the block texture covering your screen while your head is inside a block."
+        }
+      }
+    },
+    "leapmenucheats": {
+      "setting": {
+        "leap_rotate": {
+          "name": "Leap Rotate",
+          "desc": "After a leap, look where the teammate was looking when you clicked their head. Skipped when they were out of render distance."
+        },
+        "snap": {
+          "name": "Snap",
+          "desc": "Jump to their view instantly instead of turning."
+        },
+        "rotation_curve": {
+          "name": "Rotation Curve",
+          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
+          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Human (Old)",
+            "ease_out": "Ease Out",
+            "linear": "Linear"
+          }
+        },
+        "aim_preset": {
+          "name": "Aim Preset",
+          "desc": "The skill level the Blackum Curve aims at. Edit presets in Settings > Rotations."
+        },
+        "turn_speed": {
+          "name": "Turn Speed",
+          "desc": "How fast the aim turns to their view, and back again with No Rotate."
+        },
+        "no_rotate": {
+          "name": "No Rotate",
+          "desc": "Turn only the aim the server sees; your camera stays put until you move it."
+        },
+        "fast_leap": {
+          "name": "Fast Leap",
+          "desc": "Left-click a Spirit Leap or Infinileap to leap straight to the teammate set below. Opens the menu when nobody is set."
+        },
+        "click_delay": {
+          "name": "Click Delay",
+          "desc": "How long to wait after the leap menu opens before clicking the teammate's head."
+        },
+        "door_opener": {
+          "name": "Door Opener",
+          "desc": "During clear, leap to whoever opened the last Wither door."
+        },
+        "s1_leap": {
+          "name": "S1 Leap",
+          "desc": "From P2 into section 1: leap to this class, a player by name, or whoever is at SS (Location).",
+          "option": {
+            "none": "None",
+            "archer": "Archer",
+            "berserk": "Berserk",
+            "healer": "Healer",
+            "mage": "Mage",
+            "tank": "Tank",
+            "name": "Name",
+            "location": "Location"
+          }
+        },
+        "s1_name": {
+          "name": "S1 Name",
+          "placeholder": "Player name"
+        },
+        "s2_leap": {
+          "name": "S2 Leap",
+          "desc": "From section 1 into section 2: leap to this class, a player by name, or whoever is at EE2 (Location).",
+          "option": {
+            "none": "None",
+            "archer": "Archer",
+            "berserk": "Berserk",
+            "healer": "Healer",
+            "mage": "Mage",
+            "tank": "Tank",
+            "name": "Name",
+            "location": "Location"
+          }
+        },
+        "s2_name": {
+          "name": "S2 Name",
+          "placeholder": "Player name"
+        },
+        "s3_leap": {
+          "name": "S3 Leap",
+          "desc": "From section 2 into section 3: leap to this class, a player by name, or whoever is at EE3 (Location).",
+          "option": {
+            "none": "None",
+            "archer": "Archer",
+            "berserk": "Berserk",
+            "healer": "Healer",
+            "mage": "Mage",
+            "tank": "Tank",
+            "name": "Name",
+            "location": "Location"
+          }
+        },
+        "s3_name": {
+          "name": "S3 Name",
+          "placeholder": "Player name"
+        },
+        "s4_leap": {
+          "name": "S4 Leap",
+          "desc": "From section 3 into section 4: leap to this class, a player by name, or whoever is at Core (Location).",
+          "option": {
+            "none": "None",
+            "archer": "Archer",
+            "berserk": "Berserk",
+            "healer": "Healer",
+            "mage": "Mage",
+            "tank": "Tank",
+            "name": "Name",
+            "location": "Location"
+          }
+        },
+        "s4_name": {
+          "name": "S4 Name",
+          "placeholder": "Player name"
+        }
+      }
+    },
+    "doorutilscheats": {
+      "setting": {
+        "highlight_all_doors": {
+          "name": "Highlight All Doors",
+          "desc": "Highlight every unopened door instead of only the next ones."
+        },
+        "replace_doors": {
+          "name": "Replace Doors",
+          "desc": "Draw wither and blood doors as glass, or hide them as barriers. Only changes how they look.",
+          "option": {
+            "off": "Off",
+            "glass": "Glass",
+            "barrier": "Barrier"
+          }
+        }
+      }
+    },
+    "fixednorotatemovement": {
+      "setting": {
+        "fixed_norotate_movement": {
+          "name": "Fixed NoRotate Movement",
+          "desc": "While NoRotate turns you, your movement keys keep moving you where the camera faces."
+        }
+      }
+    },
+    "freecam": {
+      "name": "Freecam",
+      "desc": "Allows you to fly out of your body to inspect the world.",
+      "setting": {
+        "hotkey": {
+          "name": "Hotkey",
+          "desc": "Press/hold to activate Freecam mode."
+        },
+        "hold_mode": {
+          "name": "Hold Mode",
+          "desc": "Active only while the hotkey is held down."
+        },
+        "speed": {
+          "name": "Speed",
+          "desc": "Flight movement speed multiplier."
+        },
+        "show_hands": {
+          "name": "Show Hands",
+          "desc": "Whether to render player hands while in Freecam."
+        }
+      }
+    },
+    "perspective": {
+      "name": "Perspective",
+      "desc": "Allows looking around in a 360 degree third-person view without changing your heading.",
+      "setting": {
+        "hotkey": {
+          "name": "Hotkey",
+          "desc": "Press/hold to activate Perspective mode."
+        },
+        "hold_mode": {
+          "name": "Hold Mode",
+          "desc": "Active only while the hotkey is held down."
+        },
+        "sensitivity": {
+          "name": "Sensitivity",
+          "desc": "Looking sensitivity speed multiplier."
+        },
+        "distance": {
+          "name": "Distance",
+          "desc": "Camera distance in blocks."
+        },
+        "scroll_zoom": {
+          "name": "Scroll Zoom",
+          "desc": "Allows zooming with the mouse scroll wheel."
+        }
+      }
+    },
+    "autorelic": {
+      "name": "Auto Relic",
+      "desc": "Grabs relics in M7 phase 5, then walks the red and orange ones to their cauldrons and places them.",
+      "setting": {
+        "rotation": {
+          "name": "Rotation",
+          "desc": "Smooth turns in a set time, like a practiced flick. Snap faces the target within the same tick.",
+          "unsafe": "No hand turns a hundred degrees between two ticks.",
+          "option": {
+            "smooth": "Smooth",
+            "snap": "Snap"
+          }
+        },
+        "rotation_time": {
+          "name": "Rotation Time",
+          "desc": "How long a smooth turn takes, however far it has to go."
+        },
+        "rotation_jitter": {
+          "name": "Rotation Jitter",
+          "desc": "Random offset added to each smooth aim point, so repeated grabs and places do not land on the exact same spot."
+        },
+        "no_rotate": {
+          "name": "No Rotate",
+          "desc": "Turn only the direction the server sees; your camera stays put. Walking follows that hidden direction."
+        },
+        "auto_walk": {
+          "name": "Auto Walk",
+          "desc": "Walk a red or orange relic to its cauldron. Pressing W, A, S, D, Space or Shift cancels everything."
+        },
+        "grab_aura": {
+          "name": "Grab Aura",
+          "desc": "Pick up any relic within entity reach."
+        },
+        "place_aura": {
+          "name": "Place Aura",
+          "desc": "Place a red or orange relic as soon as its cauldron is within block reach."
+        },
+        "early_trigger": {
+          "name": "Early Trigger",
+          "desc": "Start the moment a relic is clicked rather than when it lands in your hotbar. Gives up if it has not arrived 5 ticks later."
+        },
+        "leap_to_carrier": {
+          "name": "Leap To Carrier",
+          "desc": "Once green, blue or purple is in your hotbar, leap to whoever took red (for green) or orange (for blue and purple). Falls back to the Archer or Berserk while nobody has."
+        }
+      }
+    },
+    "automask": {
+      "name": "Auto Mask",
+      "desc": "Swaps to your next invincibility item after one saves you.",
+      "setting": {
+        "spirit_mask": {
+          "name": "Spirit Mask",
+          "desc": "Equip the Spirit Mask after a proc."
+        },
+        "bonzo_s_mask": {
+          "name": "Bonzo's Mask",
+          "desc": "Equip Bonzo's Mask after a proc."
+        },
+        "phoenix_pet": {
+          "name": "Phoenix Pet",
+          "desc": "Swap to the Phoenix pet after a proc."
+        },
+        "priority": {
+          "name": "Priority",
+          "desc": "Drag the items into the order to swap to them; the first ready one wins.",
+          "option": {
+            "spirit": "Spirit",
+            "phoenix": "Phoenix",
+            "bonzo": "Bonzo"
+          }
+        },
+        "swap_delay": {
+          "name": "Swap Delay",
+          "desc": "Server ticks to wait after a proc before swapping."
+        },
+        "phoenix_swap": {
+          "name": "Phoenix Swap",
+          "desc": "Rod Swap casts a hotbar fishing rod for an Autopet rule; Pet Menu summons Phoenix from the pets menu.",
+          "option": {
+            "rod_swap": "Rod Swap",
+            "pet_menu": "Pet Menu"
+          }
+        },
+        "boss_only": {
+          "name": "Boss Only",
+          "desc": "Only swap in the boss room."
+        },
+        "phase_3_only": {
+          "name": "Phase 3 Only",
+          "desc": "Only swap during Goldor's phase."
+        },
+        "silent_menus": {
+          "name": "Silent Menus",
+          "desc": "Open the menus without showing them on screen."
+        },
+        "stop_movement": {
+          "name": "Stop Movement",
+          "desc": "Stand still while a hidden menu is open, as you would with it on screen."
+        },
+        "cancel_on_input": {
+          "name": "Cancel On Input",
+          "desc": "Stop the menu task when you press a key or mouse button while a hidden menu is open."
+        },
+        "min_click_delay": {
+          "name": "Min Click Delay",
+          "desc": "Shortest wait before each menu click."
+        },
+        "max_click_delay": {
+          "name": "Max Click Delay",
+          "desc": "Longest wait before each menu click."
+        },
+        "show_progress": {
+          "name": "Show Progress",
+          "desc": "Show the running menu task in a HUD element you can move in the HUD editor."
+        }
+      }
+    },
+    "simonsayscheats": {
+      "setting": {
+        "auto_solve": {
+          "name": "Auto Solve",
+          "desc": "Rotate to and click the buttons for you. Everything below it is inert while this is off."
+        },
+        "no_rotate": {
+          "name": "No Rotate",
+          "desc": "Aim using server-side rotation while your camera stays put."
+        },
+        "override_key": {
+          "name": "Override Key",
+          "desc": "Cuts the solver dead and switches it off, for when it starts doing something stupid. Press it again to turn the same mode back on."
+        },
+        "reset_state": {
+          "name": "Reset State",
+          "desc": "Forget the aim, any owed start clicks and the fact that this round was already started, so it can arm and try again without being switched off and on.",
+          "label": "Reset"
+        },
+        "auto_start": {
+          "name": "Auto Start",
+          "desc": "Click the start button automatically once Goldor speaks."
+        },
+        "start_no_rotate": {
+          "name": "No Rotate",
+          "desc": "Aim using server-side rotation while your camera stays put."
+        },
+        "start_clicks": {
+          "name": "Start Clicks",
+          "desc": "How many times to click the start button."
+        },
+        "start_click_delay": {
+          "name": "Start Click Delay",
+          "desc": "Delay between start clicks."
+        },
+        "restart_on_break": {
+          "name": "Restart On Break",
+          "desc": "Press start again when the device breaks. A failed skip is NOT a break: restarting for one costs more time than simply solving the round out."
+        },
+        "swap_to_leap": {
+          "name": "Swap To Leap",
+          "desc": "Once you finish the device, swap to your Spirit Leap or Infinileap."
+        },
+        "swap_mode": {
+          "name": "Swap Mode",
+          "desc": "Swap: hold the leap.\nSwap and Open: also right-click it to open the leap menu.",
+          "option": {
+            "swap": "Swap",
+            "swap_and_open": "Swap and Open"
+          }
+        },
+        "activation_radius": {
+          "name": "Activation Radius",
+          "desc": "How close to the device you must stand before it does anything. Goldor's line and the device's hologram reach the whole room, so without this it turns your view while someone else is doing the device."
+        },
+        "auto_mode": {
+          "name": "Auto Mode",
+          "desc": "PreAim: hold the aim on the button to press next.\nPath: follow the pattern as it plays, then press.",
+          "option": {
+            "preaim": "PreAim",
+            "path": "Path"
+          }
+        },
+        "auto_delay": {
+          "name": "Auto Delay",
+          "desc": "Minimum ticks between auto clicks.",
+          "unsafe": "Under 3 ticks the clicks land closer together than a human can press."
+        },
+        "rotation_speed": {
+          "name": "Rotation Speed",
+          "desc": "Higher = snappier aim.",
+          "unsafe": "Below 6 the turn is slower than a hand ever moves, above 14 it snaps faster than one can. Both read as automation in a recording."
+        },
+        "rotation_curve": {
+          "name": "Rotation Curve",
+          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
+          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Human (Old)",
+            "ease_out": "Ease Out",
+            "linear": "Linear"
+          }
+        },
+        "aim_preset": {
+          "name": "Aim Preset",
+          "desc": "The skill level the Blackum Curve aims at. Edit presets in Settings > Rotations."
+        },
+        "aim_spread": {
+          "name": "Aim Spread",
+          "desc": "How much of the button each aim may land on, as a share of its real width, height and depth. The aim point is picked at random inside that share.",
+          "unsafe": "Below 20% every aim lands on nearly the same pixel of the button, round after round."
+        }
+      }
+    },
+    "clicksettings": {
+      "setting": {
+        "settle_aim_before_clicks": {
+          "name": "Settle Aim Before Clicks",
+          "desc": "Grim DuplicateRotPlace bypass. Before a click that follows a big turn, turn the aim a tiny random amount that stays on the target, and keep the aim still through the click. Not necessary: repeating the exact same turn is unlikely."
+        }
+      }
+    },
+    "rotatesettings": {
+      "setting": {
+        "rotation_jitter": {
+          "name": "Rotation Jitter",
+          "desc": "Random offset added to the point a ROTATE step aims at, so repeated runs do not land on the exact same spot. Has no effect on Insta Snap steps or steps that aim by angle."
+        },
+        "rotation_curve": {
+          "name": "Rotation Curve",
+          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
+          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Human (Old)",
+            "ease_out": "Ease Out",
+            "linear": "Linear"
+          }
+        },
+        "aim_preset": {
+          "name": "Aim Preset",
+          "desc": "The skill level the Blackum Curve aims at. Edit presets in Settings > Rotations."
+        }
+      }
+    },
+    "alignsettings": {
+      "setting": {
+        "disable_silent_align": {
+          "name": "Disable Silent Align",
+          "desc": "Turn off silent alignment during ActionStep ALIGN execution, restoring visual camera snapping and movement input locks."
+        },
+        "align_debugger": {
+          "name": "Align Debugger",
+          "desc": "Enable the 3D visual debugger for alignment (rendering target offset and predicted trajectories in the world)."
+        },
+        "align_timeout": {
+          "name": "Align Timeout",
+          "desc": "Default timeout in seconds for ALIGN action step when not specified by the step."
+        }
+      }
+    }
+  },
+  "secret_hitboxes": {
+    "blocked": "Something got in the way of the click",
+    "unreachable": "Real hitbox out of reach"
+  },
+  "simon_says_cheats": {
+    "overridden": "Auto Simon Says: overridden, now off.",
+    "resumed": "Auto Simon Says: back on.",
+    "no_leap": "Auto Simon Says: no Spirit Leap or Infinileap in your hotbar."
+  },
+  "auto_relic": {
+    "cancelled": "Auto Relic: cancelled by your input.",
+    "cancelled_title": "Relic cancelled",
+    "no_relic": "Auto Relic: the relic never arrived, stopped.",
+    "leap_no_target": "Auto Relic: found nobody to leap to.",
+    "leap_none": "Auto Relic: no Spirit Leap in your hotbar.",
+    "leap_no_menu": "Auto Relic: the leap menu did not open.",
+    "leap_not_in_menu": "Auto Relic: %s is not in the leap menu."
+  },
+  "leap_menu_cheats": {
+    "no_leap": "Fast Leap: no Spirit Leap or Infinileap in your hotbar.",
+    "no_menu": "Fast Leap: the leap menu did not open.",
+    "not_in_menu": "Fast Leap: %s is not in the leap menu.",
+    "nobody": "Fast Leap: can't find anyone to leap to."
+  },
+  "rotation_presets": {
+    "title": "Presets",
+    "built_in": "Built in",
+    "note_built_in": "Built in and read-only. Duplicate it to make your own.",
+    "name_placeholder": "Preset name",
+    "new": "New Preset",
+    "done": "Done",
+    "duplicate": "Duplicate",
+    "rename": "Rename",
+    "delete": "Delete",
+    "delete_confirm": "Delete %s?",
+    "field": {
+      "speed": "Aim Speed",
+      "reaction": "Reaction",
+      "precision": "Precision",
+      "tracking": "Tracking",
+      "steadiness": "Steadiness"
+    }
+  },
+  "auto_mask": {
+    "none_left": "Auto Mask: no invincibility left, back to your previous pet.",
+    "phoenix_timeout": "Auto Mask: Phoenix did not proc within 5s, back to your previous pet.",
+    "equipping": "Auto Mask: equipping %s.",
+    "equip_failed": "Auto Mask: could not equip %s.",
+    "summoning": "Auto Mask: swapping to Phoenix.",
+    "summon_failed": "Auto Mask: could not summon %s.",
+    "rod_swap": "Auto Mask: rod swapping.",
+    "no_rod": "Auto Mask: no fishing rod in your hotbar.",
+    "rod_failed": "Auto Mask: the rod cast did not go through."
+  },
+  "hud": {
+    "auto_mask": "Auto Mask",
+    "norotate_cam": "NoRotate Cam"
+  },
+  "actions": {
+    "step_type": {
+      "align": "Align",
+      "attack": "Attack / Mine",
+      "move_keybinds": "Move Keybinds",
+      "press_keybind": "Press Keybind",
+      "rotate": "Rotate Camera",
+      "stop": "Stop Inertia",
+      "switch_slot": "Switch Slot",
+      "use_item": "Use Item"
+    },
+    "step": {
+      "stop_help": "Cancels player movement inertia."
+    },
+    "steps": {
+      "slot": "Slot %d",
+      "stop_inertia": "Stop Inertia"
+    },
+    "graph": {
+      "prop": {
+        "hold_for": "Hold for",
+        "instant_snap": "Instant snap",
+        "keys": "Keys",
+        "look_after": "Look after align",
+        "look_coordinates": "Look at coordinates",
+        "look_time": "Look time",
+        "perfect_align": "Don't wait for perfect align",
+        "slot": "Slot",
+        "use_coordinates": "Use coordinates",
+        "speed": "Speed",
+        "no_rotate": "No rotate until next"
+      }
+    }
+  }
+}

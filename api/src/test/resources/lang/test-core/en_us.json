@@ -1,0 +1,10 @@
+{
+  "feature": {
+    "statbars": {
+      "name": "Stat Bars",
+      "desc": ["first", "second"],
+      "setting": { "mana": { "name": "Mana" } }
+    }
+  },
+  "test": { "args": "Found %s items" }
+}

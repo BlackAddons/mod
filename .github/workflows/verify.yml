@@ -1,0 +1,54 @@
+# The GitHub side of the gate: the same checks as `verify` and `commit-messages` in .gitlab-ci.yml, in the same
+# image, so a pull request that is green here is green on GitLab once the merge queue lands it there.
+# `verify` is the required status check of the `main` ruleset - renaming the job breaks merging.
+name: verify
+
+on:
+  pull_request:
+  merge_group:
+  # Pushes to main come from the GitLab mirror and were verified there already. Building them anyway keeps a
+  # green mark on every commit of main and is the only run allowed to save the Gradle cache for everyone:
+  # caches saved by pull requests and queue runs are visible to that ref alone.
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    container: gradle:9.7.1-jdk25-noble
+    env:
+      # A fixed path inside the container: github.workspace names the host's path, not the container's.
+      GRADLE_USER_HOME: /gradle-home
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The commit check walks back to the merge base.
+          fetch-depth: 0
+
+      - name: Commit messages
+        if: github.event_name != 'push'
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+        run: sh ci/check-commits.sh "$BASE" "$HEAD"
+
+      # The same two directories the GitLab cache keeps. An Actions cache entry never changes once saved, so the
+      # key follows the build files and a dependency bump starts a fresh entry from the closest old one.
+      - uses: actions/cache@v6
+        with:
+          path: |
+            /gradle-home/caches/modules-2
+            /gradle-home/caches/fabric-loom
+          key: gradle-${{ hashFiles('gradle.properties', '**/*.gradle.kts', 'gradle/**') }}
+          restore-keys: gradle-
+
+      - name: Build
+        run: gradle build-all --stacktrace

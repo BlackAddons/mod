@@ -1,0 +1,72 @@
+uniform float2 res;
+uniform float2 mouse;
+uniform float t;
+uniform float amt;
+uniform float2 look;
+uniform float density;
+uniform float3 top;
+uniform float3 bottom;
+uniform float3 navy;
+uniform float3 violet;
+uniform float3 plum;
+
+const float CELL = 0.1;
+/* Light packets running along the grid lines, each on its own lane, speed and heading. */
+const int PACKETS = 10;
+const float LENS = 0.4;
+const float LENS_RADIUS = 0.2;
+
+float hash(float2 p) {
+    float2 q = fract(p * float2(0.1373, 0.2531) + float2(0.4142, 0.7321));
+    return fract((q.x + 3.7) * (q.y + 9.1) * (q.x + q.y + 5.3) * 17.39);
+}
+
+half4 main(float2 frag) {
+    float2 toMouse = frag - mouse;
+    float reach = res.y * LENS_RADIUS;
+    float near = exp(-dot(toMouse, toMouse) / (reach * reach));
+    float2 pos = frag + look + toMouse * LENS * near;
+    float2 uv = float2(pos.x - 0.5 * res.x, 0.5 * res.y - pos.y) / res.y;
+    float tt = mod(t, 1000.0);
+    float2 grid = uv / CELL;
+    float2 toLine = abs(grid - floor(grid + 0.5));
+    float aa = 1.0 / (res.y * CELL);
+    float line = 1.0 - smoothstep(0.0, 1.5 * aa, min(toLine.x, toLine.y));
+
+    /* Half the screen in cells, plus a margin so packets and their trails enter and leave off screen. */
+    float2 span = float2(0.5 * res.x / res.y, 0.5) / CELL + 4.0;
+    float trails = 0.0;
+    for (int i = 0; i < PACKETS; i++) {
+        float fi = float(i);
+        float a = hash(float2(fi, 3.0));
+        float b = hash(float2(fi, 7.0));
+        float c = hash(float2(fi, 11.0));
+        float vertical = step(0.5, a);
+        float2 g = mix(grid, grid.yx, vertical);
+        float2 extent = mix(span, span.yx, vertical);
+        float lane = floor((b * 2.0 - 1.0) * (extent.y - 5.0) + 0.5);
+        float heading = c < 0.5 ? -1.0 : 1.0;
+        float head = heading * (mod(tt * (2.0 + 6.0 * fract(c * 7.0)) + a * 97.0, 2.0 * extent.x) - extent.x);
+        float behind = (head - g.x) * heading;
+        float across = abs(g.y - lane);
+        float onLane = 1.0 - smoothstep(0.0, 2.0 * aa, across);
+        trails += step(0.0, behind) * exp(-behind * 0.35) * onLane;
+    }
+
+    float2 cell = floor(grid);
+    float spark = hash(cell + 31.0);
+    float twinkle = smoothstep(0.93, 1.0, sin(tt * (0.3 + spark) + spark * 40.0)) * spark;
+
+    float v = clamp(pos.y / res.y, 0.0, 1.0);
+    float k = amt * mix(1.0, 0.45, v);
+    float3 col = mix(top, bottom, v);
+    col = mix(col, navy, 0.5 * min(1.0, k * 2.2));
+    col = mix(col, violet, line * (0.25 + 0.5 * near) * min(1.0, k * 2.5));
+    col = mix(col, plum, twinkle * k * 0.5);
+    col = mix(col, violet, clamp(trails, 0.0, 1.0) * k * 2.0);
+
+    float2 px = floor(frag * density);
+    float d = hash(px + fract(tt * 0.61) * 97.0) + hash(px.yx + fract(tt * 0.37) * 53.0) - 1.0;
+    col += d / 255.0 * 1.5;
+    return half4(half3(col), 1.0);
+}

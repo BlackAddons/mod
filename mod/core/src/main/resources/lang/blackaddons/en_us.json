@@ -1,0 +1,3208 @@
+{
+  "container_task": {
+    "example": "Equip Spirit Mask",
+    "step": "Step %d of %d"
+  },
+  "title": "BlackAddons",
+  "search": {
+    "placeholder": "Search features...",
+    "title": "Search results",
+    "no_match": "No features match."
+  },
+  "global_font_screen": {
+    "title": "Fonts",
+    "tab_minecraft": "Minecraft",
+    "tab_hud": "HUD",
+    "tab_world": "World",
+    "font_vanilla": "Vanilla",
+    "vanilla_note": "Minecraft's own font, unchanged.",
+    "search": "Search fonts...",
+    "import": "Import",
+    "apply": "Apply",
+    "applying": "Applying...",
+    "status_disabled": "Disabled",
+    "status_restoring": "Restoring Minecraft font...",
+    "status_restore_failed": "Could not restore: %s",
+    "status_cached_missing": "Cached font missing - using JetBrains Mono",
+    "status_applied": "Applied",
+    "status_apply_failed": "Could not apply: %s",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "removed": "%s removed",
+    "remove_failed": "Font could not be removed",
+    "delete_confirm": "Delete %s from installed fonts?",
+    "deleting_font": "Deleting %s...",
+    "bold": "Bold",
+    "italic": "Italic",
+    "shadow": "Shadow",
+    "outline": "Outline",
+    "shadow_color": "Shadow color",
+    "outline_color": "Outline color",
+    "selected": "Selected: %s",
+    "downloading": "Downloading...",
+    "load_failed": "Font could not be loaded",
+    "loading_fontsource": "Loading Fontsource...",
+    "no_matching_fonts": "No matching fonts.",
+    "library_loading": "Loading font library...",
+    "library_unavailable": "Font library unavailable",
+    "library_count": "%d fonts · %d installed",
+    "tag_loading": "loading",
+    "tag_selected": "selected",
+    "tag_installed": "installed",
+    "raster_size": "Raster size",
+    "size": "Size",
+    "oversampling_2d": "2D oversampling",
+    "oversampling_world": "World oversampling",
+    "oversampling_auto": "Auto",
+    "letter_spacing": "Letter spacing",
+    "glyph_x_offset": "Glyph X offset",
+    "glyph_y_offset": "Glyph Y offset",
+    "outline_width": "Outline width",
+    "shadow_x": "Shadow X",
+    "shadow_y": "Shadow Y",
+    "on": "On",
+    "off": "Off",
+    "preview": "Preview",
+    "choose_font": "Import font",
+    "preparing_local": "Preparing local font...",
+    "preparing_font": "Preparing %s...",
+    "ready": "%s is ready",
+    "catalog_load_failed": "Font catalog could not be loaded",
+    "fontsource_unavailable": "Fontsource is unavailable and no cached catalog exists",
+    "empty_catalog": "Fontsource returned an empty catalog",
+    "loading_metadata": "Loading %s metadata...",
+    "loaded_from_cache": "Loaded %s from cache",
+    "downloading_subset": "Downloading %s · %s",
+    "saving_font": "Saving %s...",
+    "checking_local": "Checking local font...",
+    "reading_file": "Reading %s...",
+    "fontsource_no_answer": "Fontsource did not answer",
+    "fontsource_http": "Fontsource returned HTTP %d",
+    "missing_version": "Fontsource response has no version",
+    "missing_variants": "Fontsource response has no variants",
+    "no_weight": "Font has no usable weight",
+    "weight_unavailable": "Font weight is unavailable",
+    "no_style": "Font has no usable style",
+    "style_unavailable": "Font style is unavailable",
+    "missing_ttf": "Fontsource has no TTF for %s",
+    "unsafe_url": "Fontsource returned an unsafe download URL",
+    "download_failed": "Could not download %s",
+    "invalid_subset_file": "%s font file is invalid",
+    "not_true_type_subset": "%s is not a TrueType font",
+    "selected_missing": "Selected font does not exist",
+    "invalid_file_size": "Font file size is invalid",
+    "unsupported_font_file": "This is not a supported TrueType or OpenType font",
+    "font_not_installed": "%s is not installed",
+    "local_font": "Local font",
+    "no_subsets": "Font has no subsets",
+    "atlas_restore_failed": "font atlas could not be restored",
+    "atlas_rebuild_failed": "font atlas could not be rebuilt",
+    "invalid_font": "invalid font",
+    "default_not_ready": "Minecraft's default font is not ready",
+    "bundled_missing": "Bundled font is missing",
+    "no_files_selected": "No font files were selected",
+    "initializing_face": "Initializing global font face",
+    "font_not_scalable": "Bitmap-only fonts are not supported",
+    "finding_charmap": "Finding global font Unicode charmap",
+    "host_not_ready": "The Minecraft font host is not ready",
+    "font_not_in_catalog": "Fontsource has no font \"%s\""
+  },
+  "dungeon_map": {
+    "background_invalid": "Unsupported map background",
+    "background_invalid_detail": "Use PNG/JPEG/WebP/GIF."
+  },
+  "leap_menu": {
+    "boss": "%s Boss",
+    "phase": "P%d",
+    "phase_section": "P%d S%d",
+    "phase_sublocation": "P%d %s",
+    "dead": "DEAD",
+    "dead_message": "%s is dead.",
+    "no_view": "No view",
+    "no_teammates": "No teammates found",
+    "leaping_to": "Leaping to %s"
+  },
+  "adhd": {
+    "image_invalid": "Unsupported image",
+    "corner_hit": "Corner hit!"
+  },
+  "category": {
+    "dungeons": "Dungeons",
+    "visual": "Visual",
+    "ui": "Interface",
+    "chat": "Chat",
+    "client": "Client",
+    "cheats": "Cheats",
+    "settings": "Settings",
+    "dev": "Dev",
+    "empty": "No features in this category yet."
+  },
+  "section": {
+    "dungeons": {
+      "general": "General",
+      "floor7": "Floor 7"
+    },
+    "visual": {
+      "world": "World",
+      "self": "Self"
+    },
+    "cheats": {
+      "general": "General",
+      "dungeons": "Dungeons",
+      "kuudra": "Kuudra",
+      "camera": "Camera"
+    },
+    "client": {
+      "general": "General",
+      "menu": "Main Menu"
+    },
+    "settings": {
+      "general": "General",
+      "appearance": "Appearance"
+    }
+  },
+  "tab": {
+    "configs": "Configs",
+    "chat": "Global Chat",
+    "hud_editor": "HUD Editor",
+    "cosmetic_editor": "Cosmetics",
+    "about": "About",
+    "actions": "Actions",
+    "screenshots": "Screenshots"
+  },
+  "feature": {
+    "menu": {
+      "reset": "Reset to defaults",
+      "reset_confirm": "Reset %s to its defaults?",
+      "hud_editor": "Edit HUD",
+      "export": "Copy settings",
+      "import": "Paste settings",
+      "exported": "Settings copied",
+      "export_done": "The settings of %s are on your clipboard."
+    },
+    "screenshots": {
+      "name": "Screenshots",
+      "desc": "Shows a preview with quick actions when you take a screenshot, instead of a chat line."
+    },
+    "uitheme": {
+      "name": "Theme",
+      "desc": "Colors the BlackAddons interface. Pick one of ours, change it, or import one.",
+      "setting": {
+        "theme": {
+          "name": "Theme",
+          "desc": "Pick a theme, change its colors, or bring one in from the clipboard.",
+          "label": "Open"
+        },
+        "selected": {
+          "name": "Selected"
+        },
+        "menu_blur": {
+          "name": "Menu Blur",
+          "desc": "Blur the world behind BlackAddons menus. Off leaves it sharp."
+        }
+      }
+    },
+    "no_description": "No description.",
+    "hotbarkeybinds": {
+      "name": "Hotbar Keybinds",
+      "desc": "Bind extra keys or mouse buttons to hotbar slots, on top of the vanilla ones.",
+      "setting": {
+        "hold_to_return": {
+          "name": "Hold To Return",
+          "desc": "Hold the bind to bring the slot up, release to go back to the previous one."
+        },
+        "slot_1": {
+          "name": "Slot 1"
+        },
+        "slot_2": {
+          "name": "Slot 2"
+        },
+        "slot_3": {
+          "name": "Slot 3"
+        },
+        "slot_4": {
+          "name": "Slot 4"
+        },
+        "slot_5": {
+          "name": "Slot 5"
+        },
+        "slot_6": {
+          "name": "Slot 6"
+        },
+        "slot_7": {
+          "name": "Slot 7"
+        },
+        "slot_8": {
+          "name": "Slot 8"
+        },
+        "slot_9": {
+          "name": "Slot 9"
+        }
+      }
+    },
+    "modlisthider": {
+      "name": "Modlist Hider",
+      "desc": "Hide your installed mods from the server.",
+      "setting": {
+        "mode": {
+          "name": "Mode",
+          "desc": "Hypixel = hide everything except Hypixel's own Mod API.\nVanilla = hide that too.\nCustom = reveal only what you allow below.",
+          "unsafe": "Vanilla drops Hypixel's Mod API handshake along with everything else, so the server never tells the client which island it is on. Every mod built on that — SkyHanni, Nebula, ours — goes quiet without an error. Use Hypixel unless you need total silence.",
+          "option": {
+            "vanilla": "Vanilla",
+            "hypixel": "Hypixel",
+            "custom": "Custom"
+          }
+        },
+        "disable_custom_payloads": {
+          "name": "Disable Custom Payloads",
+          "desc": "Strip channels missing from the allowlist out of register/unregister packets."
+        },
+        "allowed_channels": {
+          "name": "Allowed Channels",
+          "desc": "Channels that survive payload filtering in Custom mode."
+        },
+        "choose_mods": {
+          "name": "Allowed Mods",
+          "desc": "Tick the mods the server may see, chosen from the ones you actually have installed.",
+          "label": "Open"
+        },
+        "custom_brand": {
+          "name": "Custom Brand",
+          "desc": "Brand string sent to the server in Custom mode."
+        },
+        "allowed_mods": {
+          "name": "Allowed Mods"
+        },
+        "sign_anvil_guard": {
+          "name": "Sign & Anvil Guard",
+          "desc": "Prevent servers from discovering installed mods via manipulated translation components in signs or anvils."
+        }
+      }
+    },
+    "windowtitle": {
+      "name": "Window Title",
+      "desc": "Shows BlackAddons in the window title.",
+      "setting": {
+        "format": {
+          "name": "Format",
+          "desc": "{mod} is BlackAddons and its version, {mc} is Minecraft and its version. Empty = vanilla title."
+        }
+      }
+    },
+    "windowicon": {
+      "name": "Window Icon",
+      "desc": "Shows the BlackAddons logo as the window and taskbar icon.",
+      "setting": {
+        "small_icon": {
+          "name": "Small Icon",
+          "desc": "The taskbar and title bar logo. The full logo is too detailed to read at that size.",
+          "option": {
+            "legacy": "Legacy",
+            "alt": "Alt"
+          }
+        }
+      }
+    },
+    "discordpresence": {
+      "name": "Discord Presence",
+      "desc": "Shows what you are doing in Minecraft on your Discord profile.",
+      "setting": {
+        "show_location": {
+          "name": "Show Location",
+          "desc": "Hypixel, the SkyBlock area and the dungeon floor. Off = only singleplayer or multiplayer."
+        },
+        "show_party": {
+          "name": "Show Party",
+          "desc": "Party size and your class in dungeons."
+        },
+        "show_timer": {
+          "name": "Show Timer",
+          "desc": "Time since you entered the area or the dungeon run started."
+        },
+        "show_buttons": {
+          "name": "Show Buttons",
+          "desc": "Links to BlackAddons and its Discord on your profile. Only others see them, Discord hides them from you."
+        }
+      }
+    },
+    "performancehud": {
+      "name": "Performance HUD",
+      "desc": "Compact FPS / Ping / TPS overlay.",
+      "setting": {
+        "text_color": {
+          "name": "Text Color",
+          "desc": "Color of the counter text."
+        },
+        "background": {
+          "name": "Background",
+          "desc": "Background fill behind the counters."
+        },
+        "border": {
+          "name": "Border",
+          "desc": "Draw a 1px outline around the box."
+        },
+        "border_color": {
+          "name": "Border Color",
+          "desc": "Color of the outline."
+        },
+        "corner_radius": {
+          "name": "Corner Radius",
+          "desc": "Round the panel corners. 0 keeps them square."
+        }
+      }
+    },
+    "fontsettings": {
+      "name": "Fonts",
+      "desc": "Fonts for Minecraft's own text, the BlackAddons HUD and text drawn in the world.",
+      "setting": {
+        "configure": {
+          "name": "Font and Style",
+          "desc": "Choose and preview the Minecraft, HUD and world fonts and how each is drawn.",
+          "label": "Open"
+        }
+      },
+      "action": {
+        "share_fonts": {
+          "label": "Share Fonts"
+        },
+        "paste_fonts": {
+          "label": "Paste Fonts"
+        }
+      }
+    },
+    "notifications": {
+      "name": "Notifications",
+      "desc": "Short notices in a corner of the screen - copied, saved, the servers are down.",
+      "setting": {
+        "duration": {
+          "name": "Duration",
+          "desc": "How long a notice stays on screen. Longer notices already stay longer on their own."
+        }
+      }
+    },
+    "scaling": {
+      "name": "Scaling",
+      "desc": "How large the BlackAddons interface and HUD are drawn.",
+      "setting": {
+        "auto_scale": {
+          "name": "Auto Scale",
+          "desc": "Keep the interface and the HUD at the same share of the screen whatever its size, so resizing the window no longer changes what the HUD covers. The HUD then stops following Minecraft's GUI Scale — raising that makes the hotbar bigger and leaves this alone. Turn it off to size everything exactly the way Minecraft does."
+        },
+        "interface_scale": {
+          "name": "Interface Scale",
+          "desc": "Multiplier for every BlackAddons screen — the ClickGUI, the chat window, the profile viewer."
+        },
+        "hud_scale": {
+          "name": "HUD Scale",
+          "desc": "Multiplier for every HUD element, on top of the size each one is set to in the HUD editor."
+        }
+      }
+    },
+    "actions": {
+      "name": "Actions",
+      "desc": "Settings and options for actions and waypoint rendering.",
+      "setting": {
+        "beacon_speed": {
+          "name": "Beacon Speed",
+          "desc": "How fast the beacon beam rotates around its axis. 0 stops it."
+        },
+        "depth_check": {
+          "name": "Depth Check",
+          "desc": "Enable depth testing for waypoint rendering (hides waypoints behind blocks when enabled)."
+        },
+        "default_view": {
+          "name": "Default View",
+          "desc": "Which view /b ac and the Actions tab open: the list, or the node graph.",
+          "option": {
+            "list": "List",
+            "graph": "Graph"
+          }
+        },
+        "graph_minimap": {
+          "name": "Graph Minimap"
+        },
+        "tick_debugger": {
+          "name": "Tick Debugger",
+          "desc": "Show server ticks since the F7 phase started and until each tick-delayed location action fires."
+        }
+      }
+    },
+    "connection": {
+      "name": "Connection",
+      "desc": "How the mod talks to the backend.",
+      "setting": {
+        "restart_live_updates": {
+          "name": "Restart Live Updates",
+          "desc": "Drop the live-updates connection and open it again right away. The same as /blackaddons net socket.",
+          "label": "Restart"
+        },
+        "restart_networking": {
+          "name": "Restart Networking",
+          "desc": "Start everything the mod uses to reach the server over: connections, sign-in and the live-updates connection. For when nothing reconnects on its own. The same as /blackaddons net restart.",
+          "label": "Restart"
+        },
+        "live_updates": {
+          "name": "Live Updates",
+          "desc": "Keep a connection open so cosmetics and notices arrive the moment they change, and count you among the players online. Off, the mod refreshes on a timer instead and reports nothing."
+        },
+        "online_markers": {
+          "name": "Online Markers",
+          "desc": "Show a dot beside players who are online in BlackAddons right now. Nobody is marked as absent — a player with live updates turned off simply isn't connected."
+        }
+      }
+    },
+    "fme": {
+      "name": "Legit FME",
+      "desc": "Replace how blocks look without changing the world.",
+      "setting": {
+        "edit_mode": {
+          "name": "Edit Mode",
+          "desc": "Right-click replaces and left-click restores the block you are looking at."
+        },
+        "preserve_block_shape": {
+          "name": "Preserve Block Shape",
+          "desc": "Keep the original block's visible shape while applying the replacement texture."
+        },
+        "editor": {
+          "name": "Editor",
+          "desc": "Open the block appearance editor.",
+          "label": "Open"
+        },
+        "open_editor": {
+          "name": "Open Editor",
+          "desc": "Open the block appearance editor, even while FME is disabled."
+        },
+        "toggle_edit_mode": {
+          "name": "Toggle Edit Mode",
+          "desc": "Turn Edit Mode on or off."
+        },
+        "toggle_any_block": {
+          "name": "Toggle Any Block",
+          "desc": "In Edit Mode, switch between replacing only the clicked block type and any block at that position."
+        },
+        "pick_block": {
+          "name": "Pick Block",
+          "desc": "In Edit Mode, select the block you are looking at."
+        },
+        "place_ghost_block": {
+          "name": "Place Ghost Block",
+          "desc": "In Edit Mode, place a visual block against the face you are looking at."
+        },
+        "undo": {
+          "name": "Undo",
+          "desc": "In Edit Mode, take back the last FME edit."
+        },
+        "redo": {
+          "name": "Redo",
+          "desc": "In Edit Mode, reapply the last undone FME edit."
+        }
+      }
+    },
+    "playersize": {
+      "name": "Player Size",
+      "desc": "Resize your own model. 1 is normal, 0 flattens an axis, a negative height turns you upside down.",
+      "setting": {
+        "width": {
+          "name": "Width (X)",
+          "desc": "Horizontal scale across your body."
+        },
+        "height": {
+          "name": "Height (Y)",
+          "desc": "Vertical scale."
+        },
+        "depth": {
+          "name": "Depth (Z)",
+          "desc": "Front-to-back scale."
+        }
+      }
+    },
+    "customnickname": {
+      "name": "Custom Nickname",
+      "desc": "Show yourself a custom name over your head and in the tab list.",
+      "setting": {
+        "name": {
+          "name": "Name",
+          "desc": "The name to display for yourself. Empty keeps your real name.",
+          "placeholder": "Your name"
+        },
+        "color": {
+          "name": "Color",
+          "desc": "Color of the custom name. Enable Chroma for a rotating rainbow."
+        }
+      }
+    },
+    "cosmetics": {
+      "name": "Cosmetics",
+      "desc": "Show server cosmetics (custom names and sizes) for players who own them.",
+      "setting": {
+        "showothers": {
+          "name": "Show Other Players",
+          "desc": "When off, only your own server cosmetic is applied — other players stay vanilla."
+        }
+      }
+    },
+    "chinahat": {
+      "name": "China Hat",
+      "desc": "Renders a beautiful rotating rainbow China Hat on your head. This hat doesn't know what happened on Tiananmen Square in 1989.",
+      "setting": {
+        "height_offset": {
+          "name": "Height Offset",
+          "desc": "Additional height offset for the hat relative to the player's head."
+        },
+        "color": {
+          "name": "Color",
+          "desc": "Color of the hat. Enable Chroma for a rotating rainbow."
+        },
+        "peak_height": {
+          "name": "Peak Height",
+          "desc": "How tall/pointy the China Hat is."
+        },
+        "radius": {
+          "name": "Radius",
+          "desc": "Radius (width) of the China Hat in blocks."
+        }
+      }
+    },
+    "blackaddonschat": {
+      "name": "BlackAddons Chat",
+      "desc": "The BlackAddons chat: a prefix in the game chat, and a window for the rest.",
+      "setting": {
+        "chat_prefix": {
+          "name": "Chat Prefix",
+          "desc": "Type this in front of a message in the game chat to say it in BlackAddons global instead. Double it to send a message that really starts with it. Empty turns it off."
+        },
+        "game_chat_tag": {
+          "name": "Game Chat Tag",
+          "desc": "Shown in front of BlackAddons chat lines in the game chat. Click it to open the chat window."
+        },
+        "open_chat": {
+          "name": "Open Chat",
+          "desc": "Opens the chat window. Also on /blackaddons chat."
+        },
+        "show_in_game_chat": {
+          "name": "Show In Game Chat",
+          "desc": "Echo new lines into the game chat while the window is closed, so a conversation is visible without opening anything."
+        },
+        "chat_window": {
+          "name": "Chat Window",
+          "label": "Open"
+        },
+        "image_preview": {
+          "name": "Image Preview",
+          "desc": "Hover a BlackAddons line in the game chat to see the picture it links to. Minecraft's own hover cannot hold an image, so this is drawn over the chat."
+        }
+      }
+    },
+    "presence": {
+      "name": "Presence",
+      "desc": "Report that you're online for active-player stats. Off opts out."
+    },
+    "screenqol": {
+      "name": "Screen QoL",
+      "desc": "Quality of life adjustments for screen overlays, status effects, and system toasts.",
+      "setting": {
+        "remove_fire_overlay": {
+          "name": "Remove Fire Overlay",
+          "desc": "Removes the fiery screen overlay when your player is on fire."
+        },
+        "hide_status_effects": {
+          "name": "Hide Status Effects",
+          "desc": "Hides status potion effect icons on HUD and in inventory screens."
+        },
+        "disable_tutorial_toasts": {
+          "name": "Disable Tutorial Toasts",
+          "desc": "Suppresses Minecraft tutorial toasts from popping up."
+        },
+        "disable_unsecure_chat_toast": {
+          "name": "Disable Unsecure Chat Toast",
+          "desc": "Suppresses the unverified or unsecure chat toast warning on multiplayer servers."
+        },
+        "disable_command_confirmation": {
+          "name": "Disable Command Confirmation",
+          "desc": "Suppresses the confirmation prompt when clicking a command in chat."
+        },
+        "disable_link_confirmation": {
+          "name": "Disable Link Confirmation",
+          "desc": "Suppresses the confirmation prompt when clicking a website link in chat."
+        }
+      }
+    },
+    "menubackground": {
+      "name": "Menu Background",
+      "desc": "Replaces the main menu panorama with a dark BlackAddons background.",
+      "setting": {
+        "pattern": {
+          "name": "Pattern",
+          "desc": "Nebula = drifting streaks.\nFlow = the slow clouds from the BlackAddons website.\nGrid = a grid lit by drifting points.\nRidges = stacked wave lines.\nLandscape = a flight over hills toward a setting sun.\nRidges and Landscape are heavy on weaker graphics cards.",
+          "option": {
+            "nebula": "Nebula",
+            "flow": "Flow",
+            "grid": "Grid",
+            "ridges": "Ridges",
+            "landscape": "Landscape"
+          }
+        },
+        "menu_fps": {
+          "name": "Menu FPS",
+          "desc": "Frame rate of menus without a world.\n60 FPS = vanilla's cap.\nVSync = your monitor's refresh rate.\nAnimated backgrounds use more GPU the faster they run.",
+          "option": {
+            "60_fps_vanilla": "60 FPS (Vanilla)",
+            "unlimited": "Unlimited",
+            "vsync": "VSync"
+          }
+        },
+        "palette": {
+          "name": "Palette",
+          "desc": "Default = the BlackAddons colors.\nTheme = follows your UI theme's accent and background.\nCustom = your own colors below.",
+          "option": {
+            "default": "Default",
+            "theme": "Theme",
+            "custom": "Custom"
+          }
+        },
+        "background_top": {
+          "name": "Background Top"
+        },
+        "background_bottom": {
+          "name": "Background Bottom"
+        },
+        "color_1": {
+          "name": "Color 1"
+        },
+        "color_2": {
+          "name": "Color 2"
+        },
+        "color_3": {
+          "name": "Color 3"
+        },
+        "color_4": {
+          "name": "Color 4"
+        },
+        "brightness": {
+          "name": "Brightness",
+          "desc": "Background brightness."
+        },
+        "stars": {
+          "name": "Stars",
+          "desc": "Faint twinkling stars over the nebula."
+        },
+        "star_brightness": {
+          "name": "Star Brightness"
+        },
+        "darken": {
+          "name": "Darken",
+          "desc": "A black veil over the whole picture, for calmer menus."
+        },
+        "animate": {
+          "name": "Animate",
+          "desc": "Let the nebula drift and the stars twinkle. Off = a still picture."
+        },
+        "speed": {
+          "name": "Speed"
+        },
+        "parallax": {
+          "name": "Parallax",
+          "desc": "The picture follows the mouse a little, the stars least."
+        }
+      }
+    },
+    "mainmenu": {
+      "name": "Main Menu",
+      "desc": "A clean main menu: the main entries in the middle, the rest as icons under them.",
+      "setting": {
+        "title": {
+          "name": "Title",
+          "desc": "What sits above the menu.",
+          "option": {
+            "blackaddons": "BlackAddons",
+            "minecraft_logo": "Minecraft Logo",
+            "none": "None"
+          }
+        },
+        "singleplayer_in_list": {
+          "name": "Singleplayer in List",
+          "desc": "Off = Singleplayer moves to the icon row."
+        },
+        "hypixel_button": {
+          "name": "Hypixel Button",
+          "desc": "Joins Hypixel straight from the menu."
+        },
+        "splash_text": {
+          "name": "Splash Text",
+          "desc": "The yellow line next to the title."
+        },
+        "confirm_quit": {
+          "name": "Confirm Quit",
+          "desc": "Ask before quitting, in a small card over the quit button."
+        }
+      }
+    },
+    "particlehider": {
+      "name": "Particle Hider",
+      "desc": "Hides world particles to improve visibility and performance.",
+      "setting": {
+        "hide_nearby": {
+          "name": "Hide Nearby",
+          "desc": "Hide particles within a close radius from the player."
+        },
+        "nearby_radius": {
+          "name": "Nearby Radius",
+          "desc": "Distance from the player within which particles are hidden."
+        },
+        "hide_far": {
+          "name": "Hide Far",
+          "desc": "Hide particles beyond a maximum distance from the player."
+        },
+        "max_distance": {
+          "name": "Max Distance",
+          "desc": "Distance beyond which particles are hidden."
+        },
+        "filter_by_particle_type": {
+          "name": "Filter by Type",
+          "desc": "Hide specific particle types selected in the picker."
+        },
+        "choose_particles": {
+          "name": "Choose Particles",
+          "desc": "Select which particle types to hide.",
+          "label": "Select"
+        },
+        "filter_by_type": {
+          "name": "Filter by Type",
+          "desc": "Hide specific particle types selected in the picker."
+        },
+        "hidden_particle_types": {
+          "name": "Hidden Particle Types"
+        }
+      }
+    },
+    "copyentitydata": {
+      "name": "Copy Entity Data",
+      "desc": "Copy the data of the entity you are looking at to the clipboard.",
+      "setting": {
+        "copy_key": {
+          "name": "Copy Key",
+          "desc": "Press while looking at an entity to copy its data."
+        }
+      }
+    },
+    "partydebugger": {
+      "name": "Party Debugger",
+      "desc": "Show the party as BlackAddons reads it, with the last request and the server's answer.",
+      "setting": {
+        "ask_now": {
+          "name": "Ask Now",
+          "desc": "Send a party request right away, then compare the answer with /p list.",
+          "label": "Ask"
+        }
+      }
+    },
+    "locationdebugger": {
+      "name": "Location Debugger",
+      "desc": "Draw dungeon location regions in the world and show the current location state.",
+      "setting": {
+        "render_location_walls": {
+          "name": "Render Location Walls",
+          "desc": "Fill location regions with half-transparent walls."
+        }
+      }
+    },
+    "copyitemdata": {
+      "name": "Copy Item Data",
+      "desc": "Copy the hovered item's data to the clipboard.",
+      "setting": {
+        "copy_key": {
+          "name": "Copy Key",
+          "desc": "Press while hovering an item in a container to copy its data."
+        }
+      }
+    },
+    "devmode": {
+      "name": "Dev Mode",
+      "desc": "Developer diagnostics — extra logging, event tracing, exception rethrow.",
+      "setting": {
+        "verbose_logging": {
+          "name": "Verbose Logging",
+          "desc": "Emit extra [dev] info-level logs from internal subsystems."
+        },
+        "rethrow_listener_exceptions": {
+          "name": "Rethrow Listener Exceptions",
+          "desc": "Surface event-listener bugs immediately instead of swallowing them. Forced on automatically in a Fabric dev runtime regardless of this toggle."
+        },
+        "log_event_dispatch": {
+          "name": "Log Event Dispatch",
+          "desc": "Log every EventBus.post — noisy, use only when debugging dispatch."
+        }
+      }
+    },
+    "keytimer": {
+      "name": "Key Timer",
+      "desc": "Shows the remaining auto-pickup window for Wither and Blood Keys."
+    },
+    "doorutils": {
+      "name": "Door Utils",
+      "desc": "Box wither and blood doors in the world, colored by whether you hold the key.",
+      "setting": {
+        "box_doors": {
+          "name": "Box Doors",
+          "desc": "Draw 3D boxes on wither/blood doors in the world."
+        },
+        "door_box_mode": {
+          "name": "Door Box Mode",
+          "desc": "How to render the door boxes.",
+          "option": {
+            "outline": "Outline",
+            "fill": "Fill",
+            "filled_outline": "Filled Outline"
+          }
+        },
+        "no_key_color": {
+          "name": "No Key Color",
+          "desc": "Door box color when you don't have a key."
+        },
+        "has_key_color": {
+          "name": "Has Key Color",
+          "desc": "Door box color when you have a key."
+        },
+        "only_next_door_has_key_color": {
+          "name": "Only Next Door Has Key Color",
+          "desc": "Use the key color only on the next door along the blood rush; other doors keep the no key color."
+        }
+      }
+    },
+    "dungeonmap": {
+      "name": "Dungeon Map",
+      "desc": "Renders a live dungeon map HUD during Catacombs runs.",
+      "setting": {
+        "hide_in_boss": {
+          "name": "Hide In Boss",
+          "desc": "Hide the map overlay during boss fights."
+        },
+        "boss_peek_keybind": {
+          "name": "Boss Peek Keybind",
+          "desc": "Hold to show the map during boss fights."
+        },
+        "player_names": {
+          "name": "Player Names",
+          "desc": "When to show player names on the map.",
+          "option": {
+            "off": "Off",
+            "holding_leap": "Holding Leap",
+            "always": "Always"
+          }
+        },
+        "custom_marker": {
+          "name": "Custom Marker",
+          "desc": "Use a custom directional map marker for yourself instead of a player head."
+        },
+        "room_prediction": {
+          "name": "Room Prediction",
+          "desc": "Predict unopened 1x1 room types while using legit map mode."
+        },
+        "calculation_method": {
+          "name": "Calculation Method",
+          "desc": "Optimistic: live score assumes perfect Speed; its S+ secret goal assumes unfinished puzzles will be completed and uses the projection options below.\nConservative: live score uses elapsed-time Speed; its S+ secret goal keeps unfinished-puzzle penalties and only current detected bonuses.\nBoth include death penalties.",
+          "option": {
+            "optimistic": "Optimistic",
+            "conservative": "Conservative"
+          }
+        },
+        "max_bonus_for_secret_goal": {
+          "name": "Max Bonus For Secret Goal",
+          "desc": "Use the configurable bonus assumptions below when calculating the S+ secret goal."
+        },
+        "use_current_crypts": {
+          "name": "Use Current Crypts",
+          "desc": "Use the current Crypt count instead of assuming all 5 Crypt bonus points."
+        },
+        "assume_mimic_bonus": {
+          "name": "Assume Mimic Bonus",
+          "desc": "Assume the +2 Mimic bonus will be earned on Floor VI and above."
+        },
+        "assume_prince_bonus": {
+          "name": "Assume Prince Bonus",
+          "desc": "Assume the +1 Prince bonus will be earned while a Prince room remains possible."
+        },
+        "assume_bat_bonus": {
+          "name": "Assume Bat Bonus",
+          "desc": "Assume the +1 Bat bonus will be earned before it is detected."
+        },
+        "show_needed_secrets": {
+          "name": "Show Needed Secrets",
+          "desc": "Show the total secrets needed for S+ instead of the remaining amount."
+        },
+        "include_paul_in_secret_goal": {
+          "name": "Include Paul In Secret Goal",
+          "desc": "Assume Paul's +10 score bonus when calculating the S+ secret goal."
+        },
+        "extra_info": {
+          "name": "Extra Info",
+          "desc": "Show additional info below the map."
+        },
+        "show_secrets": {
+          "name": "Show Secrets",
+          "desc": "Show secrets found / total count."
+        },
+        "show_crypts": {
+          "name": "Show Crypts",
+          "desc": "Show crypts count."
+        },
+        "show_score": {
+          "name": "Show Score",
+          "desc": "Show calculated dungeon score."
+        },
+        "show_deaths": {
+          "name": "Show Deaths",
+          "desc": "Show team death count."
+        },
+        "bonus_style": {
+          "name": "Bonus Style",
+          "desc": "Style for Mimic, Prince, and Bat bonus indicators.",
+          "option": {
+            "custom_icons": "Custom Icons",
+            "letters": "Letters",
+            "off": "Off"
+          }
+        },
+        "force_paul": {
+          "name": "Force Paul",
+          "desc": "Always add +10 bonus score for Mayor Paul's EZPZ perk."
+        },
+        "force_disable_paul": {
+          "name": "Force Disable Paul",
+          "desc": "Never add Mayor Paul's +10 EZPZ score bonus, even when it is detected."
+        },
+        "text_scale": {
+          "name": "Text Scale",
+          "desc": "Scale for room name / secret text on the map."
+        },
+        "checkmark_scale": {
+          "name": "Checkmark Scale",
+          "desc": "Scale for checkmark icons on the map."
+        },
+        "player_head_scale": {
+          "name": "Player Head Scale",
+          "desc": "Scale for player head icons."
+        },
+        "player_name_scale": {
+          "name": "Player Name Scale",
+          "desc": "Scale for player name labels."
+        },
+        "antialias_rooms": {
+          "name": "Antialias Rooms",
+          "desc": "Smooth room edges."
+        },
+        "corner_radius": {
+          "name": "Corner Radius",
+          "desc": "Corner rounding radius for the map frame."
+        },
+        "door_width": {
+          "name": "Door Width",
+          "desc": "How wide doors between rooms are drawn on the map."
+        },
+        "background": {
+          "name": "Background",
+          "desc": "Map background color."
+        },
+        "custom_background_enabled": {
+          "name": "Custom Background",
+          "desc": "Use a PNG, JPEG, WebP, or GIF behind the map. Choose the file below."
+        },
+        "custom_background_file": {
+          "name": "Custom Background File"
+        },
+        "choose_custom_background": {
+          "name": "Background File",
+          "desc": "Choose the PNG, JPEG, WebP, or GIF to draw behind the map.",
+          "label": "Choose..."
+        },
+        "background_darkness": {
+          "name": "Background Darkness",
+          "desc": "Darken the map background without darkening rooms, labels, or player icons."
+        },
+        "background_transparency": {
+          "name": "Background Transparency",
+          "desc": "Make the entire map background, including its darkness, transparent. 100% hides it completely."
+        },
+        "border_color": {
+          "name": "Border Color",
+          "desc": "Map border color."
+        },
+        "border_width": {
+          "name": "Border Width",
+          "desc": "Map border thickness."
+        },
+        "checkmark_style": {
+          "name": "Checkmark Style",
+          "desc": "What to show over cleared rooms.",
+          "option": {
+            "checkmarks": "Checkmarks",
+            "secrets": "Secrets",
+            "room_name": "Room Name",
+            "room_name_secrets": "Room Name + Secrets"
+          }
+        },
+        "center_checkmark": {
+          "name": "Center Checkmark",
+          "desc": "Center checkmarks on multi-tile rooms instead of top-left."
+        },
+        "hide_unknown_checkmark": {
+          "name": "Hide Unknown Checkmark",
+          "desc": "Hide the question mark on unopened rooms."
+        },
+        "prince_room_icon": {
+          "name": "Prince Room Icon",
+          "desc": "Show a crown on rooms that can contain Prince until he is killed."
+        },
+        "limit_room_name_size": {
+          "name": "Limit Room Name Size",
+          "desc": "Shrink room names to fit within the room's bounds."
+        },
+        "head_border": {
+          "name": "Head Border",
+          "desc": "Default border color for player heads."
+        },
+        "head_direction_indicator": {
+          "name": "Head Direction Indicator",
+          "desc": "Show a direction indicator on rendered player heads."
+        },
+        "marker_color": {
+          "name": "Marker Color",
+          "desc": "Custom marker tint color."
+        },
+        "class_based_borders": {
+          "name": "Class-Based Borders",
+          "desc": "Color head borders by dungeon class."
+        },
+        "class_based_names": {
+          "name": "Class-Based Names",
+          "desc": "Color player names by dungeon class."
+        },
+        "archer": {
+          "name": "Archer"
+        },
+        "berserk": {
+          "name": "Berserk"
+        },
+        "healer": {
+          "name": "Healer"
+        },
+        "mage": {
+          "name": "Mage"
+        },
+        "tank": {
+          "name": "Tank"
+        },
+        "unopened_room": {
+          "name": "Unopened Room"
+        },
+        "blood_room": {
+          "name": "Blood Room"
+        },
+        "fairy_room": {
+          "name": "Fairy Room"
+        },
+        "rare_room": {
+          "name": "Rare Room"
+        },
+        "miniboss_room": {
+          "name": "Miniboss Room"
+        },
+        "puzzle_room": {
+          "name": "Puzzle Room"
+        },
+        "trap_room": {
+          "name": "Trap Room"
+        },
+        "normal_room": {
+          "name": "Normal Room"
+        },
+        "entrance_room": {
+          "name": "Entrance Room"
+        },
+        "unopened_door": {
+          "name": "Unopened Door"
+        },
+        "blood_door": {
+          "name": "Blood Door"
+        },
+        "wither_door": {
+          "name": "Wither Door"
+        },
+        "normal_door": {
+          "name": "Normal Door"
+        },
+        "open_wither_door": {
+          "name": "Open Wither Door"
+        },
+        "entrance_door": {
+          "name": "Entrance Door"
+        },
+        "debug_logging": {
+          "name": "Debug Logging",
+          "desc": "Print map packet, calibration, and room scan debug messages to the console."
+        },
+        "collect_unknown_room_data": {
+          "name": "Collect Unknown Room Data",
+          "desc": "Record unknown room hashes for future room catalog updates. Disable to stop collecting them."
+        },
+        "collect_unknown_room_snapshots": {
+          "name": "Collect Unknown Room Snapshots",
+          "desc": "Save a schematic snapshot when an unknown room is found. These files can be large."
+        }
+      }
+    },
+    "leapmenu": {
+      "name": "Leap Menu",
+      "desc": "Replaces the Spirit Leap menu with teammate cards showing their view and location, with keybinds and map leaping.",
+      "setting": {
+        "sorting": {
+          "name": "Sorting",
+          "desc": "Which teammate goes in which corner, filled left to right, top to bottom.",
+          "option": {
+            "a_z_class": "A-Z Class",
+            "a_z_name": "A-Z Name",
+            "odin": "Odin",
+            "custom": "Custom",
+            "none": "None"
+          }
+        },
+        "custom_order": {
+          "name": "Custom Order",
+          "desc": "Player names or classes, top first. A teammate takes the place of their first match.",
+          "placeholder": "Player or class"
+        },
+        "label": {
+          "name": "Label",
+          "desc": "What each card names: the class, the player, or both.",
+          "option": {
+            "class": "Class",
+            "name": "Name",
+            "name_class": "Name + Class"
+          }
+        },
+        "show_head": {
+          "name": "Show Head",
+          "desc": "Draw the teammate's head on their card."
+        },
+        "teammate_view": {
+          "name": "Teammate View",
+          "desc": "Show what each teammate sees on their card. Hidden while a shader pack is in use."
+        },
+        "view_fps": {
+          "name": "View FPS",
+          "desc": "How often the hovered card's view is redrawn. The others redraw a few times a second; every redraw renders the world once more."
+        },
+        "show_location": {
+          "name": "Show Location",
+          "desc": "The room each teammate is in; in the boss, the boss phase, with the section in Floor 7 P3."
+        },
+        "scale": {
+          "name": "Scale",
+          "desc": "Card size. Cards shrink further when they would not fit the screen."
+        },
+        "class_colored_cards": {
+          "name": "Class Colored Cards",
+          "desc": "Tint cards with the class color."
+        },
+        "tint_dead_players": {
+          "name": "Tint Dead Players",
+          "desc": "Tint the cards of dead teammates red."
+        },
+        "show_last_door_opener": {
+          "name": "Show Last Door Opener",
+          "desc": "Outline the teammate who opened the last Wither door."
+        },
+        "left_click_only": {
+          "name": "Left Click Only",
+          "desc": "Leap only on a left click."
+        },
+        "leap_on_release": {
+          "name": "Leap On Release",
+          "desc": "Leap when the mouse button is released instead of pressed."
+        },
+        "keybind_mode": {
+          "name": "Keybind Mode",
+          "desc": "Corners: one key per corner.\nClass: one key per class.",
+          "option": {
+            "off": "Off",
+            "corners": "Corners",
+            "class": "Class"
+          }
+        },
+        "top_left": {
+          "name": "Top Left"
+        },
+        "top_right": {
+          "name": "Top Right"
+        },
+        "bottom_left": {
+          "name": "Bottom Left"
+        },
+        "bottom_right": {
+          "name": "Bottom Right"
+        },
+        "archer": {
+          "name": "Archer"
+        },
+        "berserk": {
+          "name": "Berserk"
+        },
+        "healer": {
+          "name": "Healer"
+        },
+        "mage": {
+          "name": "Mage"
+        },
+        "tank": {
+          "name": "Tank"
+        },
+        "map_leap": {
+          "name": "Map Leap",
+          "desc": "During clear, click a teammate on the dungeon map instead of a card."
+        },
+        "after_blood_only": {
+          "name": "After Blood Only",
+          "desc": "Keep the cards until the Blood Room is opened."
+        },
+        "map_scale": {
+          "name": "Map Scale"
+        },
+        "leap_announce": {
+          "name": "Leap Announce",
+          "desc": "Tell your party who you leaped to."
+        },
+        "leap_message": {
+          "name": "Leap Message",
+          "desc": "{name} becomes the teammate's name.",
+          "placeholder": "Leaped to {name}!"
+        },
+        "hide_players": {
+          "name": "Hide Players",
+          "desc": "Hide teammates standing on you for a moment after you leap."
+        },
+        "hide_time": {
+          "name": "Hide Time"
+        }
+      }
+    },
+    "simonsays": {
+      "name": "Simon Says",
+      "desc": "Highlights the F7/M7 Simon Says device solution in order.",
+      "setting": {
+        "reset_solver": {
+          "name": "Reset Solver",
+          "desc": "Forget the pattern read so far and start reading the device from scratch — for when it has gone out of step with what is on the wall.",
+          "label": "Reset"
+        },
+        "block_wrong_clicks": {
+          "name": "Block Wrong Clicks",
+          "desc": "Cancel clicks that aren't on the correct button. Sneak to override."
+        },
+        "first_color": {
+          "name": "First Color",
+          "desc": "Highlight of the next button."
+        },
+        "second_color": {
+          "name": "Second Color",
+          "desc": "Highlight of the button after next."
+        },
+        "other_color": {
+          "name": "Other Color",
+          "desc": "Highlight of the remaining buttons."
+        },
+        "highlight_width": {
+          "name": "Highlight Width",
+          "desc": "Width of the highlight next to the real button, whatever size its hitbox is enlarged to."
+        },
+        "highlight_height": {
+          "name": "Highlight Height",
+          "desc": "Height of the highlight next to the real button, whatever size its hitbox is enlarged to."
+        },
+        "show_while_pattern_plays": {
+          "name": "Show While Pattern Plays",
+          "desc": "Keep the highlights up while the device plays its pattern and the buttons are gone."
+        },
+        "alerts_enabled": {
+          "name": "Alerts Enabled"
+        },
+        "ss_break_alert": {
+          "name": "SS Break Alert",
+          "desc": "Announce in party chat when the device resets."
+        },
+        "send_restart_chat": {
+          "name": "Send Restart Chat",
+          "desc": "Announce in party chat when the device restarts."
+        },
+        "alert_sound": {
+          "name": "Alert Sound",
+          "desc": "Play a sound when the device breaks."
+        },
+        "show_title": {
+          "name": "Show Title",
+          "desc": "Show a title when the device breaks / restarts."
+        },
+        "print_ss_time_in_chat": {
+          "name": "Print SS Time In Chat",
+          "desc": "Show how long Simon Says took when a player at the device completes it."
+        }
+      }
+    },
+    "soloclears": {
+      "name": "Solo Clears",
+      "desc": "Records a solo F7/M7 for the BlackAddons leaderboard and hands it in at 300.",
+      "setting": {
+        "board": {
+          "name": "Board",
+          "desc": "Which board to aim at. Skips allowed does not charge for the quiz and ice fill, the way the board scores them; No skips keeps their ten points, because a run that skipped one is ranked among the runs that did.",
+          "option": {
+            "skips_allowed": "Skips allowed",
+            "no_skips": "No skips"
+          }
+        },
+        "announce_in_chat": {
+          "name": "Announce In Chat",
+          "desc": "Say in chat when a recording opens, and what the server made of it afterwards."
+        },
+        "indicator": {
+          "name": "Indicator",
+          "desc": "Show a marker while this mode is on, so the score on screen is never unexplained."
+        },
+        "indicator_color": {
+          "name": "Indicator Color",
+          "desc": "Color of the indicator text."
+        },
+        "indicator_background": {
+          "name": "Indicator Background",
+          "desc": "Background fill behind the indicator."
+        }
+      }
+    },
+    "scoreboardtoggle": {
+      "name": "Scoreboard Toggle",
+      "desc": "Allows toggling the visibility of the scoreboard sidebar.",
+      "setting": {
+        "show_scoreboard": {
+          "name": "Show Scoreboard",
+          "desc": "Whether the scoreboard sidebar is visible."
+        },
+        "toggle_keybind": {
+          "name": "Toggle Keybind",
+          "desc": "Press this key in-world to toggle scoreboard visibility."
+        }
+      }
+    },
+    "fullbright": {
+      "name": "Fullbright",
+      "desc": "Keeps the world fully lit without changing your gamma setting.",
+      "setting": {
+        "disable_light_engine": {
+          "name": "Disable Light Engine",
+          "desc": "Turns the client light engine off while fullbright is on, for more FPS."
+        }
+      }
+    },
+    "customskybox": {
+      "name": "Custom Skybox",
+      "desc": "Replaces the overworld sky with an animated scene in the BlackAddons colors.",
+      "setting": {
+        "style": {
+          "name": "Style",
+          "desc": "Landscape = the menu's hills, following the time of day.\nSynthwave = a striped sun over a neon canyon.\nGalaxy = a spiral galaxy over a starry nebula.",
+          "option": {
+            "landscape": "Landscape",
+            "synthwave": "Synthwave",
+            "galaxy": "Galaxy"
+          }
+        },
+        "palette": {
+          "name": "Palette",
+          "desc": "Default = the BlackAddons colors.\nTheme = follows your UI theme's accent and background.",
+          "option": {
+            "default": "Default",
+            "theme": "Theme"
+          }
+        },
+        "brightness": {
+          "name": "Brightness",
+          "desc": "Sky brightness."
+        }
+      }
+    },
+    "adhd": {
+      "name": "ADHD",
+      "desc": "Bounces an image around your screen like the DVD logo.",
+      "setting": {
+        "image_file": {
+          "name": "Image File"
+        },
+        "choose_image": {
+          "name": "Image",
+          "desc": "Choose the PNG, JPEG, WebP, or GIF to bounce around.",
+          "label": "Choose..."
+        },
+        "size": {
+          "name": "Size",
+          "desc": "Image height as a share of the screen height. The width keeps the image's shape."
+        },
+        "transparency": {
+          "name": "Transparency",
+          "desc": "Make the image see-through. 100% hides it completely."
+        },
+        "speed": {
+          "name": "Speed",
+          "desc": "How fast the image moves, in screen heights per second."
+        },
+        "count": {
+          "name": "Count",
+          "desc": "How many copies bounce at once, each on its own path."
+        },
+        "color_change": {
+          "name": "Color Change",
+          "desc": "Tint the image a new color every time it hits a wall. Brightest on light images."
+        },
+        "corner_hit": {
+          "name": "Corner Hit",
+          "desc": "Celebrate when an image hits a corner exactly.",
+          "option": {
+            "off": "Off",
+            "sound": "Sound",
+            "toast": "Toast",
+            "both": "Both"
+          }
+        }
+      }
+    },
+    "entityqol": {
+      "name": "Entity QoL",
+      "desc": "Quality of life adjustments for entity visuals.",
+      "setting": {
+        "hide_entity_fire": {
+          "name": "Hide Entity Fire",
+          "desc": "Hides flames rendered around burning entities, including players."
+        },
+        "hide_armor": {
+          "name": "Hide Armor",
+          "desc": "Hides worn armor on players, mobs, and armored animals. Elytra and saddles stay visible."
+        },
+        "hide_stuck_arrows_and_stingers": {
+          "name": "Hide Stuck Arrows and Stingers",
+          "desc": "Hides arrows and bee stingers embedded in player models."
+        }
+      }
+    },
+    "chatcopy": {
+      "name": "Chat Copy",
+      "desc": "Ctrl-click a chat message to copy it (add Shift to keep formatting codes)."
+    },
+    "compactchat": {
+      "name": "Compact Chat",
+      "desc": "Stacks repeated chat messages into one line with a counter.",
+      "setting": {
+        "consecutive_only": {
+          "name": "Consecutive Only",
+          "desc": "Only stack a message that repeats the newest one."
+        }
+      }
+    },
+    "smoothchat": {
+      "name": "Smooth Chat",
+      "desc": "Animates chat: messages fade in, the input box slides in, and scrolling is smooth.",
+      "setting": {
+        "fade_in_messages": {
+          "name": "Fade In Messages",
+          "desc": "New messages slide up and fade in."
+        },
+        "fade_time": {
+          "name": "Fade Time"
+        },
+        "slide_input_box": {
+          "name": "Slide Input Box",
+          "desc": "The input box slides up when chat opens."
+        },
+        "input_slide_time": {
+          "name": "Input Slide Time"
+        },
+        "smooth_scrolling": {
+          "name": "Smooth Scrolling",
+          "desc": "Scrolling through chat history glides instead of jumping."
+        },
+        "hide_message_indicator": {
+          "name": "Hide Message Indicator",
+          "desc": "Hides the colored bar at the left of system and unsigned messages."
+        }
+      }
+    },
+    "chathistory": {
+      "name": "Chat History",
+      "desc": "Keeps more chat, keeps it when you disconnect or restart, and remembers what you sent across restarts.",
+      "setting": {
+        "history_length": {
+          "name": "History Length",
+          "desc": "Messages kept in chat, and sent messages kept for the up arrow. Vanilla keeps 100."
+        },
+        "keep_on_disconnect": {
+          "name": "Keep On Disconnect",
+          "desc": "Leaving or switching servers no longer clears the chat."
+        },
+        "keep_on_restart": {
+          "name": "Keep On Restart",
+          "desc": "The chat comes back as it was after restarting the game."
+        },
+        "save_sent_messages": {
+          "name": "Save Sent Messages",
+          "desc": "Messages and commands you sent stay in the up-arrow history after a restart."
+        }
+      }
+    },
+    "chatmentions": {
+      "name": "Chat Mentions",
+      "desc": "Highlights chat messages that mention your name or a keyword, with an optional sound.",
+      "setting": {
+        "your_name": {
+          "name": "Your Name",
+          "desc": "Messages that mention your username count as mentions."
+        },
+        "keywords": {
+          "name": "Keywords",
+          "desc": "Extra words or phrases that count as mentions.",
+          "placeholder": "Keyword"
+        },
+        "highlight_color": {
+          "name": "Highlight Color",
+          "desc": "Tint drawn behind a message that mentions you."
+        },
+        "play_sound": {
+          "name": "Play Sound",
+          "desc": "Ping when a mention arrives."
+        }
+      }
+    },
+    "chatvisualfilters": {
+      "name": "Chat Visual Filters",
+      "desc": "Hides chat messages that match your patterns.",
+      "setting": {
+        "patterns": {
+          "name": "Patterns",
+          "desc": "Messages matching any of these are hidden. Each pattern has its own match mode and case.",
+          "placeholder": "Pattern",
+          "option": {
+            "contains": "Contains",
+            "starts_with": "Starts With",
+            "exact": "Exact",
+            "regex": "Regex",
+            "any_case": "Any Case",
+            "match_case": "Match Case"
+          }
+        }
+      }
+    },
+    "chatnamemenu": {
+      "name": "Chat Name Menu",
+      "desc": "Right-click a chat message to copy it, or a player's message for profile, party, friend and message shortcuts."
+    },
+    "chattabs": {
+      "name": "Chat Tabs",
+      "desc": "Tabs above the chat input that show one channel at a time and send to it.",
+      "setting": {
+        "party_tab": {
+          "name": "Party Tab",
+          "desc": "Party chat and party notices."
+        },
+        "guild_tab": {
+          "name": "Guild Tab",
+          "desc": "Guild chat."
+        },
+        "private_tab": {
+          "name": "Private Tab",
+          "desc": "Private messages, both ways."
+        },
+        "co_op_tab": {
+          "name": "Co-op Tab",
+          "desc": "Co-op chat."
+        },
+        "irc_tab": {
+          "name": "IRC Tab",
+          "desc": "BlackAddons chat shown in game chat."
+        },
+        "route_messages": {
+          "name": "Route Messages",
+          "desc": "Typing in a channel tab sends there: party, guild, co-op, or whoever you last messaged privately."
+        },
+        "all_tab_ignores_channels": {
+          "name": "All Tab Ignores Channels",
+          "desc": "Messages that have their own tab don't add to the All tab's unread count."
+        },
+        "follow_chat_channel": {
+          "name": "Follow Chat Channel",
+          "desc": "/chat p, /chat g, /chat coop, /chat b and /chat a also switch the tab."
+        }
+      }
+    },
+    "freezecapture": {
+      "name": "Freeze Capture",
+      "desc": "Save thread stacks after a 200 ms client stall to config/blackaddons/dev/freezes."
+    },
+    "dumpers": {
+      "name": "Dumpers",
+      "desc": "Dump the scoreboard, tab list, action bar, or chat to a file and the clipboard.",
+      "setting": {
+        "dump_scoreboard": {
+          "name": "Dump Scoreboard",
+          "desc": "Press in-world to dump the sidebar scoreboard."
+        },
+        "dump_tab_list": {
+          "name": "Dump Tab List",
+          "desc": "Press to dump the player-list (tab) entries."
+        },
+        "dump_action_bar": {
+          "name": "Dump Action Bar",
+          "desc": "Press to dump the last action-bar message."
+        },
+        "dump_chat": {
+          "name": "Dump Chat",
+          "desc": "Press to dump the last few chat messages, spans and hover text included."
+        }
+      }
+    },
+    "tablisttoggle": {
+      "name": "Tab List Toggle",
+      "desc": "Toggles or holds display of player tab list.",
+      "setting": {
+        "toggle_mode": {
+          "name": "Toggle Mode",
+          "desc": "If enabled, tapping the player list key toggles the tab list display instead of requiring you to hold it."
+        },
+        "toggle_keybind": {
+          "name": "Toggle Keybind",
+          "desc": "Press this key in-world to toggle the tab list display."
+        }
+      }
+    }
+  },
+  "configs": {
+    "section": {
+      "configuration": "Configuration",
+      "hud": "HUD",
+      "sharing": "Sharing"
+    },
+    "save_now": {
+      "label": "Save the current state to disk",
+      "button": "Save Now"
+    },
+    "reload": {
+      "label": "Reload the config from disk (discards unsaved changes)",
+      "button": "Reload"
+    },
+    "reset_settings": {
+      "label": "Reset every setting on every feature",
+      "button": "Reset All"
+    },
+    "reset_huds": {
+      "label": "Reset every HUD element to its default position and scale",
+      "button": "Reset HUD"
+    },
+    "share": {
+      "label": "Copy your whole config - settings, toggles and HUD layout - to share it",
+      "button": "Share",
+      "name": "Your config"
+    },
+    "paste": {
+      "label": "Paste a shared config; every change is shown before it applies",
+      "button": "Paste"
+    }
+  },
+  "about": {
+    "title": "BlackAddons Reimagined",
+    "hint": "maybe it's worth clicking the names...",
+    "subtitle": "A ground-up rewrite of the original BlackAddons. Every old feature rebuilt rather than ported, a pile of new ones that were never there, and a renderer of our own underneath.",
+    "version": "v%s",
+    "people": "The people",
+    "role": {
+      "team": "Team",
+      "inspiration": "Inspiration"
+    },
+    "credits": "Built on BlackSkija · BlackVertex · JetBrains Mono"
+  },
+  "hud_editor": {
+    "hint": "Drag to move · Scroll to scale · Shift+drag: snap · Shift+scroll: grid %d · T: font · Right-click: reset · Right-click empty space: options · Esc: save",
+    "title": "HUD Editor",
+    "font_inherit": "Inherit",
+    "show_disabled": "Show disabled elements",
+    "always_grid": "Always show grid"
+  },
+  "cosmetic_editor": {
+    "title": "Cosmetics",
+    "loading": "Loading...",
+    "not_owned": "You don't own a cosmetic yet.",
+    "not_linked": "This account isn't linked to a cosmetic.",
+    "error": "Couldn't reach the server. Try again later.",
+    "no_model": "Model preview unavailable",
+    "disabled": "Disabled by admin",
+    "mode_vanilla": "Vanilla",
+    "mode_solid": "Solid",
+    "mode_gradient": "Gradient",
+    "mode_chroma": "Chroma",
+    "style": "Style",
+    "style_bold": "Bold",
+    "style_italic": "Italic",
+    "style_underlined": "Underline",
+    "style_strikethrough": "Strike",
+    "font": "Font: %s",
+    "font_game": "Game font",
+    "font_choose": "Choose...",
+    "font_asking": "Putting on...",
+    "font_refused": "The font was not changed",
+    "font_pick_title": "Name font",
+    "font_search": "Search fonts...",
+    "font_loading": "Loading Fontsource...",
+    "font_none": "No matching fonts.",
+    "vanilla_hint": "No color override.",
+    "color": "Color",
+    "stops": "Gradient stops",
+    "stops_hint": "Click: color · Drag: move · Click bar: add · Pull down: remove",
+    "per_char_on": "Per-character (whole name one color)",
+    "per_char_off": "Per-character (spread across letters)",
+    "animated": "Animated",
+    "speed": "Speed",
+    "scale": "Scale",
+    "save": "Save",
+    "revert": "Revert",
+    "unsaved": "Unsaved changes",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "save_disabled": "Disabled by admin — can't save",
+    "save_not_owned": "No cosmetic to edit",
+    "save_invalid": "Invalid — not saved",
+    "save_error": "Save failed — try again",
+    "retry": "Retry",
+    "tab_name": "Name & size",
+    "tab_wardrobe": "Wardrobe",
+    "name_placeholder": "Display name",
+    "name_change": "Change",
+    "name_asking": "Asking...",
+    "name_hint": "A new name may go to staff for review first",
+    "name_applied": "Name changed",
+    "name_pending": "Sent for review - see ticket #%d",
+    "name_refused": "The name was not changed"
+  },
+  "wardrobe": {
+    "loading": "Loading your wardrobe...",
+    "empty": "Nothing in your wardrobe yet.",
+    "worn": "Worn",
+    "locked": "Locked",
+    "equip": "Equip",
+    "take_off": "Take off",
+    "apply": "Apply",
+    "colors": "Colors",
+    "adjust": {
+      "offsetX": "Left / right",
+      "offsetY": "Up / down",
+      "offsetZ": "Front / back",
+      "scale": "Size"
+    },
+    "trying_on": "Trying it on",
+    "locked_hint": "You don't own this one.",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "gone": "That cosmetic is no longer available.",
+    "tail_cape": "A tail and a cape can't be worn together.",
+    "invalid": "The server refused that change.",
+    "failed": "Couldn't save — try again"
+  },
+  "chat_copy": {
+    "copied": "Message copied",
+    "copied_raw": "Message copied (with formatting)"
+  },
+  "chat_name_menu": {
+    "profile": "Open Profile Viewer",
+    "party": "Party Invite",
+    "friend": "Add Friend",
+    "visit": "Visit Island",
+    "message": "Message",
+    "copy": "Copy Name",
+    "copied": "Name copied",
+    "copy_message": "Copy Message"
+  },
+  "chat_tabs": {
+    "all": "All",
+    "party": "Party",
+    "guild": "Guild",
+    "private": "Private",
+    "coop": "Co-op",
+    "irc": "IRC",
+    "private_to": "To %s",
+    "no_partner": "Nobody to message yet",
+    "no_partner_detail": "/msg someone once, then talk in Private tab."
+  },
+  "chat": {
+    "prefix": "[BlackAddons] "
+  },
+  "net": {
+    "status": "Connection: %s",
+    "socket_restarted": "Restarting the live-updates connection.",
+    "restarted": "Restarting all networking."
+  },
+  "backend": {
+    "auth_failed": "Couldn't authenticate with the server.",
+    "retry": "[Retry]",
+    "retry_hover": "Click to retry authentication",
+    "retrying": "Retrying authentication...",
+    "auth_ok": "Authenticated.",
+    "unavailable": "Backend is unavailable right now",
+    "restored": "Backend is back",
+    "unsupported": "This build is no longer supported"
+  },
+  "link": {
+    "linked_as": "Linked to account %s.",
+    "code": "Your sign-in code:",
+    "copy_hover": "Click to copy",
+    "expires": "· expires in %s min ·",
+    "sign_in": "[Sign in]",
+    "attach": "[Link to my account]",
+    "failed": "Couldn't get a link from the server."
+  },
+  "elevation": {
+    "title": "Staff sign-in",
+    "code_label": "Code from your authenticator",
+    "placeholder": "123456",
+    "hint": "A recovery code works too.",
+    "remember": "Remember this device for 30 days",
+    "cancel": "Cancel",
+    "confirm": "Sign in",
+    "working": "Checking...",
+    "raised": "Session raised to your account permissions.",
+    "bad_code": "That code was not accepted.",
+    "throttled": "Too many attempts. Try again in a few minutes.",
+    "failed": "Couldn't reach the server. Try again.",
+    "offer": "Your account holds staff permissions this session isn't carrying.",
+    "sign_in": "[Sign in as staff]",
+    "sign_in_hover": "Asks for a code from your authenticator",
+    "needs_2fa": "Staff permissions are only handed out after a second factor.",
+    "enable_2fa": "[Turn on 2FA]",
+    "already": "This session already carries your account permissions.",
+    "unavailable": "Couldn't reach the server, so there is nothing to raise yet."
+  },
+  "cosmetics": {
+    "online_hover_title": "Online in BlackAddons",
+    "online_hover_detail": "The dot shows only who is connected right now.",
+    "name_hover_title": "BlackAddons cosmetic",
+    "name_hover_real": "Real name: %s",
+    "load_failed": "Couldn't load cosmetics — backend unreachable. Showing cached data."
+  },
+  "update": {
+    "toast": "Update available",
+    "toast_detail": "BlackAddons %s",
+    "available": "BlackAddons %s is out.",
+    "unsupported": "This build is older than %s and no longer works with the server.",
+    "download": "[Get it]",
+    "toast_unsupported": "Update required"
+  },
+  "pv": {
+    "title": "Profile Viewer",
+    "loading": "Loading %s...",
+    "not_found": "Player \"%s\" not found.",
+    "no_profiles": "%s has no Skyblock profiles.",
+    "unavailable": "Profile data is unavailable right now. Try again later.",
+    "skills": "Skills",
+    "slayers": "Slayers",
+    "search": "Look up player...",
+    "avatar": "Avatar",
+    "networth": "Networth",
+    "bank": "Bank",
+    "hidden": "Hidden (API off)",
+    "purse_label": "Purse",
+    "skill_avg": "Skill Average",
+    "sb_level": "Skyblock Level",
+    "catacombs": "Catacombs",
+    "level": "Level",
+    "tier": "Tier %s",
+    "total": "Total",
+    "totalXp": "Total XP",
+    "area": "Area",
+    "load": "Load",
+    "retry": "Retry",
+    "offline": "Offline",
+    "economy": "Economy",
+    "profile": "Profile",
+    "classes": "Dungeon Classes",
+    "dungeons": "Dungeons",
+    "kuudra": "Kuudra Runs",
+    "magical_power": "Magical Power",
+    "fairy_souls": "Fairy Souls",
+    "first_join": "First Join",
+    "profile_age": "Profile age",
+    "years": "%dy",
+    "months": "%dmo",
+    "cookie_buff": "Cookie Buff",
+    "active": "Active",
+    "pets_detail": {
+      "title": "Pets",
+      "summary": "%d pets · %d maxed",
+      "info": "Info",
+      "xp": "Pet XP",
+      "candy_used": "Candy Used",
+      "held_item": "Held Item",
+      "to_next": "%d%% to next level",
+      "total_progress": "%d%% to maximum",
+      "max_level": "Maximum level reached",
+      "unknown_level": "Level unavailable",
+      "level_unavailable": "Level data unavailable",
+      "level_unavailable_detail": "This pet's tier or XP is not valid profile data.",
+      "notice": "Some pets have unavailable level data.",
+      "api_off_title": "Pet API unavailable",
+      "api_off_detail": "This profile does not expose its pet collection.",
+      "empty_title": "No pets recorded",
+      "empty_detail": "This profile has no saved pets."
+    },
+    "networth_detail": {
+      "partial": "Partial estimate",
+      "partial_tooltip": "API-hidden: %s",
+      "api_off": "API off",
+      "assets": "Assets",
+      "categories": "Valued Categories",
+      "category_tooltip": "%s: %s\n%.1f%% of valued categories",
+      "empty_categories": "No valued categories were reported.",
+      "unavailable_title": "Networth unavailable",
+      "unavailable_detail": "The backend did not return a valuation for this profile."
+    },
+    "combat_detail": {
+      "title": "Combat",
+      "total_slayer_xp": "Total Slayer XP",
+      "slayer_xp": "Slayer XP",
+      "total_kills": "Total Kills",
+      "to_next": "%d%% to next level",
+      "max_level": "Maximum level reached",
+      "tier_kills": "Tier Kills",
+      "no_kills": "No recorded boss kills.",
+      "bestiary": "Bestiary",
+      "bestiary_kills": "Bestiary Kills",
+      "bestiary_deaths": "Deaths",
+      "top_kills": "Top Kills",
+      "top_deaths": "Top Deaths",
+      "no_bestiary": "No recorded Bestiary activity.",
+      "empty_title": "No Combat activity",
+      "empty_detail": "This profile has no recorded Slayer or Bestiary activity."
+    },
+    "dungeons_detail": {
+      "title": "Dungeons",
+      "overview": "Dungeon Overview",
+      "cata_level": "Catacombs Level",
+      "blood_mobs": "Blood Mobs",
+      "total_runs": "Total Runs",
+      "secrets": "Secrets",
+      "secrets_per_run": "Secrets / Run",
+      "magical_power": "Magical Power",
+      "class_levels": "Class Levels",
+      "class_average": "Class Average",
+      "floors": "Dungeon Floors",
+      "runs": "runs",
+      "best_score": "Best Score",
+      "fastest_s": "Fastest S",
+      "fastest_s_plus": "Fastest S+",
+      "floor_completions": "Floor Completions",
+      "no_floors": "No completed Dungeon floors."
+    },
+    "tab": {
+      "ca50": "CA50 Calculator",
+      "soon": "Coming soon"
+    },
+    "ca50_detail": {
+      "configuration": "Configuration",
+      "target": "Target Level",
+      "floor": "Floor",
+      "entrance": "Entrance",
+      "expert_ring": "Expert Ring",
+      "hecatomb": "Hecatomb",
+      "scarf_accessory": "Scarf Accessory",
+      "scarf_attribute": "Scarf Attribute",
+      "global_boost": "Global Boost",
+      "mayor": "Mayor",
+      "yes": "Yes (+10%)",
+      "no": "No",
+      "none": "None",
+      "scarf_studies": "Studies",
+      "scarf_thesis": "Thesis",
+      "scarf_grimoire": "Grimoire",
+      "invalid_title": "Invalid target level",
+      "invalid_target": "Enter a level from %s to %s.",
+      "catacombs_goal": "Catacombs Goal",
+      "class_goal": "Class Goal",
+      "current_level": "Current Level",
+      "target_level": "Target Level",
+      "target_xp": "Target XP",
+      "xp_per_run": "Estimated XP / Run",
+      "runs_needed": "Runs Needed",
+      "current_average": "Current Average",
+      "class_xp_per_run": "Class XP / Run",
+      "total_runs": "Total Runs",
+      "class_breakdown": "Class Breakdown",
+      "remaining_xp": "Remaining XP",
+      "runs": "Runs",
+      "reached": "Reached"
+    },
+    "inventory_detail": {
+      "title": "Inventory",
+      "inventory": "Inventory",
+      "pets": "Pets",
+      "wardrobe": "Wardrobe",
+      "ender_chest": "Ender Chest",
+      "backpacks": "Backpacks",
+      "vault": "Vault",
+      "page": "Page %d",
+      "gear": "Gear",
+      "equipment": "Equipment",
+      "armor": "Armor",
+      "personal_vault": "Personal Vault",
+      "api_off": "Inventory API unavailable",
+      "api_off_detail": "This profile does not expose this container.",
+      "empty": "No items recorded.",
+      "loading": "Loading items...",
+      "backpack": "Backpack %d",
+      "unknown": "Unknown",
+      "search": "Search items...",
+      "count": "%d items",
+      "searching": "Searching...",
+      "no_results": "Nothing matches \"%s\".",
+      "open": "Open (%d)",
+      "accessories": "Accessories",
+      "potion_bag": "Potion Bag",
+      "quiver": "Quiver",
+      "fishing_bag": "Fishing Bag",
+      "bags": "Bags",
+      "summary": "%d items in %d places"
+    },
+    "recent": {
+      "title": "Recent Teammates",
+      "empty": "No recent teammates in this profile.",
+      "open": "Open Profile",
+      "invite": "Invite to Party",
+      "invite_unavailable": "No safe player name was available for this teammate.",
+      "unknown": "Unknown",
+      "recorded_best": "Recorded Best Runs",
+      "shared_runs": "Shared Runs",
+      "chart_tooltip": "%s · %s · %d%%",
+      "pb": "PB",
+      "to_pb": "+%s to PB",
+      "run_one": "run",
+      "run_few": "runs",
+      "run_many": "runs",
+      "no_recorded_best": "No retained best-run record with this teammate.",
+      "recent_runs": "Recent Runs",
+      "sort_recent": "Latest",
+      "sort_runs": "Most runs",
+      "sort_name": "Name",
+      "filter_all": "All activity",
+      "filter_dungeon": "Dungeon",
+      "filter_master": "Master Mode",
+      "filter_kuudra": "Kuudra",
+      "now": "now",
+      "minutes_ago": "%dm ago",
+      "hours_ago": "%dh ago",
+      "days_ago": "%dd ago"
+    },
+    "skills_detail": {
+      "average": "Skill Average: %s",
+      "cap_reached": "Current cap reached",
+      "to_next": "%d%% to the next level",
+      "xp": "XP",
+      "progress": "Progress",
+      "progression": "Skill Progression",
+      "total_xp": "Total Skill XP",
+      "maxed": "Maxed Skills",
+      "core_average": "Core Average",
+      "all_average": "All Skills Average",
+      "level_short": "Lv %s / %s",
+      "tooltip": "%s\nLevel %s / %s\nXP: %,.0f"
+    },
+    "slayer": {
+      "zombie": "Zombie",
+      "spider": "Spider",
+      "wolf": "Wolf",
+      "enderman": "Enderman",
+      "blaze": "Blaze",
+      "vampire": "Vampire"
+    },
+    "dungeon_class": {
+      "healer": "Healer",
+      "mage": "Mage",
+      "berserk": "Berserk",
+      "archer": "Archer",
+      "tank": "Tank"
+    },
+    "networth_category": {
+      "accessories": "Accessories",
+      "armor": "Armor",
+      "ender_chest": "Ender Chest",
+      "equipment": "Equipment",
+      "essence": "Essence",
+      "fishing_bag": "Fishing Bag",
+      "inventory": "Inventory",
+      "museum": "Museum",
+      "personal_vault": "Personal Vault",
+      "pets": "Pets",
+      "potion_bag": "Potion Bag",
+      "sacks": "Sacks",
+      "storage": "Storage",
+      "wardrobe": "Wardrobe",
+      "weapons": "Weapons"
+    }
+  },
+  "colorpicker": {
+    "title": "Color Picker",
+    "done": "Done",
+    "chroma": "Chroma",
+    "speed": "Speed",
+    "chroma_all": "All",
+    "chroma_by_char": "By Char",
+    "reset": "Reset",
+    "expand": "Open the full picker"
+  },
+  "confirm": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "sure": "Are you sure?"
+  },
+  "list": {
+    "empty": "No entries — add one below.",
+    "input_placeholder": "type new entry...",
+    "add": "Add",
+    "done": "Done",
+    "edit": "Edit",
+    "summary": "%d items"
+  },
+  "modpicker": {
+    "search": "Search mods...",
+    "count": "%s / %s allowed",
+    "all": "All",
+    "none": "None",
+    "empty": "No mods match."
+  },
+  "bachat": {
+    "mode": {
+      "on": "You are now in the BlackAddons chat: plain messages go there. /chat a to go back.",
+      "off": "You left the BlackAddons chat."
+    },
+    "attach": {
+      "attach": "Attach a picture - or drop files onto the window",
+      "choose": "Attach a picture",
+      "uploading": "Uploading...",
+      "refused": "%s - remove it to send",
+      "unsupported": "Only PNG, JPEG, GIF, WebP pictures and Lottie animations can be attached",
+      "too_many": "Up to %d pictures per message",
+      "unreadable": "Could not read that file",
+      "too_large": "Larger than %d MB",
+      "offline": "Could not reach the server",
+      "quota": "That is enough pictures for today",
+      "failed": "Upload failed",
+      "emoji_hint": "Emoji - or type :name:"
+    },
+    "emoji": {
+      "search": "Find an emoji",
+      "no_custom": "No custom emoji yet",
+      "none": "Nothing matches",
+      "custom": "Custom"
+    },
+    "title": "BlackAddons Chat",
+    "channel": {
+      "global": "Global",
+      "staff": "Staff"
+    },
+    "copied": "Message copied",
+    "tag": {
+      "staff": "[Staff]"
+    },
+    "placeholder": "Say something...",
+    "send": "Send",
+    "empty": "Nothing said here yet.",
+    "offline": "Not connected",
+    "outdated": "Update required",
+    "edited": "(edited)",
+    "source": {
+      "mod": "Game",
+      "web": "Web",
+      "discord": "Discord",
+      "system": "System"
+    },
+    "deleted": "<deleted>",
+    "picture": "[image]",
+    "reply": "Reply",
+    "copy": "Copy",
+    "delete": "Delete",
+    "delete_sure": "Delete this message?",
+    "link_copied": "Image link copied",
+    "replying": "Replying to %s",
+    "cancel_reply": "Cancel",
+    "typing_one": "%s is typing...",
+    "typing_many": "Several people are typing...",
+    "muted": "You are muted.",
+    "muted_reason": "You are muted: %s",
+    "muted_until": "You are muted until %s.",
+    "muted_until_reason": "You are muted until %s: %s",
+    "open_hover": "Open the BlackAddons chat",
+    "error": {
+      "unknown_channel": "No such channel.",
+      "forbidden": "You can't write here.",
+      "muted": "You are muted.",
+      "too_new": "Your account is too new to write here yet.",
+      "too_new_until": "Your account is too new to write here. It opens in %dh %dm.",
+      "no_identity": "Link a Minecraft account before writing.",
+      "reply_not_found": "The message you replied to is gone.",
+      "invalid_content": "That isn't something the chat accepts.",
+      "too_many_attachments": "Too many images on one message.",
+      "attachment_not_found": "That image is no longer available.",
+      "rate_limited": "Slow down a little.",
+      "in_progress": "Still sending...",
+      "unavailable": "The chat can't take messages right now.",
+      "lost": "The message wasn't sent.",
+      "delete_failed": "Couldn't delete that message."
+    },
+    "loading": "Loading...",
+    "open_browser": "Open in browser",
+    "copy_link": "Copy link",
+    "link": "[link]",
+    "link_show": "Links (%s)",
+    "link_hide": "Hide"
+  },
+  "tickets": {
+    "title": "Tickets",
+    "placeholder": "Write a reply...",
+    "send": "Send",
+    "closed": "closed",
+    "empty": "No tickets. Staff open one when they need something from you.",
+    "loading": "Loading...",
+    "opened_by": "Opened by %s",
+    "closed_notice": "This ticket is closed. Nothing more can be said in it until staff reopen it.",
+    "uploading": "Uploading...",
+    "sending": "Sending...",
+    "choose": "Attach a picture",
+    "attach": "Attach a picture - or drop files onto the window",
+    "unsupported": "Only PNG, JPEG and GIF pictures can be attached",
+    "upload_failed": "Upload failed",
+    "offline": "Could not reach the server",
+    "failed": "Could not send",
+    "picture": "[picture]",
+    "reply_from": "%s replied in #%d: ",
+    "reply_toast": "%s replied in ticket #%d",
+    "opened_line": "Staff opened ticket #%d with you: ",
+    "opened_toast": "Staff opened a ticket with you",
+    "waiting": "You have %d unread ticket replies. ",
+    "open": "[Open]",
+    "open_action": "Open",
+    "player": "Player",
+    "staff_tag": "staff",
+    "approved_line": "Your request in #%d was approved",
+    "rejected_line": "Your request in #%d was rejected",
+    "request_pending": "Your request is waiting for staff",
+    "request_approved": "Your request was approved",
+    "request_rejected": "Rejected - answer below to appeal",
+    "appeal_notice": "Say why it should be reconsidered - sending reopens the request."
+  },
+  "fme": {
+    "search": "Search blocks...",
+    "empty": "No blocks match.",
+    "history": "History",
+    "edit_mode_button": "Edit Mode",
+    "apply_rule": "Apply",
+    "tab_global": "Global",
+    "tab_locations": "Locations",
+    "tab_rooms": "Dungeon Rooms",
+    "location": "Location:",
+    "room": "Room:",
+    "location_unavailable": "Location unavailable",
+    "room_unavailable": "Stand inside a scanned dungeon room",
+    "current_context": "%s (Current)",
+    "all_blocks": "All blocks",
+    "changed_blocks": "Changed blocks (%d)",
+    "rule_badge": "Rule",
+    "position_badge": "Position",
+    "off": "Off",
+    "type_rule": "Type rule",
+    "position_edit": "Position edit",
+    "scope_value": "Scope: %s",
+    "everywhere": "Everywhere",
+    "tint_value": "Tint: #%06X",
+    "disabled": "Disabled",
+    "visual_block": "Visual block",
+    "profile_title": "FME Profiles",
+    "import_file": "Import FME profile",
+    "any_block": "Any block",
+    "positions_hidden": "Showing %d of %d positions.",
+    "import_skipped_rooms": "%d room edits were left out: those rooms are placed differently here.",
+    "import_skipped_blocks": "%d edits named blocks this game does not have.",
+    "import_location_title": "Where were these blocks?",
+    "import_location_label": "Location",
+    "import_location_here": "Here: %s",
+    "import_location_f7": "F7 boss, split by phase",
+    "import_location_confirm": "Import",
+    "select_replacement": "Select as replacement",
+    "set_source": "Set as source",
+    "use_destination": "Use as destination",
+    "replace_with_selected": "Replace with selected block",
+    "change_tint": "Change tint...",
+    "favorite": "Add to favorites",
+    "unfavorite": "Remove from favorites",
+    "copy_block_id": "Copy block ID",
+    "change_replacement": "Change replacement...",
+    "replace_all_like_this": "Replace all blocks like this",
+    "match_any_block": "Match any block",
+    "edit_mode_replaces": "Edit Mode replaces:",
+    "same_block_type": "Same block type",
+    "set_tint": "Set tint...",
+    "reset_tint": "Reset tint",
+    "disable_rule": "Disable",
+    "enable_rule": "Enable",
+    "inspect_positions": "Inspect positions...",
+    "move_copy": "Move / Copy...",
+    "remove_confirm": "Remove this FME edit?",
+    "clear_global": "Clear Global",
+    "clear_context": "Clear %s",
+    "copy_context": "Copy all rules",
+    "paste_context": "Paste rules from %s",
+    "paste_context_empty": "Paste rules",
+    "context_copied": "Copied %d FME edits from %s.",
+    "context_pasted": "Pasted %d FME edits into %s.",
+    "clear_confirm": "Remove %d edits from %s? This can be undone.",
+    "rule_saved": "Saved %s → %s.",
+    "selection_failed": "That block cannot be selected.",
+    "positions_title": "Edited positions",
+    "positions_empty": "No positions remain.",
+    "remove_nearest": "Remove nearest",
+    "remove_all": "Remove all",
+    "position_world_local": "World: %d, %d, %d · Local: %d, %d, %d",
+    "position_local": "Local: %d, %d, %d",
+    "edit_position": "Edit position",
+    "add_position": "Add position",
+    "apply_position": "Apply",
+    "copy_coordinates": "Copy coordinates",
+    "paste_coordinates": "Paste coordinates",
+    "coordinates_invalid": "Clipboard does not contain three whole-number coordinates.",
+    "remove_position": "Remove position",
+    "remove_position_confirm": "Remove this position edit?",
+    "local_coordinates": "Local coordinates",
+    "world_coordinates": "World coordinates",
+    "position_invalid": "Enter valid whole-number coordinates.",
+    "position_preview": "Position: %d, %d, %d",
+    "world_preview": "World: %d, %d, %d",
+    "world_preview_unavailable": "World preview unavailable outside this room.",
+    "position_occupied": "That position already has an FME edit.",
+    "position_missing": "That position edit no longer exists.",
+    "remove_all_confirm": "Remove all %d positions?",
+    "copy_rule": "Copy",
+    "move_rule": "Move",
+    "cancel": "Cancel",
+    "destination": "Destination",
+    "rule_moved": "Rule moved to %s.",
+    "rule_copied": "Rule copied to %s.",
+    "scope_unavailable": "The active FME edit scope is unavailable.",
+    "position_blocked": "A visual block cannot be placed there.",
+    "help": "Edit mode: right-click replaces and left-click restores. Middle-click picks a block and G places a visual one by default.",
+    "enable": "FME: Off",
+    "disable": "FME: On",
+    "edit_on": "Edit: On",
+    "edit_off": "Edit: Off",
+    "selected": "Selected: %s",
+    "batch_title": "Global replacement rule",
+    "use_selected_source": "Set Source",
+    "replace_selected": "Replace All",
+    "remove_rule": "Remove",
+    "source_none": "Source: Not set",
+    "source": "Source: %s",
+    "undo": "Undo",
+    "redo": "Redo",
+    "manage": "Manage",
+    "clear_all": "Clear",
+    "management_title": "FME Replacements",
+    "management_empty": "No replacements yet.",
+    "management_summary": "%d active replacements",
+    "position_detail": "Position: %d, %d, %d%s",
+    "visual_suffix": " · visual",
+    "global_detail": "%s → %s",
+    "global_source": "Global source rule",
+    "shading": "Shading: %d%%",
+    "shading_changed": "Shading set to %d%%.",
+    "replaced_count": "All %s blocks now look like %s.",
+    "removed_rule": "Removed the replacement rule for %s.",
+    "no_source_matches": "That replacement rule is already set.",
+    "undo_done": "Undid the last FME edit.",
+    "nothing_to_undo": "Nothing to undo.",
+    "redo_done": "Redid the last FME edit.",
+    "nothing_to_redo": "Nothing to redo.",
+    "cleared_count": "Cleared %d FME edits.",
+    "nothing_to_clear": "Nothing to clear."
+  },
+  "particlepicker": {
+    "search": "Search particles...",
+    "count": "%d / %d selected",
+    "all": "All",
+    "none": "None",
+    "empty": "No particles match."
+  },
+  "simonsays": {
+    "completed_time": "Simon Says completed in %ss."
+  },
+  "soloclears": {
+    "opened": "Recording this %s for the solo clears board.",
+    "refused": "Not recording this run — %s",
+    "accepted": "Handed in: %s at %s points. It is with the reviewers now.",
+    "rejected": "The board did not take that run — %s",
+    "abandoned": "Recording stopped — %s",
+    "title": "Solo Clears",
+    "mine": "My runs",
+    "overall": "Overall",
+    "no_skips": "No skips",
+    "with_skips": "With skips",
+    "loading": "Loading...",
+    "board_unavailable": "No board for this floor yet.",
+    "board_empty": "Nobody has a clear on this board.",
+    "mine_unavailable": "Could not read your runs.",
+    "mine_empty": "You have not handed in a run yet.",
+    "column_player": "Player",
+    "column_time": "Time",
+    "column_score": "Score",
+    "unknown_player": "Unknown",
+    "upload_failed": "The run finished, but it could not be handed in (%s). The board never saw it.",
+    "upload_kept": "The recording was kept as %s — it is the only evidence the run happened.",
+    "indicator": "Solo Clear mode",
+    "reason": {
+      "offline": "there is no connection to the server, so nothing can witness the run.",
+      "unsupported": "this build is no longer supported by the server — update the mod.",
+      "floor_not_eligible": "the board only ranks F7 and M7.",
+      "server_not_eligible": "the board only counts runs played on Hypixel.",
+      "already_recording": "a run is already being recorded on this account.",
+      "no_identity": "this Minecraft account is not linked to a BlackAddons account.",
+      "no_account": "this Minecraft account is not linked to a BlackAddons account.",
+      "unavailable": "the server could not open a session right now.",
+      "death": "you died, and a solo clear ends at the first death.",
+      "left": "you left the dungeon.",
+      "world": "you left the world.",
+      "not_solo": "the scoreboard does not say this run was solo.",
+      "too_large": "the recording outgrew what can be handed in.",
+      "no_socket": "the connection never came back in time to close the run.",
+      "rejected": "the server closed the session.",
+      "expired": "the session expired.",
+      "unknown_run": "the server no longer has this session.",
+      "chain_mismatch": "the recording does not match what was committed to during the run.",
+      "impossible_pace": "the claimed time is shorter than the window the server watched.",
+      "score_below_threshold": "it does not reach the qualifying score.",
+      "past_clear_limit": "it is longer than this board keeps.",
+      "already_submitted": "that run has already been handed in.",
+      "not_finished": "the run never reported a finish.",
+      "malformed": "the recording could not be read.",
+      "floor_mismatch": "the recording is for a different floor."
+    }
+  },
+  "widget": {
+    "slider_hint": "Ctrl + scroll to adjust."
+  },
+  "theme": {
+    "midnight": "Midnight",
+    "pumpkin": "Pumpkin",
+    "evergreen": "Evergreen"
+  },
+  "theme_screen": {
+    "noun": "a theme",
+    "export_title": "Theme exported",
+    "export_done": "\"%s\" is on your clipboard.",
+    "state_normal": "Row",
+    "state_hover": "Hovered",
+    "state_active": "Active",
+    "state_dimmed": "Dimmed",
+    "warn_contrast": "%s cannot be read on %s. Saving is off until it can.",
+    "bases": "Base colors - everything below is derived from these",
+    "tip_base": "A base color, not a slot. Every color below that says it comes from %s follows this one.",
+    "tip_pinned": "Set by hand, so no base color moves it.",
+    "tip_derived": "Derived from the %s base color.",
+    "tip_fixed": "The same in every theme until you set it.",
+    "tip_action_pinned": "Right-click to hand it back to the formula.",
+    "tip_action_derived": "Click to set it by hand.",
+    "unsaved_title": "Unsaved changes",
+    "unsaved_message": "%s has changes you never saved. Leave them behind?",
+    "unsaved_discard": "Discard",
+    "title": "Theme",
+    "name": "Theme name",
+    "selected": "Selected: %s",
+    "note_yours": "Your theme. What you change here is kept when you save.",
+    "note_builtin": "Built in, and read-only. Duplicate it to get one you can change.",
+    "builtin": "built-in",
+    "base_surface": "Surface",
+    "base_text": "Text",
+    "base_accent": "Accent",
+    "preview": "Preview",
+    "sample_primary": "Primary text",
+    "sample_secondary": "Secondary text",
+    "sample_muted": "Muted text",
+    "sample_disabled": "Disabled text",
+    "sample_accent": "Accent",
+    "sample_success": "Success",
+    "sample_danger": "Danger",
+    "export": "Export",
+    "import": "Import",
+    "duplicate": "Duplicate",
+    "delete": "Delete",
+    "done": "Done",
+    "copy_of": "%s copy",
+    "saved": "Saved %s",
+    "duplicated": "Duplicated as %s",
+    "save_failed": "Could not save the theme",
+    "delete_title": "Delete theme",
+    "delete_message": "%s will be gone for good.",
+    "import_title": "Import theme",
+    "cancel": "Cancel",
+    "import_new": "New theme \"%s\"",
+    "import_replaces": "Replaces your theme \"%s\"",
+    "import_preview": "Its colors, in the order the interface uses them:",
+    "import_same": "Identical to the theme you already have.",
+    "import_changed": "%d colors change:",
+    "err_no_bases": "That theme has no colors in it.",
+    "err_unreadable": "That theme is unreadable: %s on %s."
+  },
+  "theme_base": {
+    "surface": "Surface",
+    "text": "Text",
+    "accent": "Accent"
+  },
+  "theme_group": {
+    "surfaces": "Surfaces",
+    "text": "Text",
+    "accents": "Accents"
+  },
+  "theme_slot": {
+    "background": "Background",
+    "surface": "Surface",
+    "surfaceHover": "Surface, hovered",
+    "surfaceActive": "Surface, active",
+    "border": "Border",
+    "overlayDim": "Overlay dim",
+    "track": "Track",
+    "accent": "Accent",
+    "accentSoft": "Accent, soft",
+    "success": "Success",
+    "danger": "Danger",
+    "textPrimary": "Primary text",
+    "textSecondary": "Secondary text",
+    "textMuted": "Muted text",
+    "textDisabled": "Disabled text"
+  },
+  "portable": {
+    "empty": "There is nothing on your clipboard.",
+    "foreign": "That is not a BlackAddons config string.",
+    "corrupt": "That string is damaged. Copy it again, all of it.",
+    "large": "That string is far too big to be a config.",
+    "newer": "That was written by a newer BlackAddons than this one.",
+    "unknown_kind": "This version does not know how to import a \"%s\".",
+    "cancel": "Cancel",
+    "import": "Import",
+    "copy_again": "Copy again",
+    "close": "Close",
+    "copied_mark": "Copied",
+    "err_kind": "That is %s, not %s.",
+    "feature": {
+      "title": "Paste settings",
+      "noun": "feature settings",
+      "err_no_feature": "That string names no feature.",
+      "err_other": "Those settings belong to %s.",
+      "err_missing": "This game has no feature \"%s\".",
+      "headline": "Settings for %s",
+      "same": "These are the settings you already have.",
+      "changed": "%d settings change:",
+      "on": "On",
+      "off": "Off",
+      "chroma": "chroma"
+    },
+    "actions": {
+      "title": "Import actions",
+      "noun": "actions",
+      "err_read": "Those actions could not be read.",
+      "err_newer": "Those actions use steps this version does not have.",
+      "err_empty": "That string has no actions in it.",
+      "kind_chat": "Chat action",
+      "kind_action_group": "Group",
+      "kind_group": "Waypoint group",
+      "kind_waypoint": "Waypoint",
+      "kind_shortcut": "Shortcut",
+      "kind_location": "Location action"
+    },
+    "share": "Share",
+    "shared": "%s is on your clipboard.",
+    "paste": "Paste from clipboard",
+    "from_file": "Import from file...",
+    "file_unreadable": "That file does not hold %s.",
+    "share_profile": "Share profile",
+    "new_profile": "New profile \"%s\"",
+    "profile_note": "Imported as a profile of its own; yours stay as they are. %d items:",
+    "into_profile": "Adds to your profile \"%s\"",
+    "items": "%d items:",
+    "unnamed": "Unnamed",
+    "fme": {
+      "title": "Import FME edits",
+      "noun": "FME edits",
+      "err_read": "Those FME edits could not be read.",
+      "err_empty": "That string has no FME edits in it.",
+      "err_too_big": "That config is too big to fit in one profile.",
+      "err_file_empty": "That file has no FME edits this game can show."
+    },
+    "font": {
+      "title": "Import fonts",
+      "noun": "fonts",
+      "font": "Font",
+      "headline": "Shared fonts",
+      "err_local": "%s was imported from a file on their computer, so it cannot be shared. Ask them for the file.",
+      "same": "These are the fonts you already have.",
+      "downloads": "%s is downloaded from Fontsource first. %d changes:",
+      "changed": "%d changes:"
+    },
+    "config": {
+      "title": "Import config",
+      "noun": "a whole config",
+      "err_read": "That config could not be read.",
+      "enabled": "Enabled",
+      "headline": "A shared config",
+      "same": "Identical to your config.",
+      "changed": "%d changes:",
+      "missing": "%d features this game does not have are skipped."
+    },
+    "share_hint": "They import it from the same menu, or with /b import."
+  },
+  "screenshots": {
+    "send": "Send to chat",
+    "title": "Screenshots",
+    "all": "All",
+    "favorites": "Starred",
+    "folder": "Open folder",
+    "back": "Back",
+    "open": "Open",
+    "copy": "Copy",
+    "favorite": "Star",
+    "unfavorite": "Unstar",
+    "delete": "Delete",
+    "delete_confirm": "Delete this screenshot for good?",
+    "count": "%d screenshots",
+    "loading": "Loading...",
+    "no_favorites": "Nothing starred yet.",
+    "empty": "No screenshots yet. Press F2 in game.",
+    "saved": "Screenshot saved",
+    "view": "View",
+    "copied": "Screenshot copied",
+    "copy_failed": "Could not copy the screenshot"
+  },
+  "actions": {
+    "add_action": "+ Add Action",
+    "add_group": "+ Add Group",
+    "any": "ANY",
+    "any_floor": "Any Floor",
+    "any_island": "Any Island (All)",
+    "area_filter": "Island / Area Filter:",
+    "area_value": "Area: %s",
+    "areas": "%d Areas",
+    "boss": "Boss",
+    "boss_value": "Boss: %s",
+    "cancel": "Cancel",
+    "chat": {
+      "edit": "Edit Chat Action",
+      "empty": "No chat actions. Click + Add Action to create one.",
+      "empty_pattern": "<Empty Pattern>",
+      "pattern_placeholder": "Pattern / Message",
+      "regex": "Regex: %s",
+      "ignore_own": "Ignore My Messages: %s",
+      "trigger_pattern": "Trigger Pattern:"
+    },
+    "configure_steps": "Configure Action Steps (%s)",
+    "cooldown": "Cooldown: %ss",
+    "cooldown_label": "Cooldown",
+    "cooldown_value": "%ss cooldown",
+    "coordinates": "Coordinates (X, Y, Z):",
+    "current_location": "Current Location:",
+    "delay": "Delay: %ss",
+    "delay_value": "%ss delay",
+    "delete": "Delete",
+    "done": "Done",
+    "dungeon": "Dungeon",
+    "dungeon_value": "Dungeon: %s",
+    "edit": "Edit",
+    "edit_action": "Edit Action",
+    "feedback": {
+      "notification": "Notification:",
+      "notification_message": "Notification Message:",
+      "pitch": "Pitch",
+      "screen_subtitle": "Screen Subtitle:",
+      "screen_title": "Screen Title:",
+      "sound_id": "Sound ID:",
+      "subtitle_placeholder": "Screen Subtitle",
+      "test": "Test",
+      "title_duration": "Title Duration: %ss",
+      "title_placeholder": "Screen Title",
+      "toast": "Notification: %s",
+      "toast_message_placeholder": "Toast Notification Message",
+      "toast_title_placeholder": "Toast Notification Title",
+      "volume": "Volume"
+    },
+    "floor_filter": "Dungeon Floor Filter:",
+    "floor_value": "Floor: %s",
+    "group": {
+      "edit": "Edit Group",
+      "label": "Group:",
+      "name": "Group Name:",
+      "name_placeholder": "Group Name",
+      "new": "New Waypoint Group",
+      "new_name": "New Group",
+      "unnamed": "Unnamed Group",
+      "use_current_location": "Use Current Location"
+    },
+    "height": "Height",
+    "islands_selected": "%d Islands Selected",
+    "location_conditions": "Location Conditions:",
+    "location": {
+      "another": "Another trigger",
+      "duplicate_message": "%s uses the same filters.",
+      "duplicate_title": "Duplicate location trigger",
+      "edit": "Edit Location Action",
+      "empty": "No location actions. Click + Add Action to create an area transition trigger.",
+      "fallback": "Location Trigger",
+      "name": "Trigger Name:",
+      "name_placeholder": "Trigger Name (e.g. Enter F7)",
+      "new": "New Location Action",
+      "new_name": "New Location Action",
+      "quick_command_placeholder": "Quick Command (e.g. /party chat Ready)",
+      "trigger": "Trigger:",
+      "on_enter": "On entering the location",
+      "on_event": "On %s"
+    },
+    "manage_steps": "Manage Action Steps (%s) ->",
+    "name": "Name:",
+    "no": "NO",
+    "no_boss": "No Boss",
+    "no_dungeon": "No Dungeon",
+    "none": "None",
+    "none_upper": "NONE",
+    "off": "OFF",
+    "on": "ON",
+    "phase_value": "Phase: %s",
+    "profile": {
+      "title": "Action Profiles"
+    },
+    "quick_command": "Quick Command:",
+    "radius": "Radius",
+    "save": "Save",
+    "shortcut": {
+      "alias": "Command Alias (without /):",
+      "alias_placeholder": "Command Alias without / (e.g. wf)",
+      "another": "Another shortcut",
+      "duplicate_message": "%s also uses %s.",
+      "duplicate_title": "Duplicate shortcut keybind",
+      "edit": "Edit Shortcut",
+      "empty": "No shortcuts. Click + Add Action to create a command alias or keybind.",
+      "fallback": "Shortcut",
+      "hotkey": "Keybind Hotkey:",
+      "key": "KEY %d",
+      "key_short": "KEY",
+      "keybind": "Keybind: %s",
+      "mouse_button": "MOUSE %d",
+      "mouse_left": "MOUSE LEFT",
+      "mouse_left_short": "LMB",
+      "mouse_middle": "MOUSE MIDDLE",
+      "mouse_middle_short": "MMB",
+      "mouse_right": "MOUSE RIGHT",
+      "mouse_right_short": "RMB",
+      "mouse_short": "M%d",
+      "name": "Shortcut Name:",
+      "name_placeholder": "Shortcut Name (e.g. Warp Forge)",
+      "new": "New Shortcut",
+      "new_name": "New Shortcut",
+      "press_key": "Press a key / click...",
+      "quick_command_placeholder": "Quick Command (e.g. /warp forge)",
+      "unbind": "Unbind"
+    },
+    "step_type": {
+      "hud_timer": "HUD Timer",
+      "send_message": "Send Message",
+      "text_overlay": "Text Overlay",
+      "wait": "Wait / Delay",
+      "repeat": "Repeat",
+      "if": "If",
+      "end": "End",
+      "stop_steps": "Stop Steps",
+      "temp_waypoint": "Temp Waypoints",
+      "missing": "Missing: %s",
+      "else": "Else"
+    },
+    "step": {
+      "edit": "Edit Action Step",
+      "enabled": "Step: %s",
+      "message_placeholder": "Message or /command...",
+      "overlay_text_placeholder": "{player} at ss",
+      "save": "Save Step",
+      "timer_name_placeholder": "Timer name",
+      "type_execution": "Step Type & Execution:",
+      "wait_help": "Waits for the specified duration before proceeding to the next step.",
+      "wait_previous": "Wait for Previous: %s",
+      "chat_placeholder": "Chat text or regex",
+      "boss_bar_placeholder": "Boss bar text, e.g. Maxor",
+      "wait_signal_help": "Counts from the moment the previous step starts.",
+      "timeout_help": "No timeout waits forever. On timeout the steps go on, or stop if set.",
+      "repeat_while": "While Condition",
+      "repeat_count_mode": "Count",
+      "repeat_while_help": "Checks before every pass; stops after 10000 passes.",
+      "block_help": "Runs the steps up to its End.",
+      "if_help": "Runs the steps up to its Else or End only when the condition holds. The steps after the End always run.",
+      "end_help": "Closes the nearest Repeat or If above it.",
+      "stop_steps_help": "Stops the rest of these steps. Steps another trigger started go on.",
+      "waypoint_help": "Also removed when you change worlds.",
+      "missing_help": "The addon with this step is not installed. The step keeps its settings and is skipped.",
+      "else_help": "Runs the steps up to the End when the If's condition does not hold."
+    },
+    "steps": {
+      "add": "+ Add Step",
+      "button": "Steps",
+      "empty": "No action steps added. Click + Add Step.",
+      "timer": "Timer",
+      "title": "Action Steps",
+      "while": "while %s",
+      "end_unmatched": "nothing to close",
+      "not": "not %s",
+      "else_unmatched": "not directly in an If"
+    },
+    "tick_delay": "Server Tick Delay: %st (%ss)",
+    "tick_delay_value": "%st (%ss) delay",
+    "title": "Actions",
+    "unnamed": "Unnamed",
+    "waypoint": {
+      "beacon": "Beacon: %s",
+      "edit": "Edit Waypoint (%s)",
+      "empty": "No waypoint actions. Click + Add Action to create one.",
+      "fallback": "Waypoint",
+      "filled": "Filled: %s",
+      "name_placeholder": "Waypoint Name",
+      "new_name": "New Waypoint",
+      "outline": "Outline: %s",
+      "pick_color": "Pick Color",
+      "round": "Round to .5",
+      "shape_value": "Shape: %s",
+      "shape": {
+        "box": "BOX",
+        "cylinder": "CYLINDER"
+      },
+      "text": "Text: %s",
+      "trigger": {
+        "entry": "Entry",
+        "exit": "Exit",
+        "gui_exit": "GUI Exit"
+      },
+      "triggers": "Triggers: %s",
+      "triggered_by": "Triggered by: %s",
+      "triggers_none": "None",
+      "ungrouped": "None (Ungrouped)",
+      "unnamed": "Waypoint (%s)",
+      "use_current": "Use Current Position",
+      "use_looking": "Use Looked-at Position"
+    },
+    "command": {
+      "active": "ACTIVE",
+      "ambiguous": "'%s' is ambiguous; use its index or ID.",
+      "any": "any",
+      "assigned_group": "Assigned %s to %s.",
+      "busy": "busy",
+      "chat_actions": "Chat Actions",
+      "chat_groups": "Chat Groups",
+      "shortcut_groups": "Shortcut Groups",
+      "location_groups": "Location Groups",
+      "chat_details": "regex=%s, steps=%d",
+      "delete": "Delete",
+      "delete_hint": "Click, then send to confirm deletion",
+      "deleted": "Deleted %s.",
+      "disabled": "disabled",
+      "edit": "Edit",
+      "empty_pattern": "<Empty Pattern>",
+      "enabled": "enabled",
+      "enabled_state": "%s is now %s.",
+      "folder_opened": "Opened the actions folder.",
+      "group_details": "areas=%s, floor=%s",
+      "help": "Actions commands:",
+      "idle": "idle",
+      "join_for_waypoint": "Join a world before creating a waypoint from your current position.",
+      "last_profile": "The last profile cannot be deleted.",
+      "location_actions": "Location Actions",
+      "location_details": "areas=%s, delay=%ss, cooldown=%ss, steps=%d",
+      "location_trigger": "Location Trigger",
+      "manage_steps": "Manage steps",
+      "moved": "Moved %s to position %d.",
+      "no_enabled_steps": "%s has no enabled steps.",
+      "no_steps": "%s has no steps.",
+      "none": "none",
+      "none_in_profile": "No %s in the current profile.",
+      "off": "OFF",
+      "on": "ON",
+      "profile_copied": "Copied the current profile to %s.",
+      "profile_created": "Created and selected profile %s.",
+      "profile_deleted": "Deleted profile %s.",
+      "profile_not_found": "Profile '%s' was not found.",
+      "profile_renamed": "Renamed the profile to %s.",
+      "profile_selected": "Selected profile %s.",
+      "profiles": "Action Profiles (%d):",
+      "queued": "Queued %s.",
+      "removed_group": "Removed %s from its group.",
+      "run": "Run",
+      "run_now": "Run now",
+      "select": "Select",
+      "shortcut": "Shortcut",
+      "shortcut_details": "alias=/%s, bound=%s, steps=%d",
+      "shortcuts": "Shortcuts",
+      "status": "Execution: %s; active: %s; queued: %d.",
+      "step_disabled": "That step is disabled.",
+      "step_gone": "The step no longer exists.",
+      "step_moved": "Moved the step to position %d.",
+      "step_not_found": "Step %d was not found.",
+      "steps": "Steps",
+      "steps_count": "%s steps (%d):",
+      "stopped": "Stopped the active action and cleared its queue.",
+      "target_gone": "The target no longer exists.",
+      "target_not_found": "%s target '%s' was not found.",
+      "toggle": "Toggle",
+      "toggle_hint": "Enable or disable",
+      "unnamed_group": "Unnamed Group",
+      "waypoint": "Waypoint",
+      "waypoint_details": "x=%s, y=%s, z=%s, actions=%d",
+      "waypoint_groups": "Waypoint Groups",
+      "waypoints": "Waypoints"
+    },
+    "yes": "YES",
+    "menu": {
+      "duplicate": "Duplicate",
+      "delete_confirm": "Delete %s?"
+    },
+    "triggered_by": {
+      "anyone": "Anyone",
+      "me": "Me",
+      "others": "Others"
+    },
+    "wait_mode": {
+      "time": "Time",
+      "position": "Position",
+      "chat": "Chat Message",
+      "dungeon_event": "Dungeon Event",
+      "boss_bar": "Boss Bar"
+    },
+    "dungeon_event": {
+      "run_start": "Run Start",
+      "blood_open": "Blood Door Opened",
+      "boss_enter": "Boss Room Entered",
+      "maxor": "F7 P1: Maxor",
+      "storm": "F7 P2: Storm",
+      "goldor": "F7 P3: Goldor",
+      "necron": "F7 P4: Necron",
+      "wither_king": "M7 P5: Wither King",
+      "run_end": "Run End"
+    },
+    "condition_type": {
+      "location": "Location",
+      "near": "Near a Point",
+      "item": "Item",
+      "dungeon_class": "Dungeon Class"
+    },
+    "item_scope": {
+      "hand": "In Hand",
+      "hotbar": "In Hotbar"
+    },
+    "condition": {
+      "item_placeholder": "SkyBlock id or name, e.g. SPIRIT_LEAP"
+    },
+    "graph": {
+      "open": "Graph View",
+      "normal_view": "Normal View",
+      "fit": "Fit",
+      "closest": "Closest Waypoint",
+      "reset": "Reset Layout",
+      "undo": "Undo",
+      "redo": "Redo",
+      "minimap": "Map",
+      "add": "+ Add",
+      "hint": "Wheel: zoom · Middle/right drag: pan · Drag a socket to wire · Right-click: menu · Double-click: edit",
+      "loose": "%d steps not attached to a trigger",
+      "unclosed": "open block",
+      "socket": {
+        "run": "Run",
+        "in": "In",
+        "next": "Next",
+        "loop": "Loop",
+        "after": "After",
+        "true": "True",
+        "false": "False"
+      },
+      "trigger": {
+        "chat": "Chat: %s",
+        "waypoint": "Waypoint: %s",
+        "shortcut": "Shortcut: %s",
+        "location": "Location: %s",
+        "no_pattern": "(no pattern)"
+      },
+      "menu": {
+        "add_step": "Add step...",
+        "group": "Group",
+        "ungroup": "Ungroup",
+        "ungroup_nodes": "Remove from group",
+        "reset_position": "Reset position",
+        "frame": "Frame all",
+        "edit": "Edit...",
+        "enable": "Enable",
+        "disable": "Disable",
+        "disconnect": "Disconnect all",
+        "delete": "Delete",
+        "delete_wire": "Delete wire",
+        "copy": "Copy",
+        "new_chat": "Chat action...",
+        "new_shortcut": "Shortcut...",
+        "new_location": "Location action...",
+        "new_waypoint": "Waypoint at my position..."
+      },
+      "prop": {
+        "alias": "Alias",
+        "area": "Area",
+        "beacon": "Beacon",
+        "boss": "Boss",
+        "capture": "Capture",
+        "class": "Class",
+        "color": "Color",
+        "condition": "Condition",
+        "coords": "Coords",
+        "delay": "Delay",
+        "depth_check": "Depth check",
+        "duration": "Duration",
+        "event": "Event",
+        "filled": "Filled",
+        "floor": "Floor",
+        "here": "Here",
+        "ignore_own": "Ignore my messages",
+        "item": "Item",
+        "keybind": "Keybind",
+        "label": "Label",
+        "look": "Look",
+        "message": "Message",
+        "mode": "Mode",
+        "name": "Name",
+        "not": "Not",
+        "notification": "Notification",
+        "options": "Options",
+        "outline": "Outline",
+        "pattern": "Pattern",
+        "phase": "Phase",
+        "pitch": "Pitch",
+        "regex": "Regex",
+        "remove_after": "Remove after",
+        "remove_within": "Remove within",
+        "round": "Round .5",
+        "scope": "Scope",
+        "shape": "Shape",
+        "show": "Show",
+        "show_for": "Show for",
+        "sound": "Sound",
+        "stop_on_timeout": "Stop on timeout",
+        "subtitle": "Subtitle",
+        "text": "Text",
+        "tick_delay": "Tick delay",
+        "timeout": "Timeout",
+        "timer_name": "Timer name",
+        "times": "Times",
+        "title": "Title",
+        "title_time": "Title time",
+        "toast_message": "Toast message",
+        "toast_title": "Toast title",
+        "tracer": "Tracer",
+        "trigger": "Trigger",
+        "triggers": "Triggers",
+        "triggered_by": "Triggered by",
+        "wait_for": "Wait for",
+        "wait_previous": "Wait for previous",
+        "yaw": "Yaw"
+      },
+      "missing": "addon missing"
+    }
+  },
+  "setting_group": {
+    "background_border": "Background & Border",
+    "checkmarks": "Checkmarks",
+    "class_colors": "Class Colors",
+    "debug": "Debug",
+    "door_colors": "Door Colors",
+    "extra_info": "Extra Info",
+    "general": "General",
+    "player_heads": "Player Heads",
+    "room_colors": "Room Colors",
+    "scales": "Scales",
+    "alerts": "Alerts",
+    "visual": "Visual",
+    "indicator": "Indicator",
+    "run": "Run",
+    "keybinds": "Keybinds",
+    "map_leap": "Map Leap",
+    "after_leap": "After Leap",
+    "colors": "Colors",
+    "brightness": "Brightness",
+    "motion": "Motion"
+  },
+  "hud": {
+    "action_timer": "Action Timer",
+    "action_text": "Action Text",
+    "action_ticks": "Action Ticks",
+    "key_timer": "Key Timer",
+    "party_debugger": "Party Debugger",
+    "location_debugger": "Location Debugger",
+    "performance_hud": "Performance HUD",
+    "solo_clear": "Solo Clear",
+    "fme_edit_mode": "FME Edit Mode",
+    "dungeon_map": "Dungeon Map"
+  },
+  "copy_entity_data": {
+    "copied": "Copied entity data to clipboard."
+  },
+  "copy_item_data": {
+    "copied": "Copied item data to clipboard."
+  },
+  "dumpers": {
+    "empty": "Nothing to dump for %s yet — the clipboard is untouched.",
+    "saved": "Dumped %s -> dev/dumps/%s (also on the clipboard).",
+    "copied": "Copied %s dump to the clipboard (file write failed)."
+  },
+  "feature_label": {
+    "broken_toast": "%s is marked broken right now"
+  },
+  "profiles": {
+    "select": "Profile",
+    "name": "Profile name",
+    "new": "New Profile",
+    "new_name": "New Profile",
+    "duplicate": "Duplicate Profile",
+    "copy_name": "%s (Copy)",
+    "manage": "Rename / Manage...",
+    "open_folder": "Open Folder",
+    "delete": "Delete Profile",
+    "delete_confirm": "Delete profile %s?"
+  },
+  "discord_presence": {
+    "main_menu": "In the main menu",
+    "singleplayer": "Singleplayer",
+    "multiplayer": "Multiplayer",
+    "hypixel": "Hypixel",
+    "skyblock": "Hypixel SkyBlock",
+    "catacombs": "The Catacombs",
+    "catacombs_entrance": "The Catacombs - Entrance",
+    "catacombs_floor": "The Catacombs - Floor %s",
+    "catacombs_master": "Master Mode - Floor %s",
+    "in_run": "In a run",
+    "download": "Get BlackAddons",
+    "discord": "Join the Discord"
+  },
+  "main_menu": {
+    "hypixel": "Hypixel",
+    "blackaddons": "BlackAddons",
+    "website": "Website",
+    "legal": "Legal",
+    "account": "Account: %s",
+    "confirm_quit": "Quit the game?",
+    "quit": "Quit",
+    "cancel": "Cancel",
+    "customize": "Customize Menu",
+    "all_settings": "All Settings"
+  }
+}

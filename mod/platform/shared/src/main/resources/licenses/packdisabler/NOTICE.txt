@@ -1,0 +1,8 @@
+assets/blackaddons/skyblock/legacy_item_models.json.gz is the skyblock-items.json table from PackDisabler
+(commit cbf53d76), trimmed to its model and texture fields:
+https://github.com/Noamm9/PackDisabler
+
+PackDisabler is released under CC0 1.0 Universal:
+https://github.com/Noamm9/PackDisabler/blob/master/LICENSE
+
+Thank you, Noamm.

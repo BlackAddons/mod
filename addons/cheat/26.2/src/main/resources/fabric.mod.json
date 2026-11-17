@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "blackaddons-cheat",
+  "version": "${version}",
+  "name": "BlackAddons Cheat 26.2 (dev)",
+  "description": "Dev-only addon shell so :addons:cheat:26.2's CheatAddon entrypoint loads when running its runClient. NOT shipped - the production cheat-edition jar is assembled by :mod:platform:26.2's cheatJar task, which derives its manifest from the legit jar.",
+  "license": "PolyForm Strict 1.0.0 with additional permissions (PERMISSIONS.md)",
+  "authors": [
+    "BlackAddons Team"
+  ],
+  "icon": "assets/blackaddons-cheat/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "blackaddons:addon": [
+      { "value": "org.blackaddons.cheat.CheatAddon", "adapter": "kotlin" }
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "minecraft": "${minecraft_version}",
+    "blackaddons": "*"
+  }
+}

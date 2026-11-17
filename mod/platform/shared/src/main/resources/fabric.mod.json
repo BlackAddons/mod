@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "blackaddons",
+  "version": "${version}",
+  "name": "BlackAddons Reimagined",
+  "description": "BlackAddons for Minecraft ${minecraft_version}.",
+  "authors": [
+    "BlackAddons Team"
+  ],
+  "contact": {},
+  "license": "PolyForm Strict 1.0.0 with additional permissions (PERMISSIONS.md)",
+  "icon": "assets/blackaddons/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "org.blackaddons.platform.BlackaddonsClient"
+    ],
+    "main": [
+      "org.blackaddons.platform.Blackaddons"
+    ],
+    "modmenu": [
+      "org.blackaddons.platform.ui.screen.BlackaddonsModMenu"
+    ]
+  },
+  "mixins": [
+    "blackaddons.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "mixinextras": ">=0.4.0",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

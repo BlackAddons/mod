@@ -1,0 +1,3208 @@
+{
+  "container_task": {
+    "example": "Equip Spirit Mask",
+    "step": "Step %d of %d"
+  },
+  "title": "BlackAddons",
+  "search": {
+    "placeholder": "Buscar funciones...",
+    "title": "Resultados de la búsqueda",
+    "no_match": "Ninguna función coincide."
+  },
+  "global_font_screen": {
+    "title": "Fuentes",
+    "tab_minecraft": "Minecraft",
+    "tab_hud": "HUD",
+    "tab_world": "Mundo",
+    "font_vanilla": "Vanilla",
+    "vanilla_note": "La fuente propia de Minecraft, sin cambios.",
+    "search": "Buscar fuentes...",
+    "import": "Importar",
+    "apply": "Aplicar",
+    "applying": "Aplicando...",
+    "status_disabled": "Desactivado",
+    "status_restoring": "Restaurando la fuente de Minecraft...",
+    "status_restore_failed": "No se pudo restaurar: %s",
+    "status_cached_missing": "Falta la fuente en caché; se usa JetBrains Mono",
+    "status_applied": "Aplicado",
+    "status_apply_failed": "No se pudo aplicar: %s",
+    "cancel": "Cancelar",
+    "reset": "Restablecer",
+    "delete": "Eliminar",
+    "deleting": "Eliminando...",
+    "removed": "Se eliminó %s",
+    "remove_failed": "No se pudo eliminar la fuente",
+    "delete_confirm": "¿Eliminar %s de las fuentes instaladas?",
+    "deleting_font": "Eliminando %s...",
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "shadow": "Sombra",
+    "outline": "Contorno",
+    "shadow_color": "Color de sombra",
+    "outline_color": "Color del contorno",
+    "selected": "Seleccionado: %s",
+    "downloading": "Descargando...",
+    "load_failed": "No se pudo cargar la fuente",
+    "loading_fontsource": "Cargando Fontsource...",
+    "no_matching_fonts": "No hay fuentes coincidentes.",
+    "library_loading": "Cargando biblioteca de fuentes...",
+    "library_unavailable": "Biblioteca de fuentes no disponible",
+    "library_count": "%d fuentes · %d instaladas",
+    "tag_loading": "cargando",
+    "tag_selected": "seleccionada",
+    "tag_installed": "instalada",
+    "raster_size": "Tamaño de rasterizado",
+    "size": "Tamaño",
+    "oversampling_2d": "Sobremuestreo 2D",
+    "oversampling_world": "Sobremuestreo en el mundo",
+    "oversampling_auto": "Auto",
+    "letter_spacing": "Espaciado entre letras",
+    "glyph_x_offset": "Desplazamiento X del glifo",
+    "glyph_y_offset": "Desplazamiento Y del glifo",
+    "outline_width": "Ancho del contorno",
+    "shadow_x": "Sombra X",
+    "shadow_y": "Sombra Y",
+    "on": "Activado",
+    "off": "Desactivado",
+    "preview": "Vista previa",
+    "choose_font": "Importar fuente",
+    "preparing_local": "Preparando fuente local...",
+    "preparing_font": "Preparando %s...",
+    "ready": "La fuente %s está lista",
+    "catalog_load_failed": "No se pudo cargar el catálogo de fuentes",
+    "fontsource_unavailable": "Fontsource no está disponible y no existe ningún catálogo en caché",
+    "empty_catalog": "Fontsource devolvió un catálogo vacío",
+    "loading_metadata": "Cargando metadatos de %s...",
+    "loaded_from_cache": "%s cargada desde la caché",
+    "downloading_subset": "Descargando %s · %s",
+    "saving_font": "Guardando %s...",
+    "checking_local": "Comprobando la fuente local...",
+    "reading_file": "Leyendo %s...",
+    "fontsource_no_answer": "Fontsource no respondió",
+    "fontsource_http": "Fontsource devolvió HTTP %d",
+    "missing_version": "La respuesta de Fontsource no tiene versión",
+    "missing_variants": "La respuesta de Fontsource no tiene variantes",
+    "no_weight": "La fuente no tiene peso utilizable",
+    "weight_unavailable": "El peso de la fuente no está disponible",
+    "no_style": "La fuente no tiene un estilo utilizable",
+    "style_unavailable": "El estilo de fuente no está disponible",
+    "missing_ttf": "Fontsource no tiene TTF para %s",
+    "unsafe_url": "Fontsource devolvió una URL de descarga no segura",
+    "download_failed": "No se pudo descargar %s",
+    "invalid_subset_file": "El archivo de fuente %s no es válido",
+    "not_true_type_subset": "%s no es una fuente TrueType",
+    "selected_missing": "La fuente seleccionada no existe",
+    "invalid_file_size": "El tamaño del archivo de fuente no es válido",
+    "unsupported_font_file": "No es una fuente TrueType u OpenType compatible",
+    "font_not_installed": "%s no está instalado",
+    "local_font": "Fuente local",
+    "no_subsets": "La fuente no tiene subconjuntos",
+    "atlas_restore_failed": "no se pudo restaurar el atlas de fuentes",
+    "atlas_rebuild_failed": "no se pudo reconstruir el atlas de fuentes",
+    "invalid_font": "fuente no válida",
+    "default_not_ready": "La fuente predeterminada de Minecraft no está lista",
+    "bundled_missing": "Falta la fuente incluida",
+    "no_files_selected": "No se seleccionaron archivos de fuentes",
+    "initializing_face": "Inicializando la fuente global",
+    "font_not_scalable": "No se admiten fuentes solo de mapa de bits",
+    "finding_charmap": "Buscando el mapa de caracteres Unicode de la fuente global",
+    "host_not_ready": "El sistema de fuentes de Minecraft no está listo",
+    "font_not_in_catalog": "Fontsource no tiene la fuente «%s»"
+  },
+  "dungeon_map": {
+    "background_invalid": "Fondo de mapa no compatible",
+    "background_invalid_detail": "Usa PNG/JPEG/WebP/GIF."
+  },
+  "leap_menu": {
+    "boss": "Jefe %s",
+    "phase": "P%d",
+    "phase_section": "P%d S%d",
+    "phase_sublocation": "P%d %s",
+    "dead": "MUERTO",
+    "dead_message": "%s está muerto.",
+    "no_view": "Sin vista",
+    "no_teammates": "No se encontraron compañeros",
+    "leaping_to": "Saltando a %s"
+  },
+  "adhd": {
+    "image_invalid": "Imagen no compatible",
+    "corner_hit": "¡Justo en la esquina!"
+  },
+  "category": {
+    "dungeons": "Mazmorras",
+    "visual": "Visual",
+    "ui": "Interfaz",
+    "chat": "Chat",
+    "client": "Cliente",
+    "cheats": "Trucos",
+    "settings": "Ajustes",
+    "dev": "Desarrollo",
+    "empty": "Aún no hay funciones en esta categoría."
+  },
+  "section": {
+    "dungeons": {
+      "general": "General",
+      "floor7": "Piso 7"
+    },
+    "visual": {
+      "world": "Mundo",
+      "self": "Personaje"
+    },
+    "cheats": {
+      "general": "General",
+      "dungeons": "Mazmorras",
+      "kuudra": "Kuudra",
+      "camera": "Cámara"
+    },
+    "client": {
+      "general": "General",
+      "menu": "Menú principal"
+    },
+    "settings": {
+      "general": "General",
+      "appearance": "Apariencia"
+    }
+  },
+  "tab": {
+    "configs": "Configuraciones",
+    "chat": "Chat global",
+    "hud_editor": "Editor de HUD",
+    "cosmetic_editor": "Cosméticos",
+    "about": "Acerca de",
+    "actions": "Acciones",
+    "screenshots": "Capturas de pantalla"
+  },
+  "feature": {
+    "menu": {
+      "reset": "Restablecer los valores predeterminados",
+      "reset_confirm": "¿Restablecer %s a sus valores predeterminados?",
+      "hud_editor": "Editar HUD",
+      "export": "Copiar configuración",
+      "import": "Pegar configuración",
+      "exported": "Configuración copiada",
+      "export_done": "La configuración de %s está en tu portapapeles."
+    },
+    "screenshots": {
+      "name": "Capturas de pantalla",
+      "desc": "Muestra una vista previa con acciones rápidas cuando tomas una captura de pantalla, en lugar de una línea de chat."
+    },
+    "uitheme": {
+      "name": "Tema",
+      "desc": "Colorea la interfaz de BlackAddons. Elige uno de los nuestros, cámbialo o importa uno.",
+      "setting": {
+        "theme": {
+          "name": "Tema",
+          "desc": "Elige un tema, cambia sus colores o pega uno desde el portapapeles.",
+          "label": "Abrir"
+        },
+        "selected": {
+          "name": "Seleccionado"
+        },
+        "menu_blur": {
+          "name": "Desenfoque de menús",
+          "desc": "Desenfoca el mundo detrás de los menús de BlackAddons. Si está desactivado, se ve nítido."
+        }
+      }
+    },
+    "no_description": "Sin descripción.",
+    "hotbarkeybinds": {
+      "name": "Teclas de la barra rápida",
+      "desc": "Asigna teclas o botones del ratón adicionales a las ranuras de la barra rápida, además de los de Minecraft.",
+      "setting": {
+        "hold_to_return": {
+          "name": "Mantener para regresar",
+          "desc": "Mantén la tecla para sacar la ranura y suéltala para volver a la anterior."
+        },
+        "slot_1": {
+          "name": "Ranura 1"
+        },
+        "slot_2": {
+          "name": "Ranura 2"
+        },
+        "slot_3": {
+          "name": "Ranura 3"
+        },
+        "slot_4": {
+          "name": "Ranura 4"
+        },
+        "slot_5": {
+          "name": "Ranura 5"
+        },
+        "slot_6": {
+          "name": "Ranura 6"
+        },
+        "slot_7": {
+          "name": "Ranura 7"
+        },
+        "slot_8": {
+          "name": "Ranura 8"
+        },
+        "slot_9": {
+          "name": "Ranura 9"
+        }
+      }
+    },
+    "modlisthider": {
+      "name": "Ocultar lista de mods",
+      "desc": "Oculta tus mods instalados del servidor.",
+      "setting": {
+        "mode": {
+          "name": "Modo",
+          "desc": "Hypixel = oculta todo excepto la Mod API de Hypixel.\nVanilla = oculta también esa.\nPersonalizado = muestra solo lo que permitas abajo.",
+          "unsafe": "Vanilla elimina también el handshake de la Mod API de Hypixel, así que el servidor nunca le dice al cliente en qué isla estás. Todos los mods que dependen de eso (SkyHanni, Nebula, el nuestro) dejan de funcionar sin mostrar errores. Usa Hypixel salvo que necesites silencio total.",
+          "option": {
+            "vanilla": "Vanilla",
+            "hypixel": "Hypixel",
+            "custom": "Personalizado"
+          }
+        },
+        "disable_custom_payloads": {
+          "name": "Desactivar payloads personalizados",
+          "desc": "Quita de los paquetes register/unregister los canales que no estén en la lista de permitidos."
+        },
+        "allowed_channels": {
+          "name": "Canales permitidos",
+          "desc": "Canales que pasan el filtro en modo Personalizado."
+        },
+        "choose_mods": {
+          "name": "Mods permitidos",
+          "desc": "Marca los mods que puede ver el servidor entre los que tienes instalados.",
+          "label": "Abrir"
+        },
+        "custom_brand": {
+          "name": "Marca personalizada",
+          "desc": "Cadena de marca enviada al servidor en modo Personalizado."
+        },
+        "allowed_mods": {
+          "name": "Mods permitidos"
+        },
+        "sign_anvil_guard": {
+          "name": "Protección de carteles y yunques",
+          "desc": "Impide que los servidores descubran tus mods mediante componentes de traducción manipulados en carteles o yunques."
+        }
+      }
+    },
+    "windowtitle": {
+      "name": "Título de la ventana",
+      "desc": "Muestra BlackAddons en el título de la ventana.",
+      "setting": {
+        "format": {
+          "name": "Formato",
+          "desc": "{mod} es BlackAddons y su versión, {mc} es Minecraft y su versión. Vacío = título original."
+        }
+      }
+    },
+    "windowicon": {
+      "name": "Icono de la ventana",
+      "desc": "Muestra el logo de BlackAddons como icono de la ventana y de la barra de tareas.",
+      "setting": {
+        "small_icon": {
+          "name": "Icono pequeño",
+          "desc": "El logo de la barra de tareas y del título de la ventana. El logo completo tiene demasiado detalle para ese tamaño.",
+          "option": {
+            "legacy": "Clásico",
+            "alt": "Alternativo"
+          }
+        }
+      }
+    },
+    "discordpresence": {
+      "name": "Presencia en Discord",
+      "desc": "Muestra en tu perfil de Discord lo que haces en Minecraft.",
+      "setting": {
+        "show_location": {
+          "name": "Mostrar ubicación",
+          "desc": "Hypixel, la zona de SkyBlock y el piso de la mazmorra. Desactivado = solo un jugador o multijugador."
+        },
+        "show_party": {
+          "name": "Mostrar grupo",
+          "desc": "Tamaño del grupo y tu clase en las mazmorras."
+        },
+        "show_timer": {
+          "name": "Mostrar tiempo",
+          "desc": "Tiempo desde que entraste en la zona o empezó la partida de mazmorra."
+        },
+        "show_buttons": {
+          "name": "Mostrar botones",
+          "desc": "Enlaces a BlackAddons y a su Discord en tu perfil. Solo los ven los demás, Discord te los oculta a ti."
+        }
+      }
+    },
+    "performancehud": {
+      "name": "HUD de rendimiento",
+      "desc": "Superposición compacta de FPS / Ping / TPS.",
+      "setting": {
+        "text_color": {
+          "name": "Color del texto",
+          "desc": "Color del texto del contador."
+        },
+        "background": {
+          "name": "Fondo",
+          "desc": "Relleno de fondo detrás de los contadores."
+        },
+        "border": {
+          "name": "Borde",
+          "desc": "Dibuja un contorno de 1px alrededor del cuadro."
+        },
+        "border_color": {
+          "name": "Color del borde",
+          "desc": "Color del contorno."
+        },
+        "corner_radius": {
+          "name": "Radio de las esquinas",
+          "desc": "Redondea las esquinas del panel. 0 las deja rectas."
+        }
+      }
+    },
+    "fontsettings": {
+      "name": "Fuentes",
+      "desc": "Fuentes para el texto de Minecraft, el HUD de BlackAddons y el texto dibujado en el mundo.",
+      "setting": {
+        "configure": {
+          "name": "Fuente y estilo",
+          "desc": "Elige y previsualiza las fuentes de Minecraft, del HUD y del mundo, y cómo se dibuja cada una.",
+          "label": "Abrir"
+        }
+      },
+      "action": {
+        "share_fonts": {
+          "label": "Compartir fuentes"
+        },
+        "paste_fonts": {
+          "label": "Pegar fuentes"
+        }
+      }
+    },
+    "notifications": {
+      "name": "Notificaciones",
+      "desc": "Avisos breves en una esquina de la pantalla: copiado, guardado, los servidores no responden.",
+      "setting": {
+        "duration": {
+          "name": "Duración",
+          "desc": "Cuánto tiempo permanece un aviso en pantalla. Los avisos más largos ya duran más por sí solos."
+        }
+      }
+    },
+    "scaling": {
+      "name": "Escala",
+      "desc": "El tamaño con el que se dibujan la interfaz y el HUD de BlackAddons.",
+      "setting": {
+        "auto_scale": {
+          "name": "Escala automática",
+          "desc": "Mantiene la interfaz y el HUD en la misma proporción de la pantalla sea cual sea su tamaño, así que redimensionar la ventana ya no cambia lo que tapa el HUD. El HUD deja entonces de seguir la Escala de interfaz de Minecraft: subirla agranda la barra rápida pero no el HUD. Desactívalo para escalar todo exactamente como Minecraft."
+        },
+        "interface_scale": {
+          "name": "Escala de interfaz",
+          "desc": "Multiplicador para cada pantalla de BlackAddons: el ClickGUI, la ventana de chat, el visor de perfiles."
+        },
+        "hud_scale": {
+          "name": "Escala del HUD",
+          "desc": "Multiplicador para cada elemento del HUD, además del tamaño que tenga cada uno en el editor de HUD."
+        }
+      }
+    },
+    "actions": {
+      "name": "Acciones",
+      "desc": "Ajustes de las acciones y del renderizado de waypoints.",
+      "setting": {
+        "beacon_speed": {
+          "name": "Velocidad del faro",
+          "desc": "Qué tan rápido gira el haz del faro sobre su eje. 0 lo detiene."
+        },
+        "depth_check": {
+          "name": "Verificación de profundidad",
+          "desc": "Activa la prueba de profundidad al dibujar waypoints (los oculta detrás de los bloques)."
+        },
+        "default_view": {
+          "name": "Vista predeterminada",
+          "desc": "Qué vista abren /b ac y la pestaña Acciones: la lista o el grafo de nodos.",
+          "option": {
+            "list": "Lista",
+            "graph": "Grafo"
+          }
+        },
+        "graph_minimap": {
+          "name": "Minimapa del grafo"
+        },
+        "tick_debugger": {
+          "name": "Tick Debugger",
+          "desc": "Show server ticks since the F7 phase started and until each tick-delayed location action fires."
+        }
+      }
+    },
+    "connection": {
+      "name": "Conexión",
+      "desc": "Cómo se comunica el mod con el backend.",
+      "setting": {
+        "restart_live_updates": {
+          "name": "Reiniciar actualizaciones en vivo",
+          "desc": "Cierra la conexión de actualizaciones en vivo y la vuelve a abrir al instante. Igual que /blackaddons net socket.",
+          "label": "Reiniciar"
+        },
+        "restart_networking": {
+          "name": "Reiniciar la red",
+          "desc": "Reinicia todo lo que el mod usa para comunicarse con el servidor: conexiones, inicio de sesión y actualizaciones en vivo. Para cuando nada se reconecta solo. Igual que /blackaddons net restart.",
+          "label": "Reiniciar"
+        },
+        "live_updates": {
+          "name": "Actualizaciones en vivo",
+          "desc": "Mantiene una conexión abierta para que los cosméticos y los avisos lleguen en cuanto cambian, y te cuenta entre los jugadores en línea. Desactivado, el mod se actualiza con un temporizador y no informa nada."
+        },
+        "online_markers": {
+          "name": "Indicadores en línea",
+          "desc": "Muestra un punto al lado de los jugadores que están en línea en BlackAddons en este momento. Nadie está marcado como ausente: un jugador con las actualizaciones en vivo desactivadas simplemente no está conectado."
+        }
+      }
+    },
+    "fme": {
+      "name": "Legit FME",
+      "desc": "Cambia la apariencia de los bloques sin modificar el mundo.",
+      "setting": {
+        "edit_mode": {
+          "name": "Modo de edición",
+          "desc": "El clic derecho reemplaza y el izquierdo restaura el bloque que miras."
+        },
+        "preserve_block_shape": {
+          "name": "Conservar forma del bloque",
+          "desc": "Mantiene la forma visible del bloque original al aplicar la textura del reemplazo."
+        },
+        "editor": {
+          "name": "Editor",
+          "desc": "Abre el editor de apariencia de bloques.",
+          "label": "Abrir"
+        },
+        "open_editor": {
+          "name": "Abrir editor",
+          "desc": "Abre el editor de apariencia de bloques incluso si FME está desactivado."
+        },
+        "toggle_edit_mode": {
+          "name": "Alternar modo de edición",
+          "desc": "Activa o desactiva el modo de edición."
+        },
+        "toggle_any_block": {
+          "name": "Alternar cualquier bloque",
+          "desc": "En el modo de edición, alterna entre reemplazar solo el tipo de bloque pulsado y cualquier bloque en esa posición."
+        },
+        "pick_block": {
+          "name": "Elegir bloque",
+          "desc": "En modo de edición, selecciona el bloque que estás mirando."
+        },
+        "place_ghost_block": {
+          "name": "Colocar bloque visual",
+          "desc": "En modo de edición, coloca un bloque visual contra la cara que estás mirando."
+        },
+        "undo": {
+          "name": "Deshacer",
+          "desc": "En modo de edición, deshace la última edición de FME."
+        },
+        "redo": {
+          "name": "Rehacer",
+          "desc": "En modo de edición, rehace la última edición de FME deshecha."
+        }
+      }
+    },
+    "playersize": {
+      "name": "Tamaño del jugador",
+      "desc": "Cambia el tamaño de tu propio modelo. 1 es normal, 0 aplana un eje, una altura negativa te pone boca abajo.",
+      "setting": {
+        "width": {
+          "name": "Ancho (X)",
+          "desc": "Escala horizontal del cuerpo."
+        },
+        "height": {
+          "name": "Altura (Y)",
+          "desc": "Escala vertical."
+        },
+        "depth": {
+          "name": "Profundidad (Z)",
+          "desc": "Escala de adelante hacia atrás."
+        }
+      }
+    },
+    "customnickname": {
+      "name": "Apodo personalizado",
+      "desc": "Te muestra un nombre personalizado sobre tu cabeza y en la lista de jugadores.",
+      "setting": {
+        "name": {
+          "name": "Nombre",
+          "desc": "El nombre que verás para ti. Vacío mantiene tu nombre real.",
+          "placeholder": "Tu nombre"
+        },
+        "color": {
+          "name": "Color",
+          "desc": "Color del nombre personalizado. Activa Chroma para un arcoíris giratorio."
+        }
+      }
+    },
+    "cosmetics": {
+      "name": "Cosméticos",
+      "desc": "Muestra los cosméticos del servidor (nombres y tamaños personalizados) de los jugadores que los tienen.",
+      "setting": {
+        "showothers": {
+          "name": "Mostrar otros jugadores",
+          "desc": "Cuando está desactivado, solo se aplica tu propio cosmético del servidor; los demás jugadores conservan su aspecto predeterminado."
+        }
+      }
+    },
+    "chinahat": {
+      "name": "Sombrero chino",
+      "desc": "Dibuja un bonito sombrero chino arcoíris giratorio sobre tu cabeza. Este sombrero no sabe lo que pasó en la plaza de Tiananmén en 1989.",
+      "setting": {
+        "height_offset": {
+          "name": "Desplazamiento de altura",
+          "desc": "Desplazamiento de altura adicional del sombrero respecto a la cabeza del jugador."
+        },
+        "color": {
+          "name": "Color",
+          "desc": "Color del sombrero. Activa Chroma para un arcoíris giratorio."
+        },
+        "peak_height": {
+          "name": "Altura de la punta",
+          "desc": "Qué tan alto y puntiagudo es el sombrero."
+        },
+        "radius": {
+          "name": "Radio",
+          "desc": "Radio (ancho) del sombrero chino en bloques."
+        }
+      }
+    },
+    "blackaddonschat": {
+      "name": "Chat de BlackAddons",
+      "desc": "El chat de BlackAddons: un prefijo en el chat del juego y una ventana para el resto.",
+      "setting": {
+        "chat_prefix": {
+          "name": "Prefijo de chat",
+          "desc": "Escríbelo delante de un mensaje en el chat del juego para enviarlo al chat global de BlackAddons. Escríbelo dos veces para enviar un mensaje que de verdad empiece por él. Vacío lo desactiva."
+        },
+        "game_chat_tag": {
+          "name": "Etiqueta en el chat del juego",
+          "desc": "Aparece delante de las líneas del chat de BlackAddons en el chat del juego. Haz clic en ella para abrir la ventana de chat."
+        },
+        "open_chat": {
+          "name": "Abrir chat",
+          "desc": "Abre la ventana de chat. También con /blackaddons chat."
+        },
+        "show_in_game_chat": {
+          "name": "Mostrar en el chat del juego",
+          "desc": "Repite los mensajes nuevos en el chat del juego mientras la ventana está cerrada, para seguir la conversación sin abrir nada."
+        },
+        "chat_window": {
+          "name": "Ventana de chat",
+          "label": "Abrir"
+        },
+        "image_preview": {
+          "name": "Vista previa de imágenes",
+          "desc": "Pasa el cursor sobre una línea de BlackAddons en el chat del juego para ver la imagen enlazada. El tooltip de Minecraft no puede mostrar imágenes, así que se dibuja sobre el chat."
+        }
+      }
+    },
+    "presence": {
+      "name": "Presencia",
+      "desc": "Informa de que estás en línea para las estadísticas de jugadores activos. Desactívalo para no participar."
+    },
+    "screenqol": {
+      "name": "Mejoras de pantalla",
+      "desc": "Ajustes de calidad de vida para superposiciones de pantalla, efectos de estado y notificaciones del sistema.",
+      "setting": {
+        "remove_fire_overlay": {
+          "name": "Eliminar superposición de fuego",
+          "desc": "Elimina la superposición de fuego de la pantalla cuando tu jugador está ardiendo."
+        },
+        "hide_status_effects": {
+          "name": "Ocultar efectos de estado",
+          "desc": "Oculta los iconos de efectos de pociones en el HUD y en las pantallas de inventario."
+        },
+        "disable_tutorial_toasts": {
+          "name": "Desactivar notificaciones del tutorial",
+          "desc": "Oculta las notificaciones del tutorial de Minecraft."
+        },
+        "disable_unsecure_chat_toast": {
+          "name": "Desactivar aviso de chat no seguro",
+          "desc": "Oculta la advertencia de chat no verificado o no seguro en servidores multijugador."
+        },
+        "disable_command_confirmation": {
+          "name": "Desactivar confirmación de comando",
+          "desc": "Quita el aviso de confirmación al hacer clic en un comando del chat."
+        },
+        "disable_link_confirmation": {
+          "name": "Desactivar confirmación de enlace",
+          "desc": "Quita el aviso de confirmación al hacer clic en un enlace del chat."
+        }
+      }
+    },
+    "menubackground": {
+      "name": "Fondo del menú",
+      "desc": "Sustituye el panorama del menú principal por un fondo oscuro de BlackAddons.",
+      "setting": {
+        "pattern": {
+          "name": "Patrón",
+          "desc": "Nebulosa = estelas a la deriva.\nFlujo = las nubes lentas de la web de BlackAddons.\nCuadrícula = una cuadrícula iluminada por puntos a la deriva.\nCrestas = líneas de onda apiladas.\nPaisaje = un vuelo sobre colinas hacia el sol poniente.\nCrestas y Paisaje son pesados en tarjetas gráficas más débiles.",
+          "option": {
+            "nebula": "Nebulosa",
+            "flow": "Flujo",
+            "grid": "Cuadrícula",
+            "ridges": "Crestas",
+            "landscape": "Paisaje"
+          }
+        },
+        "menu_fps": {
+          "name": "FPS del menú",
+          "desc": "Frecuencia de los menús sin mundo.\n60 FPS = el tope de vanilla.\nVSync = la frecuencia de tu monitor.\nLos fondos animados usan más GPU cuanto más rápido van.",
+          "option": {
+            "60_fps_vanilla": "60 FPS (vanilla)",
+            "unlimited": "Sin límite",
+            "vsync": "VSync"
+          }
+        },
+        "palette": {
+          "name": "Paleta",
+          "desc": "Predeterminada = los colores de BlackAddons.\nTema = sigue el acento y el fondo de tu tema.\nPersonalizada = tus colores de abajo.",
+          "option": {
+            "default": "Predeterminada",
+            "theme": "Tema",
+            "custom": "Personalizada"
+          }
+        },
+        "background_top": {
+          "name": "Fondo arriba"
+        },
+        "background_bottom": {
+          "name": "Fondo abajo"
+        },
+        "color_1": {
+          "name": "Color 1"
+        },
+        "color_2": {
+          "name": "Color 2"
+        },
+        "color_3": {
+          "name": "Color 3"
+        },
+        "color_4": {
+          "name": "Color 4"
+        },
+        "brightness": {
+          "name": "Brillo",
+          "desc": "Brillo del fondo."
+        },
+        "stars": {
+          "name": "Estrellas",
+          "desc": "Estrellas tenues que titilan sobre la nebulosa."
+        },
+        "star_brightness": {
+          "name": "Brillo de las estrellas"
+        },
+        "darken": {
+          "name": "Oscurecer",
+          "desc": "Un velo negro sobre toda la imagen, para menús más tranquilos."
+        },
+        "animate": {
+          "name": "Animación",
+          "desc": "La nebulosa se mueve y las estrellas titilan. Desactivado = imagen fija."
+        },
+        "speed": {
+          "name": "Velocidad"
+        },
+        "parallax": {
+          "name": "Paralaje",
+          "desc": "La imagen sigue un poco al ratón, las estrellas lo que menos."
+        }
+      }
+    },
+    "mainmenu": {
+      "name": "Menú principal",
+      "desc": "Un menú principal limpio: las opciones principales en el centro y el resto como iconos debajo.",
+      "setting": {
+        "title": {
+          "name": "Título",
+          "desc": "Lo que aparece encima del menú.",
+          "option": {
+            "blackaddons": "BlackAddons",
+            "minecraft_logo": "Logo de Minecraft",
+            "none": "Nada"
+          }
+        },
+        "singleplayer_in_list": {
+          "name": "Un jugador en la lista",
+          "desc": "Desactivado = Un jugador pasa a la fila de iconos."
+        },
+        "hypixel_button": {
+          "name": "Botón de Hypixel",
+          "desc": "Entra en Hypixel directamente desde el menú."
+        },
+        "splash_text": {
+          "name": "Texto de bienvenida",
+          "desc": "La línea amarilla junto al título."
+        },
+        "confirm_quit": {
+          "name": "Confirmar salida",
+          "desc": "Preguntar antes de salir, en una pequeña tarjeta sobre el botón de salir."
+        }
+      }
+    },
+    "particlehider": {
+      "name": "Ocultar partículas",
+      "desc": "Oculta partículas del mundo para mejorar la visibilidad y el rendimiento.",
+      "setting": {
+        "hide_nearby": {
+          "name": "Ocultar cerca",
+          "desc": "Oculta partículas dentro de un radio cercano del jugador."
+        },
+        "nearby_radius": {
+          "name": "Radio cercano",
+          "desc": "Distancia del jugador dentro de la cual se esconden las partículas."
+        },
+        "hide_far": {
+          "name": "Ocultar lejos",
+          "desc": "Oculta partículas más allá de una distancia máxima del jugador."
+        },
+        "max_distance": {
+          "name": "Distancia máxima",
+          "desc": "Distancia más allá de la cual se ocultan las partículas."
+        },
+        "filter_by_particle_type": {
+          "name": "Filtrar por tipo",
+          "desc": "Oculta los tipos de partículas elegidos en el selector."
+        },
+        "choose_particles": {
+          "name": "Elegir partículas",
+          "desc": "Elige qué tipos de partículas ocultar.",
+          "label": "Seleccionar"
+        },
+        "filter_by_type": {
+          "name": "Filtrar por tipo",
+          "desc": "Oculta los tipos de partículas elegidos en el selector."
+        },
+        "hidden_particle_types": {
+          "name": "Tipos de partículas ocultos"
+        }
+      }
+    },
+    "copyentitydata": {
+      "name": "Copiar datos de la entidad",
+      "desc": "Copia al portapapeles los datos de la entidad que estás mirando.",
+      "setting": {
+        "copy_key": {
+          "name": "Tecla de copia",
+          "desc": "Pulsa esta tecla mientras miras una entidad para copiar sus datos."
+        }
+      }
+    },
+    "partydebugger": {
+      "name": "Depurador de grupo",
+      "desc": "Muestra el grupo tal como lo lee BlackAddons, con la última petición y la respuesta del servidor.",
+      "setting": {
+        "ask_now": {
+          "name": "Preguntar ahora",
+          "desc": "Envía una petición del grupo ya mismo para compararla con /p list.",
+          "label": "Preguntar"
+        }
+      }
+    },
+    "locationdebugger": {
+      "name": "Depurador de ubicaciones",
+      "desc": "Dibuja en el mundo las regiones de ubicación de la mazmorra y muestra el estado de ubicación actual.",
+      "setting": {
+        "render_location_walls": {
+          "name": "Mostrar paredes de ubicaciones",
+          "desc": "Rellena las regiones de ubicación con paredes semitransparentes."
+        }
+      }
+    },
+    "copyitemdata": {
+      "name": "Copiar datos del objeto",
+      "desc": "Copia al portapapeles los datos del objeto bajo el cursor.",
+      "setting": {
+        "copy_key": {
+          "name": "Tecla de copia",
+          "desc": "Pulsa esta tecla mientras señalas un objeto de un contenedor para copiar sus datos."
+        }
+      }
+    },
+    "devmode": {
+      "name": "Modo desarrollador",
+      "desc": "Diagnóstico para desarrolladores: registro adicional, rastreo de eventos y relanzamiento de excepciones.",
+      "setting": {
+        "verbose_logging": {
+          "name": "Registro detallado",
+          "desc": "Emite registros [dev] adicionales de nivel info desde los subsistemas internos."
+        },
+        "rethrow_listener_exceptions": {
+          "name": "Relanzar excepciones de listeners",
+          "desc": "Muestra al instante los errores de los listeners de eventos en lugar de ocultarlos. En el entorno de desarrollo de Fabric siempre está activado, sin importar este interruptor."
+        },
+        "log_event_dispatch": {
+          "name": "Registrar el envío de eventos",
+          "desc": "Registra cada EventBus.post. Genera mucho ruido; úsalo solo al depurar el envío."
+        }
+      }
+    },
+    "keytimer": {
+      "name": "Temporizador de llaves",
+      "desc": "Muestra el tiempo que queda para recoger automáticamente las llaves Wither y Blood."
+    },
+    "doorutils": {
+      "name": "Utilidades de puertas",
+      "desc": "Resalta las puertas Wither y Blood en el mundo, con un color según tengas la llave.",
+      "setting": {
+        "box_doors": {
+          "name": "Resaltar puertas",
+          "desc": "Dibuja cajas 3D sobre las puertas Wither y Blood en el mundo."
+        },
+        "door_box_mode": {
+          "name": "Modo de resaltado de puertas",
+          "desc": "Cómo renderizar las cajas de las puertas.",
+          "option": {
+            "outline": "Contorno",
+            "fill": "Relleno",
+            "filled_outline": "Contorno relleno"
+          }
+        },
+        "no_key_color": {
+          "name": "Color sin llave",
+          "desc": "Color de la caja de una puerta cuando no tienes una llave."
+        },
+        "has_key_color": {
+          "name": "Color con llave",
+          "desc": "Color de la caja de una puerta cuando tienes una llave."
+        },
+        "only_next_door_has_key_color": {
+          "name": "Color con llave solo en la siguiente puerta",
+          "desc": "Usa el color con llave solo en la siguiente puerta del camino a la sala Blood; las demás mantienen el color sin llave."
+        }
+      }
+    },
+    "dungeonmap": {
+      "name": "Mapa de mazmorra",
+      "desc": "Muestra un mapa de la mazmorra en el HUD, en tiempo real, durante las partidas de Catacombs.",
+      "setting": {
+        "hide_in_boss": {
+          "name": "Ocultar durante el jefe",
+          "desc": "Oculta el mapa durante las peleas contra jefes."
+        },
+        "boss_peek_keybind": {
+          "name": "Tecla para ver el mapa en el jefe",
+          "desc": "Mantén pulsada para mostrar el mapa durante las peleas contra jefes."
+        },
+        "player_names": {
+          "name": "Nombres de jugadores",
+          "desc": "Cuándo mostrar los nombres de los jugadores en el mapa.",
+          "option": {
+            "off": "Nunca",
+            "holding_leap": "Con Leap en la mano",
+            "always": "Siempre"
+          }
+        },
+        "custom_marker": {
+          "name": "Marcador personalizado",
+          "desc": "Usa un marcador de mapa direccional personalizado para ti en lugar de una cabeza de jugador."
+        },
+        "room_prediction": {
+          "name": "Predicción de salas",
+          "desc": "Predice los tipos de salas 1x1 sin abrir en el modo de mapa legítimo."
+        },
+        "calculation_method": {
+          "name": "Método de cálculo",
+          "desc": "Optimista: la puntuación en vivo supone una Velocidad perfecta; el objetivo de secretos para S+ supone que los rompecabezas pendientes se completarán y usa las opciones de proyección de abajo.\nConservador: la puntuación en vivo usa la Velocidad según el tiempo transcurrido; el objetivo de secretos para S+ mantiene las penalizaciones por rompecabezas pendientes y solo cuenta las bonificaciones ya detectadas.\nAmbos incluyen penalizaciones por muerte.",
+          "option": {
+            "optimistic": "Optimista",
+            "conservative": "Conservador"
+          }
+        },
+        "max_bonus_for_secret_goal": {
+          "name": "Bonificación máxima para el objetivo de secretos",
+          "desc": "Usa las suposiciones de bonificación de abajo al calcular el objetivo de secretos para S+."
+        },
+        "use_current_crypts": {
+          "name": "Usar criptas actuales",
+          "desc": "Usa el recuento actual de criptas en lugar de suponer los 5 puntos de bonificación por criptas."
+        },
+        "assume_mimic_bonus": {
+          "name": "Suponer bonificación de Mimic",
+          "desc": "Supone que se obtendrá la bonificación de +2 de Mimic en el piso VI o superior."
+        },
+        "assume_prince_bonus": {
+          "name": "Suponer bonificación de Prince",
+          "desc": "Supone que se obtendrá la bonificación de +1 de Prince mientras aún pueda aparecer una sala de Prince."
+        },
+        "assume_bat_bonus": {
+          "name": "Suponer bonificación de murciélago",
+          "desc": "Supone que se obtendrá la bonificación de +1 del murciélago antes de detectarlo."
+        },
+        "show_needed_secrets": {
+          "name": "Mostrar secretos necesarios",
+          "desc": "Muestra el total de secretos necesarios para S+ en lugar de la cantidad restante."
+        },
+        "include_paul_in_secret_goal": {
+          "name": "Incluir a Paul en el objetivo de secretos",
+          "desc": "Supone la bonificación de +10 de Paul al calcular el objetivo de secretos para S+."
+        },
+        "extra_info": {
+          "name": "Información adicional",
+          "desc": "Muestra información adicional debajo del mapa."
+        },
+        "show_secrets": {
+          "name": "Mostrar secretos",
+          "desc": "Muestra los secretos encontrados / total."
+        },
+        "show_crypts": {
+          "name": "Mostrar criptas",
+          "desc": "Muestra la cantidad de criptas."
+        },
+        "show_score": {
+          "name": "Mostrar puntuación",
+          "desc": "Muestra la puntuación calculada de la mazmorra."
+        },
+        "show_deaths": {
+          "name": "Mostrar muertes",
+          "desc": "Muestra el número de muertes del equipo."
+        },
+        "bonus_style": {
+          "name": "Estilo de bonificaciones",
+          "desc": "Estilo de los indicadores de bonificación de Mimic, Prince y murciélago.",
+          "option": {
+            "custom_icons": "Iconos personalizados",
+            "letters": "Letras",
+            "off": "Desactivado"
+          }
+        },
+        "force_paul": {
+          "name": "Forzar Paul",
+          "desc": "Siempre añade +10 puntos de bonificación por la ventaja EZPZ del alcalde Paul."
+        },
+        "force_disable_paul": {
+          "name": "Forzar desactivación de Paul",
+          "desc": "Nunca añade la bonificación de +10 por EZPZ del alcalde Paul, aunque se detecte."
+        },
+        "text_scale": {
+          "name": "Escala de texto",
+          "desc": "Escala del nombre de la sala y del texto de secretos en el mapa."
+        },
+        "checkmark_scale": {
+          "name": "Escala de marcas",
+          "desc": "Escala de las marcas en el mapa."
+        },
+        "player_head_scale": {
+          "name": "Escala de la cabeza del jugador",
+          "desc": "Escala de los iconos de cabezas de jugadores."
+        },
+        "player_name_scale": {
+          "name": "Escala del nombre del jugador",
+          "desc": "Escala de las etiquetas con nombres de jugadores."
+        },
+        "antialias_rooms": {
+          "name": "Suavizar salas",
+          "desc": "Suaviza los bordes de las salas."
+        },
+        "corner_radius": {
+          "name": "Radio de las esquinas",
+          "desc": "Radio de redondeo de las esquinas del marco del mapa."
+        },
+        "door_width": {
+          "name": "Ancho de puertas",
+          "desc": "Ancho con el que se dibujan las puertas entre salas en el mapa."
+        },
+        "background": {
+          "name": "Fondo",
+          "desc": "Color de fondo del mapa."
+        },
+        "custom_background_enabled": {
+          "name": "Fondo personalizado",
+          "desc": "Usa un PNG, JPEG, WebP o GIF detrás del mapa. Elige el archivo abajo."
+        },
+        "custom_background_file": {
+          "name": "Archivo de fondo personalizado"
+        },
+        "choose_custom_background": {
+          "name": "Archivo de fondo",
+          "desc": "Elige el PNG, JPEG, WebP o GIF que se dibujará detrás del mapa.",
+          "label": "Elegir..."
+        },
+        "background_darkness": {
+          "name": "Oscurecimiento del fondo",
+          "desc": "Oscurece el fondo del mapa sin oscurecer las salas, las etiquetas ni los iconos de los jugadores."
+        },
+        "background_transparency": {
+          "name": "Transparencia del fondo",
+          "desc": "Hace transparente todo el fondo del mapa, incluido su oscurecimiento. El 100% lo oculta por completo."
+        },
+        "border_color": {
+          "name": "Color del borde",
+          "desc": "Color del borde del mapa."
+        },
+        "border_width": {
+          "name": "Ancho del borde",
+          "desc": "Grosor del borde del mapa."
+        },
+        "checkmark_style": {
+          "name": "Estilo de marcas",
+          "desc": "Qué mostrar sobre las salas despejadas.",
+          "option": {
+            "checkmarks": "Marcas",
+            "secrets": "Secretos",
+            "room_name": "Nombre de sala",
+            "room_name_secrets": "Nombre de sala + secretos"
+          }
+        },
+        "center_checkmark": {
+          "name": "Centrar marcas",
+          "desc": "Centra las marcas en las salas de varias casillas en vez de colocarlas arriba a la izquierda."
+        },
+        "hide_unknown_checkmark": {
+          "name": "Ocultar marca desconocida",
+          "desc": "Oculta el signo de interrogación en las salas sin abrir."
+        },
+        "prince_room_icon": {
+          "name": "Icono de sala de Prince",
+          "desc": "Muestra una corona en las salas que puedan contener a Prince hasta que muera."
+        },
+        "limit_room_name_size": {
+          "name": "Limitar el tamaño de los nombres",
+          "desc": "Reduce los nombres de las salas para que quepan dentro de sus límites."
+        },
+        "head_border": {
+          "name": "Borde de la cabeza",
+          "desc": "Color predeterminado del borde de las cabezas de los jugadores."
+        },
+        "head_direction_indicator": {
+          "name": "Indicador de dirección de la cabeza",
+          "desc": "Muestra un indicador de dirección en las cabezas de los jugadores."
+        },
+        "marker_color": {
+          "name": "Color del marcador",
+          "desc": "Color del marcador personalizado."
+        },
+        "class_based_borders": {
+          "name": "Bordes según la clase",
+          "desc": "Colorea los bordes de las cabezas según la clase."
+        },
+        "class_based_names": {
+          "name": "Nombres según la clase",
+          "desc": "Colorea los nombres de los jugadores según la clase."
+        },
+        "archer": {
+          "name": "Arquero"
+        },
+        "berserk": {
+          "name": "Berserker"
+        },
+        "healer": {
+          "name": "Sanador"
+        },
+        "mage": {
+          "name": "Mago"
+        },
+        "tank": {
+          "name": "Tanque"
+        },
+        "unopened_room": {
+          "name": "Sala sin abrir"
+        },
+        "blood_room": {
+          "name": "Sala Blood"
+        },
+        "fairy_room": {
+          "name": "Sala de hadas"
+        },
+        "rare_room": {
+          "name": "Sala rara"
+        },
+        "miniboss_room": {
+          "name": "Sala de minijefe"
+        },
+        "puzzle_room": {
+          "name": "Sala de rompecabezas"
+        },
+        "trap_room": {
+          "name": "Sala de trampas"
+        },
+        "normal_room": {
+          "name": "Sala normal"
+        },
+        "entrance_room": {
+          "name": "Sala de entrada"
+        },
+        "unopened_door": {
+          "name": "Puerta sin abrir"
+        },
+        "blood_door": {
+          "name": "Puerta Blood"
+        },
+        "wither_door": {
+          "name": "Puerta Wither"
+        },
+        "normal_door": {
+          "name": "Puerta normal"
+        },
+        "open_wither_door": {
+          "name": "Puerta Wither abierta"
+        },
+        "entrance_door": {
+          "name": "Puerta de entrada"
+        },
+        "debug_logging": {
+          "name": "Registro de depuración",
+          "desc": "Escribe en la consola mensajes de depuración de paquetes del mapa, calibración y escaneo de salas."
+        },
+        "collect_unknown_room_data": {
+          "name": "Recopilar datos de salas desconocidas",
+          "desc": "Guarda los hashes de salas desconocidas para futuras actualizaciones del catálogo. Desactívalo para dejar de recopilarlos."
+        },
+        "collect_unknown_room_snapshots": {
+          "name": "Recopilar capturas de salas desconocidas",
+          "desc": "Guarda una captura en schematic al encontrar una sala desconocida. Estos archivos pueden ser grandes."
+        }
+      }
+    },
+    "leapmenu": {
+      "name": "Menú de salto",
+      "desc": "Reemplaza el menú de Spirit Leap con tarjetas de compañeros que muestran su vista y ubicación, con atajos y salto por mapa.",
+      "setting": {
+        "sorting": {
+          "name": "Orden",
+          "desc": "Qué compañero va en cada esquina, de izquierda a derecha y de arriba abajo.",
+          "option": {
+            "a_z_class": "Clase A-Z",
+            "a_z_name": "Nombre A-Z",
+            "odin": "Odin",
+            "custom": "Personalizado",
+            "none": "Ninguno"
+          }
+        },
+        "custom_order": {
+          "name": "Orden personalizado",
+          "desc": "Nombres de jugadores o clases, el primero arriba. Cada compañero toma el lugar de su primera coincidencia.",
+          "placeholder": "Jugador o clase"
+        },
+        "label": {
+          "name": "Etiqueta",
+          "desc": "Qué muestra cada tarjeta: la clase, el jugador o ambos.",
+          "option": {
+            "class": "Clase",
+            "name": "Nombre",
+            "name_class": "Nombre + clase"
+          }
+        },
+        "show_head": {
+          "name": "Mostrar cabeza",
+          "desc": "Dibuja la cabeza del compañero en su tarjeta."
+        },
+        "teammate_view": {
+          "name": "Vista del compañero",
+          "desc": "Muestra lo que ve cada compañero en su tarjeta. Se oculta con un shader pack activo."
+        },
+        "view_fps": {
+          "name": "FPS de la vista",
+          "desc": "Con qué frecuencia se redibuja la vista de la tarjeta bajo el cursor. Las demás se redibujan unas pocas veces por segundo; cada redibujo renderiza el mundo otra vez."
+        },
+        "show_location": {
+          "name": "Mostrar ubicación",
+          "desc": "La sala en la que está cada compañero; en el jefe, la fase, con la sección en P3 del Piso 7."
+        },
+        "scale": {
+          "name": "Escala",
+          "desc": "Tamaño de las tarjetas. Se reducen más si no caben en la pantalla."
+        },
+        "class_colored_cards": {
+          "name": "Tarjetas con color de clase",
+          "desc": "Tiñe las tarjetas con el color de la clase."
+        },
+        "tint_dead_players": {
+          "name": "Teñir muertos",
+          "desc": "Tiñe de rojo las tarjetas de los compañeros muertos."
+        },
+        "show_last_door_opener": {
+          "name": "Mostrar quién abrió la puerta",
+          "desc": "Resalta al compañero que abrió la última puerta Wither."
+        },
+        "left_click_only": {
+          "name": "Solo clic izquierdo",
+          "desc": "Salta solo con clic izquierdo."
+        },
+        "leap_on_release": {
+          "name": "Saltar al soltar",
+          "desc": "Salta al soltar el botón del ratón en lugar de al pulsarlo."
+        },
+        "keybind_mode": {
+          "name": "Modo de atajos",
+          "desc": "Esquinas: una tecla por esquina.\nClase: una tecla por clase.",
+          "option": {
+            "off": "Desactivado",
+            "corners": "Esquinas",
+            "class": "Clase"
+          }
+        },
+        "top_left": {
+          "name": "Arriba izquierda"
+        },
+        "top_right": {
+          "name": "Arriba derecha"
+        },
+        "bottom_left": {
+          "name": "Abajo izquierda"
+        },
+        "bottom_right": {
+          "name": "Abajo derecha"
+        },
+        "archer": {
+          "name": "Archer"
+        },
+        "berserk": {
+          "name": "Berserk"
+        },
+        "healer": {
+          "name": "Healer"
+        },
+        "mage": {
+          "name": "Mage"
+        },
+        "tank": {
+          "name": "Tank"
+        },
+        "map_leap": {
+          "name": "Salto por mapa",
+          "desc": "Durante el clear, haz clic en un compañero del mapa de la mazmorra en lugar de una tarjeta."
+        },
+        "after_blood_only": {
+          "name": "Solo tras Blood",
+          "desc": "Mantiene las tarjetas hasta que se abra la Blood Room."
+        },
+        "map_scale": {
+          "name": "Escala del mapa"
+        },
+        "leap_announce": {
+          "name": "Anunciar salto",
+          "desc": "Dice a tu party a quién saltaste."
+        },
+        "leap_message": {
+          "name": "Mensaje de salto",
+          "desc": "{name} se sustituye por el nombre del compañero.",
+          "placeholder": "Leaped to {name}!"
+        },
+        "hide_players": {
+          "name": "Ocultar jugadores",
+          "desc": "Oculta por un momento a los compañeros que están encima de ti tras saltar."
+        },
+        "hide_time": {
+          "name": "Tiempo oculto"
+        }
+      }
+    },
+    "simonsays": {
+      "name": "Simon Says",
+      "desc": "Resalta en orden la solución del dispositivo Simon Says de F7/M7.",
+      "setting": {
+        "reset_solver": {
+          "name": "Restablecer solucionador",
+          "desc": "Olvida el patrón leído hasta ahora y vuelve a leer el dispositivo desde cero, por si se ha desincronizado con lo que hay en la pared.",
+          "label": "Restablecer"
+        },
+        "block_wrong_clicks": {
+          "name": "Bloquear clics incorrectos",
+          "desc": "Cancela los clics que no sean en el botón correcto. Agáchate para saltarte el bloqueo."
+        },
+        "first_color": {
+          "name": "Primer color",
+          "desc": "Resaltado del siguiente botón."
+        },
+        "second_color": {
+          "name": "Segundo color",
+          "desc": "Resaltado del botón posterior al siguiente."
+        },
+        "other_color": {
+          "name": "Otro color",
+          "desc": "Resaltado de los botones restantes."
+        },
+        "highlight_width": {
+          "name": "Ancho del resaltado",
+          "desc": "Ancho del resaltado junto al botón real, sin importar cuánto se haya agrandado su hitbox."
+        },
+        "highlight_height": {
+          "name": "Alto del resaltado",
+          "desc": "Alto del resaltado junto al botón real, sin importar cuánto se haya agrandado su hitbox."
+        },
+        "show_while_pattern_plays": {
+          "name": "Mostrar mientras se reproduce el patrón",
+          "desc": "Mantiene los resaltados mientras el dispositivo reproduce su patrón y no hay botones."
+        },
+        "alerts_enabled": {
+          "name": "Alertas activadas"
+        },
+        "ss_break_alert": {
+          "name": "Alerta de SS roto",
+          "desc": "Avisa en el chat del grupo cuando el dispositivo se reinicia."
+        },
+        "send_restart_chat": {
+          "name": "Avisar del reinicio en el chat",
+          "desc": "Avisa en el chat del grupo cuando el dispositivo vuelve a empezar."
+        },
+        "alert_sound": {
+          "name": "Sonido de alerta",
+          "desc": "Reproduce un sonido cuando el dispositivo se rompe."
+        },
+        "show_title": {
+          "name": "Mostrar título",
+          "desc": "Muestra un título cuando el dispositivo se rompe o se reinicia."
+        },
+        "print_ss_time_in_chat": {
+          "name": "Tiempo de Simon Says en el chat",
+          "desc": "Muestra cuánto tardó Simon Says cuando lo completa un jugador junto al dispositivo."
+        }
+      }
+    },
+    "soloclears": {
+      "name": "Solo Clears",
+      "desc": "Registra una partida F7/M7 en solitario para la clasificación de BlackAddons y la envía al alcanzar 300 puntos.",
+      "setting": {
+        "board": {
+          "name": "Clasificación",
+          "desc": "A qué clasificación apuntar. «Saltos permitidos» no exige los puntos del cuestionario ni del rompecabezas de hielo, igual que la clasificación; «Sin saltos» mantiene esos diez puntos, porque una partida que se saltó uno compite entre las que también lo hicieron.",
+          "option": {
+            "skips_allowed": "Saltos permitidos",
+            "no_skips": "Sin saltos"
+          }
+        },
+        "announce_in_chat": {
+          "name": "Anunciar en el chat",
+          "desc": "Informa en el chat cuando comienza una grabación y qué responde después el servidor."
+        },
+        "indicator": {
+          "name": "Indicador",
+          "desc": "Muestra un marcador mientras este modo está activado, para que la puntuación en pantalla siempre tenga explicación."
+        },
+        "indicator_color": {
+          "name": "Color del indicador",
+          "desc": "Color del texto del indicador."
+        },
+        "indicator_background": {
+          "name": "Fondo del indicador",
+          "desc": "Relleno de fondo detrás del indicador."
+        }
+      }
+    },
+    "scoreboardtoggle": {
+      "name": "Alternar marcador",
+      "desc": "Permite mostrar u ocultar el marcador lateral.",
+      "setting": {
+        "show_scoreboard": {
+          "name": "Mostrar marcador",
+          "desc": "Si el marcador lateral está visible."
+        },
+        "toggle_keybind": {
+          "name": "Tecla para alternar",
+          "desc": "Pulsa esta tecla en el mundo para mostrar u ocultar el marcador."
+        }
+      }
+    },
+    "fullbright": {
+      "name": "Fullbright",
+      "desc": "Mantiene el mundo completamente iluminado sin cambiar la configuración de gamma.",
+      "setting": {
+        "disable_light_engine": {
+          "name": "Desactivar motor de iluminación",
+          "desc": "Apaga el motor de iluminación del cliente mientras Fullbright está activo, para ganar FPS."
+        }
+      }
+    },
+    "customskybox": {
+      "name": "Skybox personalizado",
+      "desc": "Sustituye el cielo del mundo normal por una escena animada con los colores de BlackAddons.",
+      "setting": {
+        "style": {
+          "name": "Estilo",
+          "desc": "Paisaje = las colinas del menú, siguiendo la hora del día.\nSynthwave = un sol a rayas sobre un cañón de neón.\nGalaxia = una galaxia espiral sobre una nebulosa estrellada.",
+          "option": {
+            "landscape": "Paisaje",
+            "synthwave": "Synthwave",
+            "galaxy": "Galaxia"
+          }
+        },
+        "palette": {
+          "name": "Paleta",
+          "desc": "Predeterminada = los colores de BlackAddons.\nTema = sigue el acento y el fondo de tu tema.",
+          "option": {
+            "default": "Predeterminada",
+            "theme": "Tema"
+          }
+        },
+        "brightness": {
+          "name": "Brillo",
+          "desc": "Brillo del cielo."
+        }
+      }
+    },
+    "adhd": {
+      "name": "TDAH",
+      "desc": "Hace rebotar una imagen por la pantalla como el logo de DVD.",
+      "setting": {
+        "image_file": {
+          "name": "Archivo de imagen"
+        },
+        "choose_image": {
+          "name": "Imagen",
+          "desc": "Elige el PNG, JPEG, WebP o GIF que rebotará.",
+          "label": "Elegir..."
+        },
+        "size": {
+          "name": "Tamaño",
+          "desc": "Altura de la imagen como proporción de la altura de la pantalla. El ancho mantiene la forma de la imagen."
+        },
+        "transparency": {
+          "name": "Transparencia",
+          "desc": "Hace la imagen transparente. El 100% la oculta por completo."
+        },
+        "speed": {
+          "name": "Velocidad",
+          "desc": "Qué tan rápido se mueve la imagen, en alturas de pantalla por segundo."
+        },
+        "count": {
+          "name": "Cantidad",
+          "desc": "Cuántas copias rebotan a la vez, cada una por su propio camino."
+        },
+        "color_change": {
+          "name": "Cambio de color",
+          "desc": "Tiñe la imagen de un color nuevo cada vez que choca con un borde. Se nota más en imágenes claras."
+        },
+        "corner_hit": {
+          "name": "Golpe en la esquina",
+          "desc": "Lo celebra cuando una imagen da justo en una esquina.",
+          "option": {
+            "off": "Desactivado",
+            "sound": "Sonido",
+            "toast": "Aviso",
+            "both": "Ambos"
+          }
+        }
+      }
+    },
+    "entityqol": {
+      "name": "Mejoras de entidades",
+      "desc": "Ajustes visuales para entidades.",
+      "setting": {
+        "hide_entity_fire": {
+          "name": "Ocultar fuego en entidades",
+          "desc": "Oculta las llamas de las entidades que arden, incluidos los jugadores."
+        },
+        "hide_armor": {
+          "name": "Ocultar armadura",
+          "desc": "Oculta la armadura de jugadores, criaturas y animales con armadura. Las élitras y las monturas siguen visibles."
+        },
+        "hide_stuck_arrows_and_stingers": {
+          "name": "Ocultar flechas y aguijones clavados",
+          "desc": "Oculta las flechas y los aguijones de abeja clavados en los modelos de jugadores."
+        }
+      }
+    },
+    "chatcopy": {
+      "name": "Copiar chat",
+      "desc": "Ctrl+clic en un mensaje del chat para copiarlo (añade Shift para conservar los códigos de formato)."
+    },
+    "compactchat": {
+      "name": "Chat compacto",
+      "desc": "Agrupa los mensajes repetidos del chat en una sola línea con un contador.",
+      "setting": {
+        "consecutive_only": {
+          "name": "Solo consecutivos",
+          "desc": "Solo agrupa un mensaje que repite el más reciente."
+        }
+      }
+    },
+    "smoothchat": {
+      "name": "Chat suave",
+      "desc": "Anima el chat: los mensajes aparecen gradualmente, el cuadro de texto se desliza y el desplazamiento es suave.",
+      "setting": {
+        "fade_in_messages": {
+          "name": "Aparición gradual",
+          "desc": "Los mensajes nuevos suben y aparecen gradualmente."
+        },
+        "fade_time": {
+          "name": "Duración de aparición"
+        },
+        "slide_input_box": {
+          "name": "Deslizar cuadro de texto",
+          "desc": "El cuadro de texto sube al abrir el chat."
+        },
+        "input_slide_time": {
+          "name": "Duración del deslizamiento"
+        },
+        "smooth_scrolling": {
+          "name": "Desplazamiento suave",
+          "desc": "El historial del chat se desliza en lugar de saltar."
+        },
+        "hide_message_indicator": {
+          "name": "Ocultar indicador de mensajes",
+          "desc": "Oculta la barra de color a la izquierda de los mensajes del sistema y no firmados."
+        }
+      }
+    },
+    "chathistory": {
+      "name": "Historial del chat",
+      "desc": "Guarda más chat, lo conserva al desconectarte o reiniciar y recuerda lo que enviaste tras reiniciar.",
+      "setting": {
+        "history_length": {
+          "name": "Longitud del historial",
+          "desc": "Mensajes guardados en el chat y mensajes enviados para la flecha arriba. Vanilla guarda 100."
+        },
+        "keep_on_disconnect": {
+          "name": "Conservar al desconectar",
+          "desc": "Salir o cambiar de servidor ya no borra el chat."
+        },
+        "keep_on_restart": {
+          "name": "Conservar al reiniciar",
+          "desc": "El chat vuelve tal como estaba después de reiniciar el juego."
+        },
+        "save_sent_messages": {
+          "name": "Guardar mensajes enviados",
+          "desc": "Los mensajes y comandos que enviaste siguen en el historial de la flecha arriba tras reiniciar."
+        }
+      }
+    },
+    "chatmentions": {
+      "name": "Menciones en el chat",
+      "desc": "Resalta los mensajes que mencionan tu nombre o una palabra clave, con sonido opcional.",
+      "setting": {
+        "your_name": {
+          "name": "Tu nombre",
+          "desc": "Los mensajes que mencionan tu nombre de usuario cuentan como menciones."
+        },
+        "keywords": {
+          "name": "Palabras clave",
+          "desc": "Palabras o frases adicionales que cuentan como menciones.",
+          "placeholder": "Palabra clave"
+        },
+        "highlight_color": {
+          "name": "Color de resaltado",
+          "desc": "Tono que se dibuja detrás de un mensaje que te menciona."
+        },
+        "play_sound": {
+          "name": "Reproducir sonido",
+          "desc": "Suena un aviso cuando llega una mención."
+        }
+      }
+    },
+    "chatvisualfilters": {
+      "name": "Filtros visuales del chat",
+      "desc": "Oculta los mensajes del chat que coinciden con tus patrones.",
+      "setting": {
+        "patterns": {
+          "name": "Patrones",
+          "desc": "Se ocultan los mensajes que coinciden con alguno de estos. Cada patrón tiene su propio modo de coincidencia y de mayúsculas.",
+          "placeholder": "Patrón",
+          "option": {
+            "contains": "Contiene",
+            "starts_with": "Empieza por",
+            "exact": "Exacto",
+            "regex": "Regex",
+            "any_case": "Sin distinguir mayúsculas",
+            "match_case": "Distinguir mayúsculas"
+          }
+        }
+      }
+    },
+    "chatnamemenu": {
+      "name": "Menú de nombre en el chat",
+      "desc": "Haz clic derecho en un mensaje del chat para copiarlo, o en el de un jugador para atajos de perfil, party, amigos y mensajes."
+    },
+    "chattabs": {
+      "name": "Pestañas de chat",
+      "desc": "Pestañas sobre el cuadro de texto que muestran un canal a la vez y envían a él.",
+      "setting": {
+        "party_tab": {
+          "name": "Pestaña de party",
+          "desc": "Chat de party y avisos de party."
+        },
+        "guild_tab": {
+          "name": "Pestaña de gremio",
+          "desc": "Chat del gremio."
+        },
+        "private_tab": {
+          "name": "Pestaña privada",
+          "desc": "Mensajes privados, en ambos sentidos."
+        },
+        "co_op_tab": {
+          "name": "Pestaña de co-op",
+          "desc": "Chat de co-op."
+        },
+        "irc_tab": {
+          "name": "Pestaña IRC",
+          "desc": "Chat de BlackAddons mostrado en el chat del juego."
+        },
+        "route_messages": {
+          "name": "Enviar al canal",
+          "desc": "Escribir en una pestaña de canal envía allí: party, gremio, co-op o a quien escribiste en privado por última vez."
+        },
+        "all_tab_ignores_channels": {
+          "name": "Todo sin canales",
+          "desc": "Los mensajes que tienen su propia pestaña no suman a los no leídos de la pestaña Todo."
+        },
+        "follow_chat_channel": {
+          "name": "Seguir canal de chat",
+          "desc": "/chat p, /chat g, /chat coop, /chat b y /chat a también cambian la pestaña."
+        }
+      }
+    },
+    "freezecapture": {
+      "name": "Captura de bloqueos",
+      "desc": "Guarda las pilas de hilos tras un bloqueo del cliente de 200 ms en config/blackaddons/dev/freezes."
+    },
+    "dumpers": {
+      "name": "Volcados de diagnóstico",
+      "desc": "Vuelca el marcador, la lista de jugadores, la barra de acción o el chat a un archivo y al portapapeles.",
+      "setting": {
+        "dump_scoreboard": {
+          "name": "Volcar marcador",
+          "desc": "Pulsa en el mundo para volcar el marcador lateral."
+        },
+        "dump_tab_list": {
+          "name": "Volcar lista de jugadores",
+          "desc": "Pulsa para volcar las entradas de la lista de jugadores."
+        },
+        "dump_action_bar": {
+          "name": "Volcar barra de acción",
+          "desc": "Pulsa para volcar el último mensaje de la barra de acción."
+        },
+        "dump_chat": {
+          "name": "Volcar chat",
+          "desc": "Pulsa para volcar los últimos mensajes del chat, con sus spans y el texto al pasar el cursor."
+        }
+      }
+    },
+    "tablisttoggle": {
+      "name": "Alternar lista de jugadores",
+      "desc": "Alterna o mantiene visible la lista de jugadores.",
+      "setting": {
+        "toggle_mode": {
+          "name": "Modo alternar",
+          "desc": "Al activarlo, una pulsación de la tecla de la lista de jugadores alterna su visibilidad, en vez de tener que mantenerla pulsada."
+        },
+        "toggle_keybind": {
+          "name": "Tecla para alternar",
+          "desc": "Pulsa esta tecla en el mundo para mostrar u ocultar la lista de jugadores."
+        }
+      }
+    }
+  },
+  "configs": {
+    "section": {
+      "configuration": "Configuración",
+      "hud": "HUD",
+      "sharing": "Compartir"
+    },
+    "save_now": {
+      "label": "Guardar el estado actual en el disco",
+      "button": "Guardar ahora"
+    },
+    "reload": {
+      "label": "Vuelve a cargar la configuración desde el disco (descarta los cambios no guardados)",
+      "button": "Recargar"
+    },
+    "reset_settings": {
+      "label": "Restablece todos los ajustes de todas las funciones",
+      "button": "Restablecer todo"
+    },
+    "reset_huds": {
+      "label": "Devuelve cada elemento del HUD a su posición y escala predeterminadas",
+      "button": "Restablecer HUD"
+    },
+    "share": {
+      "label": "Copia toda tu configuración (ajustes, interruptores y diseño del HUD) para compartirla",
+      "button": "Compartir",
+      "name": "Tu configuración"
+    },
+    "paste": {
+      "label": "Pega una configuración compartida; verás cada cambio antes de aplicarlo",
+      "button": "Pegar"
+    }
+  },
+  "about": {
+    "title": "BlackAddons Reimagined",
+    "hint": "tal vez valga la pena hacer clic en los nombres...",
+    "subtitle": "Una reescritura desde cero del BlackAddons original. Cada función antigua reconstruida en lugar de portada, un montón de funciones nuevas que nunca existieron y un renderizador propio por debajo.",
+    "version": "v%s",
+    "people": "El equipo",
+    "role": {
+      "team": "Equipo",
+      "inspiration": "Inspiración"
+    },
+    "credits": "Hecho con BlackSkija · BlackVertex · JetBrains Mono"
+  },
+  "hud_editor": {
+    "hint": "Arrastrar: mover · Rueda: escala · Shift+arrastrar: ajustar a cuadrícula · Shift+rueda: cuadrícula %d · T: fuente · Clic derecho: restablecer · Clic derecho en vacío: opciones · Esc: guardar",
+    "title": "Editor de HUD",
+    "font_inherit": "Heredar",
+    "show_disabled": "Mostrar elementos desactivados",
+    "always_grid": "Mostrar siempre la cuadrícula"
+  },
+  "cosmetic_editor": {
+    "title": "Cosméticos",
+    "loading": "Cargando...",
+    "not_owned": "Aún no tienes ningún cosmético.",
+    "not_linked": "Esta cuenta no está vinculada a ningún cosmético.",
+    "error": "No se pudo comunicar con el servidor. Vuelve a intentarlo más tarde.",
+    "no_model": "Vista previa del modelo no disponible",
+    "disabled": "Desactivado por un administrador",
+    "mode_vanilla": "Vanilla",
+    "mode_solid": "Sólido",
+    "mode_gradient": "Gradiente",
+    "mode_chroma": "Croma",
+    "style": "Estilo",
+    "style_bold": "Negrita",
+    "style_italic": "Cursiva",
+    "style_underlined": "Subrayado",
+    "style_strikethrough": "Tachado",
+    "font": "Fuente: %s",
+    "font_game": "Fuente del juego",
+    "font_choose": "Elegir...",
+    "font_asking": "Aplicando...",
+    "font_refused": "La fuente no se cambió",
+    "font_pick_title": "Fuente del nombre",
+    "font_search": "Buscar fuentes...",
+    "font_loading": "Cargando Fontsource...",
+    "font_none": "No hay fuentes que coincidan.",
+    "vanilla_hint": "Sin anulación de color.",
+    "color": "Color",
+    "stops": "Puntos del gradiente",
+    "stops_hint": "Clic: color · Arrastrar: mover · Clic en la barra: añadir · Tirar hacia abajo: quitar",
+    "per_char_on": "Por carácter (todo el nombre de un color)",
+    "per_char_off": "Por carácter (repartido entre las letras)",
+    "animated": "Animado",
+    "speed": "Velocidad",
+    "scale": "Escala",
+    "save": "Guardar",
+    "revert": "Revertir",
+    "unsaved": "Cambios no guardados",
+    "saving": "Guardando...",
+    "saved": "Guardado",
+    "save_disabled": "Desactivado por un administrador: no se puede guardar",
+    "save_not_owned": "No hay ningún cosmético que editar",
+    "save_invalid": "No válido: no guardado",
+    "save_error": "Error al guardar: inténtalo de nuevo",
+    "retry": "Reintentar",
+    "tab_name": "Nombre y tamaño",
+    "tab_wardrobe": "Armario",
+    "name_placeholder": "Nombre visible",
+    "name_change": "Cambiar",
+    "name_asking": "Enviando...",
+    "name_hint": "Un nombre nuevo puede pasar antes por revisión del staff",
+    "name_applied": "Nombre cambiado",
+    "name_pending": "Enviado a revisión: mira el ticket #%d",
+    "name_refused": "El nombre no se cambió"
+  },
+  "wardrobe": {
+    "loading": "Cargando tu armario...",
+    "empty": "Aún no hay nada en tu armario.",
+    "worn": "Equipado",
+    "locked": "Bloqueado",
+    "equip": "Equipar",
+    "take_off": "Quitar",
+    "apply": "Aplicar",
+    "colors": "Colores",
+    "adjust": {
+      "offsetX": "Izquierda / derecha",
+      "offsetY": "Arriba / abajo",
+      "offsetZ": "Delante / detrás",
+      "scale": "Tamaño"
+    },
+    "trying_on": "Probando",
+    "locked_hint": "No tienes este cosmético.",
+    "saving": "Guardando...",
+    "saved": "Guardado",
+    "gone": "Ese cosmético ya no está disponible.",
+    "tail_cape": "Una cola y una capa no se pueden usar juntas.",
+    "invalid": "El servidor rechazó ese cambio.",
+    "failed": "No se pudo guardar. Inténtalo de nuevo."
+  },
+  "chat_copy": {
+    "copied": "Mensaje copiado",
+    "copied_raw": "Mensaje copiado (con formato)"
+  },
+  "chat_name_menu": {
+    "profile": "Abrir visor de perfil",
+    "party": "Invitar a la party",
+    "friend": "Añadir amigo",
+    "visit": "Visitar isla",
+    "message": "Enviar mensaje",
+    "copy": "Copiar nombre",
+    "copied": "Nombre copiado",
+    "copy_message": "Copiar mensaje"
+  },
+  "chat_tabs": {
+    "all": "Todo",
+    "party": "Party",
+    "guild": "Gremio",
+    "private": "Privado",
+    "coop": "Co-op",
+    "irc": "IRC",
+    "private_to": "A %s",
+    "no_partner": "Aún no hay a quién escribir",
+    "no_partner_detail": "Escribe a alguien con /msg una vez y luego habla en la pestaña Privado."
+  },
+  "chat": {
+    "prefix": "[BlackAddons]"
+  },
+  "net": {
+    "status": "Conexión: %s",
+    "socket_restarted": "Reiniciando la conexión de actualizaciones en vivo.",
+    "restarted": "Reiniciando toda la red."
+  },
+  "backend": {
+    "auth_failed": "No se pudo autenticar con el servidor.",
+    "retry": "[Reintentar]",
+    "retry_hover": "Haz clic para reintentar la autenticación",
+    "retrying": "Reintentando la autenticación...",
+    "auth_ok": "Autenticado.",
+    "unavailable": "El backend no está disponible en este momento",
+    "restored": "El backend ha vuelto",
+    "unsupported": "Esta versión ya no es compatible"
+  },
+  "link": {
+    "linked_as": "Vinculado a la cuenta %s.",
+    "code": "Tu código de inicio de sesión:",
+    "copy_hover": "Haz clic para copiar",
+    "expires": "· caduca en %s min ·",
+    "sign_in": "[Iniciar sesión]",
+    "attach": "[Vincular a mi cuenta]",
+    "failed": "No se pudo obtener un enlace del servidor."
+  },
+  "elevation": {
+    "title": "Inicio de sesión del staff",
+    "code_label": "Código de tu autenticador",
+    "placeholder": "123456",
+    "hint": "Un código de recuperación también funciona.",
+    "remember": "Recordar este dispositivo durante 30 días",
+    "cancel": "Cancelar",
+    "confirm": "Iniciar sesión",
+    "working": "Comprobando...",
+    "raised": "Sesión elevada a los permisos de tu cuenta.",
+    "bad_code": "Ese código no se aceptó.",
+    "throttled": "Demasiados intentos. Inténtalo de nuevo en unos minutos.",
+    "failed": "No se pudo comunicar con el servidor. Inténtalo de nuevo.",
+    "offer": "Tu cuenta tiene permisos de staff que esta sesión no tiene.",
+    "sign_in": "[Iniciar sesión como staff]",
+    "sign_in_hover": "Solicita un código de tu autenticador",
+    "needs_2fa": "Los permisos de staff solo se otorgan tras un segundo factor.",
+    "enable_2fa": "[Activar 2FA]",
+    "already": "Esta sesión ya tiene los permisos de tu cuenta.",
+    "unavailable": "No se pudo comunicar con el servidor, así que aún no hay nada que elevar."
+  },
+  "cosmetics": {
+    "online_hover_title": "En línea en BlackAddons",
+    "online_hover_detail": "El punto solo indica quién está conectado ahora mismo.",
+    "name_hover_title": "Cosmético de BlackAddons",
+    "name_hover_real": "Nombre real: %s",
+    "load_failed": "No se pudieron cargar los cosméticos: el backend no responde. Se muestran los datos en caché."
+  },
+  "update": {
+    "toast": "Actualización disponible",
+    "toast_detail": "BlackAddons %s",
+    "available": "BlackAddons %s ya está disponible.",
+    "unsupported": "Esta versión es anterior a %s y ya no funciona con el servidor.",
+    "download": "[Descargar]",
+    "toast_unsupported": "Actualización requerida"
+  },
+  "pv": {
+    "title": "Visor de perfiles",
+    "loading": "Cargando %s...",
+    "not_found": "No se encontró al jugador «%s».",
+    "no_profiles": "%s no tiene perfiles de Skyblock.",
+    "unavailable": "Los datos del perfil no están disponibles en este momento. Vuelve a intentarlo más tarde.",
+    "skills": "Habilidades",
+    "slayers": "Slayers",
+    "search": "Buscar jugador...",
+    "avatar": "Avatar",
+    "networth": "Valor neto",
+    "bank": "Banco",
+    "hidden": "Oculto (API desactivado)",
+    "purse_label": "Cartera",
+    "skill_avg": "Promedio de habilidades",
+    "sb_level": "Nivel de Skyblock",
+    "catacombs": "Catacombs",
+    "level": "Nivel",
+    "tier": "Tier %s",
+    "total": "Total",
+    "totalXp": "XP total",
+    "area": "Área",
+    "load": "Cargar",
+    "retry": "Reintentar",
+    "offline": "Desconectado",
+    "economy": "Economía",
+    "profile": "Perfil",
+    "classes": "Clases de mazmorra",
+    "dungeons": "Mazmorras",
+    "kuudra": "Partidas de Kuudra",
+    "magical_power": "Poder mágico",
+    "fairy_souls": "Almas de hadas",
+    "first_join": "Primera conexión",
+    "profile_age": "Edad del perfil",
+    "years": "%d a",
+    "months": "%d mes",
+    "cookie_buff": "Buff de galleta",
+    "active": "Activo",
+    "pets_detail": {
+      "title": "Mascotas",
+      "summary": "%d mascotas · %d al máximo",
+      "info": "Información",
+      "xp": "XP de mascota",
+      "candy_used": "Caramelos usados",
+      "held_item": "Objeto equipado",
+      "to_next": "%d%% al siguiente nivel",
+      "total_progress": "%d%% al máximo",
+      "max_level": "Nivel máximo alcanzado",
+      "unknown_level": "Nivel no disponible",
+      "level_unavailable": "Datos de nivel no disponibles",
+      "level_unavailable_detail": "El tier o la XP de esta mascota no son datos de perfil válidos.",
+      "notice": "Algunas mascotas tienen datos de nivel no disponibles.",
+      "api_off_title": "API de mascotas no disponible",
+      "api_off_detail": "Este perfil no muestra su colección de mascotas.",
+      "empty_title": "No hay mascotas registradas",
+      "empty_detail": "Este perfil no tiene mascotas guardadas."
+    },
+    "networth_detail": {
+      "partial": "Estimación parcial",
+      "partial_tooltip": "Oculto por la API: %s",
+      "api_off": "API desactivada",
+      "assets": "Activos",
+      "categories": "Categorías valoradas",
+      "category_tooltip": "%s: %s\n%.1f%% de categorías valoradas",
+      "empty_categories": "No se informó ninguna categoría valorada.",
+      "unavailable_title": "Valor neto no disponible",
+      "unavailable_detail": "El backend no devolvió una valoración para este perfil."
+    },
+    "combat_detail": {
+      "title": "Combate",
+      "total_slayer_xp": "XP total de Slayers",
+      "slayer_xp": "XP de Slayer",
+      "total_kills": "Bajas totales",
+      "to_next": "%d%% al siguiente nivel",
+      "max_level": "Nivel máximo alcanzado",
+      "tier_kills": "Bajas por nivel",
+      "no_kills": "No hay bajas de jefes registradas.",
+      "bestiary": "Bestiario",
+      "bestiary_kills": "Bajas del bestiario",
+      "bestiary_deaths": "Muertes",
+      "top_kills": "Más bajas",
+      "top_deaths": "Más muertes",
+      "no_bestiary": "No se registró actividad del Bestiario.",
+      "empty_title": "Sin actividad de combate",
+      "empty_detail": "Este perfil no tiene actividad registrada de Slayer ni del Bestiario."
+    },
+    "dungeons_detail": {
+      "title": "Mazmorras",
+      "overview": "Resumen de mazmorras",
+      "cata_level": "Nivel de Catacombs",
+      "blood_mobs": "Mobs de Blood",
+      "total_runs": "Partidas totales",
+      "secrets": "Secretos",
+      "secrets_per_run": "Secretos por partida",
+      "magical_power": "Poder mágico",
+      "class_levels": "Niveles de clase",
+      "class_average": "Promedio de clases",
+      "floors": "Pisos de mazmorra",
+      "runs": "partidas",
+      "best_score": "Mejor puntuación",
+      "fastest_s": "S más rápido",
+      "fastest_s_plus": "S+ más rápido",
+      "floor_completions": "Pisos completados",
+      "no_floors": "No se ha completado ningún piso de mazmorra."
+    },
+    "tab": {
+      "ca50": "Calculadora CA50",
+      "soon": "Próximamente"
+    },
+    "ca50_detail": {
+      "configuration": "Configuración",
+      "target": "Nivel objetivo",
+      "floor": "Piso",
+      "entrance": "Entrada",
+      "expert_ring": "Expert Ring",
+      "hecatomb": "Hecatomb",
+      "scarf_accessory": "Accesorio de Scarf",
+      "scarf_attribute": "Atributo de Scarf",
+      "global_boost": "Impulso global",
+      "mayor": "Alcalde",
+      "yes": "Sí (+10%)",
+      "no": "No",
+      "none": "Ninguno",
+      "scarf_studies": "Studies",
+      "scarf_thesis": "Thesis",
+      "scarf_grimoire": "Grimoire",
+      "invalid_title": "Nivel objetivo no válido",
+      "invalid_target": "Introduce un nivel de %s a %s.",
+      "catacombs_goal": "Objetivo de Catacombs",
+      "class_goal": "Objetivo de clases",
+      "current_level": "Nivel actual",
+      "target_level": "Nivel objetivo",
+      "target_xp": "XP objetivo",
+      "xp_per_run": "XP estimado por partida",
+      "runs_needed": "Partidas necesarias",
+      "current_average": "Promedio actual",
+      "class_xp_per_run": "XP de clase por partida",
+      "total_runs": "Partidas totales",
+      "class_breakdown": "Desglose de clases",
+      "remaining_xp": "XP restante",
+      "runs": "Partidas",
+      "reached": "Alcanzado"
+    },
+    "inventory_detail": {
+      "title": "Inventario",
+      "inventory": "Inventario",
+      "pets": "Mascotas",
+      "wardrobe": "Armario",
+      "ender_chest": "Cofre Ender",
+      "backpacks": "Mochilas",
+      "vault": "Bóveda",
+      "page": "Página %d",
+      "gear": "Equipo",
+      "equipment": "Equipamiento",
+      "armor": "Armadura",
+      "personal_vault": "Bóveda personal",
+      "api_off": "API de inventario no disponible",
+      "api_off_detail": "Este perfil no muestra este contenedor.",
+      "empty": "No hay objetos registrados.",
+      "loading": "Cargando objetos...",
+      "backpack": "Mochila %d",
+      "unknown": "Desconocido",
+      "search": "Buscar objetos...",
+      "count": "%d objetos",
+      "searching": "Buscando...",
+      "no_results": "Nada coincide con \"%s\".",
+      "open": "Abrir (%d)",
+      "accessories": "Accesorios",
+      "potion_bag": "Bolsa de pociones",
+      "quiver": "Carcaj",
+      "fishing_bag": "Bolsa de pesca",
+      "bags": "Bolsas",
+      "summary": "%d objetos en %d lugares"
+    },
+    "recent": {
+      "title": "Compañeros recientes",
+      "empty": "No hay compañeros recientes en este perfil.",
+      "open": "Abrir perfil",
+      "invite": "Invitar a la party",
+      "invite_unavailable": "No hay un nombre de jugador seguro disponible para este compañero.",
+      "unknown": "Desconocido",
+      "recorded_best": "Mejores partidas registradas",
+      "shared_runs": "Partidas compartidas",
+      "chart_tooltip": "%s · %s · %d%%",
+      "pb": "PB",
+      "to_pb": "+%s hasta el PB",
+      "run_one": "partida",
+      "run_few": "partidas",
+      "run_many": "partidas",
+      "no_recorded_best": "No hay ninguna mejor partida guardada con este compañero.",
+      "recent_runs": "Partidas recientes",
+      "sort_recent": "Más recientes",
+      "sort_runs": "Más partidas",
+      "sort_name": "Nombre",
+      "filter_all": "Toda la actividad",
+      "filter_dungeon": "Mazmorra",
+      "filter_master": "Modo maestro",
+      "filter_kuudra": "Kuudra",
+      "now": "ahora",
+      "minutes_ago": "hace %d min",
+      "hours_ago": "hace %d h",
+      "days_ago": "hace %d d"
+    },
+    "skills_detail": {
+      "average": "Media de habilidades: %s",
+      "cap_reached": "Límite actual alcanzado",
+      "to_next": "%d%% al siguiente nivel",
+      "xp": "XP",
+      "progress": "Progreso",
+      "progression": "Progreso de habilidades",
+      "total_xp": "XP total de habilidades",
+      "maxed": "Habilidades al máximo",
+      "core_average": "Media de habilidades principales",
+      "all_average": "Media de todas las habilidades",
+      "level_short": "Nv. %s / %s",
+      "tooltip": "%s\nNivel %s / %s\nXP: %,.0f"
+    },
+    "slayer": {
+      "zombie": "Zombi",
+      "spider": "Araña",
+      "wolf": "Lobo",
+      "enderman": "Enderman",
+      "blaze": "Blaze",
+      "vampire": "Vampiro"
+    },
+    "dungeon_class": {
+      "healer": "Sanador",
+      "mage": "Mago",
+      "berserk": "Berserker",
+      "archer": "Arquero",
+      "tank": "Tanque"
+    },
+    "networth_category": {
+      "accessories": "Accesorios",
+      "armor": "Armadura",
+      "ender_chest": "Cofre Ender",
+      "equipment": "Equipamiento",
+      "essence": "Esencias",
+      "fishing_bag": "Bolsa de pesca",
+      "inventory": "Inventario",
+      "museum": "Museo",
+      "personal_vault": "Bóveda personal",
+      "pets": "Mascotas",
+      "potion_bag": "Bolsa de pociones",
+      "sacks": "Sacos",
+      "storage": "Almacenamiento",
+      "wardrobe": "Armario",
+      "weapons": "Armas"
+    }
+  },
+  "colorpicker": {
+    "title": "Selector de color",
+    "done": "Hecho",
+    "chroma": "Croma",
+    "speed": "Velocidad",
+    "chroma_all": "Todo",
+    "chroma_by_char": "Por carácter",
+    "reset": "Restablecer",
+    "expand": "Abrir el selector completo"
+  },
+  "confirm": {
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "sure": "¿Seguro?"
+  },
+  "list": {
+    "empty": "No hay entradas; añade una abajo.",
+    "input_placeholder": "escribe una entrada nueva...",
+    "add": "Añadir",
+    "done": "Listo",
+    "edit": "Editar",
+    "summary": "%d entradas"
+  },
+  "modpicker": {
+    "search": "Buscar mods...",
+    "count": "%s / %s permitidos",
+    "all": "Todo",
+    "none": "Ninguno",
+    "empty": "Ningún mod coincide."
+  },
+  "bachat": {
+    "mode": {
+      "on": "Ahora estás en el chat de BlackAddons: los mensajes normales van allí. /chat a para volver.",
+      "off": "Has salido del chat de BlackAddons."
+    },
+    "attach": {
+      "attach": "Adjunta una imagen o suelta archivos en la ventana",
+      "choose": "Adjuntar una imagen",
+      "uploading": "Subiendo...",
+      "refused": "%s: quítalo para enviar",
+      "unsupported": "Solo se pueden adjuntar imágenes PNG, JPEG, GIF, WebP y animaciones Lottie",
+      "too_many": "Hasta %d imágenes por mensaje",
+      "unreadable": "No se pudo leer ese archivo",
+      "too_large": "Más de %d MB",
+      "offline": "No se pudo conectar con el servidor",
+      "quota": "Ya son suficientes imágenes por hoy",
+      "failed": "Error al subir",
+      "emoji_hint": "Emoji, o escribe :nombre:"
+    },
+    "emoji": {
+      "search": "Buscar un emoji",
+      "no_custom": "Aún no hay emojis personalizados",
+      "none": "Nada coincide",
+      "custom": "Personalizados"
+    },
+    "title": "Chat de BlackAddons",
+    "channel": {
+      "global": "Global",
+      "staff": "Staff"
+    },
+    "copied": "Mensaje copiado",
+    "tag": {
+      "staff": "[Staff]"
+    },
+    "placeholder": "Di algo...",
+    "send": "Enviar",
+    "empty": "Aquí todavía no se ha dicho nada.",
+    "offline": "No conectado",
+    "outdated": "Actualización necesaria",
+    "edited": "(editado)",
+    "source": {
+      "mod": "Juego",
+      "web": "Web",
+      "discord": "Discord",
+      "system": "Sistema"
+    },
+    "deleted": "<eliminado>",
+    "picture": "[imagen]",
+    "reply": "Responder",
+    "copy": "Copiar",
+    "delete": "Eliminar",
+    "delete_sure": "¿Eliminar este mensaje?",
+    "link_copied": "Enlace de imagen copiado",
+    "replying": "Respondiendo a %s",
+    "cancel_reply": "Cancelar",
+    "typing_one": "%s está escribiendo...",
+    "typing_many": "Varias personas están escribiendo...",
+    "muted": "Estás silenciado.",
+    "muted_reason": "Estás silenciado: %s",
+    "muted_until": "Estás silenciado hasta %s.",
+    "muted_until_reason": "Estás silenciado hasta %s: %s",
+    "open_hover": "Abrir el chat de BlackAddons",
+    "error": {
+      "unknown_channel": "Ese canal no existe.",
+      "forbidden": "No puedes escribir aquí.",
+      "muted": "Estás silenciado.",
+      "too_new": "Tu cuenta es demasiado nueva para escribir aquí todavía.",
+      "too_new_until": "Tu cuenta es demasiado nueva para escribir aquí. Se abrirá en %d h %d min.",
+      "no_identity": "Vincula una cuenta Minecraft antes de escribir.",
+      "reply_not_found": "El mensaje al que respondiste desapareció.",
+      "invalid_content": "Eso no es algo que el chat acepte.",
+      "too_many_attachments": "Demasiadas imágenes en un mensaje.",
+      "attachment_not_found": "Esa imagen ya no está disponible.",
+      "rate_limited": "Ve un poco más despacio.",
+      "in_progress": "Aún enviando...",
+      "unavailable": "El chat no puede aceptar mensajes en este momento.",
+      "lost": "El mensaje no se envió.",
+      "delete_failed": "No se pudo eliminar ese mensaje."
+    },
+    "loading": "Cargando...",
+    "open_browser": "Abrir en el navegador",
+    "copy_link": "Copiar enlace",
+    "link": "[enlace]",
+    "link_show": "Enlaces (%s)",
+    "link_hide": "Ocultar"
+  },
+  "tickets": {
+    "title": "Tickets",
+    "placeholder": "Escribe una respuesta...",
+    "send": "Enviar",
+    "closed": "cerrado",
+    "empty": "No hay tickets. El staff abrirá uno cuando necesite algo de ti.",
+    "loading": "Cargando...",
+    "opened_by": "Abierto por %s",
+    "closed_notice": "Este ticket está cerrado. No se puede escribir en él hasta que el staff lo reabra.",
+    "uploading": "Subiendo...",
+    "sending": "Enviando...",
+    "choose": "Adjuntar una imagen",
+    "attach": "Adjunta una imagen o arrastra archivos a la ventana",
+    "unsupported": "Solo se pueden adjuntar imágenes PNG, JPEG y GIF",
+    "upload_failed": "Error al subir",
+    "offline": "No se pudo conectar con el servidor",
+    "failed": "No se pudo enviar",
+    "picture": "[imagen]",
+    "reply_from": "%s respondió en #%d: ",
+    "reply_toast": "%s respondió en el ticket #%d",
+    "opened_line": "El staff abrió contigo el ticket #%d: ",
+    "opened_toast": "El staff abrió un ticket contigo",
+    "waiting": "Respuestas sin leer en tickets: %d. ",
+    "open": "[Abrir]",
+    "open_action": "Abrir",
+    "player": "Jugador",
+    "staff_tag": "staff",
+    "approved_line": "Tu solicitud en #%d fue aprobada",
+    "rejected_line": "Tu solicitud en #%d fue rechazada",
+    "request_pending": "Tu solicitud espera al staff",
+    "request_approved": "Tu solicitud fue aprobada",
+    "request_rejected": "Rechazada: responde abajo para apelar",
+    "appeal_notice": "Explica por qué debería reconsiderarse; al enviar se reabre la solicitud."
+  },
+  "fme": {
+    "search": "Buscar bloques...",
+    "empty": "No hay bloques que coincidan.",
+    "history": "Historial",
+    "edit_mode_button": "Modo de edición",
+    "apply_rule": "Aplicar",
+    "tab_global": "Global",
+    "tab_locations": "Ubicaciones",
+    "tab_rooms": "Salas de mazmorra",
+    "location": "Ubicación:",
+    "room": "Sala:",
+    "location_unavailable": "Ubicación no disponible",
+    "room_unavailable": "Ponte dentro de una sala escaneada",
+    "current_context": "%s (Actual)",
+    "all_blocks": "Todos los bloques",
+    "changed_blocks": "Bloques cambiados (%d)",
+    "rule_badge": "Regla",
+    "position_badge": "Posición",
+    "off": "Desactivado",
+    "type_rule": "Regla de tipo",
+    "position_edit": "Edición de posición",
+    "scope_value": "Ámbito: %s",
+    "everywhere": "En todas partes",
+    "tint_value": "Tinte: #%06X",
+    "disabled": "Desactivado",
+    "visual_block": "Bloque visual",
+    "profile_title": "Perfiles de FME",
+    "import_file": "Importar perfil de FME",
+    "any_block": "Cualquier bloque",
+    "positions_hidden": "Mostrando %d de %d posiciones.",
+    "import_skipped_rooms": "Se omitieron %d ediciones de salas: esas salas se ubican de otra forma aquí.",
+    "import_skipped_blocks": "%d ediciones usan bloques que este juego no tiene.",
+    "import_location_title": "¿Dónde estaban estos bloques?",
+    "import_location_label": "Ubicación",
+    "import_location_here": "Aquí: %s",
+    "import_location_f7": "Jefe de F7, dividido por fase",
+    "import_location_confirm": "Importar",
+    "select_replacement": "Seleccionar como reemplazo",
+    "set_source": "Fijar como origen",
+    "use_destination": "Usar como destino",
+    "replace_with_selected": "Reemplazar con el bloque seleccionado",
+    "change_tint": "Cambiar tinte...",
+    "favorite": "Añadir a favoritos",
+    "unfavorite": "Quitar de favoritos",
+    "copy_block_id": "Copiar ID del bloque",
+    "change_replacement": "Cambiar reemplazo...",
+    "replace_all_like_this": "Reemplazar todos los bloques como este",
+    "match_any_block": "Coincidir con cualquier bloque",
+    "edit_mode_replaces": "El modo de edición reemplaza:",
+    "same_block_type": "Mismo tipo de bloque",
+    "set_tint": "Establecer tinte...",
+    "reset_tint": "Restablecer tinte",
+    "disable_rule": "Desactivar",
+    "enable_rule": "Activar",
+    "inspect_positions": "Inspeccionar posiciones...",
+    "move_copy": "Mover / Copiar...",
+    "remove_confirm": "¿Quitar esta edición FME?",
+    "clear_global": "Borrar globales",
+    "clear_context": "Borrar %s",
+    "copy_context": "Copiar todas las reglas",
+    "paste_context": "Pegar reglas de %s",
+    "paste_context_empty": "Pegar reglas",
+    "context_copied": "Se copiaron %d ediciones FME de %s.",
+    "context_pasted": "Se pegaron %d ediciones FME en %s.",
+    "clear_confirm": "¿Quitar %d ediciones de %s? Se puede deshacer.",
+    "rule_saved": "Guardado: %s → %s.",
+    "selection_failed": "No se puede seleccionar ese bloque.",
+    "positions_title": "Posiciones editadas",
+    "positions_empty": "No quedan posiciones.",
+    "remove_nearest": "Quitar la más cercana",
+    "remove_all": "Quitar todas",
+    "position_world_local": "Mundo: %d, %d, %d · Local: %d, %d, %d",
+    "position_local": "Local: %d, %d, %d",
+    "edit_position": "Editar posición",
+    "add_position": "Añadir posición",
+    "apply_position": "Aplicar",
+    "copy_coordinates": "Copiar coordenadas",
+    "paste_coordinates": "Pegar coordenadas",
+    "coordinates_invalid": "El portapapeles no contiene tres coordenadas enteras.",
+    "remove_position": "Eliminar posición",
+    "remove_position_confirm": "¿Eliminar esta edición de posición?",
+    "local_coordinates": "Coordenadas locales",
+    "world_coordinates": "Coordenadas del mundo",
+    "position_invalid": "Introduce coordenadas enteras válidas.",
+    "position_preview": "Posición: %d, %d, %d",
+    "world_preview": "Mundo: %d, %d, %d",
+    "world_preview_unavailable": "La vista previa del mundo no está disponible fuera de esta sala.",
+    "position_occupied": "Esa posición ya tiene una edición de FME.",
+    "position_missing": "Esa edición de posición ya no existe.",
+    "remove_all_confirm": "¿Quitar las %d posiciones?",
+    "copy_rule": "Copiar",
+    "move_rule": "Mover",
+    "cancel": "Cancelar",
+    "destination": "Destino",
+    "rule_moved": "Regla movida a %s.",
+    "rule_copied": "Regla copiada a %s.",
+    "scope_unavailable": "El ámbito activo de edición FME no está disponible.",
+    "position_blocked": "No se puede colocar un bloque visual ahí.",
+    "help": "Modo de edición: clic derecho reemplaza e izquierdo restaura. Por defecto, el central elige un bloque y G coloca uno visual.",
+    "enable": "FME: No",
+    "disable": "FME: Sí",
+    "edit_on": "Edic.: Sí",
+    "edit_off": "Edic.: No",
+    "selected": "Seleccionado: %s",
+    "batch_title": "Regla de reemplazo global",
+    "use_selected_source": "Fijar origen",
+    "replace_selected": "Reemplazar todo",
+    "remove_rule": "Quitar",
+    "source_none": "Origen: Sin definir",
+    "source": "Origen: %s",
+    "undo": "Deshacer",
+    "redo": "Rehacer",
+    "manage": "Gestionar",
+    "clear_all": "Borrar",
+    "management_title": "Reemplazos FME",
+    "management_empty": "Todavía no hay reemplazos.",
+    "management_summary": "%d reemplazos activos",
+    "position_detail": "Posición: %d, %d, %d%s",
+    "visual_suffix": " · visual",
+    "global_detail": "%s → %s",
+    "global_source": "Regla de origen global",
+    "shading": "Sombreado: %d%%",
+    "shading_changed": "Sombreado establecido en %d%%.",
+    "replaced_count": "Todos los bloques %s ahora parecen %s.",
+    "removed_rule": "Se quitó la regla de reemplazo para %s.",
+    "no_source_matches": "Esa regla de reemplazo ya está configurada.",
+    "undo_done": "Se deshizo la última edición FME.",
+    "nothing_to_undo": "No hay nada que deshacer.",
+    "redo_done": "Se rehízo la última edición FME.",
+    "nothing_to_redo": "No hay nada que rehacer.",
+    "cleared_count": "Se borraron %d ediciones FME.",
+    "nothing_to_clear": "No hay nada que borrar."
+  },
+  "particlepicker": {
+    "search": "Buscar partículas...",
+    "count": "%d / %d seleccionadas",
+    "all": "Todo",
+    "none": "Ninguna",
+    "empty": "Ninguna partícula coincide."
+  },
+  "simonsays": {
+    "completed_time": "Simon Says completado en %s s."
+  },
+  "soloclears": {
+    "opened": "Grabando esta partida de %s para la clasificación de Solo Clears.",
+    "refused": "Esta partida no se grabará — %s",
+    "accepted": "Enviado: %s con %s puntos. Ahora está pendiente de revisión.",
+    "rejected": "La clasificación no aceptó esa partida — %s",
+    "abandoned": "Grabación detenida — %s",
+    "title": "Solo Clears",
+    "mine": "Mis partidas",
+    "overall": "General",
+    "no_skips": "Sin saltos",
+    "with_skips": "Con saltos",
+    "loading": "Cargando...",
+    "board_unavailable": "Todavía no hay clasificación para este piso.",
+    "board_empty": "Todavía no hay partidas en esta clasificación.",
+    "mine_unavailable": "No se pudieron cargar tus partidas.",
+    "mine_empty": "Todavía no has enviado ninguna partida.",
+    "column_player": "Jugador",
+    "column_time": "Tiempo",
+    "column_score": "Puntuación",
+    "unknown_player": "Desconocido",
+    "upload_failed": "La partida terminó, pero no se pudo enviar (%s). El servidor no la recibió.",
+    "upload_kept": "La grabación se guardó en %s; es la única prueba de que la partida ocurrió.",
+    "indicator": "Modo Solo Clear",
+    "reason": {
+      "offline": "no hay conexión con el servidor, así que la partida no se puede verificar.",
+      "unsupported": "el servidor ya no admite esta versión: actualiza el mod.",
+      "floor_not_eligible": "la clasificación solo incluye F7 y M7.",
+      "server_not_eligible": "la clasificación solo incluye partidas jugadas en Hypixel.",
+      "already_recording": "ya se está grabando una partida en esta cuenta.",
+      "no_identity": "esta cuenta de Minecraft no está vinculada a una cuenta de BlackAddons.",
+      "no_account": "esta cuenta de Minecraft no está vinculada a una cuenta de BlackAddons.",
+      "unavailable": "el servidor no pudo abrir una sesión en este momento.",
+      "death": "moriste, y una partida en solitario termina con la primera muerte.",
+      "left": "saliste de la mazmorra.",
+      "world": "saliste del mundo.",
+      "not_solo": "el marcador no confirma que esta partida fuera en solitario.",
+      "too_large": "la grabación superó el tamaño permitido.",
+      "no_socket": "la conexión no volvió a tiempo para cerrar la partida.",
+      "rejected": "el servidor cerró la sesión.",
+      "expired": "la sesión expiró.",
+      "unknown_run": "el servidor ya no reconoce esta partida.",
+      "chain_mismatch": "la grabación no coincide con los datos confirmados durante la partida.",
+      "impossible_pace": "el tiempo declarado es más corto que el intervalo que observó el servidor.",
+      "score_below_threshold": "no alcanza la puntuación mínima de clasificación.",
+      "past_clear_limit": "la partida dura más de lo que admite esta clasificación.",
+      "already_submitted": "esa partida ya se ha enviado.",
+      "not_finished": "la partida nunca se marcó como terminada.",
+      "malformed": "la grabación no se pudo leer.",
+      "floor_mismatch": "la grabación corresponde a otro piso."
+    }
+  },
+  "widget": {
+    "slider_hint": "Ctrl + rueda para ajustar."
+  },
+  "theme": {
+    "midnight": "Medianoche",
+    "pumpkin": "Calabaza",
+    "evergreen": "Perenne"
+  },
+  "theme_screen": {
+    "noun": "un tema",
+    "export_title": "Tema exportado",
+    "export_done": "«%s» está en tu portapapeles.",
+    "state_normal": "Fila",
+    "state_hover": "Al pasar el cursor",
+    "state_active": "Activo",
+    "state_dimmed": "Atenuado",
+    "warn_contrast": "%s no se puede leer sobre %s. No se podrá guardar hasta que lo corrijas.",
+    "bases": "Colores base: todo lo que aparece a continuación se deriva de estos",
+    "tip_base": "Un color base, no una ranura. Todos los colores de abajo derivados de %s siguen este color.",
+    "tip_pinned": "Fijado a mano, así que ningún color base lo mueve.",
+    "tip_derived": "Derivado del color base %s.",
+    "tip_fixed": "Igual en todos los temas hasta que lo cambies.",
+    "tip_action_pinned": "Haz clic derecho para devolverlo a la fórmula.",
+    "tip_action_derived": "Haz clic para fijarlo a mano.",
+    "unsaved_title": "Cambios no guardados",
+    "unsaved_message": "%s tiene cambios sin guardar. ¿Quieres descartarlos?",
+    "unsaved_discard": "Descartar",
+    "title": "Tema",
+    "name": "Nombre del tema",
+    "selected": "Seleccionado: %s",
+    "note_yours": "Tu tema. Lo que cambies aquí se conserva al guardar.",
+    "note_builtin": "Integrado y de solo lectura. Duplícalo para obtener uno que puedas cambiar.",
+    "builtin": "integrado",
+    "base_surface": "Superficie",
+    "base_text": "Texto",
+    "base_accent": "Acento",
+    "preview": "Vista previa",
+    "sample_primary": "Texto principal",
+    "sample_secondary": "Texto secundario",
+    "sample_muted": "Texto atenuado",
+    "sample_disabled": "Texto desactivado",
+    "sample_accent": "Acento",
+    "sample_success": "Éxito",
+    "sample_danger": "Peligro",
+    "export": "Exportar",
+    "import": "Importar",
+    "duplicate": "Duplicar",
+    "delete": "Eliminar",
+    "done": "Listo",
+    "copy_of": "Copia de %s",
+    "saved": "Guardado: %s",
+    "duplicated": "Duplicado como %s",
+    "save_failed": "No se pudo guardar el tema",
+    "delete_title": "Eliminar tema",
+    "delete_message": "%s desaparecerá para siempre.",
+    "import_title": "Importar tema",
+    "cancel": "Cancelar",
+    "import_new": "Nuevo tema «%s»",
+    "import_replaces": "Reemplazará tu tema «%s»",
+    "import_preview": "Sus colores, en el orden en que los usa la interfaz:",
+    "import_same": "Idéntico a un tema que ya tienes.",
+    "import_changed": "Cambiarán %d colores:",
+    "err_no_bases": "Ese tema no tiene colores.",
+    "err_unreadable": "Ese tema es ilegible: %s en %s."
+  },
+  "theme_base": {
+    "surface": "Superficie",
+    "text": "Texto",
+    "accent": "Acento"
+  },
+  "theme_group": {
+    "surfaces": "Superficies",
+    "text": "Texto",
+    "accents": "Acentos"
+  },
+  "theme_slot": {
+    "background": "Fondo",
+    "surface": "Superficie",
+    "surfaceHover": "Superficie al pasar el cursor",
+    "surfaceActive": "Superficie activa",
+    "border": "Borde",
+    "overlayDim": "Atenuación de superposición",
+    "track": "Pista",
+    "accent": "Acento",
+    "accentSoft": "Acento, suave",
+    "success": "Éxito",
+    "danger": "Peligro",
+    "textPrimary": "Texto principal",
+    "textSecondary": "Texto secundario",
+    "textMuted": "Texto atenuado",
+    "textDisabled": "Texto desactivado"
+  },
+  "portable": {
+    "empty": "No hay nada en tu portapapeles.",
+    "foreign": "Esa no es una cadena de configuración de BlackAddons.",
+    "corrupt": "Esa cadena está dañada. Vuelve a copiarla completa.",
+    "large": "Esa cadena es demasiado grande para ser una configuración.",
+    "newer": "Lo creó una versión de BlackAddons más nueva que esta.",
+    "unknown_kind": "Esta versión no sabe importar «%s».",
+    "cancel": "Cancelar",
+    "import": "Importar",
+    "copy_again": "Copiar de nuevo",
+    "close": "Cerrar",
+    "copied_mark": "Copiado",
+    "err_kind": "Eso es %s, no %s.",
+    "feature": {
+      "title": "Pegar configuración",
+      "noun": "la configuración de una función",
+      "err_no_feature": "Esa cadena no nombra ninguna función.",
+      "err_other": "Esa configuración pertenece a %s.",
+      "err_missing": "Este juego no tiene la función «%s».",
+      "headline": "Configuración de %s",
+      "same": "Ya tienes esta configuración.",
+      "changed": "Cambiarán %d ajustes:",
+      "on": "Activado",
+      "off": "Desactivado",
+      "chroma": "croma"
+    },
+    "actions": {
+      "title": "Importar acciones",
+      "noun": "acciones",
+      "err_read": "No se pudieron leer esas acciones.",
+      "err_newer": "Esas acciones usan pasos que esta versión no tiene.",
+      "err_empty": "Esa cadena no contiene acciones.",
+      "kind_chat": "Acción de chat",
+      "kind_action_group": "Grupo",
+      "kind_group": "Grupo de waypoints",
+      "kind_waypoint": "Waypoint",
+      "kind_shortcut": "Atajo",
+      "kind_location": "Acción de ubicación"
+    },
+    "share": "Compartir",
+    "shared": "%s está en tu portapapeles.",
+    "paste": "Pegar desde el portapapeles",
+    "from_file": "Importar desde archivo...",
+    "file_unreadable": "Ese archivo no contiene %s.",
+    "share_profile": "Compartir perfil",
+    "new_profile": "Nuevo perfil «%s»",
+    "profile_note": "Se importa como un perfil propio; los tuyos no cambian. %d elementos:",
+    "into_profile": "Se añade a tu perfil «%s»",
+    "items": "%d elementos:",
+    "unnamed": "Sin nombre",
+    "fme": {
+      "title": "Importar ediciones de FME",
+      "noun": "ediciones de FME",
+      "err_read": "No se pudieron leer esas ediciones de FME.",
+      "err_empty": "Esa cadena no contiene ediciones de FME.",
+      "err_too_big": "Esa configuración es demasiado grande para un solo perfil.",
+      "err_file_empty": "Ese archivo no tiene ediciones de FME que este juego pueda mostrar."
+    },
+    "font": {
+      "title": "Importar fuentes",
+      "noun": "fuentes",
+      "font": "Fuente",
+      "headline": "Fuentes compartidas",
+      "err_local": "%s se importó desde un archivo de su equipo, así que no se puede compartir. Pídeles el archivo.",
+      "same": "Estas son las fuentes que ya tienes.",
+      "downloads": "%s se descarga primero de Fontsource. %d cambios:",
+      "changed": "%d cambios:"
+    },
+    "config": {
+      "title": "Importar configuración",
+      "noun": "una configuración completa",
+      "err_read": "No se pudo leer esa configuración.",
+      "enabled": "Activado",
+      "headline": "Una configuración compartida",
+      "same": "Es idéntica a tu configuración.",
+      "changed": "%d cambios:",
+      "missing": "Se omiten %d funciones que este juego no tiene."
+    },
+    "share_hint": "Lo importan desde el mismo menú o con /b import."
+  },
+  "screenshots": {
+    "send": "Enviar al chat",
+    "title": "Capturas de pantalla",
+    "all": "Todo",
+    "favorites": "Favoritas",
+    "folder": "Abrir carpeta",
+    "back": "Atrás",
+    "open": "Abrir",
+    "copy": "Copiar",
+    "favorite": "Añadir a favoritas",
+    "unfavorite": "Quitar de favoritas",
+    "delete": "Eliminar",
+    "delete_confirm": "¿Eliminar esta captura de pantalla para siempre?",
+    "count": "%d capturas",
+    "loading": "Cargando...",
+    "no_favorites": "Aún no hay favoritas.",
+    "empty": "Aún no hay capturas de pantalla. Pulsa F2 en el juego.",
+    "saved": "Captura de pantalla guardada",
+    "view": "Vista",
+    "copied": "Captura de pantalla copiada",
+    "copy_failed": "No se pudo copiar la captura de pantalla"
+  },
+  "actions": {
+    "add_action": "+ Añadir acción",
+    "add_group": "+ Añadir grupo",
+    "any": "CUALQUIERA",
+    "any_floor": "Cualquier piso",
+    "any_island": "Cualquier isla (todas)",
+    "area_filter": "Filtro de isla / área:",
+    "area_value": "Área: %s",
+    "areas": "%d áreas",
+    "boss": "Jefe",
+    "boss_value": "Jefe: %s",
+    "cancel": "Cancelar",
+    "chat": {
+      "edit": "Editar acción de chat",
+      "empty": "No hay acciones de chat. Haz clic en «+ Añadir acción» para crear una.",
+      "empty_pattern": "<Patrón vacío>",
+      "pattern_placeholder": "Patrón / Mensaje",
+      "regex": "Expresión regular: %s",
+      "ignore_own": "Ignorar mis mensajes: %s",
+      "trigger_pattern": "Patrón de activación:"
+    },
+    "configure_steps": "Configurar pasos de acción (%s)",
+    "cooldown": "Tiempo de espera: %s s",
+    "cooldown_label": "Tiempo de espera",
+    "cooldown_value": "%s s de espera",
+    "coordinates": "Coordenadas (X, Y, Z):",
+    "current_location": "Ubicación actual:",
+    "delay": "Retraso: %s s",
+    "delay_value": "%s s de retraso",
+    "delete": "Eliminar",
+    "done": "Listo",
+    "dungeon": "Mazmorra",
+    "dungeon_value": "Mazmorra: %s",
+    "edit": "Editar",
+    "edit_action": "Editar acción",
+    "feedback": {
+      "notification": "Notificación:",
+      "notification_message": "Mensaje de notificación:",
+      "pitch": "Tono",
+      "screen_subtitle": "Subtítulo de pantalla:",
+      "screen_title": "Título de la pantalla:",
+      "sound_id": "ID de sonido:",
+      "subtitle_placeholder": "Subtítulo de pantalla",
+      "test": "Probar",
+      "title_duration": "Duración del título: %s s",
+      "title_placeholder": "Título de la pantalla",
+      "toast": "Notificación: %s",
+      "toast_message_placeholder": "Mensaje de notificación emergente",
+      "toast_title_placeholder": "Título de la notificación emergente",
+      "volume": "Volumen"
+    },
+    "floor_filter": "Filtro de piso de mazmorra:",
+    "floor_value": "Piso: %s",
+    "group": {
+      "edit": "Editar grupo",
+      "label": "Grupo:",
+      "name": "Nombre del grupo:",
+      "name_placeholder": "Nombre del grupo",
+      "new": "Nuevo grupo de waypoints",
+      "new_name": "Nuevo grupo",
+      "unnamed": "Grupo sin nombre",
+      "use_current_location": "Usar ubicación actual"
+    },
+    "height": "Altura",
+    "islands_selected": "%d islas seleccionadas",
+    "location_conditions": "Condiciones de la ubicación:",
+    "location": {
+      "another": "Otro disparador",
+      "duplicate_message": "%s utiliza los mismos filtros.",
+      "duplicate_title": "Disparador de ubicación duplicada",
+      "edit": "Editar acción de ubicación",
+      "empty": "No hay acciones de ubicación. Haz clic en «+ Añadir acción» para crear un disparador de cambio de área.",
+      "fallback": "Disparador de ubicación",
+      "name": "Nombre del disparador:",
+      "name_placeholder": "Nombre del disparador (p. ej., entrar en F7)",
+      "new": "Nueva acción de ubicación",
+      "new_name": "Nueva acción de ubicación",
+      "quick_command_placeholder": "Comando rápido (p. ej. /party chat Listo)",
+      "trigger": "Disparador:",
+      "on_enter": "Al entrar en la ubicación",
+      "on_event": "Al ocurrir: %s"
+    },
+    "manage_steps": "Gestionar pasos de acción (%s) ->",
+    "name": "Nombre:",
+    "no": "NO",
+    "no_boss": "Sin jefe",
+    "no_dungeon": "Sin mazmorra",
+    "none": "Ninguno",
+    "none_upper": "NINGUNO",
+    "off": "DESACTIVADO",
+    "on": "ACTIVADO",
+    "phase_value": "Fase: %s",
+    "profile": {
+      "title": "Perfiles de acciones"
+    },
+    "quick_command": "Comando rápido:",
+    "radius": "Radio",
+    "save": "Guardar",
+    "shortcut": {
+      "alias": "Alias de comando (sin /):",
+      "alias_placeholder": "Alias de comando sin / (p. ej., wf)",
+      "another": "Otro atajo",
+      "duplicate_message": "%s también usa %s.",
+      "duplicate_title": "Combinación de teclas duplicada",
+      "edit": "Editar atajo",
+      "empty": "No hay atajos. Haz clic en «+ Añadir acción» para crear un alias de comando o una tecla.",
+      "fallback": "Atajo",
+      "hotkey": "Tecla rápida:",
+      "key": "TECLA %d",
+      "key_short": "TECLA",
+      "keybind": "Tecla: %s",
+      "mouse_button": "RATÓN %d",
+      "mouse_left": "BOTÓN IZQUIERDO DEL RATÓN",
+      "mouse_left_short": "IZQ",
+      "mouse_middle": "BOTÓN CENTRAL DEL RATÓN",
+      "mouse_middle_short": "CENTRO",
+      "mouse_right": "BOTÓN DERECHO DEL RATÓN",
+      "mouse_right_short": "DER",
+      "mouse_short": "M%d",
+      "name": "Nombre del atajo:",
+      "name_placeholder": "Nombre del atajo (p. ej., Warp Forge)",
+      "new": "Nuevo atajo",
+      "new_name": "Nuevo atajo",
+      "press_key": "Pulsa una tecla / haz clic...",
+      "quick_command_placeholder": "Comando rápido (p. ej., /warp forge)",
+      "unbind": "Desvincular"
+    },
+    "step_type": {
+      "hud_timer": "Temporizador del HUD",
+      "send_message": "Enviar mensaje",
+      "text_overlay": "Texto en pantalla",
+      "wait": "Esperar / Retrasar",
+      "repeat": "Repetir",
+      "if": "Si",
+      "end": "Fin",
+      "stop_steps": "Detener pasos",
+      "temp_waypoint": "Waypoints temporales",
+      "missing": "Falta: %s",
+      "else": "Si no"
+    },
+    "step": {
+      "edit": "Editar paso de acción",
+      "enabled": "Paso: %s",
+      "message_placeholder": "Mensaje o /comando...",
+      "overlay_text_placeholder": "{player} at ss",
+      "save": "Guardar paso",
+      "timer_name_placeholder": "Nombre del temporizador",
+      "type_execution": "Tipo de paso y ejecución:",
+      "wait_help": "Espera la duración especificada antes de continuar con el siguiente paso.",
+      "wait_previous": "Esperar al anterior: %s",
+      "chat_placeholder": "Texto o regex del chat",
+      "boss_bar_placeholder": "Texto de la barra del jefe, p. ej. Maxor",
+      "wait_signal_help": "Cuenta desde que empieza el paso anterior.",
+      "timeout_help": "Sin límite espera para siempre. Al agotarse, los pasos siguen o se detienen si está activado.",
+      "repeat_while": "Mientras se cumpla",
+      "repeat_count_mode": "Veces",
+      "repeat_while_help": "Se comprueba antes de cada pasada; como máximo 10000 pasadas.",
+      "block_help": "Ejecuta los pasos hasta su Fin.",
+      "if_help": "Ejecuta los pasos hasta su Else o End solo cuando se cumple la condición. Los pasos después del End siempre se ejecutan.",
+      "end_help": "Cierra el Repetir o Si más cercano por encima.",
+      "stop_steps_help": "Detiene el resto de estos pasos. Los pasos iniciados por otros disparadores siguen.",
+      "waypoint_help": "También se quita al cambiar de mundo.",
+      "missing_help": "El addon de este paso no está instalado. El paso conserva su configuración y se omite.",
+      "else_help": "Ejecuta los pasos hasta el End cuando la condición del If no se cumple."
+    },
+    "steps": {
+      "add": "+ Añadir paso",
+      "button": "Pasos",
+      "empty": "No hay pasos. Haz clic en «+ Añadir paso».",
+      "timer": "Temporizador",
+      "title": "Pasos de acción",
+      "while": "mientras %s",
+      "end_unmatched": "nada que cerrar",
+      "not": "no %s",
+      "else_unmatched": "no está directamente en un If"
+    },
+    "tick_delay": "Server Tick Delay: %st (%ss)",
+    "tick_delay_value": "%st (%ss) delay",
+    "title": "Acciones",
+    "unnamed": "Sin nombre",
+    "waypoint": {
+      "beacon": "Faro: %s",
+      "edit": "Editar waypoint (%s)",
+      "empty": "No hay acciones de waypoint. Haz clic en «+ Añadir acción» para crear una.",
+      "fallback": "Waypoint",
+      "filled": "Relleno: %s",
+      "name_placeholder": "Nombre del waypoint",
+      "new_name": "Nuevo waypoint",
+      "outline": "Contorno: %s",
+      "pick_color": "Elegir color",
+      "round": "Redondear a 0,5",
+      "shape_value": "Forma: %s",
+      "shape": {
+        "box": "CAJA",
+        "cylinder": "CILINDRO"
+      },
+      "text": "Texto: %s",
+      "trigger": {
+        "entry": "Entrada",
+        "exit": "Salida",
+        "gui_exit": "Cerrar GUI"
+      },
+      "triggers": "Disparadores: %s",
+      "triggered_by": "Lo activa: %s",
+      "triggers_none": "Ninguno",
+      "ungrouped": "Ninguno (Sin agrupar)",
+      "unnamed": "Waypoint (%s)",
+      "use_current": "Usar posición actual",
+      "use_looking": "Usar posición apuntada"
+    },
+    "command": {
+      "active": "ACTIVO",
+      "ambiguous": "«%s» es ambiguo; usa su índice o ID.",
+      "any": "cualquiera",
+      "assigned_group": "Se asignó %s a %s.",
+      "busy": "ocupada",
+      "chat_actions": "Acciones de chat",
+      "chat_groups": "Grupos de chat",
+      "shortcut_groups": "Grupos de atajos",
+      "location_groups": "Grupos de ubicación",
+      "chat_details": "regex=%s, pasos=%d",
+      "delete": "Eliminar",
+      "delete_hint": "Haz clic y envía el comando para confirmar la eliminación",
+      "deleted": "Se eliminó %s.",
+      "disabled": "desactivado",
+      "edit": "Editar",
+      "empty_pattern": "<Patrón vacío>",
+      "enabled": "activado",
+      "enabled_state": "%s ahora está %s.",
+      "folder_opened": "Se abrió la carpeta de acciones.",
+      "group_details": "áreas=%s, piso=%s",
+      "help": "Comandos de acciones:",
+      "idle": "inactiva",
+      "join_for_waypoint": "Entra en un mundo antes de crear un waypoint desde tu posición actual.",
+      "last_profile": "No se puede eliminar el último perfil.",
+      "location_actions": "Acciones de ubicación",
+      "location_details": "áreas=%s, retraso=%ss, espera=%ss, pasos=%d",
+      "location_trigger": "Disparador de ubicación",
+      "manage_steps": "Gestionar pasos",
+      "moved": "Se movió %s a la posición %d.",
+      "no_enabled_steps": "%s no tiene pasos activados.",
+      "no_steps": "%s no tiene pasos.",
+      "none": "ninguna",
+      "none_in_profile": "No hay %s en el perfil actual.",
+      "off": "NO",
+      "on": "SÍ",
+      "profile_copied": "Se copió el perfil actual a %s.",
+      "profile_created": "Se creó y seleccionó el perfil %s.",
+      "profile_deleted": "Se eliminó el perfil %s.",
+      "profile_not_found": "No se encontró el perfil «%s».",
+      "profile_renamed": "Se cambió el nombre del perfil a %s.",
+      "profile_selected": "Se seleccionó el perfil %s.",
+      "profiles": "Perfiles de acciones (%d):",
+      "queued": "Se puso %s en cola.",
+      "removed_group": "Se quitó %s de su grupo.",
+      "run": "Ejecutar",
+      "run_now": "Ejecutar ahora",
+      "select": "Seleccionar",
+      "shortcut": "Atajo",
+      "shortcut_details": "alias=/%s, asignado=%s, pasos=%d",
+      "shortcuts": "Atajos",
+      "status": "Ejecución: %s; activa: %s; en cola: %d.",
+      "step_disabled": "Ese paso está desactivado.",
+      "step_gone": "El paso ya no existe.",
+      "step_moved": "Se movió el paso a la posición %d.",
+      "step_not_found": "No se encontró el paso %d.",
+      "steps": "Pasos",
+      "steps_count": "Pasos de %s (%d):",
+      "stopped": "Se detuvo la acción activa y se vació su cola.",
+      "target_gone": "El objetivo ya no existe.",
+      "target_not_found": "No se encontró el objetivo de %s «%s».",
+      "toggle": "Alternar",
+      "toggle_hint": "Activar o desactivar",
+      "unnamed_group": "Grupo sin nombre",
+      "waypoint": "Waypoint",
+      "waypoint_details": "x=%s, y=%s, z=%s, acciones=%d",
+      "waypoint_groups": "Grupos de waypoints",
+      "waypoints": "Waypoints"
+    },
+    "yes": "SÍ",
+    "menu": {
+      "duplicate": "Duplicar",
+      "delete_confirm": "¿Eliminar %s?"
+    },
+    "triggered_by": {
+      "anyone": "Cualquiera",
+      "me": "Yo",
+      "others": "Otros"
+    },
+    "wait_mode": {
+      "time": "Tiempo",
+      "position": "Posición",
+      "chat": "Mensaje de chat",
+      "dungeon_event": "Evento de mazmorra",
+      "boss_bar": "Barra de jefe"
+    },
+    "dungeon_event": {
+      "run_start": "Inicio de la partida",
+      "blood_open": "Puerta Blood abierta",
+      "boss_enter": "Entrada a la sala del jefe",
+      "maxor": "F7 P1: Maxor",
+      "storm": "F7 P2: Storm",
+      "goldor": "F7 P3: Goldor",
+      "necron": "F7 P4: Necron",
+      "wither_king": "M7 P5: Wither King",
+      "run_end": "Fin de la partida"
+    },
+    "condition_type": {
+      "location": "Ubicación",
+      "near": "Cerca de un punto",
+      "item": "Objeto",
+      "dungeon_class": "Clase de mazmorra"
+    },
+    "item_scope": {
+      "hand": "En la mano",
+      "hotbar": "En la barra rápida"
+    },
+    "condition": {
+      "item_placeholder": "Id de SkyBlock o nombre, p. ej. SPIRIT_LEAP"
+    },
+    "graph": {
+      "open": "Vista de grafo",
+      "normal_view": "Vista normal",
+      "fit": "Ajustar",
+      "closest": "Waypoint más cercano",
+      "reset": "Restablecer diseño",
+      "undo": "Deshacer",
+      "redo": "Rehacer",
+      "minimap": "Mapa",
+      "add": "+ Añadir",
+      "hint": "Rueda: zoom · Arrastrar con botón central/derecho: desplazar · Arrastra un conector para unir · Clic derecho: menú · Doble clic: editar",
+      "loose": "%d pasos sin conectar a un disparador",
+      "unclosed": "bloque abierto",
+      "socket": {
+        "run": "Ejecutar",
+        "in": "Entrada",
+        "next": "Siguiente",
+        "loop": "Repetir",
+        "after": "Después",
+        "true": "Verdadero",
+        "false": "Falso"
+      },
+      "trigger": {
+        "chat": "Chat: %s",
+        "waypoint": "Waypoint: %s",
+        "shortcut": "Atajo: %s",
+        "location": "Ubicación: %s",
+        "no_pattern": "(sin patrón)"
+      },
+      "menu": {
+        "add_step": "Añadir paso...",
+        "group": "Agrupar",
+        "ungroup": "Desagrupar",
+        "ungroup_nodes": "Quitar del grupo",
+        "reset_position": "Restablecer posición",
+        "frame": "Encuadrar todo",
+        "edit": "Editar...",
+        "enable": "Activar",
+        "disable": "Desactivar",
+        "disconnect": "Desconectar todo",
+        "delete": "Eliminar",
+        "delete_wire": "Eliminar conexión",
+        "copy": "Copiar",
+        "new_chat": "Acción de chat...",
+        "new_shortcut": "Atajo...",
+        "new_location": "Acción de ubicación...",
+        "new_waypoint": "Waypoint en mi posición..."
+      },
+      "prop": {
+        "alias": "Alias",
+        "area": "Área",
+        "beacon": "Faro",
+        "boss": "Jefe",
+        "capture": "Capturar",
+        "class": "Clase",
+        "color": "Color",
+        "condition": "Condición",
+        "coords": "Coordenadas",
+        "delay": "Retraso",
+        "depth_check": "Verificación de profundidad",
+        "duration": "Duración",
+        "event": "Evento",
+        "filled": "Relleno",
+        "floor": "Piso",
+        "here": "Aquí",
+        "ignore_own": "Ignorar mis mensajes",
+        "item": "Objeto",
+        "keybind": "Tecla",
+        "label": "Etiqueta",
+        "look": "Mirada",
+        "message": "Mensaje",
+        "mode": "Modo",
+        "name": "Nombre",
+        "not": "No",
+        "notification": "Notificación",
+        "options": "Opciones",
+        "outline": "Contorno",
+        "pattern": "Patrón",
+        "phase": "Fase",
+        "pitch": "Cabeceo",
+        "regex": "Regex",
+        "remove_after": "Quitar tras",
+        "remove_within": "Quitar a menos de",
+        "round": "Redondear a 0,5",
+        "scope": "Alcance",
+        "shape": "Forma",
+        "show": "Mostrar",
+        "show_for": "Mostrar durante",
+        "sound": "Sonido",
+        "stop_on_timeout": "Detener al agotarse el límite",
+        "subtitle": "Subtítulo",
+        "text": "Texto",
+        "tick_delay": "Tick delay",
+        "timeout": "Límite de tiempo",
+        "timer_name": "Nombre del temporizador",
+        "times": "Veces",
+        "title": "Título",
+        "title_time": "Duración del título",
+        "toast_message": "Mensaje de notificación",
+        "toast_title": "Título de la notificación",
+        "tracer": "Trazador",
+        "trigger": "Disparador",
+        "triggers": "Disparadores",
+        "triggered_by": "Lo activa",
+        "wait_for": "Esperar",
+        "wait_previous": "Esperar al anterior",
+        "yaw": "Guiñada"
+      },
+      "missing": "falta el addon"
+    }
+  },
+  "setting_group": {
+    "background_border": "Fondo y borde",
+    "checkmarks": "Marcas",
+    "class_colors": "Colores de clases",
+    "debug": "Depuración",
+    "door_colors": "Colores de puertas",
+    "extra_info": "Información adicional",
+    "general": "General",
+    "player_heads": "Cabezas de jugadores",
+    "room_colors": "Colores de salas",
+    "scales": "Escalas",
+    "alerts": "Alertas",
+    "visual": "Visual",
+    "indicator": "Indicador",
+    "run": "Partida",
+    "keybinds": "Atajos",
+    "map_leap": "Salto por mapa",
+    "after_leap": "Tras el salto",
+    "colors": "Colores",
+    "brightness": "Brillo",
+    "motion": "Movimiento"
+  },
+  "hud": {
+    "action_timer": "Temporizador de acción",
+    "action_text": "Texto de acción",
+    "action_ticks": "Action Ticks",
+    "key_timer": "Temporizador de llaves",
+    "party_debugger": "Depurador de grupo",
+    "location_debugger": "Depurador de ubicaciones",
+    "performance_hud": "HUD de rendimiento",
+    "solo_clear": "Solo Clear",
+    "fme_edit_mode": "Modo de edición FME",
+    "dungeon_map": "Mapa de mazmorra"
+  },
+  "copy_entity_data": {
+    "copied": "Datos de la entidad copiados al portapapeles."
+  },
+  "copy_item_data": {
+    "copied": "Datos del objeto copiados al portapapeles."
+  },
+  "dumpers": {
+    "empty": "Nada que volcar para %s todavía: el portapapeles está intacto.",
+    "saved": "Volcado %s -> dev/dumps/%s (también en el portapapeles).",
+    "copied": "Se copió el volcado %s al portapapeles (falló la escritura del archivo)."
+  },
+  "feature_label": {
+    "broken_toast": "%s está marcada como rota ahora mismo"
+  },
+  "profiles": {
+    "select": "Perfil",
+    "name": "Nombre del perfil",
+    "new": "Nuevo perfil",
+    "new_name": "Nuevo perfil",
+    "duplicate": "Duplicar perfil",
+    "copy_name": "%s (Copia)",
+    "manage": "Renombrar / Gestionar...",
+    "open_folder": "Abrir carpeta",
+    "delete": "Eliminar perfil",
+    "delete_confirm": "¿Eliminar el perfil %s?"
+  },
+  "discord_presence": {
+    "main_menu": "En el menú principal",
+    "singleplayer": "Un jugador",
+    "multiplayer": "Multijugador",
+    "hypixel": "Hypixel",
+    "skyblock": "Hypixel SkyBlock",
+    "catacombs": "Las Catacumbas",
+    "catacombs_entrance": "Las Catacumbas - Entrada",
+    "catacombs_floor": "Las Catacumbas - Piso %s",
+    "catacombs_master": "Modo Maestro - Piso %s",
+    "in_run": "En una partida",
+    "download": "Consigue BlackAddons",
+    "discord": "Únete al Discord"
+  },
+  "main_menu": {
+    "hypixel": "Hypixel",
+    "blackaddons": "BlackAddons",
+    "website": "Sitio web",
+    "legal": "Información legal",
+    "account": "Cuenta: %s",
+    "confirm_quit": "¿Salir del juego?",
+    "quit": "Salir",
+    "cancel": "Cancelar",
+    "customize": "Personalizar menú",
+    "all_settings": "Todos los ajustes"
+  }
+}

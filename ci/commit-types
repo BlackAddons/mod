@@ -1,0 +1,24 @@
+# The commit types this project accepts - the single source of truth.
+#
+# Format: <type>:<changelog section title>
+#
+# Read by ci/check-commits.sh (the commit-msg hook, the GitLab merge-request job and
+# the GitHub verify workflow reject anything else) and by the `release` job in
+# .gitlab-ci.yml (which groups the release notes by these).
+# The `checkCommitTypes` Gradle task fails the build if AGENTS.md, CONTRIBUTING.md
+# or .gitlab/merge_request_templates/Default.md drift from this list - Markdown
+# cannot include a file, so a check stands in for one.
+#
+# Order decides the order of sections in the release notes.
+
+feat:Features
+fix:Bug Fixes
+refactor:Refactoring
+perf:Performance
+docs:Documentation
+chore:Chores
+test:Tests
+build:Build System
+ci:CI
+style:Code Style
+revert:Reverts

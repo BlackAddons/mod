@@ -1,0 +1,923 @@
+{
+  "addon": {
+    "blackaddons-cheat": "Trucos"
+  },
+  "setting_group": {
+    "menus": "Menus",
+    "experimental": "Experimental",
+    "delays": "Retrasos",
+    "look_at_filter": "Filtro de objetivo",
+    "item_filter": "Filtro de objetos",
+    "location_conditions": "Condiciones de ubicación",
+    "swap_back": "Volver a la ranura anterior",
+    "cheats": "Trucos",
+    "room_colors": "Colores de salas",
+    "auto_solve": "Resolución automática",
+    "auto_start": "Inicio automático"
+  },
+  "feature": {
+    "arrowaligntriggerbot": {
+      "name": "Arrow Align Triggerbot",
+      "desc": "Gira las flechas del dispositivo Arrow Align de F7/M7 a su sitio mientras apuntas a ellas.",
+      "setting": {
+        "click_delay": {
+          "name": "Retraso de clic",
+          "desc": "Tiempo mínimo entre dos clics."
+        }
+      }
+    },
+    "lightsdevicetriggerbot": {
+      "name": "Lights Device Triggerbot",
+      "desc": "Acciona las seis palancas correctas del Lights Device en la fase 3 de F7/M7 cuando apuntas a una.",
+      "setting": {
+        "click_delay": {
+          "name": "Retraso de clic",
+          "desc": "Tiempo mínimo entre dos accionamientos."
+        }
+      }
+    },
+    "norotatebuttontest": {
+      "name": "Prueba de botones sin rotación",
+      "desc": "Alterna clics silenciosos en los botones de piedra de (-2, 85, -93) y (-2, 85, -90)."
+    },
+    "autobm": {
+      "name": "Auto BM",
+      "desc": "Mejora automáticamente Ballista Mechanic en Kuudra.",
+      "setting": {
+        "min_click_delay": {
+          "name": "Retraso mínimo de clic",
+          "desc": "Espera mínima entre los clics de mejora."
+        },
+        "max_click_delay": {
+          "name": "Retraso máximo de clic",
+          "desc": "Espera máxima entre los clics de mejora."
+        },
+        "min_first_click_delay": {
+          "name": "Retraso mínimo del primer clic",
+          "desc": "Espera mínima antes del primer clic de mejora."
+        },
+        "max_first_click_delay": {
+          "name": "Retraso máximo del primer clic",
+          "desc": "Espera máxima antes del primer clic de mejora."
+        }
+      }
+    },
+    "autoclicker": {
+      "name": "Autoclicker",
+      "desc": "Hace clic automáticamente con el botón izquierdo/derecho del ratón, con velocidad y filtros configurables.",
+      "setting": {
+        "button": {
+          "name": "Botón",
+          "option": {
+            "left": "Izquierdo",
+            "right": "Derecho",
+            "both": "Ambos"
+          }
+        },
+        "min_cps": {
+          "name": "CPS mínimos"
+        },
+        "max_cps": {
+          "name": "CPS máximos"
+        },
+        "hold_keybind": {
+          "name": "Mantener tecla",
+          "desc": "Activo solo mientras mantienes la tecla. Si está desactivado, la tecla lo activa y desactiva."
+        },
+        "hold_click": {
+          "name": "Mantener clic",
+          "desc": "Mantiene el botón pulsado en lugar de pulsarlo rápido."
+        },
+        "ground_only": {
+          "name": "Solo en el suelo",
+          "desc": "Solo hace clic mientras el jugador está en el suelo."
+        },
+        "hotkey": {
+          "name": "Tecla rápida",
+          "desc": "Pulsa o mantén para activar el autoclicker."
+        },
+        "look_at_filter": {
+          "name": "Filtro de objetivo"
+        },
+        "look_at_targets": {
+          "name": "Objetivos a mirar"
+        },
+        "look_at_distance": {
+          "name": "Distancia de mirada"
+        },
+        "item_filter": {
+          "name": "Filtro de objetos"
+        },
+        "item_name_filters": {
+          "name": "Filtros de nombre de objeto"
+        },
+        "location_conditions": {
+          "name": "Condiciones de ubicación"
+        },
+        "dungeon_only": {
+          "name": "Solo en mazmorras"
+        },
+        "floor_filter": {
+          "name": "Filtro de piso",
+          "option": {
+            "any": "Cualquiera"
+          }
+        },
+        "boss_room_only": {
+          "name": "Solo en la sala del jefe"
+        },
+        "phase_filter": {
+          "name": "Filtro de fase",
+          "option": {
+            "any": "Cualquiera"
+          }
+        }
+      }
+    },
+    "autotnt": {
+      "name": "Auto TNT",
+      "desc": "Hace explotar las paredes agrietadas de Catacombs con Superboom TNT mientras las miras.",
+      "setting": {
+        "button": {
+          "name": "Botón",
+          "desc": "Qué clic hace explotar el muro. Ambos funcionan; la habilidad del propio objeto está pensada para el clic derecho.",
+          "option": {
+            "right": "Derecho",
+            "left": "Izquierdo"
+          }
+        },
+        "use_delay": {
+          "name": "Retraso de uso",
+          "desc": "Espera entre sacar la TNT y hacer clic. No hace falta para que funcione; está para que el cambio y el clic no ocurran siempre en el mismo instante.",
+          "unsafe": "Hacer clic en el mismo tick del cambio es un intervalo que ninguna mano produce."
+        },
+        "delay_jitter": {
+          "name": "Variación del retraso",
+          "desc": "Se añaden hasta este número de ticks extra a cada espera, calculados de nuevo cada vez.",
+          "unsafe": "Sin variación, cada explosión ocurre exactamente el mismo número de ticks después del cambio, muro tras muro."
+        },
+        "reach": {
+          "name": "Alcance",
+          "desc": "Qué tan cerca tiene que estar el muro para activarse. Se mide desde donde estás hasta el contorno del propio bloque, no hasta el centro de su espacio."
+        },
+        "retries": {
+          "name": "Reintentos",
+          "desc": "Clics adicionales si el muro todavía está en pie después. Un muro que se rompió deja de ser objetivo, por lo que esto no cuesta nada en el caso normal."
+        },
+        "swap_back": {
+          "name": "Volver a la ranura anterior",
+          "desc": "Vuelve a la ranura que tenías una vez resuelto el muro. «Desactivado» te deja con la TNT."
+        },
+        "swap_back_delay": {
+          "name": "Retraso para volver",
+          "desc": "Tiempo que mantiene la TNT seleccionada después del clic. Un tick es el mínimo técnico; más se parece a una mano."
+        }
+      }
+    },
+    "rotations": {
+      "name": "Rotaciones",
+      "desc": "Preajustes de habilidad para el Blackum Algorithm y la mano simulada detrás de sus giros.",
+      "setting": {
+        "presets": {
+          "name": "Preajustes",
+          "desc": "Niveles de habilidad integrados y los tuyos. AutoSS, Acciones y Secret Utils eligen uno en su curva de rotación.",
+          "label": "Editar"
+        },
+        "norotate_cam": {
+          "name": "Cámara NoRotate",
+          "desc": "Mientras haya una rotación silenciosa activa, muestra en la esquina superior izquierda lo que ve el servidor. Se oculta si hay un shader pack en uso."
+        },
+        "norotate_cam_fps": {
+          "name": "FPS de la cámara NoRotate",
+          "desc": "Cada cuánto se vuelve a dibujar la vista. Cada redibujado renderiza el mundo una vez más."
+        }
+      }
+    },
+    "autoclosechest": {
+      "name": "Cierre automático de cofres",
+      "desc": "Evita que los cofres de secretos de las mazmorras abran su ventana.",
+      "setting": {
+        "mode": {
+          "name": "Modo",
+          "desc": "Agacharse: te agachas al hacer clic en un cofre, así cuenta sin abrirse.\nCerrar al abrir: cierra la ventana del cofre en cuanto el servidor la abre.",
+          "option": {
+            "sneak": "Agacharse",
+            "close_on_open": "Cerrar al abrir"
+          }
+        },
+        "min_sneak_ticks": {
+          "name": "Ticks mínimos agachado",
+          "desc": "Tiempo mínimo que te mantienes agachado tras el clic."
+        },
+        "max_sneak_ticks": {
+          "name": "Ticks máximos agachado",
+          "desc": "Tiempo máximo que te mantienes agachado tras el clic. Cada clic elige una duración aleatoria entre ambos."
+        }
+      }
+    },
+    "secrethitboxes": {
+      "name": "Utilidades de secretos",
+      "desc": "Agranda los hitboxes de botones, palancas, calaveras de secretos y champiñones, y puede hacer clic en secretos por ti.",
+      "setting": {
+        "levers": {
+          "name": "Palancas",
+          "desc": "Agranda los hitboxes de las palancas. Las palancas del Lights Device de F7 conservan el suyo."
+        },
+        "lever_size": {
+          "name": "Tamaño de palanca",
+          "desc": "Lado del hitbox de la palanca, en bloques."
+        },
+        "buttons": {
+          "name": "Botones",
+          "desc": "Agranda los hitboxes de los botones."
+        },
+        "button_size": {
+          "name": "Tamaño de botón",
+          "desc": "Lado del hitbox del botón, en bloques."
+        },
+        "secret_skulls": {
+          "name": "Calaveras de secretos",
+          "desc": "Da a las calaveras de wither essence y redstone key un hitbox de bloque completo."
+        },
+        "mushrooms": {
+          "name": "Champiñones",
+          "desc": "Da a los champiñones un hitbox de bloque completo."
+        },
+        "click_real_hitbox": {
+          "name": "Clic en hitbox real",
+          "desc": "Si un clic solo acierta en la parte agrandada, lo cancela, gira hacia el hitbox real y hace clic ahí. Un hitbox real que no se puede alcanzar no se clica."
+        },
+        "snap": {
+          "name": "Instantáneo",
+          "desc": "Salta al hitbox real y hace clic en un tick en lugar de girar."
+        },
+        "rotation_curve": {
+          "name": "Curva de rotación",
+          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
+          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Humana (antigua)",
+            "ease_out": "Desaceleración",
+            "linear": "Lineal"
+          }
+        },
+        "aim_preset": {
+          "name": "Preajuste de apuntado",
+          "desc": "El nivel de habilidad con el que apunta la Blackum Curve. Edita los preajustes en Ajustes > Rotaciones."
+        },
+        "correction_speed": {
+          "name": "Velocidad de corrección",
+          "desc": "Qué tan rápido gira la mira hacia el hitbox real, y de vuelta con No Rotate."
+        },
+        "no_rotate": {
+          "name": "No Rotate",
+          "desc": "Gira solo la mira que ve el servidor; tu cámara no se mueve."
+        },
+        "click_on_contact": {
+          "name": "Clic al contacto",
+          "desc": "Hace clic en cuanto la mira llega al hitbox real; el giro termina igualmente después del clic."
+        },
+        "contact_delay": {
+          "name": "Retraso de contacto",
+          "desc": "Espera un número aleatorio de ticks sobre el hitbox real, hasta este valor, antes de un clic al contacto."
+        },
+        "aim_spread": {
+          "name": "Dispersión de mira",
+          "desc": "Cuánto del hitbox real puede alcanzar la mira corregida, como proporción de su ancho, alto y fondo. El punto de mira se elige al azar dentro de esa proporción.",
+          "unsafe": "Por debajo del 20 % cada mira corregida cae casi en el mismo píxel del hitbox."
+        },
+        "triggerbot": {
+          "name": "Triggerbot",
+          "desc": "En las salas de la mazmorra, hace clic una vez en cofres, calaveras de esencia wither y de llave de redstone, y en las palancas secretas de la sala cuando tu mira cae sobre ellos, y deja de romperlos mientras mantienes atacar para que los clics pasen. Usa Clic en hitbox real si está activado."
+        },
+        "trigger_delay": {
+          "name": "Retraso del trigger",
+          "desc": "Espera un número aleatorio de ticks sobre un secreto, como máximo este, antes de que el triggerbot haga clic."
+        }
+      }
+    },
+    "dungeonmapcheats": {
+      "setting": {
+        "cheater_map": {
+          "name": "Mapa tramposo",
+          "desc": "Muestra todas las salas en el mapa, incluidas las no descubiertas."
+        },
+        "mode_keybind": {
+          "name": "Tecla de modo",
+          "desc": "Tecla para cambiar entre el modo trampa y el modo legítimo del mapa."
+        },
+        "keybind_mode": {
+          "name": "Modo de tecla",
+          "desc": "«Alternar» cambia el modo al pulsar; «Mantener» cambia el modo solo mientras mantienes la tecla.",
+          "option": {
+            "toggle": "Alternar",
+            "hold": "Mantener"
+          }
+        },
+        "highlight_mimic": {
+          "name": "Resaltar Mimic",
+          "desc": "Resalta la sala de Mimic en el mapa."
+        },
+        "instant_room_update": {
+          "name": "Actualización instantánea de salas",
+          "desc": "Actualiza las salas visitadas y sus vecinas sin esperar al mapa de la barra rápida."
+        },
+        "instant_room_update_scope": {
+          "name": "Ámbito de actualización instantánea",
+          "desc": "Elige qué partidas usan la actualización instantánea de salas.",
+          "option": {
+            "all_runs": "Todas las partidas",
+            "solo_clears": "Partidas en solitario",
+            "party_runs": "Partidas en party"
+          }
+        },
+        "mimic_color": {
+          "name": "Color de Mimic",
+          "desc": "Color del resaltado de la sala de Mimic."
+        },
+        "mimic_esp": {
+          "name": "ESP de Mimic",
+          "desc": "Resalta el cofre de Mimic en el mundo."
+        },
+        "mimic_esp_mode": {
+          "name": "Modo de ESP de Mimic",
+          "desc": "Cómo renderizar el ESP del cofre de Mimic.",
+          "option": {
+            "outline": "Contorno",
+            "fill": "Relleno",
+            "filled_outline": "Contorno relleno"
+          }
+        },
+        "mimic_esp_color": {
+          "name": "Color del ESP de Mimic",
+          "desc": "Color del ESP del cofre de Mimic."
+        }
+      }
+    },
+    "screenqolcheats": {
+      "setting": {
+        "clear_water_vision": {
+          "name": "Visión clara en agua",
+          "desc": "Quita la niebla y la superposición de pantalla mientras tienes la cabeza bajo el agua."
+        },
+        "clear_lava_vision": {
+          "name": "Visión clara en lava",
+          "desc": "Quita la niebla espesa mientras tienes la cabeza en lava."
+        },
+        "clear_effect_vision": {
+          "name": "Visión clara con efectos",
+          "desc": "Quita la niebla de Ceguera y Oscuridad, y el pulso de Oscuridad."
+        },
+        "clear_block_vision": {
+          "name": "Visión clara en bloques",
+          "desc": "Quita la textura del bloque que cubre la pantalla mientras tienes la cabeza dentro de un bloque."
+        }
+      }
+    },
+    "leapmenucheats": {
+      "setting": {
+        "leap_rotate": {
+          "name": "Rotación al saltar",
+          "desc": "Tras un salto, mira hacia donde miraba el compañero cuando hiciste clic en su cabeza. Se omite si estaba fuera de la distancia de renderizado."
+        },
+        "snap": {
+          "name": "Instantáneo",
+          "desc": "Salta a su vista al instante en lugar de girar."
+        },
+        "rotation_curve": {
+          "name": "Curva de rotación",
+          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
+          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Humana (antigua)",
+            "ease_out": "Desaceleración",
+            "linear": "Lineal"
+          }
+        },
+        "aim_preset": {
+          "name": "Preajuste de apuntado",
+          "desc": "El nivel de habilidad con el que apunta la Blackum Curve. Edita los preajustes en Ajustes > Rotaciones."
+        },
+        "turn_speed": {
+          "name": "Velocidad de giro",
+          "desc": "Qué tan rápido gira la mira hacia su vista, y de vuelta con No Rotate."
+        },
+        "no_rotate": {
+          "name": "No Rotate",
+          "desc": "Gira solo la mira que ve el servidor; tu cámara no se mueve hasta que la muevas."
+        },
+        "fast_leap": {
+          "name": "Salto rápido",
+          "desc": "Haz clic izquierdo con un Spirit Leap o Infinileap para saltar directamente al compañero indicado abajo. Abre el menú si no hay nadie indicado."
+        },
+        "click_delay": {
+          "name": "Retraso de clic",
+          "desc": "Cuánto esperar tras abrirse el menú de salto antes de hacer clic en la cabeza del compañero."
+        },
+        "door_opener": {
+          "name": "Abridor de puerta",
+          "desc": "Durante el clear, salta a quien abrió la última puerta Wither."
+        },
+        "s1_leap": {
+          "name": "Salto S1",
+          "desc": "De P2 a la sección 1: salta a esta clase, a un jugador por nombre o a quien esté en SS (Ubicación).",
+          "option": {
+            "none": "Ninguna",
+            "archer": "Arquero",
+            "berserk": "Berserker",
+            "healer": "Sanador",
+            "mage": "Mago",
+            "tank": "Tanque",
+            "name": "Nombre",
+            "location": "Ubicación"
+          }
+        },
+        "s1_name": {
+          "name": "Nombre S1",
+          "placeholder": "Nombre del jugador"
+        },
+        "s2_leap": {
+          "name": "Salto S2",
+          "desc": "De la sección 1 a la sección 2: salta a esta clase, a un jugador por nombre o a quien esté en EE2 (Ubicación).",
+          "option": {
+            "none": "Ninguna",
+            "archer": "Arquero",
+            "berserk": "Berserker",
+            "healer": "Sanador",
+            "mage": "Mago",
+            "tank": "Tanque",
+            "name": "Nombre",
+            "location": "Ubicación"
+          }
+        },
+        "s2_name": {
+          "name": "Nombre S2",
+          "placeholder": "Nombre del jugador"
+        },
+        "s3_leap": {
+          "name": "Salto S3",
+          "desc": "De la sección 2 a la sección 3: salta a esta clase, a un jugador por nombre o a quien esté en EE3 (Ubicación).",
+          "option": {
+            "none": "Ninguna",
+            "archer": "Arquero",
+            "berserk": "Berserker",
+            "healer": "Sanador",
+            "mage": "Mago",
+            "tank": "Tanque",
+            "name": "Nombre",
+            "location": "Ubicación"
+          }
+        },
+        "s3_name": {
+          "name": "Nombre S3",
+          "placeholder": "Nombre del jugador"
+        },
+        "s4_leap": {
+          "name": "Salto S4",
+          "desc": "De la sección 3 a la sección 4: salta a esta clase, a un jugador por nombre o a quien esté en Core (Ubicación).",
+          "option": {
+            "none": "Ninguna",
+            "archer": "Arquero",
+            "berserk": "Berserker",
+            "healer": "Sanador",
+            "mage": "Mago",
+            "tank": "Tanque",
+            "name": "Nombre",
+            "location": "Ubicación"
+          }
+        },
+        "s4_name": {
+          "name": "Nombre S4",
+          "placeholder": "Nombre del jugador"
+        }
+      }
+    },
+    "doorutilscheats": {
+      "setting": {
+        "highlight_all_doors": {
+          "name": "Resaltar todas las puertas",
+          "desc": "Resalta cada puerta sin abrir en lugar de solo las siguientes."
+        },
+        "replace_doors": {
+          "name": "Reemplazar puertas",
+          "desc": "Dibuja las puertas Wither y Blood como cristal, o las oculta como barreras. Solo cambia su aspecto.",
+          "option": {
+            "off": "Desactivado",
+            "glass": "Cristal",
+            "barrier": "Barrera"
+          }
+        }
+      }
+    },
+    "fixednorotatemovement": {
+      "setting": {
+        "fixed_norotate_movement": {
+          "name": "Movimiento NoRotate corregido",
+          "desc": "Mientras NoRotate te gira, las teclas de movimiento te siguen llevando hacia donde mira la cámara."
+        }
+      }
+    },
+    "freecam": {
+      "name": "Freecam",
+      "desc": "Te permite volar fuera de tu cuerpo para inspeccionar el mundo.",
+      "setting": {
+        "hotkey": {
+          "name": "Tecla rápida",
+          "desc": "Pulsa o mantén para activar Freecam."
+        },
+        "hold_mode": {
+          "name": "Modo mantener",
+          "desc": "Activo solo mientras mantienes la tecla."
+        },
+        "speed": {
+          "name": "Velocidad",
+          "desc": "Multiplicador de la velocidad de vuelo."
+        },
+        "show_hands": {
+          "name": "Mostrar manos",
+          "desc": "Si se dibujan las manos del jugador en Freecam."
+        }
+      }
+    },
+    "perspective": {
+      "name": "Perspectiva",
+      "desc": "Permite mirar alrededor en una vista en tercera persona de 360 grados sin cambiar tu dirección.",
+      "setting": {
+        "hotkey": {
+          "name": "Tecla rápida",
+          "desc": "Pulsa o mantén para activar el modo Perspectiva."
+        },
+        "hold_mode": {
+          "name": "Modo mantener",
+          "desc": "Activo solo mientras mantienes la tecla."
+        },
+        "sensitivity": {
+          "name": "Sensibilidad",
+          "desc": "Multiplicador de la sensibilidad al mirar."
+        },
+        "distance": {
+          "name": "Distancia",
+          "desc": "Distancia de la cámara en bloques."
+        },
+        "scroll_zoom": {
+          "name": "Zoom con rueda",
+          "desc": "Permite hacer zoom con la rueda del ratón."
+        }
+      }
+    },
+    "autorelic": {
+      "name": "Auto Relic",
+      "desc": "Recoge reliquias en la fase 5 de M7 y lleva la roja y la naranja a sus calderos para colocarlas.",
+      "setting": {
+        "rotation": {
+          "name": "Rotación",
+          "desc": "Smooth gira en un tiempo fijo, como un giro practicado. Snap encara el objetivo en el mismo tick.",
+          "unsafe": "Ninguna mano gira cien grados entre dos ticks.",
+          "option": {
+            "smooth": "Smooth",
+            "snap": "Snap"
+          }
+        },
+        "rotation_time": {
+          "name": "Tiempo de rotación",
+          "desc": "Cuánto dura un giro suave, sin importar el ángulo."
+        },
+        "rotation_jitter": {
+          "name": "Variación de rotación",
+          "desc": "Desplazamiento aleatorio añadido a cada punto de mira suave, para que las recogidas y colocaciones repetidas no caigan en el mismo punto exacto."
+        },
+        "no_rotate": {
+          "name": "No Rotate",
+          "desc": "Gira solo la dirección que ve el servidor; la cámara no se mueve. Al caminar se sigue esa dirección oculta."
+        },
+        "auto_walk": {
+          "name": "Caminar automático",
+          "desc": "Lleva la reliquia roja o naranja hasta su caldero. Pulsar W, A, S, D, Espacio o Shift lo cancela todo."
+        },
+        "grab_aura": {
+          "name": "Grab Aura",
+          "desc": "Recoge cualquier reliquia al alcance para entidades."
+        },
+        "place_aura": {
+          "name": "Place Aura",
+          "desc": "Coloca la reliquia roja o naranja en cuanto su caldero está al alcance para bloques."
+        },
+        "early_trigger": {
+          "name": "Inicio temprano",
+          "desc": "Empieza al hacer clic en la reliquia en lugar de cuando llega a la barra rápida. Se rinde si no ha llegado 5 ticks después."
+        },
+        "leap_to_carrier": {
+          "name": "Leap al portador",
+          "desc": "Con la reliquia verde, azul o morada en la barra, salta a quien cogió la roja (para la verde) o la naranja (para la azul y la morada). Mientras nadie la tenga, al Archer o al Berserk."
+        }
+      }
+    },
+    "automask": {
+      "name": "Auto Mask",
+      "desc": "Swaps to your next invincibility item after one saves you.",
+      "setting": {
+        "spirit_mask": {
+          "name": "Spirit Mask",
+          "desc": "Equip the Spirit Mask after a proc."
+        },
+        "bonzo_s_mask": {
+          "name": "Bonzo's Mask",
+          "desc": "Equip Bonzo's Mask after a proc."
+        },
+        "phoenix_pet": {
+          "name": "Phoenix Pet",
+          "desc": "Swap to the Phoenix pet after a proc."
+        },
+        "priority": {
+          "name": "Priority",
+          "desc": "Drag the items into the order to swap to them; the first ready one wins.",
+          "option": {
+            "spirit": "Spirit",
+            "phoenix": "Phoenix",
+            "bonzo": "Bonzo"
+          }
+        },
+        "swap_delay": {
+          "name": "Swap Delay",
+          "desc": "Server ticks to wait after a proc before swapping."
+        },
+        "phoenix_swap": {
+          "name": "Phoenix Swap",
+          "desc": "Rod Swap casts a hotbar fishing rod for an Autopet rule; Pet Menu summons Phoenix from the pets menu.",
+          "option": {
+            "rod_swap": "Rod Swap",
+            "pet_menu": "Pet Menu"
+          }
+        },
+        "boss_only": {
+          "name": "Boss Only",
+          "desc": "Only swap in the boss room."
+        },
+        "phase_3_only": {
+          "name": "Phase 3 Only",
+          "desc": "Only swap during Goldor's phase."
+        },
+        "silent_menus": {
+          "name": "Silent Menus",
+          "desc": "Open the menus without showing them on screen."
+        },
+        "stop_movement": {
+          "name": "Stop Movement",
+          "desc": "Stand still while a hidden menu is open, as you would with it on screen."
+        },
+        "cancel_on_input": {
+          "name": "Cancel On Input",
+          "desc": "Stop the menu task when you press a key or mouse button while a hidden menu is open."
+        },
+        "min_click_delay": {
+          "name": "Retraso mínimo de clic",
+          "desc": "Shortest wait before each menu click."
+        },
+        "max_click_delay": {
+          "name": "Retraso máximo de clic",
+          "desc": "Longest wait before each menu click."
+        },
+        "show_progress": {
+          "name": "Show Progress",
+          "desc": "Show the running menu task in a HUD element you can move in the HUD editor."
+        }
+      }
+    },
+    "simonsayscheats": {
+      "setting": {
+        "auto_solve": {
+          "name": "Resolución automática",
+          "desc": "Gira hacia los botones y hace clic por ti. Todo lo de abajo queda inactivo mientras esto está desactivado."
+        },
+        "no_rotate": {
+          "name": "Sin rotación",
+          "desc": "Apunta con la rotación del servidor sin mover tu cámara."
+        },
+        "override_key": {
+          "name": "Tecla de emergencia",
+          "desc": "Detiene de inmediato al solucionador y lo apaga, para cuando empieza a hacer algo estúpido. Púlsala de nuevo para reactivar el mismo modo."
+        },
+        "reset_state": {
+          "name": "Restablecer estado",
+          "desc": "Olvida la mira, los clics de inicio pendientes y que esta ronda ya había empezado, para que pueda volver a intentarlo sin apagarlo y encenderlo.",
+          "label": "Restablecer"
+        },
+        "auto_start": {
+          "name": "Inicio automático",
+          "desc": "Pulsa el botón de inicio automáticamente en cuanto habla Goldor."
+        },
+        "start_no_rotate": {
+          "name": "Sin rotación",
+          "desc": "Apunta con la rotación del servidor sin mover tu cámara."
+        },
+        "start_clicks": {
+          "name": "Clics de inicio",
+          "desc": "Cuántas veces hacer clic en el botón de inicio."
+        },
+        "start_click_delay": {
+          "name": "Retraso de los clics de inicio",
+          "desc": "Retraso entre clics de inicio."
+        },
+        "restart_on_break": {
+          "name": "Reiniciar al romperse",
+          "desc": "Pulsa inicio de nuevo cuando el dispositivo se rompe. Un salto fallido NO es una rotura: reiniciar por eso cuesta más tiempo que terminar la ronda."
+        },
+        "swap_to_leap": {
+          "name": "Cambiar a Leap",
+          "desc": "Al terminar el dispositivo, cambia a tu Spirit Leap o Infinileap."
+        },
+        "swap_mode": {
+          "name": "Modo de cambio",
+          "desc": "Cambiar: sostener el leap.\nCambiar y abrir: además, clic derecho para abrir el menú de leap.",
+          "option": {
+            "swap": "Cambiar",
+            "swap_and_open": "Cambiar y abrir"
+          }
+        },
+        "activation_radius": {
+          "name": "Radio de activación",
+          "desc": "Qué tan cerca del dispositivo tienes que estar para que haga algo. La frase de Goldor y el holograma del dispositivo llegan a toda la sala, así que sin esto tu vista girará mientras otro hace el dispositivo."
+        },
+        "auto_mode": {
+          "name": "Modo automático",
+          "desc": "PreAim: mantén la mira en el próximo botón que debes pulsar.\nRuta: sigue el patrón mientras se reproduce y luego pulsa.",
+          "option": {
+            "preaim": "PreAim",
+            "path": "Ruta"
+          }
+        },
+        "auto_delay": {
+          "name": "Retraso automático",
+          "desc": "Mínimo de ticks entre clics automáticos.",
+          "unsafe": "Con menos de 3 ticks, los clics están más juntos de lo que una persona puede pulsar."
+        },
+        "rotation_speed": {
+          "name": "Velocidad de rotación",
+          "desc": "Más alto = mira más rápida.",
+          "unsafe": "Por debajo de 6 el giro es más lento que cualquier mano; por encima de 14, más rápido de lo que nadie puede. Ambos parecen automatización en una grabación."
+        },
+        "rotation_curve": {
+          "name": "Curva de rotación",
+          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
+          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Humana (antigua)",
+            "ease_out": "Desaceleración",
+            "linear": "Lineal"
+          }
+        },
+        "aim_preset": {
+          "name": "Preajuste de apuntado",
+          "desc": "El nivel de habilidad con el que apunta la Blackum Curve. Edita los preajustes en Ajustes > Rotaciones."
+        },
+        "aim_spread": {
+          "name": "Dispersión de mira",
+          "desc": "Cuánto del botón puede alcanzar cada mira, como proporción de su ancho, alto y fondo reales. El punto de mira se elige al azar dentro de esa proporción.",
+          "unsafe": "Por debajo del 20 % cada mira cae casi en el mismo píxel del botón, ronda tras ronda."
+        }
+      }
+    },
+    "clicksettings": {
+      "setting": {
+        "settle_aim_before_clicks": {
+          "name": "Asentar la mira antes de los clics",
+          "desc": "Evasión de Grim DuplicateRotPlace. Antes de un clic tras un giro grande, gira la mira una cantidad aleatoria pequeña que sigue sobre el objetivo, y la mantiene quieta durante el clic. No es necesario: repetir exactamente el mismo giro es poco probable."
+        }
+      }
+    },
+    "rotatesettings": {
+      "setting": {
+        "rotation_jitter": {
+          "name": "Variación de rotación",
+          "desc": "Desplazamiento aleatorio añadido al punto al que apunta un paso ROTATE, para que las ejecuciones repetidas no caigan en el mismo punto exacto. No afecta a pasos con Insta Snap ni a pasos que apuntan por ángulo."
+        },
+        "rotation_curve": {
+          "name": "Curva de rotación",
+          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
+          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
+          "option": {
+            "blackum_curve": "Blackum Curve",
+            "human_old": "Humana (antigua)",
+            "ease_out": "Desaceleración",
+            "linear": "Lineal"
+          }
+        },
+        "aim_preset": {
+          "name": "Preajuste de apuntado",
+          "desc": "El nivel de habilidad con el que apunta la Blackum Curve. Edita los preajustes en Ajustes > Rotaciones."
+        }
+      }
+    },
+    "alignsettings": {
+      "setting": {
+        "disable_silent_align": {
+          "name": "Desactivar alineación silenciosa",
+          "desc": "Desactiva la alineación silenciosa durante el paso ALIGN, devolviendo el giro visible de la cámara y el bloqueo de las teclas de movimiento."
+        },
+        "align_debugger": {
+          "name": "Depurador de alineación",
+          "desc": "Activa el depurador visual 3D de la alineación (muestra el desplazamiento del objetivo y las trayectorias previstas en el mundo)."
+        },
+        "align_timeout": {
+          "name": "Límite de tiempo de alineación",
+          "desc": "Límite de tiempo predeterminado, en segundos, para el paso ALIGN cuando el paso no lo indica."
+        }
+      }
+    }
+  },
+  "secret_hitboxes": {
+    "blocked": "Algo se interpuso en el clic",
+    "unreachable": "Hitbox real fuera de alcance"
+  },
+  "simon_says_cheats": {
+    "overridden": "Auto Simon Says: interrumpido manualmente; ahora está desactivado.",
+    "resumed": "Auto Simon Says: activado de nuevo.",
+    "no_leap": "Auto Simon Says: no hay Spirit Leap ni Infinileap en tu barra rápida."
+  },
+  "auto_relic": {
+    "cancelled": "Auto Relic: cancelado por tu entrada.",
+    "cancelled_title": "Reliquia cancelada",
+    "no_relic": "Auto Relic: la reliquia nunca llegó; detenido.",
+    "leap_no_target": "Auto Relic: no hay nadie a quien saltar.",
+    "leap_none": "Auto Relic: no hay Spirit Leap en tu barra rápida.",
+    "leap_no_menu": "Auto Relic: el menú de leap no se abrió.",
+    "leap_not_in_menu": "Auto Relic: %s no está en el menú de leap."
+  },
+  "leap_menu_cheats": {
+    "no_leap": "Fast Leap: no hay Spirit Leap ni Infinileap en tu barra rápida.",
+    "no_menu": "Fast Leap: el menú de leap no se abrió.",
+    "not_in_menu": "Fast Leap: %s no está en el menú de leap.",
+    "nobody": "Fast Leap: no encuentro a nadie a quien saltar."
+  },
+  "rotation_presets": {
+    "title": "Preajustes",
+    "built_in": "Integrado",
+    "note_built_in": "Integrado y de solo lectura. Duplícalo para crear el tuyo.",
+    "name_placeholder": "Nombre del preajuste",
+    "new": "Nuevo preajuste",
+    "done": "Listo",
+    "duplicate": "Duplicar",
+    "rename": "Renombrar",
+    "delete": "Eliminar",
+    "delete_confirm": "¿Eliminar %s?",
+    "field": {
+      "speed": "Velocidad de apuntado",
+      "reaction": "Reaction",
+      "precision": "Precisión",
+      "tracking": "Seguimiento",
+      "steadiness": "Estabilidad"
+    }
+  },
+  "auto_mask": {
+    "none_left": "Auto Mask: no invincibility left, back to your previous pet.",
+    "phoenix_timeout": "Auto Mask: Phoenix did not proc within 5s, back to your previous pet.",
+    "equipping": "Auto Mask: equipping %s.",
+    "equip_failed": "Auto Mask: could not equip %s.",
+    "summoning": "Auto Mask: swapping to Phoenix.",
+    "summon_failed": "Auto Mask: could not summon %s.",
+    "rod_swap": "Auto Mask: rod swapping.",
+    "no_rod": "Auto Mask: no fishing rod in your hotbar.",
+    "rod_failed": "Auto Mask: the rod cast did not go through."
+  },
+  "hud": {
+    "auto_mask": "Auto Mask",
+    "norotate_cam": "Cámara NoRotate"
+  },
+  "actions": {
+    "step_type": {
+      "align": "Alinear",
+      "attack": "Atacar / Picar",
+      "move_keybinds": "Teclas de movimiento",
+      "press_keybind": "Pulsar tecla",
+      "rotate": "Girar cámara",
+      "stop": "Detener la inercia",
+      "switch_slot": "Cambiar ranura",
+      "use_item": "Usar objeto"
+    },
+    "step": {
+      "stop_help": "Cancela la inercia del movimiento del jugador."
+    },
+    "steps": {
+      "slot": "Ranura %d",
+      "stop_inertia": "Detener la inercia"
+    },
+    "graph": {
+      "prop": {
+        "hold_for": "Mantener",
+        "instant_snap": "Giro instantáneo",
+        "keys": "Teclas",
+        "look_after": "Mirar tras alinear",
+        "look_coordinates": "Mirar a coordenadas",
+        "look_time": "Tiempo de mirada",
+        "perfect_align": "No esperar una alineación perfecta",
+        "slot": "Ranura",
+        "use_coordinates": "Usar coordenadas",
+        "speed": "Velocidad",
+        "no_rotate": "No girar hasta el siguiente paso"
+      }
+    }
+  }
+}

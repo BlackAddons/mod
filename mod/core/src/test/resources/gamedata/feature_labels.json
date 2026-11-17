@@ -1,0 +1,24 @@
+{
+  "features": [
+    {
+      "id": "AutoRelic",
+      "from": "0.1.4-beta",
+      "labels": [
+        {
+          "kind": "untested",
+          "reason": "Im lazy."
+        }
+      ]
+    },
+    {
+      "id": "SimonSaysCheats",
+      "from": "0.1.4-beta",
+      "labels": [
+        {
+          "kind": "untested",
+          "reason": "Not run since dungeon update (should work btw)."
+        }
+      ]
+    }
+  ]
+}

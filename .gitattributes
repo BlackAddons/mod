@@ -1,0 +1,9 @@
+# Normalize line endings: LF in the repo and in every working copy, on every
+# platform. Stops Windows from warning "LF will be replaced by CRLF" on git ops.
+* text=auto eol=lf
+
+# Binary files Git must never convert.
+*.png binary
+*.ttf binary
+*.jar binary
+*.gz binary

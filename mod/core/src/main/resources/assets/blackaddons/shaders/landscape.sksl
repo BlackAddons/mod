@@ -1,0 +1,102 @@
+uniform float2 res;
+uniform float t;
+uniform float amt;
+uniform float2 look;
+uniform float density;
+uniform float3 top;
+uniform float3 bottom;
+uniform float3 navy;
+uniform float3 violet;
+uniform float3 plum;
+uniform float3 rose;
+
+const float FAR = 25.0;
+const float LOW = -0.703;
+
+float hash(float2 p) {
+    float2 q = fract(p * float2(0.1373, 0.2531) + float2(0.4142, 0.7321));
+    return fract((q.x + 3.7) * (q.y + 9.1) * (q.x + q.y + 5.3) * 17.39);
+}
+
+float noise(float2 p) {
+    float2 i = floor(p);
+    float2 f = fract(p);
+    float2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i), hash(i + float2(1, 0)), u.x), mix(hash(i + float2(0, 1)), hash(i + float2(1, 1)), u.x), u.y);
+}
+
+float terrain(float2 p) {
+    const float2x2 turn = float2x2(1.262, 1.590, -1.590, 1.262);
+    float h = 0.0;
+    float a = 1.0;
+    for (int i = 0; i < 4; i++) {
+        h += a * noise(p);
+        a *= 0.5;
+        p = turn * p;
+    }
+    return h;
+}
+
+float clouds(float2 p) {
+    return noise(p) * 0.65 + noise(p * 2.3 + 5.7) * 0.35;
+}
+
+half4 main(float2 frag) {
+    float2 pos = frag + look;
+    float2 coord = float2(2.0 * pos.x - res.x, res.y - 2.0 * pos.y) / res.y;
+    float tt = mod(t, 1000.0);
+    float pace = tt * 0.35;
+
+    float sway = sin(pace * 0.5);
+    float3 ro = float3(-sway * 0.5, 0.0, pace - 2.0);
+    float3 w = normalize(float3(sway * 0.5, 0.0, pace) - ro);
+    float3 u = normalize(cross(w, float3(0.0, 1.0, 0.0)));
+    float3 v = cross(u, w);
+    float3 rd = normalize(coord.x * u + coord.y * v + w * 2.414);
+
+    float dist = FAR;
+    float crest = 0.0;
+    if (rd.y < 0.0) {
+        float limit = min(FAR, (ro.y - LOW) / -rd.y);
+        float s = 0.0;
+        for (int i = 0; i < 160; i++) {
+            float3 p = ro + s * rd;
+            float d = (p.y + terrain(p.xz) * 0.375) * 0.5;
+            if (d < 0.003 * s) {
+                dist = s;
+                crest = clamp(1.0 - p.y / LOW, 0.0, 1.0);
+                break;
+            }
+            s += d;
+            if (s >= limit) {
+                if (limit < FAR) dist = s;
+                break;
+            }
+        }
+    }
+
+    float3 sunDir = normalize(float3(0.3, 0.07, 1.0));
+    float fromSun = 1.0 - max(dot(rd, sunDir), 0.0);
+    float3 sky = mix(violet, violet * 0.3, smoothstep(0.0, 0.3, max(rd.y, 0.0)));
+    sky = mix(sky, plum, max(0.1 - rd.y, 0.0));
+    sky += rose * (1.2 * exp(-1800.0 * fromSun) + 0.3 * exp(-70.0 * fromSun) + 0.35 * exp(-4.0 * fromSun));
+    float2 sheet = (ro.xz + rd.xz / max(rd.y, 0.02)) * 0.8;
+    float cloud = smoothstep(0.45, 0.85, clouds(sheet)) * smoothstep(0.02, 0.3, rd.y);
+    sky = mix(sky, sky * 1.8 + rose * 0.06, cloud);
+
+    float3 ground = mix(bottom, mix(bottom, violet, 0.3), crest * crest);
+    float3 scene = dist < FAR ? mix(sky, ground, exp(-0.12 * dist)) : sky;
+
+    float2 uv = clamp(pos / res, 0.0, 1.0);
+    scene *= 0.3 + 0.7 * smoothstep(0.85, 0.2, length((uv - 0.5) * float2(1.2, 1.5)));
+
+    float vy = uv.y;
+    float k = amt * mix(1.0, 0.45, vy);
+    float3 col = mix(top, bottom, vy);
+    col = mix(col, scene, min(1.0, k * 2.5));
+
+    float2 px = floor(frag * density);
+    float n = hash(px + fract(tt * 0.61) * 97.0) + hash(px.yx + fract(tt * 0.37) * 53.0) - 1.0;
+    col += n / 255.0 * 1.5;
+    return half4(half3(col), 1.0);
+}

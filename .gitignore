@@ -1,0 +1,57 @@
+# MacOS DS_Store files
+.DS_Store
+
+# Gradle cache folder
+.gradle
+/.gradle-user
+/.gradle-user-home
+
+# Gradle build folder
+build
+
+# Gradle wrapper - no wrapper script or jar is committed; builds run through the
+# IDE's Gradle or an installed one. `gradle-wrapper.properties` IS tracked: it pins
+# the distribution, so a fresh clone syncs on 9.7.1 rather than the IDE's bundled
+# Gradle - which is too old for Fabric Loom.
+**/gradle/wrapper/gradle-wrapper.jar
+gradlew
+gradlew.bat
+
+# IntelliJ
+out/
+/.idea/*
+# Shared on purpose: registers the Gradle build on open.
+!/.idea/gradle.xml
+*.iml
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# VS Code
+.vscode/
+
+# Fabric Loom
+.fabric
+remappedSrc/
+
+# Log files
+*.log
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Common working directory
+run
+
+# Claude Code local settings
+.claude/
+
+docs
+.settings
+bin
+.kotlin
+.classpath
+.project
+
+temp
+
+_IAS_ACCOUNTS_DO_NOT_SEND_TO_ANYONE

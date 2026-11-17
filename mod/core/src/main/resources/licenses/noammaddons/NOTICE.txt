@@ -1,0 +1,8 @@
+Portions of Dungeon Minimap's base logic are adapted from NoammAddons:
+https://github.com/Noamm9/NoammAddons
+
+NoammAddons is released under CC0 1.0 Universal:
+https://github.com/Noamm9/NoammAddons/blob/master/LICENSE
+
+Thank you, Noamm ;)
+I promise i will steal more code in the future))))

@@ -1,0 +1,20 @@
+# GitHub main moved (a merge-queue merge): ask GitLab to sync. The mirror's own pushes are skipped - GitLab already
+# has those commits. The project is addressed by its path, not its id: the path is what the canonical project keeps.
+name: notify-gitlab
+
+on:
+  push:
+    branches: [ main ]
+
+permissions: { }
+
+jobs:
+  trigger:
+    if: github.actor != 'blackaddons-gitlab'
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          TOKEN: ${{ secrets.GITLAB_TRIGGER_TOKEN }}
+        run: >-
+          curl -fsS -o /dev/null -X POST --form-string "token=$TOKEN" --form-string ref=main
+          https://gitlab.blackaddons.com/api/v4/projects/blackaddons%2Fblackaddons-reimagined/trigger/pipeline

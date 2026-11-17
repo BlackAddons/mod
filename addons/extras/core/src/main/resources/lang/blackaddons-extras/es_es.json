@@ -1,0 +1,169 @@
+{
+  "addon": {
+    "blackaddons-extras": "Extras"
+  },
+  "category": {
+    "extras": "Extras"
+  },
+  "setting_group": {
+    "health": "Salud",
+    "mana": "Maná",
+    "defence": "Defensa",
+    "vitality": "Vitalidad",
+    "vanilla_hud": "HUD de Minecraft"
+  },
+  "feature": {
+    "skilldisplay": {
+      "name": "Progreso de habilidad",
+      "desc": "XP de habilidades de Skyblock como elemento HUD móvil (icono, nombre y porcentaje).",
+      "setting": {
+        "skill_icon": {
+          "name": "Icono de habilidad"
+        },
+        "icon_size": {
+          "name": "Tamaño del icono",
+          "desc": "Tamaño del icono del objeto de la habilidad."
+        },
+        "show_percent": {
+          "name": "Mostrar porcentaje"
+        },
+        "color": {
+          "name": "Color"
+        },
+        "fade_time": {
+          "name": "Tiempo de desaparición",
+          "desc": "Cuánto tiempo sigue visible después de la última ganancia de XP."
+        },
+        "hide_from_action_bar": {
+          "name": "Ocultar de la barra de acción",
+          "desc": "Quita la XP de habilidad de la barra de acción (se muestra aquí)."
+        }
+      }
+    },
+    "statbars": {
+      "name": "Barras de atributos",
+      "desc": "Salud, maná y defensa de la barra de acción de Skyblock como barras HUD móviles.",
+      "setting": {
+        "bar_width": {
+          "name": "Ancho de barra",
+          "desc": "Ancho de las barras de salud y maná."
+        },
+        "hide_action_bar_stats": {
+          "name": "Ocultar estadísticas de la barra de acción",
+          "desc": "Quita de la barra de acción solo los atributos que muestras como elementos del HUD; todo lo demás (XP de habilidades, temporizadores, atributos no reemplazados) se queda."
+        },
+        "health_bar": {
+          "name": "Barra de salud"
+        },
+        "health_numbers": {
+          "name": "Valores de salud",
+          "desc": "Muestra la salud actual / máxima como una etiqueta móvil aparte."
+        },
+        "health_color": {
+          "name": "Color de salud"
+        },
+        "effective_hp": {
+          "name": "Salud efectiva",
+          "desc": "Muestra la salud efectiva (salud escalada por la defensa) como una etiqueta móvil."
+        },
+        "effective_hp_color": {
+          "name": "Color de salud efectiva"
+        },
+        "mana_bar": {
+          "name": "Barra de maná"
+        },
+        "mana_numbers": {
+          "name": "Valores de maná",
+          "desc": "Muestra el maná actual / máximo como una etiqueta móvil aparte."
+        },
+        "mana_color": {
+          "name": "Color de maná"
+        },
+        "mana_overflow": {
+          "name": "Exceso de maná",
+          "desc": "Muestra el maná en exceso (ʬ) como una etiqueta aparte cuando tienes."
+        },
+        "overflow_color": {
+          "name": "Color del exceso"
+        },
+        "defence_text": {
+          "name": "Texto de defensa"
+        },
+        "defence_color": {
+          "name": "Color de defensa"
+        },
+        "vitality_bar": {
+          "name": "Barra de vitalidad"
+        },
+        "vitality_numbers": {
+          "name": "Valores de vitalidad",
+          "desc": "Muestra la vitalidad actual / máxima como una etiqueta móvil. La vitalidad solo aparece mientras sostienes un objeto que la otorga, así que desaparece poco después de dejar de hacerlo."
+        },
+        "vitality_color": {
+          "name": "Color de vitalidad"
+        },
+        "hide_vanilla_hearts": {
+          "name": "Ocultar corazones de Minecraft",
+          "desc": "Oculta la fila de corazones de Minecraft en Skyblock."
+        },
+        "hide_vanilla_hunger": {
+          "name": "Ocultar hambre de Minecraft",
+          "desc": "Oculta la fila de hambre de Minecraft en Skyblock."
+        },
+        "hide_vanilla_armor": {
+          "name": "Ocultar armadura de Minecraft",
+          "desc": "Oculta la fila de armadura de Minecraft en Skyblock."
+        }
+      }
+    },
+    "storageoverlay": {
+      "name": "Vista del almacenamiento",
+      "desc": "Explora y busca sin conexión en tu cofre de Ender y en las mochilas del almacenamiento.",
+      "setting": {
+        "storage_browser": {
+          "name": "Explorador de almacenamiento",
+          "desc": "Muestra el explorador sin conexión sobre el menú y las páginas de almacenamiento."
+        },
+        "ec_enderchest_storage": {
+          "name": "/ec, /enderchest -> Almacenamiento",
+          "desc": "En Skyblock, /ec y /enderchest abren el explorador de almacenamiento (con mochilas)."
+        },
+        "pages_per_row": {
+          "name": "Páginas por fila",
+          "desc": "Máximo de páginas de almacenamiento una al lado de otra; en pantallas estrechas caben menos."
+        },
+        "clear_cache": {
+          "name": "Borrar caché",
+          "label": "Borrar"
+        }
+      }
+    }
+  },
+  "storage": {
+    "ender_chest_pages": "Páginas del cofre de Ender",
+    "storage_pages": "Páginas de almacenamiento",
+    "edit": "Editar",
+    "inventory": "Inventario",
+    "search": "Buscar objetos...",
+    "open_to_load": "Abre el menú /storage para cargarlo.",
+    "no_match": "No hay objetos que coincidan con la búsqueda.",
+    "click_to_load": "Haz clic para cargar",
+    "rename": "Renombrar",
+    "reset_name": "Restablecer"
+  },
+  "hud": {
+    "skill_display": "Progreso de habilidad",
+    "health_bar": "Barra de salud",
+    "health_numbers": "Valores de salud",
+    "mana_bar": "Barra de maná",
+    "mana_numbers": "Valores de maná",
+    "mana_overflow": "Exceso de maná",
+    "defence": "Defensa",
+    "vitality_bar": "Barra de vitalidad",
+    "vitality_numbers": "Valores de vitalidad",
+    "effective_hp": "Salud efectiva"
+  },
+  "skill": {
+    "max": "MÁX."
+  }
+}

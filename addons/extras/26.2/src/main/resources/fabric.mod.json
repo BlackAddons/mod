@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "blackaddons-extras",
+  "version": "${version}",
+  "name": "BlackAddons Extras",
+  "description": "Extra Hypixel Skyblock features for BlackAddons (a port of SkyblockAddons, MIT © Biscuit Development). Ships as a standalone addon jar — load it next to any BlackAddons edition.",
+  "license": "PolyForm Strict 1.0.0 with additional permissions (PERMISSIONS.md)",
+  "authors": [
+    "BlackAddons Team"
+  ],
+  "icon": "assets/blackaddons-extras/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "blackaddons:addon": [
+      { "value": "org.blackaddons.extras.ExtrasAddon", "adapter": "kotlin" }
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "blackaddons": "*"
+  }
+}

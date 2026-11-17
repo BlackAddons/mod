@@ -1,0 +1,169 @@
+{
+  "addon": {
+    "blackaddons-extras": "Extras"
+  },
+  "category": {
+    "extras": "Extras"
+  },
+  "setting_group": {
+    "health": "Health",
+    "mana": "Mana",
+    "defence": "Defence",
+    "vitality": "Vitality",
+    "vanilla_hud": "Vanilla HUD"
+  },
+  "feature": {
+    "skilldisplay": {
+      "name": "Skill Display",
+      "desc": "Skyblock skill xp as a movable HUD element (icon + name + percent).",
+      "setting": {
+        "skill_icon": {
+          "name": "Skill Icon"
+        },
+        "icon_size": {
+          "name": "Icon Size",
+          "desc": "Size of the skill's item icon."
+        },
+        "show_percent": {
+          "name": "Show Percent"
+        },
+        "color": {
+          "name": "Color"
+        },
+        "fade_time": {
+          "name": "Fade Time",
+          "desc": "How long the display lingers after the last xp gain."
+        },
+        "hide_from_action_bar": {
+          "name": "Hide From Action Bar",
+          "desc": "Remove the skill-xp section from the action bar (it's shown here instead)."
+        }
+      }
+    },
+    "statbars": {
+      "name": "Stat Bars",
+      "desc": "Health / mana / defence from the Skyblock action bar as movable HUD bars.",
+      "setting": {
+        "bar_width": {
+          "name": "Bar Width",
+          "desc": "Width of the health and mana bars."
+        },
+        "hide_action_bar_stats": {
+          "name": "Hide Action Bar Stats",
+          "desc": "Remove from the action bar only the stats you show as HUD elements; everything else (skill xp, timers, un-replaced stats) stays."
+        },
+        "health_bar": {
+          "name": "Health Bar"
+        },
+        "health_numbers": {
+          "name": "Health Numbers",
+          "desc": "Draw the current / max health as a separate movable label."
+        },
+        "health_color": {
+          "name": "Health Color"
+        },
+        "effective_hp": {
+          "name": "Effective HP",
+          "desc": "Show effective health (health scaled by defence) as a movable label."
+        },
+        "effective_hp_color": {
+          "name": "Effective HP Color"
+        },
+        "mana_bar": {
+          "name": "Mana Bar"
+        },
+        "mana_numbers": {
+          "name": "Mana Numbers",
+          "desc": "Draw the current / max mana as a separate movable label."
+        },
+        "mana_color": {
+          "name": "Mana Color"
+        },
+        "mana_overflow": {
+          "name": "Mana Overflow",
+          "desc": "Show overflow mana (ʬ) as a separate label when you have any."
+        },
+        "overflow_color": {
+          "name": "Overflow Color"
+        },
+        "defence_text": {
+          "name": "Defence Text"
+        },
+        "defence_color": {
+          "name": "Defence Color"
+        },
+        "vitality_bar": {
+          "name": "Vitality Bar"
+        },
+        "vitality_numbers": {
+          "name": "Vitality Numbers",
+          "desc": "Draw the current / max vitality as a movable label. Vitality only appears while you hold an item that grants it, so it fades out shortly after you stop."
+        },
+        "vitality_color": {
+          "name": "Vitality Color"
+        },
+        "hide_vanilla_hearts": {
+          "name": "Hide Vanilla Hearts",
+          "desc": "Hide the vanilla hearts row while on Skyblock."
+        },
+        "hide_vanilla_hunger": {
+          "name": "Hide Vanilla Hunger",
+          "desc": "Hide the vanilla hunger row while on Skyblock."
+        },
+        "hide_vanilla_armor": {
+          "name": "Hide Vanilla Armor",
+          "desc": "Hide the vanilla armor row while on Skyblock."
+        }
+      }
+    },
+    "storageoverlay": {
+      "name": "Storage Overlay",
+      "desc": "Browse and search your ender chest and storage backpacks offline.",
+      "setting": {
+        "storage_browser": {
+          "name": "Storage Browser",
+          "desc": "Draw the offline browser over the in-game Storage menu and pages."
+        },
+        "ec_enderchest_storage": {
+          "name": "/ec, /enderchest -> Storage",
+          "desc": "On Skyblock, /ec and /enderchest open the storage browser (with backpacks)."
+        },
+        "pages_per_row": {
+          "name": "Pages Per Row",
+          "desc": "Most storage pages side by side; narrow screens fit fewer."
+        },
+        "clear_cache": {
+          "name": "Clear Cache",
+          "label": "Clear"
+        }
+      }
+    }
+  },
+  "storage": {
+    "ender_chest_pages": "Ender Chest Pages",
+    "storage_pages": "Storage Pages",
+    "edit": "Edit",
+    "inventory": "Inventory",
+    "search": "Search items...",
+    "open_to_load": "Open the /storage menu to load it.",
+    "no_match": "No items match your search.",
+    "click_to_load": "Click to load",
+    "rename": "Rename",
+    "reset_name": "Reset"
+  },
+  "hud": {
+    "skill_display": "Skill Display",
+    "health_bar": "Health Bar",
+    "health_numbers": "Health Numbers",
+    "mana_bar": "Mana Bar",
+    "mana_numbers": "Mana Numbers",
+    "mana_overflow": "Mana Overflow",
+    "defence": "Defence",
+    "vitality_bar": "Vitality Bar",
+    "vitality_numbers": "Vitality Numbers",
+    "effective_hp": "Effective HP"
+  },
+  "skill": {
+    "max": "MAX"
+  }
+}

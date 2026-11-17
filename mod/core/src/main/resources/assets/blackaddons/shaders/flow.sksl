@@ -1,0 +1,67 @@
+// The website's background field (frontend packages/ui/.../shell/ShaderCanvas.vue), ported from GLSL.
+// Differences: the ground is a top-to-bottom gradient instead of one color, `look` shifts the field for
+// parallax, and dither runs per device pixel (`density` = device pixels per GUI unit; runtime shaders get no
+// sk_FragCoord) while the field is laid out in GUI units.
+//
+// Noise without sin(): a sin-based hash loses precision on large inputs on many GPUs and draws seams; each
+// octave is rotated so no grid direction lines up into an edge.
+
+uniform float2 res;
+uniform float t;
+uniform float amt;
+uniform float2 look;
+uniform float density;
+uniform float3 top;
+uniform float3 bottom;
+uniform float3 navy;
+uniform float3 violet;
+uniform float3 plum;
+uniform float3 rose;
+
+float hash(float2 p) {
+    float2 q = fract(p * float2(0.1373, 0.2531) + float2(0.4142, 0.7321));
+    return fract((q.x + 3.7) * (q.y + 9.1) * (q.x + q.y + 5.3) * 17.39);
+}
+
+float noise(float2 p) {
+    float2 i = floor(p);
+    float2 f = fract(p);
+    float2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+    return mix(mix(hash(i), hash(i + float2(1, 0)), u.x), mix(hash(i + float2(0, 1)), hash(i + float2(1, 1)), u.x), u.y);
+}
+
+float fbm(float2 p) {
+    const float2x2 R = float2x2(0.8, 0.6, -0.6, 0.8);
+    float v = 0.0;
+    float a = 0.5;
+    p = R * p;
+    for (int i = 0; i < 5; i++) {
+        v += a * noise(p);
+        p = R * p * 2.02 + float2(1.7, 9.2);
+        a *= 0.5;
+    }
+    return v;
+}
+
+half4 main(float2 frag) {
+    float2 uv = (frag + look) / res;
+    float2 p = float2(uv.x * res.x / res.y, uv.y) * 1.3;
+    float tt = mod(t, 1000.0);
+    float2 q = float2(fbm(p + float2(0.0, tt * 0.035)), fbm(p + float2(5.2, 1.3) - float2(tt * 0.028, 0.0)));
+    float2 r = float2(fbm(p + 2.4 * q + float2(1.7, 9.2) + tt * 0.02), fbm(p + 2.4 * q + float2(8.3, 2.8) - tt * 0.017));
+    float f = fbm(p + 2.0 * r);
+
+    float fade = mix(1.0, 0.45, clamp(uv.y, 0.0, 1.0));
+    float k = amt * fade;
+    float3 col = mix(top, bottom, clamp(uv.y, 0.0, 1.0));
+    col = mix(col, navy, smoothstep(0.25, 0.75, q.y) * 0.9 * min(1.0, k * 2.2));
+    col = mix(col, violet, smoothstep(0.38, 0.92, f) * k);
+    col = mix(col, plum, smoothstep(0.48, 1.0, length(r) * 0.8) * k * 0.85);
+    col = mix(col, rose, smoothstep(0.6, 1.05, f * q.x * 1.9) * k * 0.6);
+
+    // Triangular dither of about one 8-bit step, so dark gradients never band.
+    float2 px = floor(frag * density);
+    float d = hash(px + fract(tt * 0.61) * 97.0) + hash(px.yx + fract(tt * 0.37) * 53.0) - 1.0;
+    col += d / 255.0 * 1.5;
+    return half4(half3(col), 1.0);
+}

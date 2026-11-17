@@ -1,0 +1,313 @@
+# CI/CD for the mod. Three things happen here: every branch and merge request has to build, main
+# keeps a -SNAPSHOT of :api in the Maven registry so an addon in its own repo can track it, and a
+# release is one manual click that tags, ships the jars and publishes the matching :api version.
+#
+# Mod-specific vs. the backend and the bot pipelines:
+#  - No Docker anywhere. Nothing is deployed; the artifacts are jars and a Maven package.
+#  - The build downloads Minecraft, the Fabric libraries and our own JitPack renderers, so the Gradle
+#    caches are worth keeping between pipelines - see `cache` below. A cold pipeline still works, it
+#    just pays for the downloads again.
+#  - Tags produce no pipeline of their own (the `workflow` rules below match only branches and merge
+#    requests). The release job is what a tag means here, and it has already done the work by the time
+#    the tag exists.
+stages: [ sync, verify, publish, release ]
+
+variables:
+  # The image pins the same Gradle the repo does (gradle/wrapper/gradle-wrapper.properties) on the JDK
+  # every module targets. Two versions in two files is a drift waiting to happen, so when one moves,
+  # move the other.
+  GRADLE_IMAGE: gradle:9.7.1-jdk25-noble
+  # Inside the project directory on purpose: GitLab can only cache paths under it, and Loom's game and
+  # mapping downloads live in this home. Left at its default (~/.gradle) every pipeline would re-fetch
+  # Minecraft.
+  GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
+  GRADLE_OPTS: -Dorg.gradle.daemon=false
+  # The generic package a release's jars are uploaded under.
+  RELEASE_PACKAGE: blackaddons
+  # The GitHub mirror: release notes credit its logins, and `release:github` publishes there.
+  GITHUB_REPO: BlackAddons/mod
+
+default:
+  image: $GRADLE_IMAGE
+  tags: [ one ]
+  cache:
+    # One key for every branch. Per-branch keys kept a 1.1 GB copy of the same dependencies for each
+    # branch ever built, and nothing removes a key once its branch is gone: 22 of them filled the server.
+    # Gradle drops entries its builds stop using after 30 days, so the one copy does not grow forever.
+    key: gradle
+    paths:
+      # The dependency cache and Loom's game/mapping downloads - the two that cost minutes to refetch.
+      # Deliberately NOT caches/build-cache-1: Gradle's task-output cache is opt-in and this repo does
+      # not set org.gradle.caching, so that directory is never written and the runner warns about a
+      # path it cannot find.
+      - .gradle/caches/modules-2
+      - .gradle/caches/fabric-loom
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+# Keeps the GitHub mirror equal to main here - see ci/sync.sh. Runs on every push to main, and in the
+# trigger pipeline GitHub's notify-gitlab workflow starts after a merge-queue merge. That pipeline runs
+# this job alone: main has not moved yet, and the push sync makes when it fast-forwards main starts the
+# real pipeline. Every other job therefore opens its rules with `when: never` for triggers.
+#
+# One resource_group with both release jobs: a sync that moves main mid-release would fail the version
+# bump after both Releases already exist.
+#
+# Needs GITHUB_SYNC_TOKEN (see `release:github`), GITLAB_SYNC_TOKEN - an impersonation token of the
+# `github` service user, a Maintainer here (api, write_repository), so mirrored merges show up as
+# GitHub's - and optionally DISCORD_WEBHOOK for conflict and repair notices.
+sync:
+  stage: sync
+  needs: [ ]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  interruptible: false
+  resource_group: mirror-sync
+  # No Gradle cache: it is a gigabyte to unpack on every push, for the rare repair build that needs it.
+  cache: [ ]
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq --no-install-recommends jq >/dev/null
+  script:
+    - sh ci/sync.sh
+
+# `build-all` is the single gate: every edition for every Minecraft version, plus checkCommitTypes,
+# checkModuleBoundaries and the tests of the version-neutral modules. Nothing else needs listing here,
+# because that alias is what a developer runs locally too.
+verify:
+  stage: verify
+  # Not after `sync`: a failed or frozen mirror must not leave main unbuilt and the release button dead.
+  needs: [ ]
+  interruptible: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      when: never
+    - when: on_success
+  script:
+    - gradle build-all --stacktrace
+  artifacts:
+    name: blackaddons-jars-$CI_COMMIT_SHORT_SHA
+    expire_in: 1 week
+    paths:
+      # Every platform, or the artifact silently ships a subset of what was verified. The MC version is
+      # part of each jar name, so nothing collides.
+      - mod/platform/26.3/build/libs/*.jar
+      - mod/platform/26.2/build/libs/*.jar
+      - addons/extras/26.3/build/libs/*.jar
+      - addons/extras/26.2/build/libs/*.jar
+    exclude:
+      - "**/*-sources.jar"
+      - "**/*-dev.jar"
+
+# The team's private tests (blackaddons/mod-tests), on a click. The job token clones with the rights of
+# whoever clicked, so it only works for someone who can read that repository; anyone else gets a message
+# saying so instead of a red build they cannot explain, which is also why this never runs on its own.
+# The build picks the checkout up as a sibling folder (blackaddons.jvm-module).
+#
+# Needs this project on mod-tests' job token allowlist: mod-tests -> Settings -> CI/CD -> Job token
+# permissions.
+private-tests:
+  stage: verify
+  needs: [ ]
+  interruptible: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      when: never
+    - when: manual
+      allow_failure: true
+  variables:
+    PRIVATE_TESTS: blackaddons/mod-tests
+  script:
+    - |
+      if ! git clone --quiet --depth 1 \
+          "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/${PRIVATE_TESTS}.git" \
+          ../BlackAddons.ModTests; then
+        echo "Could not clone ${PRIVATE_TESTS}. These tests run only for people who can read that repository."
+        exit 1
+      fi
+    - gradle :api:test :mod:core:test :addons:cheat:core:test --stacktrace
+
+# The commit-msg hook in .githooks is a courtesy - it is bypassable with --no-verify and it never runs
+# on the server. This is the gate that isn't, and it runs the very same script the hook does.
+commit-messages:
+  stage: verify
+  image: alpine:latest
+  interruptible: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  cache: [ ]
+  variables:
+    # A shallow clone is not deep enough to reach the merge base, so take the whole history.
+    GIT_DEPTH: 0
+  before_script:
+    - apk add --no-cache git >/dev/null
+  script:
+    - sh ci/check-commits.sh "$CI_MERGE_REQUEST_DIFF_BASE_SHA" HEAD
+
+# Main keeps a -SNAPSHOT of the addon-facing contract in the Maven registry, so an addon living in
+# its own repo can develop against unreleased :api and pin to a real version when it ships.
+#
+# -Psnapshot is read by api/build.gradle.kts. Publishing goes to THIS project's registry, and consumers
+# read it from there by the project's numeric id - see documentation/ARCHITECTURE.md.
+publish:api-snapshot:
+  stage: publish
+  needs: [ verify ]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - gradle :api:publishMavenJavaPublicationToGitLabRepository -Psnapshot --stacktrace
+
+# A release, in one manual click on main. Reads the version from gradle.properties, writes the notes
+# from the conventional commits since the last release tag, ships the jars `verify` already built and
+# verified, publishes the matching :api, creates the tag and the GitLab Release, and bumps the patch
+# version for the next dev cycle. `release:github` then mirrors the Release to GitHub.
+#
+# The notes credit authors through GITHUB_SYNC_TOKEN (GitHub logins, see `release:github`) and
+# GITLAB_SYNC_TOKEN (GitLab accounts by public email, see `sync`); without them, by git name.
+#
+# The bump commit needs GITLAB_PUSH_TOKEN - the job token can do everything else in this job but
+# cannot push. It is a project access token, and the two halves of it matter:
+#
+#   scope: write_repository, and nothing else. It pushes one commit; it has no business reading the
+#          API, the registries, or anything of ours the job token already covers.
+#   role:  Maintainer. main is a protected branch, and the ROLE (not the scope) is what decides who
+#          may push to one - a Developer token gets a clean 401 here and nowhere else.
+#
+# Stored under Settings -> CI/CD -> Variables as Masked and Protected. Protected matters: without it
+# the token is handed to pipelines on unprotected branches too, which is every branch anyone opens.
+# Project access tokens expire; when the release job starts failing to push, that is why.
+release:
+  stage: release
+  needs:
+    - job: verify
+      artifacts: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      # Not optional decoration. A bare `when: manual` job defaults to allow_failure: true, but one
+      # reached through `rules` defaults to FALSE - and a blocking manual job leaves every pipeline on
+      # main sitting in "blocked" forever instead of reporting green. This is a button, not a gate.
+      allow_failure: true
+  # Never cancelled mid-flight, and never two at once - either would leave a tag without a release.
+  interruptible: false
+  resource_group: mirror-sync
+  variables:
+    # The notes walk back to the previous tag, which a shallow clone does not contain.
+    GIT_DEPTH: 0
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq --no-install-recommends jq >/dev/null
+  script:
+    - VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+    - echo "Releasing v$VERSION"
+
+    # Collect the shippable jars. `verify` already excluded the -sources / -dev intermediates, and the
+    # MC version is part of every jar name, so the flat staging directory is safe.
+    - mkdir -p release-jars
+    - find mod/platform addons/extras -path '*/build/libs/*.jar' -exec cp {} release-jars/ \;
+    - ls -l release-jars
+    # The button outlives the artifacts it needs: `verify` keeps its jars for a week, and this job stays
+    # clickable long after. Without this check a late click would tag, publish and announce a release
+    # whose every download link is missing - silently, because an empty upload loop is not an error.
+    - |
+      if [ -z "$(ls -A release-jars)" ]; then
+        echo "No jars staged - the verify job's artifacts have expired."
+        echo "Re-run the verify job on this commit, then click release again."
+        exit 1
+      fi
+
+    # The notes for both sides, before anything is published: a failure here leaves no half-made
+    # release behind. Grouped by the types in ci/commit-types, the file the hook and both CIs read.
+    - sh ci/release-notes.sh "v${VERSION}"
+
+    # The jars go to the generic package registry rather than being attached to the release directly: a
+    # release asset is a link, and this is what gives it one that outlives job-artifact expiry.
+    - PACKAGE_URL="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${RELEASE_PACKAGE}/${VERSION}"
+    - |
+      for jar in release-jars/*.jar; do
+        name=$(basename "$jar")
+        echo "uploading $name"
+        curl --fail-with-body --silent --show-error \
+          --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          --upload-file "$jar" "$PACKAGE_URL/$name"
+        echo
+      done
+
+    # The released :api, at the plain version. The snapshot job publishes the same publication with
+    # -Psnapshot; this is the one an addon pins to.
+    - gradle :api:publishMavenJavaPublicationToGitLabRepository --stacktrace
+
+    # The Release, with one asset link per jar. Created through the API rather than with the `release:`
+    # keyword, because the asset list is built above rather than written out in this file.
+    - |
+      jq -n --arg tag "v${VERSION}" --arg ref "$CI_COMMIT_SHA" --arg package "$PACKAGE_URL" \
+        --rawfile notes notes-gitlab.md \
+        '{tag_name: $tag, ref: $ref, name: $tag, description: $notes,
+          assets: {links: [$ARGS.positional[] | {name: ., url: "\($package)/\(.)", link_type: "package"}]}}' \
+        --args $(cd release-jars && ls *.jar) \
+      | curl --fail-with-body --silent --show-error \
+          --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+          --header "Content-Type: application/json" \
+          --data @- \
+          "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases"
+      echo
+
+    # Bump the patch version for the next dev cycle and push it back. The version lives only in the root
+    # gradle.properties, and every module reads it from there.
+    #
+    # No [skip ci]: the pipeline this push starts is what mirrors the bump to GitHub. Authored by the
+    # GitLab service identity, which the mirror bot owns on GitHub, so the commit links to it there.
+    - |
+      # A prerelease suffix (`-beta`) is the channel, not part of the number: it carries over.
+      CORE=${VERSION%%-*}
+      SUFFIX=${VERSION#"$CORE"}
+      IFS=. read -r MAJ MIN PAT <<< "$CORE"
+      NEW="${MAJ}.${MIN}.$((PAT + 1))${SUFFIX}"
+      sed -i "s/^mod_version=.*/mod_version=${NEW}/" gradle.properties
+      echo "Bumped ${VERSION} -> ${NEW}"
+
+      git config user.name "GitLab"
+      git config user.email "noreply@${CI_SERVER_HOST}"
+      git add gradle.properties
+      git commit -m "chore: bump version to next dev cycle"
+      git push "https://oauth2:${GITLAB_PUSH_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/${CI_PROJECT_PATH}.git" \
+        "HEAD:${CI_DEFAULT_BRANCH}"
+  artifacts:
+    # What `release:github` publishes: the same jars and the GitHub flavor of the notes.
+    expire_in: 1 week
+    paths:
+      - release-jars/
+      - notes-github.md
+
+# The GitHub Release for the tag `release` just made: the tag pushed to the mirror, the GitHub notes
+# and the same jars. A job of its own so a GitHub outage can be retried here without touching the
+# GitLab Release, which already exists; ci/github-release.sh reuses a release it finds and uploads
+# only the missing jars.
+#
+# Needs GITHUB_SYNC_TOKEN, the mirror bot's fine-grained token for BlackAddons/mod (Contents: write),
+# Masked and Protected like GITLAB_PUSH_TOKEN.
+release:github:
+  stage: release
+  needs:
+    - job: release
+      artifacts: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "trigger"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  interruptible: false
+  resource_group: mirror-sync
+  cache: [ ]
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq --no-install-recommends jq >/dev/null
+  script:
+    - VERSION=$(grep '^mod_version=' gradle.properties | cut -d'=' -f2 | tr -d '[:space:]')
+    # The tag exists on GitLab only, made by the Releases API; the clone predates it.
+    - git fetch --quiet origin "refs/tags/v${VERSION}:refs/tags/v${VERSION}"
+    - git push --quiet "https://x-access-token:${GITHUB_SYNC_TOKEN}@github.com/${GITHUB_REPO}.git" "refs/tags/v${VERSION}"
+    - sh ci/github-release.sh "v${VERSION}"

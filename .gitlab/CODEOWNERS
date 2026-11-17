@@ -1,0 +1,5 @@
+# Default owners for everything in the repo. Requested as reviewers on every merge request.
+#
+# One line, both names: the last matching pattern wins, so a second `*` rule would *replace* this
+# one rather than add to it.
+* @DreamcastERA1 @BLACKUM

@@ -1,0 +1,33 @@
+{
+  "areas": {
+    "hub": "Hub",
+    "rift": "The Rift",
+    "garden": "The Garden",
+    "safari": "Safari",
+    "winter": "Jerry's Workshop",
+    "dungeon": "Catacombs",
+    "dynamic": "Private Island",
+    "galatea": "Galatea",
+    "combat_1": "Spider's Den",
+    "combat_2": "Femboy Island (Blazing Fortress)",
+    "combat_3": "The End",
+    "mining_1": "Gold Mine",
+    "mining_2": "Deep Caverns",
+    "mining_3": "Dwarven Mines",
+    "farming_1": "The Barn",
+    "farming_2": "Mushroom Desert",
+    "instanced": "Kuudra",
+    "mineshaft": "Mineshaft",
+    "foraging_1": "The Park",
+    "dungeon_hub": "Dungeon Hub",
+    "lotus_atoll": "Lotus Atoll",
+    "crimson_isle": "Crimson Isle",
+    "dark_auction": "Dark Auction",
+    "garden_guest": "Garden Guest",
+    "torrhus_canyon": "Torrhus Canyon",
+    "backwater_bayou": "Backwater Bayou",
+    "crystal_hollows": "Crystal Hollows",
+    "moonglade_marsh": "Moonglade Marsh",
+    "private_island_guest": "Private Island Guest"
+  }
+}
