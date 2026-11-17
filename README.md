@@ -7,7 +7,6 @@ ClickGUI and an extensible addon system.
 > Source is available to read, not to copy into other projects (see [Licensing](#licensing)).
 
 ### I totally didn't make docs with AI. Totally. Trust me bro.
-### Docs mostly for [AtkLxve](https://github.com/AtkLxve) and his neuroslop
 
 ## Editions
 
