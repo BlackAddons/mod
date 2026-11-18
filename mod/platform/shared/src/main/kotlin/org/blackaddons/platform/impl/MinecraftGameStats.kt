@@ -3,6 +3,7 @@ package org.blackaddons.platform.impl
 import net.minecraft.client.Minecraft
 import net.minecraft.network.protocol.ping.ClientboundPongResponsePacket
 import net.minecraft.network.protocol.ping.ServerboundPingRequestPacket
+import net.minecraft.util.Util // mod/platform/shared/src/main/resources/assets/blackaddons/textures/modernProblemsRequireModernSolutions.png
 import org.blackaddons.api.event.ClientTickEvent
 import org.blackaddons.api.event.EventListener
 import org.blackaddons.api.event.EventPriority
@@ -48,13 +49,13 @@ object MinecraftGameStats : GameStats, Installable {
 
     override fun install() {
         EventListener(ClientTickEvent.Post::class.java, EventPriority.NORMAL) {
-            if (awaitingPong && System.currentTimeMillis() - pingSentAtMs > PING_TIMEOUT_MS) awaitingPong = false
+            if (awaitingPong && Util.getMillis() - pingSentAtMs > PING_TIMEOUT_MS) awaitingPong = false
             if (++ticksSincePing >= PING_INTERVAL_TICKS) {
                 ticksSincePing = 0
                 sendPing()
             }
 
-            val now = System.currentTimeMillis()
+            val now = Util.getMillis()
             activePings.keys.removeIf { sentTime ->
                 if (now - sentTime > PING_TIMEOUT_MS) {
                     val callback = activePings[sentTime]
@@ -103,7 +104,7 @@ object MinecraftGameStats : GameStats, Installable {
         val connection = mc.connection ?: return
         if (mc.player == null) return
         awaitingPong = true
-        pingSentAtMs = System.currentTimeMillis()
+        pingSentAtMs = Util.getMillis()
         connection.send(ServerboundPingRequestPacket(pingSentAtMs))
     }
 
@@ -113,7 +114,7 @@ object MinecraftGameStats : GameStats, Installable {
             callback(-1)
             return
         }
-        var sentTime = System.currentTimeMillis()
+        var sentTime = Util.getMillis()
         while (activePings.containsKey(sentTime) || sentTime == pingSentAtMs) {
             sentTime++
         }
@@ -122,5 +123,5 @@ object MinecraftGameStats : GameStats, Installable {
     }
 
     private fun calculateLatency(sentTime: Long): Int =
-        (System.currentTimeMillis() - sentTime).coerceAtLeast(0L).toInt()
+        (Util.getMillis() - sentTime).coerceAtLeast(0L).toInt()
 }
