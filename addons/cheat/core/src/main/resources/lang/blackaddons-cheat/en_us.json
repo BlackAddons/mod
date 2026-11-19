@@ -40,6 +40,30 @@
       "name": "No Rotate Button Test",
       "desc": "Alternates silent clicks on the two stone buttons at (-2, 85, -93) and (-2, 85, -90)."
     },
+    "quickjoincheats": {
+      "setting": {
+        "auto_join_confirm": {
+          "name": "Auto Join Confirm",
+          "desc": "Confirms the Undersized party menu when you queue again while solo in a dungeon."
+        },
+        "silent_menus": {
+          "name": "Silent Menus",
+          "desc": "Open the menus without showing them on screen."
+        },
+        "click_delay": {
+          "name": "Click Delay",
+          "desc": "Wait a random time before clicking instead of clicking at once."
+        },
+        "min_click_delay": {
+          "name": "Min Click Delay",
+          "desc": "Shortest wait before each menu click."
+        },
+        "max_click_delay": {
+          "name": "Max Click Delay",
+          "desc": "Longest wait before each menu click."
+        }
+      }
+    },
     "autobm": {
       "name": "Auto BM",
       "desc": "Automatically upgrades Ballista Mechanic in Kuudra.",

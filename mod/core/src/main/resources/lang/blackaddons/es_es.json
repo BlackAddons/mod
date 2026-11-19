@@ -1500,6 +1500,10 @@
         }
       }
     },
+    "quickjoin": {
+      "name": "Quick Join",
+      "desc": "Join dungeon floors and Kuudra tiers with /f0-/f7, /m1-/m7 and /t1-/t5."
+    },
     "chatcopy": {
       "name": "Copiar chat",
       "desc": "Ctrl+clic en un mensaje del chat para copiarlo (añade Shift para conservar los códigos de formato)."
