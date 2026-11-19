@@ -8,6 +8,11 @@ class FireOverlayRenderEvent(
     override var cancelled: Boolean = false,
 ) : Event(), Cancellable
 
+/** Cancel to render without night vision. */
+class NightVisionRenderEvent(
+    override var cancelled: Boolean = false,
+) : Event(), Cancellable
+
 enum class ToastType {
     TUTORIAL,
     UNSECURE_SERVER_WARNING,

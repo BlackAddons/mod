@@ -612,6 +612,10 @@
           "name": "Ocultar efectos de estado",
           "desc": "Oculta los iconos de efectos de pociones en el HUD y en las pantallas de inventario."
         },
+        "disable_night_vision": {
+          "name": "Desactivar visión nocturna",
+          "desc": "Muestra el mundo como si no tuvieras el efecto de visión nocturna. Solo en el cliente."
+        },
         "disable_tutorial_toasts": {
           "name": "Desactivar notificaciones del tutorial",
           "desc": "Oculta las notificaciones del tutorial de Minecraft."

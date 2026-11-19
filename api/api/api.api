@@ -1375,6 +1375,14 @@ public final class org/blackaddons/api/event/render/MenuFramerateEvent$Limit : j
 	public static fun values ()[Lorg/blackaddons/api/event/render/MenuFramerateEvent$Limit;
 }
 
+public final class org/blackaddons/api/event/render/NightVisionRenderEvent : org/blackaddons/api/event/Event, org/blackaddons/api/event/Cancellable {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCancelled ()Z
+	public fun setCancelled (Z)V
+}
+
 public final class org/blackaddons/api/event/render/ParticleRenderEvent : org/blackaddons/api/event/Event, org/blackaddons/api/event/Cancellable {
 	public fun <init> (DDDZ)V
 	public synthetic fun <init> (DDDZILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -8038,8 +8046,8 @@ public final class org/blackaddons/api/world/WorldHost$DefaultImpls {
 }
 
 public abstract interface class org/blackaddons/api/world/WorldRenderer {
-	public abstract fun beacon (DDLjava/awt/Color;DD)V
-	public static synthetic fun beacon$default (Lorg/blackaddons/api/world/WorldRenderer;DDLjava/awt/Color;DDILjava/lang/Object;)V
+	public abstract fun beacon (DDLjava/awt/Color;DDZ)V
+	public static synthetic fun beacon$default (Lorg/blackaddons/api/world/WorldRenderer;DDLjava/awt/Color;DDZILjava/lang/Object;)V
 	public abstract fun boxEdges (DDDDDDLjava/awt/Color;FZZ)V
 	public static synthetic fun boxEdges$default (Lorg/blackaddons/api/world/WorldRenderer;DDDDDDLjava/awt/Color;FZZILjava/lang/Object;)V
 	public abstract fun cone (DDDDDFILkotlin/jvm/functions/Function1;ZZ)V
@@ -8060,7 +8068,7 @@ public abstract interface class org/blackaddons/api/world/WorldRenderer {
 }
 
 public final class org/blackaddons/api/world/WorldRenderer$DefaultImpls {
-	public static synthetic fun beacon$default (Lorg/blackaddons/api/world/WorldRenderer;DDLjava/awt/Color;DDILjava/lang/Object;)V
+	public static synthetic fun beacon$default (Lorg/blackaddons/api/world/WorldRenderer;DDLjava/awt/Color;DDZILjava/lang/Object;)V
 	public static synthetic fun boxEdges$default (Lorg/blackaddons/api/world/WorldRenderer;DDDDDDLjava/awt/Color;FZZILjava/lang/Object;)V
 	public static synthetic fun cone$default (Lorg/blackaddons/api/world/WorldRenderer;DDDDDFILkotlin/jvm/functions/Function1;ZZILjava/lang/Object;)V
 	public static synthetic fun filledBox$default (Lorg/blackaddons/api/world/WorldRenderer;DDDDDDLjava/awt/Color;ZZILjava/lang/Object;)V

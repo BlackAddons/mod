@@ -5,14 +5,18 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.FogRenderer;
+import net.minecraft.world.entity.LivingEntity;
 import org.blackaddons.api.camera.CameraController;
 import org.blackaddons.api.camera.CameraControllers;
+import org.blackaddons.api.event.EventBus;
+import org.blackaddons.api.event.render.NightVisionRenderEvent;
 import org.blackaddons.platform.impl.player.rotation.MinecraftRotation;
 import org.blackaddons.platform.impl.world.EntityView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
@@ -34,5 +38,10 @@ public class GameRendererMixin {
     @WrapWithCondition(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/fog/FogRenderer;updateBuffer(Lnet/minecraft/client/renderer/fog/FogData;)V"))
     private boolean blackaddons$keepMainFog(FogRenderer fogRenderer, FogData fog) {
         return !EntityView.getRendering();
+    }
+
+    @Inject(method = "nightVisionScale", at = @At("HEAD"), cancellable = true)
+    private static void blackaddons$disableNightVision(LivingEntity camera, float a, CallbackInfoReturnable<Float> cir) {
+        if (EventBus.INSTANCE.post(new NightVisionRenderEvent(false)).getCancelled()) cir.setReturnValue(0.0F);
     }
 }

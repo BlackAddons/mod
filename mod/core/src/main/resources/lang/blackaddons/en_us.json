@@ -612,6 +612,10 @@
           "name": "Hide Status Effects",
           "desc": "Hides status potion effect icons on HUD and in inventory screens."
         },
+        "disable_night_vision": {
+          "name": "Disable Night Vision",
+          "desc": "Renders the world as if you didn't have the Night Vision effect. Client-side only."
+        },
         "disable_tutorial_toasts": {
           "name": "Disable Tutorial Toasts",
           "desc": "Suppresses Minecraft tutorial toasts from popping up."

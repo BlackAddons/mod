@@ -3,6 +3,7 @@ package org.blackaddons.core.features.impl.ui
 import org.blackaddons.api.event.render.CommandConfirmationEvent
 import org.blackaddons.api.event.render.FireOverlayRenderEvent
 import org.blackaddons.api.event.render.LinkConfirmationEvent
+import org.blackaddons.api.event.render.NightVisionRenderEvent
 import org.blackaddons.api.event.render.StatusEffectsRenderEvent
 import org.blackaddons.api.event.render.ToastAddEvent
 import org.blackaddons.api.event.render.ToastType
@@ -17,6 +18,9 @@ object ScreenQol : Feature(
 
     val hideStatusEffects by boolean("Hide Status Effects", default = false)
         .withDescription("Hides status potion effect icons on HUD and in inventory screens.")
+
+    val disableNightVision by boolean("Disable Night Vision", default = false)
+        .withDescription("Renders the world as if you didn't have the Night Vision effect. Client-side only.")
 
     val disableTutorialToasts by boolean("Disable Tutorial Toasts", default = true)
         .withDescription("Suppresses Minecraft tutorial toasts from popping up.")
@@ -39,6 +43,12 @@ object ScreenQol : Feature(
 
         register<StatusEffectsRenderEvent> {
             if (hideStatusEffects.value) {
+                event.cancelled = true
+            }
+        }
+
+        register<NightVisionRenderEvent> {
+            if (disableNightVision.value) {
                 event.cancelled = true
             }
         }
