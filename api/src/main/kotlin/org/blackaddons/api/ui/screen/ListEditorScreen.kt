@@ -32,7 +32,7 @@ class ListEditorScreen(
         drawRow = { entry, index, rx, ry, rw -> renderRow(entry, index, rx, ry, rw) }
         onReorder = setting::move
     })
-    private val ordered = (setting as? OrderSetting)?.also { list.contentInsetY = ORDER_INSET }
+    private val ordered = setting as? OrderSetting
     private val field = if (ordered != null) null else widgets.add(TextInput(
         placeholder = setting.translatedPlaceholder.ifEmpty { tr("input_placeholder", "type new entry...") },
         maxLength = setting.itemMaxLength,
@@ -45,7 +45,7 @@ class ListEditorScreen(
         get() = ordered?.let { heightFor(orderListHeight(it.value.size)) } ?: super.panelHeight
 
     private fun orderListHeight(rows: Int): Float =
-        rows.coerceIn(1, MAX_ORDER_ROWS) * (list.rowHeight + list.rowGap) + ORDER_INSET * 2f
+        rows.coerceIn(1, MAX_ORDER_ROWS) * (list.rowHeight + list.rowGap) + ScrollableList.EDGE_GAP * 2f
 
     // Set in renderContent, read in mouseClicked.
     private var inputY = 0f
@@ -153,7 +153,6 @@ class ListEditorScreen(
         const val DONE_W = 80f
         const val DONE_H = 24f
         const val ORDER_W = 260f
-        const val ORDER_INSET = 4f
         const val MAX_ORDER_ROWS = 8
     }
 }

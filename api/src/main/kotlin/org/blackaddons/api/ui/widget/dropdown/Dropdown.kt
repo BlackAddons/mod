@@ -1,4 +1,6 @@
 package org.blackaddons.api.ui.widget.dropdown
+import org.blackaddons.api.ui.anim.Animation
+import org.blackaddons.api.ui.layout.hit
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
@@ -44,6 +46,11 @@ class Dropdown(maxVisibleItems: Int = 5) : PopupControl, InputTarget {
 
     var onOpen: (() -> Unit)? = null
 
+    /** A field's bottom line, for a dropdown on a surface of its own colour. It folds into its middle on hover. */
+    var underline: Boolean = false
+
+    private val underlineFold = Animation(durationMs = Theme.ANIM_HOVER.toLong())
+
     override val isOverlaying: Boolean get() = open
 
     private val selected: Item? get() = items.getOrNull(selectedIndex)
@@ -57,6 +64,14 @@ class Dropdown(maxVisibleItems: Int = 5) : PopupControl, InputTarget {
     fun render(x: Float, y: Float, width: Float, height: Float, mouseX: Float, mouseY: Float) {
         popup.drawBox(x, y, width, height, mouseX, mouseY)
         selected?.let { drawItem(it, x, y, width - CHEVRON_SPACE, height, Theme.TEXT_PRIMARY) }
+        if (underline) drawUnderline(x, y, width, height, mouseX, mouseY)
+    }
+
+    // Open or hovered, the box's own fill shows, so the line gives way to it.
+    private fun drawUnderline(x: Float, y: Float, width: Float, height: Float, mouseX: Float, mouseY: Float) {
+        underlineFold.animateTo(if (open || hit(mouseX, mouseY, x, y, width, height)) 1f else 0f)
+        val lineW = width * (1f - underlineFold.get())
+        if (lineW > 0f) Render.rect(x + (width - lineW) / 2f, y + height - 1f, lineW, 1f, Theme.BORDER)
     }
 
     /** Fits every item, padding and chevron included. */
@@ -67,9 +82,9 @@ class Dropdown(maxVisibleItems: Int = 5) : PopupControl, InputTarget {
 
     /** Call last. */
     fun renderOverlay(mouseX: Float, mouseY: Float) {
-        popup.drawList(items.size, mouseX, mouseY) { i, rowY, rowW, _ ->
+        popup.drawList(items.size, mouseX, mouseY) { i, rowX, rowY, rowW, _ ->
             val color = if (i == selectedIndex) Theme.ACCENT else Theme.TEXT_PRIMARY
-            drawItem(items[i], popup.box.x, rowY, rowW, popup.box.h, color)
+            drawItem(items[i], rowX, rowY, rowW, popup.box.h, color)
         }
     }
 

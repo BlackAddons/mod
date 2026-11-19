@@ -12,6 +12,7 @@ import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
+import org.blackaddons.api.ui.widget.Scroll
 import org.blackaddons.api.ui.widget.WidgetHost
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.formatDecimals
@@ -28,11 +29,13 @@ private val tr = I18n.scope("blackaddons.pv")
 internal class PvSkillsTab {
 
     val widgets = WidgetHost()
+    private val scroll = widgets.add(Scroll())
     private val cards = mutableMapOf<String, PvProgressCard>()
     private var selectedName: String? = null
 
     fun reset() {
         selectedName = null
+        scroll.reset()
         hide()
     }
 
@@ -41,6 +44,10 @@ internal class PvSkillsTab {
     fun render(x: Float, y: Float, width: Float, height: Float, member: ProfileMember) {
         val selected = member.skills.firstOrNull { it.name == selectedName } ?: member.skills.firstOrNull() ?: return
         selectedName = selected.name
+        Cards.scrolled(scroll, x, y, width, height) { w -> content(w, height - Cards.INSET * 2f, selected, member) }
+    }
+
+    private fun content(width: Float, height: Float, selected: SkillStat, member: ProfileMember): LayoutNode {
         val summary = member.skills.summary()
         val gap = Cards.GAP
 
@@ -48,29 +55,23 @@ internal class PvSkillsTab {
             sectionHeader(width, tr("skills", "Skills"), tr("skills_detail.average", "Skill Average: %s", summary.coreAverage.formatDecimals()))
         }
         val summaryCard = summaryCard(width, summary)
-        val details = detailsCard(width, selected, minHeight = 0f)
 
-        /*
-         * Skill cards share what the other blocks leave, within a readable range. The details card takes any rest, so
-         * the summary always ends on the panel's bottom edge.
-         */
+        // The details card takes any rest, so the summary ends on the panel's bottom edge. Too short a panel scrolls.
         val rows = (member.skills.size + COLUMNS - 1) / COLUMNS
-        val free = height - top.height - details.height - summaryCard.height - gap * 3f
-        val cardH = ((free - (rows - 1) * gap) / rows).coerceIn(MIN_CARD_H, MAX_CARD_H)
-        val gridH = rows * cardH + (rows - 1) * gap
+        val gridH = rows * CARD_H + (rows - 1) * gap
         val detailsH = height - top.height - gridH - summaryCard.height - gap * 3f
 
-        column(spacing = gap, width = width) {
+        return column(spacing = gap, width = width) {
             add(top)
-            grid(width, member.skills.size, COLUMNS, cardH, gap) { index, cx, cy, cellW ->
+            grid(width, member.skills.size, COLUMNS, CARD_H, gap) { index, cx, cy, cellW ->
                 val skill = member.skills[index]
                 val card = cards.getOrPut(skill.name) { widgets.add(PvProgressCard { selectedName = skill.name }) }
                 card.set(skill.cardContent(), skill.name == selectedName)
-                card.render(cx, cy, cellW, cardH)
+                card.render(cx, cy, cellW, CARD_H)
             }
             add(detailsCard(width, selected, minHeight = detailsH))
             add(summaryCard)
-        }.draw(x, y)
+        }
     }
 
     private fun detailsCard(width: Float, skill: SkillStat, minHeight: Float): LayoutNode {
@@ -144,8 +145,7 @@ internal class PvSkillsTab {
 
     private companion object {
         const val COLUMNS = 3
-        const val MIN_CARD_H = 32f
-        const val MAX_CARD_H = 42f
+        const val CARD_H = 42f
         val MAXED = Color(255, 215, 90)
     }
 }

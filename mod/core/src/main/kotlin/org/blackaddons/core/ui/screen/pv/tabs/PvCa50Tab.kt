@@ -44,29 +44,35 @@ internal class PvCa50Tab {
         recalculate()
     })
     private val floorDropdown = Dropdown(maxVisibleItems = 8).apply {
+        underline = true
         items = Ca50Floor.entries.map { Dropdown.Item(if (it == Ca50Floor.ENTRANCE) label("entrance", it.label) else it.label) }
         onSelect = { floor = Ca50Floor.entries[it]; recalculate() }
     }
     private val hecatombDropdown = Dropdown(maxVisibleItems = 6).apply {
+        underline = true
         items = (0..10).map { Dropdown.Item(hecatombLabel(it)) }
         selectedIndex = 10
         onSelect = { hecatombLevel = it; recalculate() }
     }
     private val scarfAccessoryDropdown = Dropdown().apply {
+        underline = true
         items = Ca50ScarfAccessory.entries.map { Dropdown.Item(scarfAccessoryLabel(it)) }
         selectedIndex = Ca50ScarfAccessory.GRIMOIRE.ordinal
         onSelect = { scarfAccessory = Ca50ScarfAccessory.entries[it]; recalculate() }
     }
     private val scarfAttributeDropdown = Dropdown(maxVisibleItems = 6).apply {
+        underline = true
         items = (0..10).map { Dropdown.Item(attributeLabel(it)) }
         selectedIndex = 10
         onSelect = { scarfAttributeLevel = it; recalculate() }
     }
     private val globalDropdown = Dropdown().apply {
+        underline = true
         items = Ca50GlobalBoost.entries.map { Dropdown.Item(globalLabel(it)) }
         onSelect = { globalBoost = Ca50GlobalBoost.entries[it]; recalculate() }
     }
     private val mayorDropdown = Dropdown().apply {
+        underline = true
         items = Ca50Mayor.entries.map { Dropdown.Item(mayorLabel(it)) }
         onSelect = { mayor = Ca50Mayor.entries[it]; recalculate() }
     }

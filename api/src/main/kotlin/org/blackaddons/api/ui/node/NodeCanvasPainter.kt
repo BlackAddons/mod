@@ -285,7 +285,7 @@ internal class NodeCanvasPainter(private val canvas: NodeCanvas) {
     private fun outline(node: GraphNode, t: Float, color: Color, socketScale: Float) {
         if (drag.isMoving(node.id) || !intersects(node, 0f, 0f)) return
         val r = NodeMetrics.RADIUS
-        Render.hollowRect(node.x - t / 2f, node.y - t / 2f, node.width + t, node.height + t, t, color, r + t / 2f)
+        Render.hollowRect(node.x - t, node.y - t, node.width + t * 2f, node.height + t * 2f, t, color, r + t)
         body.drawSockets(node, 0f, 0f, socketScale)
     }
 
@@ -298,8 +298,8 @@ internal class NodeCanvasPainter(private val canvas: NodeCanvas) {
             if (!intersects(node, drag.dx, drag.dy)) continue
             body.drawNode(node, drag.dx, drag.dy, showText, full)
             Render.hollowRect(
-                node.x + drag.dx - t / 2f, node.y + drag.dy - t / 2f, node.width + t, node.height + t, t, style.accent,
-                NodeMetrics.RADIUS + t / 2f,
+                node.x + drag.dx - t, node.y + drag.dy - t, node.width + t * 2f, node.height + t * 2f, t, style.accent,
+                NodeMetrics.RADIUS + t,
             )
             body.drawSockets(node, drag.dx, drag.dy, if (full) 1f else NodeBodyPainter.SMALL_SOCKET)
         }

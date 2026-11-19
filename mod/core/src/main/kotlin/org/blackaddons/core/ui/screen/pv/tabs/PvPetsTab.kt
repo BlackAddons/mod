@@ -127,7 +127,7 @@ internal class PvPetsTab {
                 tr("pets_detail.to_next", "%d%% to next level").format(((progress.toNext ?: 0.0) * 100).roundToInt())
             }
             text(next, TextStyle.SMALL_SECONDARY)
-            text(tr("pets_detail.total_progress", "%d%% to maximum").format(((progress.toMax ?: 0.0) * 100).roundToInt()), TextStyle.SMALL_MUTED)
+            if (!progress.maxed) text(tr("pets_detail.total_progress", "%d%% to maximum").format(((progress.toMax ?: 0.0) * 100).roundToInt()), TextStyle.SMALL_MUTED)
             if (pet.candyUsed > 0) valueRow(innerW, tr("pets_detail.candy_used", "Candy Used"), "${pet.candyUsed} / 10")
             pet.heldItem?.let { heldItem(innerW, it) }
         }

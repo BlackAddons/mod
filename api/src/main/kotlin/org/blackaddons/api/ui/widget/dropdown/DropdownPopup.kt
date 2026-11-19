@@ -38,8 +38,8 @@ internal class DropdownPopup(private val control: PopupControl) {
         Chevron.draw(x + width - 9f, y + height / 2f, 5f, 1.6f, 1f - 2f * reveal.get())
     }
 
-    // drawRow gets (index, y, width, hovered).
-    fun drawList(rowCount: Int, mouseX: Float, mouseY: Float, drawRow: (Int, Float, Float, Boolean) -> Unit) {
+    // drawRow gets (index, x, y, width, hovered).
+    fun drawList(rowCount: Int, mouseX: Float, mouseY: Float, drawRow: (Int, Float, Float, Float, Boolean) -> Unit) {
         if (rowCount == 0) return
         val shown = reveal.get()
         if (!shown.isVisible) return
@@ -47,21 +47,27 @@ internal class DropdownPopup(private val control: PopupControl) {
         val rowH = box.h
         val listH = listHeight(rowCount)
         val top = listTop(rowCount)
-        val offset = scroll.update(box.x, top, box.w, listH, rowCount * rowH)
+        val viewX = box.x + LIST_PAD
+        val viewY = top + LIST_PAD
+        val viewW = box.w - LIST_PAD * 2f
+        val viewH = listH - LIST_PAD * 2f
+        val offset = scroll.update(viewX, viewY, viewW, viewH, rowCount * rowH)
 
         val visH = listH * shown
         Render.pushScissor(box.x, if (dropUp) box.y - visH else top, box.w, visH)
         Render.rect(box.x, top, box.w, listH, POPUP_BG, Theme.RADIUS_SMALL)
-        Render.hollowRect(box.x, top, box.w, listH, 1.5f, Theme.BORDER.withAlpha(220), Theme.RADIUS_SMALL)
 
-        val rowW = if (rowCount > maxVisibleItems) box.w - SCROLL_GUTTER else box.w
+        val rowW = if (rowCount > maxVisibleItems) viewW - SCROLL_GUTTER else viewW
+        Render.pushScissor(viewX, viewY, viewW, viewH)
         for (i in 0 until rowCount) {
-            val rowY = top + i * rowH - offset
-            if (rowY + rowH < top || rowY > top + listH) continue
-            val hovered = control.open && hit(mouseX, mouseY, box.x, rowY, rowW, rowH)
-            if (hovered) Render.rect(box.x, rowY, rowW, rowH, Theme.SURFACE_HOVER, Theme.RADIUS_SMALL)
-            drawRow(i, rowY, rowW, hovered)
+            val rowY = viewY + i * rowH - offset
+            if (rowY + rowH < viewY || rowY > viewY + viewH) continue
+            val hovered = control.open && hit(mouseX, mouseY, viewX, rowY, rowW, rowH)
+            if (hovered) Render.rect(viewX, rowY, rowW, rowH, Theme.SURFACE_HOVER, Theme.RADIUS_SMALL)
+            drawRow(i, viewX, rowY, rowW, hovered)
         }
+        Render.popScissor()
+        Render.hollowRect(box.x, top, box.w, listH, BORDER_W, Theme.BORDER.withAlpha(220), Theme.RADIUS_SMALL)
         scroll.draw()
         Render.popScissor()
     }
@@ -71,7 +77,7 @@ internal class DropdownPopup(private val control: PopupControl) {
 
     fun rowAt(mouseX: Float, mouseY: Float, rowCount: Int): Int? {
         if (!onList(mouseX, mouseY, rowCount)) return null
-        return ((mouseY - listTop(rowCount) + scroll.offset) / box.h).toInt().takeIf { it in 0 until rowCount }
+        return ((mouseY - listTop(rowCount) - LIST_PAD + scroll.offset) / box.h).toInt().takeIf { it in 0 until rowCount }
     }
 
     // The bar takes a press before the rows.
@@ -91,12 +97,14 @@ internal class DropdownPopup(private val control: PopupControl) {
         scroll.reset()
     }
 
-    private fun listHeight(rowCount: Int) = minOf(rowCount, maxVisibleItems) * box.h
+    private fun listHeight(rowCount: Int) = minOf(rowCount, maxVisibleItems) * box.h + LIST_PAD * 2f
 
     private fun listTop(rowCount: Int) = if (dropUp) box.y - listHeight(rowCount) else box.y + box.h
 
     private companion object {
         val POPUP_BG = Color(16, 18, 24, 255)
         const val SCROLL_GUTTER = Scroll.LANE_WIDTH + 2f
+        const val BORDER_W = 1.5f
+        const val LIST_PAD = BORDER_W + 2f
     }
 }

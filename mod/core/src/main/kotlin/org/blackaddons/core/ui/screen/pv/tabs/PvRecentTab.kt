@@ -59,8 +59,6 @@ internal class PvRecentTab(private val openProfile: (String) -> Unit) {
         rowHeight = ROW_H
         rowGap = ROW_GAP
         emptyMessage = tr("empty", "No recent teammates in this profile.")
-        leftClipBleed = LIST_OUTLINE_BLEED
-        contentInsetY = LIST_OUTLINE_BLEED
         drawRow = ::drawTeammate
     })
     private val detailList = widgets.add(ScrollableList<DetailRow>().apply {
@@ -424,7 +422,6 @@ internal class PvRecentTab(private val openProfile: (String) -> Unit) {
         const val FILTER_W = 120f
         const val LIST_PORTION = 0.39f
         const val MIN_LIST_W = 190f
-        const val LIST_OUTLINE_BLEED = 2f
         const val ROW_H = 42f
         val ROW_GAP = Theme.PADDING_SMALL
         const val DETAIL_ROW_H = 20f

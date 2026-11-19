@@ -170,8 +170,18 @@ object Render {
     fun hollowRect(box: Rect, thickness: Number, color: Color, radius: Number = 0f) =
         hollowRect(box.x, box.y, box.w, box.h, thickness, color, radius)
 
-    fun hollowRect(x: Number, y: Number, w: Number, h: Number, thickness: Number, color: Color, radius: Number = 0f) =
-        r.hollowRect(x, y, w, h, thickness, color, radius)
+    /**
+     * An outline drawn wholly inside the box, so a scissor at the box or a fill next to it can't cut half of it off.
+     * To ring a box from outside, grow the box by [thickness] on each side.
+     */
+    fun hollowRect(x: Number, y: Number, w: Number, h: Number, thickness: Number, color: Color, radius: Number = 0f) {
+        val t = thickness.toFloat()
+        val half = t / 2f
+        r.hollowRect(
+            x.toFloat() + half, y.toFloat() + half, (w.toFloat() - t).coerceAtLeast(0f), (h.toFloat() - t).coerceAtLeast(0f),
+            t, color, (radius.toFloat() - half).coerceAtLeast(0f),
+        )
+    }
 
     fun halfRoundedRect(x: Number, y: Number, w: Number, h: Number, color: Color, radius: Number, roundTop: Boolean) =
         r.halfRoundedRect(x, y, w, h, color, radius, roundTop)

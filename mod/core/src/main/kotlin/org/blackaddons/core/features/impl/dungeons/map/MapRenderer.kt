@@ -121,7 +121,7 @@ object MapRenderer {
             backgroundDarkeningColor(DungeonMap.backgroundDarkness.value)?.let { Render.rect(bx, by, bWidth, bHeight, it, radius) }
             Render.pop()
         }
-        if (bw > 0) Render.hollowRect(bx - bw / 2f, by - bw / 2f, bWidth + bw, bHeight + bw, bw, border, radius = radius + bw / 2f)
+        if (bw > 0) Render.hollowRect(bx - bw, by - bw, bWidth + bw * 2f, bHeight + bw * 2f, bw, border, radius = radius + bw)
     }
 
     private const val BORDER_GAP = 3f

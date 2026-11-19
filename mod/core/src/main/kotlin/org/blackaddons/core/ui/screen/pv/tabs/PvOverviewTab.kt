@@ -9,6 +9,7 @@ import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.widget.ProgressBar
+import org.blackaddons.api.ui.widget.Scroll
 import org.blackaddons.api.ui.widget.WidgetHost
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.formatDecimals
@@ -39,6 +40,8 @@ internal class PvOverviewTab {
 
     fun reset() {
         avatar.reset()
+        middleFit.reset()
+        rightFit.reset()
         reveal.set(0f)
     }
 
@@ -58,32 +61,39 @@ internal class PvOverviewTab {
 
         row(spacing = gap) {
             add(avatar.node(profiles, textures, member.skyblockLevel, avatarW, height, Cards.ROW_H, mouseX, mouseY, deltaTicks))
-            add(middleFit.node(member, infoW, height) { scale -> middleColumn(member, infoW, scale) })
-            add(rightFit.node(member, rightW, height) { scale -> rightColumn(member, rightW, scale) })
+            add(middleFit.node(member, infoW, height) { w, scale -> middleColumn(member, w, scale) })
+            add(rightFit.node(member, rightW, height) { w, scale -> rightColumn(member, w, scale) })
         }.draw(x, top)
     }
 
     /**
      * The largest chip scale at which a column still fits the tab's height, so chips grow into the room a big screen
-     * leaves instead of sitting small in it. Found once per size and profile, not every frame.
+     * leaves instead of sitting small in it. Found once per size and profile, not every frame. A column too tall even
+     * at scale 1 scrolls, like the other tabs.
      */
-    private class ChipFit {
+    private class ChipFit(private val scroll: Scroll) {
         private var key: Triple<ProfileMember, Float, Float>? = null
         private var scale = 1f
+        private var overflows = false
 
-        fun node(member: ProfileMember, w: Float, h: Float, build: (Float) -> LayoutNode): LayoutNode {
+        fun node(member: ProfileMember, w: Float, h: Float, build: (width: Float, scale: Float) -> LayoutNode): LayoutNode {
             val now = Triple(member, w, h)
             if (key != now) {
                 key = now
                 scale = generateSequence(MAX_CHIP_SCALE) { it - CHIP_SCALE_STEP }.takeWhile { it > 1f }
-                    .firstOrNull { build(it).height <= h } ?: 1f
+                    .firstOrNull { build(w, it).height <= h } ?: 1f
+                overflows = scale == 1f && build(w, 1f).height > h
+                if (!overflows) scroll.update(0f, 0f, 0f, 0f, 0f)
             }
-            return build(scale)
+            if (!overflows) return build(w, scale)
+            return Cell(w, h) { x, y -> Cards.scrolled(scroll, x, y, w, h) { cw -> build(cw, 1f) } }
         }
+
+        fun reset() = scroll.reset()
     }
 
-    private val middleFit = ChipFit()
-    private val rightFit = ChipFit()
+    private val middleFit = ChipFit(widgets.add(Scroll()))
+    private val rightFit = ChipFit(widgets.add(Scroll()))
 
     private fun middleColumn(member: ProfileMember, w: Float, scale: Float): LayoutNode =
         column(spacing = Theme.PADDING, width = w) {

@@ -52,7 +52,6 @@ internal class WardrobeGrid(private val onSelect: (Cosmetic3dEntry) -> Unit) : I
         // Row height includes the gap, so spacing is uniform.
         rowHeight = TILE_H
         rowGap = 0f
-        contentInsetY = ScrollableList.SIDE_INSET
         emptyMessage = tr("empty", "Nothing in your wardrobe yet.")
         drawRow = ::drawTileRow
     }
@@ -75,15 +74,22 @@ internal class WardrobeGrid(private val onSelect: (Cosmetic3dEntry) -> Unit) : I
         pointerY = mouseY
         this.selectedId = selectedId
 
-        // Last gap added back, so the last tile ends at the same inset.
-        val rowW = w - ScrollableList.SIDE_INSET * 2f
-        val columns = ((rowW + TILE_GAP) / TILE_MIN_W).toInt().coerceAtLeast(1)
-        tileW = (rowW + TILE_GAP) / columns
+        // Full width while the tiles fit, as the list then drops its scrollbar lane. Last gap added back, so the last tile ends at the same inset.
+        var columns = columnsFor(w - ScrollableList.EDGE_GAP * 2f)
+        if (rowsHeight(entries.size, columns) > h) columns = columnsFor(w - ScrollableList.EDGE_GAP - ScrollableList.SIDE_INSET)
         list.items = entries.chunked(columns)
         list.boxWidth = w
         list.boxHeight = h
         list.render(x, y, w, h)
     }
+
+    private fun columnsFor(rowW: Float): Int {
+        val columns = ((rowW + TILE_GAP) / TILE_MIN_W).toInt().coerceAtLeast(1)
+        tileW = (rowW + TILE_GAP) / columns
+        return columns
+    }
+
+    private fun rowsHeight(count: Int, columns: Int) = (count + columns - 1) / columns * TILE_H + ScrollableList.EDGE_GAP * 2f
 
     fun clearItems() {
         list.items = emptyList()

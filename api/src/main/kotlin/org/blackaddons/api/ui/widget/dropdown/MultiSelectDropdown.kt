@@ -56,8 +56,8 @@ class MultiSelectDropdown(
     }
 
     fun renderOverlay(mouseX: Float, mouseY: Float) {
-        popup.drawList(items.size, mouseX, mouseY) { i, rowY, rowW, hovered ->
-            drawRow(items[i], rowY, rowW)
+        popup.drawList(items.size, mouseX, mouseY) { i, rowX, rowY, rowW, hovered ->
+            drawRow(items[i], rowX, rowY, rowW)
             if (hovered) items[i].tooltip?.let(Tooltip::show)
         }
     }
@@ -98,8 +98,8 @@ class MultiSelectDropdown(
     override fun mouseScrolled(wheel: MouseScrollInput): Boolean =
         popup.mouseScrolled(wheel)
 
-    private fun drawRow(item: Item, rowY: Float, rowW: Float) =
-        drawCheckRow(item.label, item.id in selectedIds, popup.box.x, rowY, rowW, popup.box.h)
+    private fun drawRow(item: Item, rowX: Float, rowY: Float, rowW: Float) =
+        drawCheckRow(item.label, item.id in selectedIds, rowX, rowY, rowW, popup.box.h)
 }
 
 private const val CHECK_SIZE = 13f

@@ -35,7 +35,7 @@ class ScrollableList<T> : Widget {
     /** Off when embedding in an already-styled area. */
     var drawBackground: Boolean = true
 
-    /** Inside the clip, above the first and below the last row. [SIDE_INSET] matches the sides. */
+    /** Inside the clip, above the first and below the last row, on top of the [EDGE_GAP] a [drawBackground] box adds. */
     var contentInsetY: Float = 0f
 
     /** For outlines that reach left of the row. */
@@ -73,6 +73,10 @@ class ScrollableList<T> : Widget {
 
     private val step get() = rowHeight + rowGap
 
+    // A list in its own box keeps rows as far from the box's edges as from the scrollbar. Embedded, it mirrors the gutter.
+    private val leftInset get() = if (drawBackground) EDGE_GAP else SIDE_INSET
+    private val insetY get() = contentInsetY + if (drawBackground) EDGE_GAP else 0f
+
     // A drag runs from grip press to release; the list only changes on release.
     private val grips = ArrayList<Pair<Int, Rect>>()
     private val slides = HashMap<Any, Animation>()
@@ -89,7 +93,7 @@ class ScrollableList<T> : Widget {
         bounds.set(x, y, w, h)
         if (drawBackground) Render.rect(x, y, w, h, Theme.SURFACE.withAlpha(120), Theme.RADIUS_SMALL)
 
-        maxScroll = (items.size * step + contentInsetY * 2f - h).takeIf { it > OVERFLOW_SLACK } ?: 0f
+        maxScroll = (items.size * step + insetY * 2f - h).takeIf { it > OVERFLOW_SLACK } ?: 0f
         scrollTarget = scrollTarget.coerceIn(0f, maxScroll)
         scrollOffset = if (isDraggingThumb) scrollTarget else glide.get(scrollTarget)
 
@@ -105,11 +109,12 @@ class ScrollableList<T> : Widget {
             return
         }
 
-        // The gutter is reserved on both sides even without a bar, so rows don't resize when the list starts scrolling.
-        val rowX = x + SIDE_INSET
-        val rowW = w - SIDE_INSET * 2f
+        // A boxed list hands the bar's lane back while it doesn't scroll, so both sides match. Embedded, it stays reserved.
+        val rightInset = if (drawBackground && maxScroll <= 0f) EDGE_GAP else SIDE_INSET
+        val rowX = x + leftInset
+        val rowW = w - leftInset - rightInset
         val leftBleed = leftClipBleed.coerceAtLeast(0f)
-        val top = y + contentInsetY - scrollOffset
+        val top = y + insetY - scrollOffset
         grips.clear()
         Render.pushScissor(x - leftBleed, y, w + leftBleed, h)
         if (onReorder == null) {
@@ -201,27 +206,33 @@ class ScrollableList<T> : Widget {
 
     private fun drawScrollbar(x: Float, y: Float, w: Float, h: Float) {
         if (maxScroll <= 0f) return
-        val barX = x + w - 4f
-        val thumbH = (h * h / (h + maxScroll)).coerceAtLeast(20f)
-        val trackH = h - thumbH
-        val thumbY = if (trackH > 0f) y + trackH * (scrollOffset / maxScroll) else y
+        val barX = x + w - BAR_LANE
+        val thumbH = thumbHeight()
+        val trackH = trackSpan - thumbH
+        val thumbY = if (trackH > 0f) trackTop + trackH * (scrollOffset / maxScroll) else trackTop
 
         val hovered = UiMouse.x in (barX - 4f)..(x + w) && UiMouse.y in y..(y + h)
         scrollbarHover.animateTo(if (isDraggingThumb || hovered) 1f else 0f)
         val t = scrollbarHover.get()
         val thumbColor = lerpColor(Theme.BORDER, Theme.TEXT_SECONDARY, t)
 
-        Render.rect(barX, y, 3f, h, Theme.SURFACE.withAlpha(80), 1.5f)
+        Render.rect(barX, trackTop, 3f, trackSpan, Theme.SURFACE.withAlpha(80), 1.5f)
         Render.rect(barX, thumbY, 3f, thumbH, thumbColor, 1.5f)
     }
 
-    fun rowTop(index: Int): Float = bounds.y + contentInsetY - scrollOffset + index * step
+    // Beside the rows only, so the bar keeps the same clearance from the box's ends as they do.
+    private val trackTop get() = bounds.y + insetY
+    private val trackSpan get() = (bounds.h - insetY * 2f).coerceAtLeast(0f)
+
+    private fun thumbHeight() = (trackSpan * bounds.h / (bounds.h + maxScroll)).coerceAtLeast(20f)
+
+    fun rowTop(index: Int): Float = bounds.y + insetY - scrollOffset + index * step
 
     /** -1 if none; gaps and the scrollbar don't count. */
     fun rowAt(mouseX: Float, mouseY: Float): Int {
         if (!bounds.has(mouseX, mouseY)) return -1
         if (maxScroll > 0f && mouseX >= bounds.x + bounds.w - SIDE_INSET) return -1
-        var ry = bounds.y + contentInsetY - scrollOffset
+        var ry = bounds.y + insetY - scrollOffset
         for (i in items.indices) {
             if (mouseY >= ry && mouseY <= ry + rowHeight) return i
             ry += step
@@ -244,16 +255,16 @@ class ScrollableList<T> : Widget {
 
         val barX = bounds.x + bounds.w - 10f
         if (mouse.x >= barX && mouse.x <= bounds.x + bounds.w) {
-            val thumbH = (bounds.h * bounds.h / (bounds.h + maxScroll)).coerceAtLeast(20f)
-            val trackH = bounds.h - thumbH
-            val thumbY = if (trackH > 0f) bounds.y + trackH * (scrollOffset / maxScroll) else bounds.y
+            val thumbH = thumbHeight()
+            val trackH = trackSpan - thumbH
+            val thumbY = if (trackH > 0f) trackTop + trackH * (scrollOffset / maxScroll) else trackTop
 
             if (mouse.y >= thumbY && mouse.y <= thumbY + thumbH) {
                 isDraggingThumb = true
                 dragStartY = mouse.y
                 dragStartScroll = scrollTarget
             } else if (trackH > 0f) {
-                val clickRatio = ((mouse.y - bounds.y - thumbH / 2f) / trackH).coerceIn(0f, 1f)
+                val clickRatio = ((mouse.y - trackTop - thumbH / 2f) / trackH).coerceIn(0f, 1f)
                 val newScroll = clickRatio * maxScroll
                 scrollTarget = newScroll
                 scrollOffset = newScroll
@@ -271,8 +282,7 @@ class ScrollableList<T> : Widget {
         // The row follows UiMouse, so it keeps up while the list scrolls under a still cursor.
         if (dragFrom >= 0) return true
         if (isDraggingThumb && maxScroll > 0f) {
-            val thumbH = (bounds.h * bounds.h / (bounds.h + maxScroll)).coerceAtLeast(20f)
-            val trackH = bounds.h - thumbH
+            val trackH = trackSpan - thumbHeight()
             if (trackH > 0f) {
                 val deltaPixels = drag.y - dragStartY
                 val newScroll = (dragStartScroll + deltaPixels / trackH * maxScroll).coerceIn(0f, maxScroll)
@@ -323,6 +333,12 @@ class ScrollableList<T> : Widget {
     companion object {
         /** The scrollbar gutter, reserved even when hidden. */
         const val SIDE_INSET = 8f
+
+        /** The bar and its clearance from the box edge, at the right of the gutter. */
+        private const val BAR_LANE = 4f
+
+        /** A row's clearance from the scrollbar, and in a [drawBackground] list from the box's other edges too. */
+        const val EDGE_GAP = SIDE_INSET - BAR_LANE
 
         /** Float noise from a list sized to fit its rows. */
         private const val OVERFLOW_SLACK = 0.5f

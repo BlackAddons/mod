@@ -6742,6 +6742,7 @@ public final class org/blackaddons/api/ui/widget/Scroll$Companion {
 
 public final class org/blackaddons/api/ui/widget/ScrollableList : org/blackaddons/api/ui/widget/Widget {
 	public static final field Companion Lorg/blackaddons/api/ui/widget/ScrollableList$Companion;
+	public static final field EDGE_GAP F
 	public static final field GRIP_W F
 	public static final field SIDE_INSET F
 	public fun <init> ()V
@@ -6942,6 +6943,7 @@ public final class org/blackaddons/api/ui/widget/dropdown/Dropdown : org/blackad
 	public final fun getOnSelect ()Lkotlin/jvm/functions/Function1;
 	public fun getOpen ()Z
 	public final fun getSelectedIndex ()I
+	public final fun getUnderline ()Z
 	public fun isOverlaying ()Z
 	public fun keyPressed (Lorg/blackaddons/api/ui/widget/KeyInput;)Z
 	public fun mouseClicked (Lorg/blackaddons/api/ui/widget/MouseButtonInput;)Z
@@ -6959,6 +6961,7 @@ public final class org/blackaddons/api/ui/widget/dropdown/Dropdown : org/blackad
 	public final fun setOnSelect (Lkotlin/jvm/functions/Function1;)V
 	public fun setOpen (Z)V
 	public final fun setSelectedIndex (I)V
+	public final fun setUnderline (Z)V
 }
 
 public final class org/blackaddons/api/ui/widget/dropdown/Dropdown$Icon {

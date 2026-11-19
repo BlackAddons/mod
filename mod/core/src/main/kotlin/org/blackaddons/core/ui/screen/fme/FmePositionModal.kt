@@ -33,7 +33,6 @@ internal class FmePositionModal(private val group: FmeManagedGroup) : ModalPanel
     private val list = widgets.add(ScrollableList<FmePositionKey>().apply {
         rowHeight = ROW_H
         rowGap = 2f
-        contentInsetY = 4f
         emptyMessage = tr("positions_empty", "No positions remain.")
         drawRow = { key, _, x, y, w -> drawPosition(key, x, y, w) }
     })
