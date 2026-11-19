@@ -9,8 +9,10 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.serialization.JsonOps;
+import kotlin.text.Regex;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.multiplayer.chat.GuiMessage;
@@ -20,6 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.chat.MessageSignature;
 import net.minecraft.util.ArrayListDeque;
+import net.minecraft.util.FormattedCharSequence;
 import org.blackaddons.api.chat.ChatLine;
 import org.blackaddons.api.chat.ChatMessage;
 import org.blackaddons.api.chat.ChatMotions;
@@ -47,6 +50,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.regex.Matcher;
 
 /**
  * Chat addition is one private 4-arg `addMessage` with the source enum in its parameters, so we have the upstream
@@ -383,10 +387,37 @@ public abstract class ChatComponentMixin implements ChatLines {
             @Local(argsOnly = true, ordinal = 1) float alpha
     ) {
         original.call(graphics, x0, y0, x1, y1, color);
-        Color highlight = ((ChatLine) (Object) line.parent()).getHighlight();
+        ChatLine chatLine = (ChatLine) (Object) line.parent();
+        Color highlight = chatLine.getHighlight();
         if (highlight == null) return;
         int tint = ((int) (highlight.getAlpha() * alpha) << 24) | (highlight.getRGB() & 0xFFFFFF);
-        graphics.fill(x0, y0, x1, y1, tint);
+        Regex matches = chatLine.getHighlightMatches();
+        if (matches == null) {
+            graphics.fill(x0, y0, x1, y1, tint);
+            return;
+        }
+        FormattedCharSequence row = line.content();
+        StringBuilder text = new StringBuilder();
+        row.accept((index, style, codePoint) -> {
+            text.appendCodePoint(codePoint);
+            return true;
+        });
+        Font font = Minecraft.getInstance().font;
+        Matcher matcher = matches.toPattern().matcher(text);
+        while (matcher.find()) {
+            graphics.fill(blackaddons$widthOf(font, row, matcher.start()), y0, blackaddons$widthOf(font, row, matcher.end()), y1, tint);
+        }
+    }
+
+    @Unique
+    private static int blackaddons$widthOf(Font font, FormattedCharSequence row, int chars) {
+        return font.width((FormattedCharSequence) sink -> {
+            int[] taken = {0};
+            return row.accept((index, style, codePoint) -> {
+                taken[0] += Character.charCount(codePoint);
+                return taken[0] <= chars && sink.accept(index, style, codePoint);
+            });
+        });
     }
 
     @Unique

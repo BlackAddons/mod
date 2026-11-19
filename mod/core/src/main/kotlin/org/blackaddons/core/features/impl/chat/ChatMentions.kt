@@ -17,6 +17,8 @@ object ChatMentions : Feature(
         .withDescription("Extra words or phrases that count as mentions")
     private val highlightColor by color("Highlight Color", Color(255, 170, 0, 70))
         .withDescription("Tint drawn behind a message that mentions you")
+    private val highlightWordOnly by boolean("Highlight Word Only", false)
+        .withDescription("Tint only the matched name or keyword instead of the whole message")
     private val playSound by boolean("Play Sound", true)
         .withDescription("Ping when a mention arrives")
 
@@ -28,6 +30,7 @@ object ChatMentions : Feature(
             val me = Platform.player.name
             if (!mentions(event.line.unformatted, me)) return@register
             event.line.highlight = highlightColor.value
+            if (highlightWordOnly.value) event.line.highlightMatches = pattern
             if (playSound.value) Platform.feedback.playSound(SOUND, pitch = SOUND_PITCH)
         }
     }

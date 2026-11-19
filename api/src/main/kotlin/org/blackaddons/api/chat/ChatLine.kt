@@ -15,6 +15,9 @@ interface ChatLine {
 
     var highlight: Color?
 
+    /** When set, [highlight] tints only these matches instead of the whole line. */
+    var highlightMatches: Regex?
+
     /** Who said what, when a player wrote the line. */
     val playerMessage: PlayerMessage? get() = PlayerMessage.of(unformatted)
 

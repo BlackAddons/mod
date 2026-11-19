@@ -322,12 +322,14 @@ public final class org/blackaddons/api/chat/ChatHost$DefaultImpls {
 public abstract interface class org/blackaddons/api/chat/ChatLine {
 	public fun getChannel ()Lorg/blackaddons/api/chat/ChatChannel;
 	public abstract fun getHighlight ()Ljava/awt/Color;
+	public abstract fun getHighlightMatches ()Lkotlin/text/Regex;
 	public abstract fun getMessage ()Lorg/blackaddons/api/chat/ChatMessage;
 	public fun getPlayerMessage ()Lorg/blackaddons/api/chat/PlayerMessage;
 	public abstract fun getRaw ()Ljava/lang/String;
 	public abstract fun getUnformatted ()Ljava/lang/String;
 	public abstract fun remove ()V
 	public abstract fun setHighlight (Ljava/awt/Color;)V
+	public abstract fun setHighlightMatches (Lkotlin/text/Regex;)V
 }
 
 public final class org/blackaddons/api/chat/ChatLine$DefaultImpls {
@@ -1798,6 +1800,7 @@ public class org/blackaddons/api/feature/Feature : org/blackaddons/api/feature/M
 	public final fun getName ()Ljava/lang/String;
 	public fun getSection ()Lorg/blackaddons/api/feature/FeatureSection;
 	public final fun getSettingById (Ljava/lang/String;)Lorg/blackaddons/api/feature/settings/Setting;
+	public final fun getToggleBind ()Lorg/blackaddons/api/feature/settings/impl/KeybindSetting;
 	public fun getValue (Lorg/blackaddons/api/feature/settings/Setting;Lorg/blackaddons/api/feature/settings/SettingProvider;Lkotlin/reflect/KProperty;)Lorg/blackaddons/api/feature/settings/Setting;
 	public fun group (Lorg/blackaddons/api/feature/settings/Setting;Ljava/lang/String;)Lorg/blackaddons/api/feature/settings/Setting;
 	public fun hidden (Lorg/blackaddons/api/feature/settings/Setting;)Lorg/blackaddons/api/feature/settings/Setting;
@@ -6006,6 +6009,8 @@ public final class org/blackaddons/api/ui/screen/ConfirmPopover : org/blackaddon
 public final class org/blackaddons/api/ui/screen/ContextMenu : org/blackaddons/api/ui/screen/Popover {
 	public fun <init> (Ljava/util/List;FF)V
 	public synthetic fun <init> (Ljava/util/List;FFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun keyPressed (Lorg/blackaddons/api/ui/widget/KeyInput;)Z
+	public fun mouseClicked (Lorg/blackaddons/api/ui/widget/MouseButtonInput;)Z
 	public fun render (FFF)V
 }
 
@@ -6022,6 +6027,14 @@ public final class org/blackaddons/api/ui/screen/ContextMenu$Item : org/blackadd
 	public final fun getIcon ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getLabel ()Ljava/lang/String;
 	public final fun getOnClick ()Lkotlin/jvm/functions/Function0;
+}
+
+public final class org/blackaddons/api/ui/screen/ContextMenu$KeybindItem : org/blackaddons/api/ui/screen/ContextMenu$Entry {
+	public fun <init> (Ljava/lang/String;Lorg/blackaddons/api/feature/settings/impl/KeybindSetting;Lorg/blackaddons/api/ui/icon/VectorIcon;)V
+	public synthetic fun <init> (Ljava/lang/String;Lorg/blackaddons/api/feature/settings/impl/KeybindSetting;Lorg/blackaddons/api/ui/icon/VectorIcon;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getIcon ()Lorg/blackaddons/api/ui/icon/VectorIcon;
+	public final fun getKeybind ()Lorg/blackaddons/api/feature/settings/impl/KeybindSetting;
+	public final fun getLabel ()Ljava/lang/String;
 }
 
 public final class org/blackaddons/api/ui/screen/ContextMenu$Separator : org/blackaddons/api/ui/screen/ContextMenu$Entry {

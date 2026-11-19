@@ -1,5 +1,6 @@
 package org.blackaddons.platform.mixin.gui;
 
+import kotlin.text.Regex;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.chat.GuiMessage;
 import net.minecraft.network.chat.Component;
@@ -22,6 +23,7 @@ public abstract class GuiMessageMixin implements StoredChatLine {
 
     @Unique private String blackaddons$raw;
     @Unique private Color blackaddons$highlight;
+    @Unique private Regex blackaddons$highlightMatches;
     @Unique private long blackaddons$addedAt;
 
     @Override
@@ -50,6 +52,16 @@ public abstract class GuiMessageMixin implements StoredChatLine {
     }
 
     @Override
+    public Regex getHighlightMatches() {
+        return blackaddons$highlightMatches;
+    }
+
+    @Override
+    public void setHighlightMatches(Regex highlightMatches) {
+        blackaddons$highlightMatches = highlightMatches;
+    }
+
+    @Override
     public void remove() {
         ((ChatLines) McCommonKt.getChatComponent(Minecraft.getInstance()))
             .blackaddonsRemoveMessage((GuiMessage) (Object) this);
@@ -73,6 +85,7 @@ public abstract class GuiMessageMixin implements StoredChatLine {
     @Override
     public void blackaddonsCopyStateTo(StoredChatLine other) {
         other.setHighlight(blackaddons$highlight);
+        other.setHighlightMatches(blackaddons$highlightMatches);
         other.setBlackaddonsAddedAt(blackaddons$addedAt);
     }
 }

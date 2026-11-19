@@ -1581,6 +1581,10 @@
           "name": "Color de resaltado",
           "desc": "Tono que se dibuja detrás de un mensaje que te menciona."
         },
+        "highlight_word_only": {
+          "name": "Resaltar solo la palabra",
+          "desc": "Tiñe solo el nombre o la palabra clave encontrada en vez de todo el mensaje."
+        },
         "play_sound": {
           "name": "Reproducir sonido",
           "desc": "Suena un aviso cuando llega una mención."

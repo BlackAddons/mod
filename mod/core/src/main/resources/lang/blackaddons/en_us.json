@@ -1581,6 +1581,10 @@
           "name": "Highlight Color",
           "desc": "Tint drawn behind a message that mentions you."
         },
+        "highlight_word_only": {
+          "name": "Highlight Word Only",
+          "desc": "Tint only the matched name or keyword instead of the whole message."
+        },
         "play_sound": {
           "name": "Play Sound",
           "desc": "Ping when a mention arrives."
