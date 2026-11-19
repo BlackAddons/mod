@@ -180,7 +180,10 @@
       "export": "Copy settings",
       "import": "Paste settings",
       "exported": "Settings copied",
-      "export_done": "The settings of %s are on your clipboard."
+      "export_done": "The settings of %s are on your clipboard.",
+      "toggle_key": "Toggle key",
+      "toggled_on": "%s enabled",
+      "toggled_off": "%s disabled"
     },
     "screenshots": {
       "name": "Screenshots",

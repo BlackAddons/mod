@@ -10,6 +10,7 @@ import org.blackaddons.api.config.ConfigHost
 import org.blackaddons.api.config.Savable
 import org.blackaddons.api.hud.AnchorX
 import org.blackaddons.api.hud.AnchorY
+import org.blackaddons.api.input.InputBinding
 import org.blackaddons.api.util.io.Gsons
 import org.blackaddons.core.config.BlackaddonsConfig.save
 import org.blackaddons.core.config.portable.FeatureSettingsKind
@@ -100,6 +101,7 @@ object BlackaddonsConfig : ConfigHost {
             if (!feature.isAlwaysActive) {
                 obj.get("enabled")?.takeIf { it.isJsonPrimitive }?.asBoolean?.let { feature.enabled = it }
             }
+            if (!shared) feature.toggleBind.binding = InputBinding.fromJson(obj.get("toggleKey"))
 
             obj.get("settings")?.takeIf { it.isJsonObject }?.asJsonObject?.let { settings ->
                 if (shared) {
@@ -167,6 +169,7 @@ object BlackaddonsConfig : ConfigHost {
                         add("addon", JsonPrimitive(addonId))
                     }
                     add("enabled", JsonPrimitive(feature.enabled))
+                    if (!shared && feature.toggleBind.isBound) add("toggleKey", feature.toggleBind.write())
                     add("settings", JsonObject().apply {
                         if (!shared) {
                             unavailableSettings[feature.id to FeatureManager.addonIdOf(feature)]

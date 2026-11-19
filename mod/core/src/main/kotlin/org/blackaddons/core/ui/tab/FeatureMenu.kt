@@ -14,7 +14,7 @@ import org.blackaddons.core.config.portable.PortableImports
 import org.blackaddons.core.ui.screen.HudEditorScreen
 import org.blackaddons.core.ui.screen.portable.PortableExportModal
 
-/** Feature context menu: declared actions, HUD and settings string, then reset. Empty groups and menus get skipped. */
+/** Feature context menu: declared actions, toggle key, HUD and settings string, then reset. Empty groups and menus get skipped. */
 internal object FeatureMenu {
     private val tr = I18n.scope("blackaddons.feature.menu")
 
@@ -27,7 +27,8 @@ internal object FeatureMenu {
         ContextMenu.Item(action.translatedLabel, action.icon, action.danger, confirm = action.translatedConfirm, onClick = action.run)
     }
 
-    private fun shared(feature: Feature): List<ContextMenu.Item> = buildList {
+    private fun shared(feature: Feature): List<ContextMenu.Entry> = buildList {
+        if (!feature.isAlwaysActive) add(ContextMenu.KeybindItem(tr("toggle_key", "Toggle key"), feature.toggleBind, LucideIcons.power))
         feature.hudElements.firstOrNull()?.let { hud ->
             add(ContextMenu.Item(tr("hud_editor", "Edit HUD"), LucideIcons.hudEditor) { HudEditorScreen.open(hud) })
         }

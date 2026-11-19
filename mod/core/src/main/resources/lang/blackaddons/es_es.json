@@ -180,7 +180,10 @@
       "export": "Copiar configuración",
       "import": "Pegar configuración",
       "exported": "Configuración copiada",
-      "export_done": "La configuración de %s está en tu portapapeles."
+      "export_done": "La configuración de %s está en tu portapapeles.",
+      "toggle_key": "Tecla de activación",
+      "toggled_on": "%s activado",
+      "toggled_off": "%s desactivado"
     },
     "screenshots": {
       "name": "Capturas de pantalla",

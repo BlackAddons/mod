@@ -5,6 +5,7 @@ import org.blackaddons.api.feature.Feature
 import org.blackaddons.api.feature.annotations.Dev
 import org.blackaddons.api.feature.settings.impl.BooleanSetting
 import org.blackaddons.api.feature.settings.impl.StringSetting
+import org.blackaddons.api.input.InputBinding
 import org.blackaddons.api.testing.TestPlatform
 import org.blackaddons.core.feature.FeatureManager
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -156,6 +157,32 @@ class BlackaddonsConfigTest {
                 .getAsJsonObject("settings")
             assertTrue(knownSetting.value)
             assertEquals(42, settings.get("cheat-only").asInt)
+        } finally {
+            FeatureManager.features -= feature
+        }
+    }
+
+    @Test
+    fun `the toggle key stays in the player's file and out of shared configs`() {
+        val feature = KnownFeature().also { FeatureManager.features += it }
+        Files.writeString(
+            tempDir.resolve("blackaddons.json"),
+            """{ "features": [ { "id": "KnownFeature", "toggleKey": { "type": "MOUSE", "key": 3 } } ], "huds": [] }""",
+        )
+
+        try {
+            BlackaddonsConfig.load()
+            assertEquals(InputBinding.mouse(3), feature.toggleBind.binding)
+            assertTrue(BlackaddonsConfig.shareable().getAsJsonArray("features").none { it.asJsonObject.has("toggleKey") })
+
+            BlackaddonsConfig.importShared(JsonParser.parseString(
+                """{ "features": [ { "id": "KnownFeature", "toggleKey": { "type": "MOUSE", "key": 4 } } ], "huds": [] }""",
+            ).asJsonObject)
+            assertEquals(InputBinding.mouse(3), feature.toggleBind.binding)
+
+            val saved = JsonParser.parseString(Files.readString(tempDir.resolve("blackaddons.json"))).asJsonObject
+            val entry = saved.getAsJsonArray("features").single { it.asJsonObject.get("id").asString == "KnownFeature" }.asJsonObject
+            assertEquals(InputBinding.mouse(3), InputBinding.fromJson(entry.get("toggleKey")))
         } finally {
             FeatureManager.features -= feature
         }

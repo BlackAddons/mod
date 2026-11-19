@@ -156,6 +156,7 @@ object FeatureManager {
 
         pendingAddons = acceptedRegistrations
         loadedAddons = accepted.map { it.id }
+        FeatureToggleKeys.init()
     }
 
     private var pendingAddons: List<AddonRegistration> = emptyList()

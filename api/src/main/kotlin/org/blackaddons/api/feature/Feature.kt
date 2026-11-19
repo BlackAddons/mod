@@ -52,6 +52,9 @@ open class Feature(
     @JvmField
     var enabled: Boolean = toggled
 
+    /** Flips [enabled] in a world. Set from the feature's context menu; not a setting, so reset and export skip it. */
+    val toggleBind = KeybindSetting("Toggle Bind")
+
     private val isDev = this::class.java.isAnnotationPresent(Dev::class.java)
     private val alwaysActive = this::class.java.isAnnotationPresent(AlwaysActive::class.java)
 
