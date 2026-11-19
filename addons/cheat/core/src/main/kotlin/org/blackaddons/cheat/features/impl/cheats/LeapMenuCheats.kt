@@ -143,7 +143,7 @@ internal object LeapMenuCheats : FeatureExtension(LeapMenu, group = "Cheats") {
     private fun turn(t: Target) {
         releaseAim()
         val lease = Platform.rotation.request(this, silent = noRotate.value)
-        if (snap.value) lease.set(t.yaw, t.pitch) else lease.turnTo(t.yaw, t.pitch, rotation.params(turnSpeed.value.toFloat()))
+        if (snap.value) lease.set(t.yaw, t.pitch) else lease.turnTo(t.yaw, t.pitch, rotation.params())
         aim = lease
         heldYaw = Platform.player.yaw
         heldPitch = Platform.player.pitch

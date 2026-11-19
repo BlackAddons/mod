@@ -146,7 +146,7 @@ object RotateStep : CheatStep<RotateStep.Params>("ROTATE") {
         var targetZ: Double = 0.0,
         var yaw: Float = 0f,
         var pitch: Float = 0f,
-        var rotationSpeed: Float = 15f,
+        var aimSpeed: Float = 1f, // Replaced rotationSpeed in 1.0.1
         var lookAtSeconds: Float = 0f,
         var instaSnap: Boolean = false,
     )
@@ -166,7 +166,7 @@ object RotateStep : CheatStep<RotateStep.Params>("ROTATE") {
         toggle(prop("use_coordinates", "Use coordinates"), params::useCoordinates)
         if (params.useCoordinates) coordinates(params::targetX, params::targetY, params::targetZ)
         else rotation(params::yaw, params::pitch)
-        number(prop("speed", "Speed"), params::rotationSpeed, 0.5, 1.0, 50.0, 1)
+        number(prop("speed", "Speed"), params::aimSpeed, 0.1, min = 0.1, max = 5.0, decimals = 1)
         number(prop("look_time", "Look time"), params::lookAtSeconds, 0.1, min = 0.0, decimals = 1)
         toggle(prop("instant_snap", "Instant snap"), params::instaSnap)
     }

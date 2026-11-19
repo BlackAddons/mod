@@ -9,9 +9,13 @@ import org.blackaddons.api.player.Aim
 import org.blackaddons.api.player.ClickRequest
 import org.blackaddons.api.player.ClientAction
 import org.blackaddons.api.player.ClientActionResult
+import org.blackaddons.api.player.ReactionMode
 import org.blackaddons.api.player.RotationParams
 import org.blackaddons.api.world.BlockPos3
 import org.blackaddons.api.world.Box3d
+import org.blackaddons.cheat.aim.AimCurve
+import org.blackaddons.cheat.aim.AimPreset
+import org.blackaddons.cheat.features.impl.settings.Rotations
 
 /** Loops silent aim and button clicks on the two pictured test targets. */
 @DevOnly
@@ -24,7 +28,8 @@ object NoRotateButtonTest : Feature(
 
     private val simonButtons = listOf(BlockPos3(-2, 85, -93), BlockPos3(-2, 85, -90))
     private val acTestButtons = listOf(BlockPos3(-4, 84, -88), BlockPos3(-1, 84, -86))
-    private val rotationParams = RotationParams(speed = 8f, randomness = 0f)
+    private val rotationParams: RotationParams
+        get() = RotationParams(blackum = Rotations.aim(AimPreset.DEFAULT, ReactionMode.EXPECTED, AimCurve.DEFAULT_RADIUS))
     private const val CLICK_DELAY_TICKS = 10
 
     private var tick = 0

@@ -16,6 +16,5 @@ internal object RotateSettings : FeatureExtension(Actions) {
     /** In blocks, for coordinate ROTATE steps. */
     val jitter: Float get() = rotationJitter.value.toFloat()
 
-    fun params(speed: Float, humanize: Boolean): RotationParams =
-        rotation.params(speed, randomness = jitter, humanize = humanize)
+    fun params(speed: Float, humanize: Boolean): RotationParams = rotation.params(randomness = jitter, humanize = humanize, speed = speed)
 }

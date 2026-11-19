@@ -251,17 +251,6 @@
           "name": "Snap",
           "desc": "Jump onto the real hitbox and click within a tick instead of turning."
         },
-        "rotation_curve": {
-          "name": "Rotation Curve",
-          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
-          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Human (Old)",
-            "ease_out": "Ease Out",
-            "linear": "Linear"
-          }
-        },
         "aim_preset": {
           "name": "Aim Preset",
           "desc": "The skill level the Blackum Curve aims at. Edit presets in Settings > Rotations."
@@ -384,17 +373,6 @@
         "snap": {
           "name": "Snap",
           "desc": "Jump to their view instantly instead of turning."
-        },
-        "rotation_curve": {
-          "name": "Rotation Curve",
-          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
-          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Human (Old)",
-            "ease_out": "Ease Out",
-            "linear": "Linear"
-          }
         },
         "aim_preset": {
           "name": "Aim Preset",
@@ -580,9 +558,9 @@
             "snap": "Snap"
           }
         },
-        "rotation_time": {
-          "name": "Rotation Time",
-          "desc": "How long a smooth turn takes, however far it has to go."
+        "aim_preset": {
+          "name": "Aim Preset",
+          "desc": "The skill level the Blackum Curve aims at. Edit presets in Settings > Rotations."
         },
         "rotation_jitter": {
           "name": "Rotation Jitter",
@@ -753,22 +731,6 @@
           "desc": "Minimum ticks between auto clicks.",
           "unsafe": "Under 3 ticks the clicks land closer together than a human can press."
         },
-        "rotation_speed": {
-          "name": "Rotation Speed",
-          "desc": "Higher = snappier aim.",
-          "unsafe": "Below 6 the turn is slower than a hand ever moves, above 14 it snaps faster than one can. Both read as automation in a recording."
-        },
-        "rotation_curve": {
-          "name": "Rotation Curve",
-          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
-          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Human (Old)",
-            "ease_out": "Ease Out",
-            "linear": "Linear"
-          }
-        },
         "aim_preset": {
           "name": "Aim Preset",
           "desc": "The skill level the Blackum Curve aims at. Edit presets in Settings > Rotations."
@@ -793,17 +755,6 @@
         "rotation_jitter": {
           "name": "Rotation Jitter",
           "desc": "Random offset added to the point a ROTATE step aims at, so repeated runs do not land on the exact same spot. Has no effect on Insta Snap steps or steps that aim by angle."
-        },
-        "rotation_curve": {
-          "name": "Rotation Curve",
-          "desc": "Shape of the turn. The Blackum Curve is the Blackum Algorithm: a reaction, one flick with corrections, then a steady hold. A constant rate (Linear) is the one a hand never makes.",
-          "unsafe": "A hand accelerates and settles; a constant-rate turn is the single most obvious tell there is.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Human (Old)",
-            "ease_out": "Ease Out",
-            "linear": "Linear"
-          }
         },
         "aim_preset": {
           "name": "Aim Preset",

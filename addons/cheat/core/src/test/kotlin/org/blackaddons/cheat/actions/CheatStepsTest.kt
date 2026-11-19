@@ -24,9 +24,9 @@ class CheatStepsTest {
             ),
         )
         assertEquals(
-            RotateStep.Params(useCoordinates = true, targetY = 70.0, yaw = 90f, pitch = -5f, rotationSpeed = 20f, lookAtSeconds = 1f, instaSnap = true),
+            RotateStep.Params(useCoordinates = true, targetY = 70.0, yaw = 90f, pitch = -5f, aimSpeed = 1.5f, lookAtSeconds = 1f, instaSnap = true),
             gson.fromJson(
-                """{"type":"ROTATE","useCoordinates":true,"targetY":70.0,"yaw":90.0,"pitch":-5.0,"rotationSpeed":20.0,"lookAtSeconds":1.0,"instaSnap":true}""",
+                """{"type":"ROTATE","useCoordinates":true,"targetY":70.0,"yaw":90.0,"pitch":-5.0,"aimSpeed":1.5,"lookAtSeconds":1.0,"instaSnap":true}""",
                 RotateStep.Params::class.java,
             ),
         )
@@ -42,7 +42,6 @@ class CheatStepsTest {
     @Test
     fun `a missing field reads as the old default`() {
         assertEquals(RotateStep.Params(), gson.fromJson("{}", RotateStep.Params::class.java))
-        assertEquals(15f, RotateStep.Params().rotationSpeed)
         assertEquals(null, gson.fromJson("{}", AlignStep.Params::class.java).dontWaitForPerfectAlign)
     }
 }

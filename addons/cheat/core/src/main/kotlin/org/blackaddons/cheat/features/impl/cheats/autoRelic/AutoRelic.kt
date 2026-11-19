@@ -24,10 +24,10 @@ import org.blackaddons.api.util.ServerClock
 import org.blackaddons.api.world.Box3d
 import org.blackaddons.api.world.Vec3d
 import org.blackaddons.api.world.ViewAngles
+import org.blackaddons.cheat.aim.AimCurve
 import java.awt.Color
 import java.util.UUID
 import kotlin.math.abs
-import kotlin.time.Duration.Companion.milliseconds
 
 private val tr = I18n.scope("blackaddons.auto_relic")
 
@@ -49,9 +49,7 @@ object AutoRelic : Feature(
         .withDescription("Smooth turns in a set time, like a practiced flick. Snap faces the target within the same tick.")
         .unsafeWhen("UNSAFE", "No hand turns a hundred degrees between two ticks") { it == SNAP }
 
-    private val rotationTime by number("Rotation Time", default = 100.0, min = 40.0, max = 300.0, step = 10.0, unit = "ms")
-        .withDescription("How long a smooth turn takes, however far it has to go.")
-        .showIf { rotation.value == SMOOTH }
+    private val aimCurve = AimCurve(this, shown = { rotation.value == SMOOTH })
 
     private val rotationJitter by number("Rotation Jitter", default = 0.07, min = 0.0, max = 0.3, step = 0.01, unit = "blocks")
         .withDescription("Random offset added to each smooth aim point, so repeated grabs and places do not land on the exact same spot.")
@@ -251,8 +249,8 @@ object AutoRelic : Feature(
         if (rotation.value == SNAP) {
             lease.turnToPoint(point, SNAP_PARAMS)
             lease.snap()
-        } else if (!lease.isTurning || point != aimPoint) {
-            lease.turnToPoint(point, RotationParams(duration = rotationTime.value.milliseconds, randomness = rotationJitter.value.toFloat()))
+        } else if (point != aimPoint) {
+            lease.turnToPoint(point, aimCurve.params(randomness = rotationJitter.value.toFloat()))
         }
         aimPoint = point
     }

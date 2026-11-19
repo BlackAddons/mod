@@ -251,17 +251,6 @@
           "name": "Instantáneo",
           "desc": "Salta al hitbox real y hace clic en un tick en lugar de girar."
         },
-        "rotation_curve": {
-          "name": "Curva de rotación",
-          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
-          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Humana (antigua)",
-            "ease_out": "Desaceleración",
-            "linear": "Lineal"
-          }
-        },
         "aim_preset": {
           "name": "Preajuste de apuntado",
           "desc": "El nivel de habilidad con el que apunta la Blackum Curve. Edita los preajustes en Ajustes > Rotaciones."
@@ -384,17 +373,6 @@
         "snap": {
           "name": "Instantáneo",
           "desc": "Salta a su vista al instante en lugar de girar."
-        },
-        "rotation_curve": {
-          "name": "Curva de rotación",
-          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
-          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Humana (antigua)",
-            "ease_out": "Desaceleración",
-            "linear": "Lineal"
-          }
         },
         "aim_preset": {
           "name": "Preajuste de apuntado",
@@ -580,9 +558,9 @@
             "snap": "Snap"
           }
         },
-        "rotation_time": {
-          "name": "Tiempo de rotación",
-          "desc": "Cuánto dura un giro suave, sin importar el ángulo."
+        "aim_preset": {
+          "name": "Preajuste de apuntado",
+          "desc": "El nivel de habilidad con el que apunta la Blackum Curve. Edita los preajustes en Ajustes > Rotaciones."
         },
         "rotation_jitter": {
           "name": "Variación de rotación",
@@ -753,22 +731,6 @@
           "desc": "Mínimo de ticks entre clics automáticos.",
           "unsafe": "Con menos de 3 ticks, los clics están más juntos de lo que una persona puede pulsar."
         },
-        "rotation_speed": {
-          "name": "Velocidad de rotación",
-          "desc": "Más alto = mira más rápida.",
-          "unsafe": "Por debajo de 6 el giro es más lento que cualquier mano; por encima de 14, más rápido de lo que nadie puede. Ambos parecen automatización en una grabación."
-        },
-        "rotation_curve": {
-          "name": "Curva de rotación",
-          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
-          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Humana (antigua)",
-            "ease_out": "Desaceleración",
-            "linear": "Lineal"
-          }
-        },
         "aim_preset": {
           "name": "Preajuste de apuntado",
           "desc": "El nivel de habilidad con el que apunta la Blackum Curve. Edita los preajustes en Ajustes > Rotaciones."
@@ -793,17 +755,6 @@
         "rotation_jitter": {
           "name": "Variación de rotación",
           "desc": "Desplazamiento aleatorio añadido al punto al que apunta un paso ROTATE, para que las ejecuciones repetidas no caigan en el mismo punto exacto. No afecta a pasos con Insta Snap ni a pasos que apuntan por ángulo."
-        },
-        "rotation_curve": {
-          "name": "Curva de rotación",
-          "desc": "Forma del giro. La Blackum Curve es el Blackum Algorithm: una reacción, un movimiento rápido con correcciones y luego una mira estable. Una velocidad constante (Lineal) es la que una mano nunca realiza.",
-          "unsafe": "Una mano acelera y se estabiliza; un giro a velocidad constante es la señal más evidente que existe.",
-          "option": {
-            "blackum_curve": "Blackum Curve",
-            "human_old": "Humana (antigua)",
-            "ease_out": "Desaceleración",
-            "linear": "Lineal"
-          }
         },
         "aim_preset": {
           "name": "Preajuste de apuntado",

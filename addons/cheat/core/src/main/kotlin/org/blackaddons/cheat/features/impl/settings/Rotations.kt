@@ -80,8 +80,8 @@ internal object Rotations : Feature(
 
     fun isBuiltIn(preset: AimPreset): Boolean = AimPreset.BUILT_IN.any { it.name == preset.name }
 
-    fun aim(preset: AimPreset, reaction: ReactionMode, targetRadius: Float) = BlackumAim(
-        speed = preset.speed,
+    fun aim(preset: AimPreset, reaction: ReactionMode, targetRadius: Float, speed: Float = 1f) = BlackumAim(
+        speed = preset.speed * speed,
         reaction = reaction,
         reactionTime = preset.reaction.toDouble().milliseconds,
         targetRadius = targetRadius,

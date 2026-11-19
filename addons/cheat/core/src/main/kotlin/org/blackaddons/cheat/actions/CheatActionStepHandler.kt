@@ -83,15 +83,12 @@ object CheatActionStepHandler {
     }
 
     internal fun rotate(step: RotateStep.Params) {
-        val params = RotateSettings.params(
-            speed = if (step.rotationSpeed > 0f) step.rotationSpeed else DEFAULT_ROTATION_SPEED,
-            humanize = !step.instaSnap,
-        )
+        val params = RotateSettings.params(speed = step.aimSpeed, humanize = !step.instaSnap)
         val aim = ActionAim.lease()
         val point = if (step.useCoordinates) Vec3d(step.targetX, step.targetY, step.targetZ) else null
         if (point != null) aim.turnToPoint(point, params) else aim.turnTo(step.yaw, step.pitch, params)
         if (step.instaSnap) aim.snap()
-        ActionAim.look(step.lookAtSeconds, point, params)
+        ActionAim.look(step.lookAtSeconds)
     }
 
     internal fun holdMovement(keys: List<String>, ticks: Int) {
@@ -210,8 +207,6 @@ object CheatActionStepHandler {
         ActionQueue.cancel()
         ActionAim.release()
     }
-
-    private const val DEFAULT_ROTATION_SPEED = 15f
 
     private fun moveOf(key: String): MoveKey? = when (key) {
         "W", "FORWARD", "KEY.KEYBOARD.W" -> MoveKey.FORWARD

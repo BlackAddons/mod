@@ -4,9 +4,7 @@ import org.blackaddons.api.Platform
 import org.blackaddons.api.player.Aim
 import org.blackaddons.api.player.AimPriority
 import org.blackaddons.api.player.HandBack
-import org.blackaddons.api.player.RotationParams
 import org.blackaddons.api.util.secondsToTicks
-import org.blackaddons.api.world.Vec3d
 
 /** An action run's HIGH aim lease: silent during No Rotate or silent Align, camera otherwise. */
 internal object ActionAim {
@@ -17,9 +15,6 @@ internal object ActionAim {
         private set
 
     private var lookTicks = 0
-    private var lookPoint: Vec3d? = null
-    private var lookParams: RotationParams? = null
-    private var lookEye: Vec3d? = null
 
     val isBusy: Boolean get() = lease?.isTurning == true || lookTicks > 0
 
@@ -45,25 +40,16 @@ internal object ActionAim {
         if (!silentSpan && current.isActive && !current.silent && !isBusy) current.release()
     }
 
-    fun look(seconds: Float, point: Vec3d?, params: RotationParams) {
+    fun look(seconds: Float) {
         lookTicks = seconds.secondsToTicks
-        lookPoint = point
-        lookParams = params
-        lookEye = Platform.player.eyePos
     }
 
-    /* Blackum aims track the point on their own, Bezier turns get redone if the player moves. */
+    // Blackum aims track the point on their own.
     fun tick() {
         if (lookTicks <= 0) return
         val current = lease?.takeIf { it.isActive } ?: return endLook()
         if (current.isTurning) return
         lookTicks--
-        val point = lookPoint ?: return
-        val params = lookParams?.takeIf { it.blackum == null } ?: return
-        val eye = Platform.player.eyePos
-        if (lookEye?.let { eye.distanceSqr(it) > MOVED_SQR } != true) return
-        lookEye = eye
-        current.turnToPoint(point, params.copy(randomness = 0f))
     }
 
     fun release() {
@@ -74,9 +60,5 @@ internal object ActionAim {
 
     private fun endLook() {
         lookTicks = 0
-        lookPoint = null
-        lookParams = null
     }
-
-    private const val MOVED_SQR = 1e-6
 }

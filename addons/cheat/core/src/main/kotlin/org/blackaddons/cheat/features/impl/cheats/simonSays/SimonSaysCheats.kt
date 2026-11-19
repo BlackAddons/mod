@@ -123,17 +123,6 @@ object SimonSaysCheats : FeatureExtension(SimonSays, group = "Auto Solve") {
         .withDescription("Minimum ticks between auto clicks.")
         .safeRange(3.0..10.0, "BANNABLE", "Under 3 ticks the clicks land closer together than a human can press")
         .group("Auto Solve")
-    private val rotSpeed by number(
-        "Rotation Speed",
-        default = 8.0,
-        min = 1.0,
-        max = 20.0,
-        step = 0.5
-    )
-        .withDescription("Higher = snappier aim.")
-        .safeRange(6.0..14.0, "BANNABLE", "Below 6 the turn is slower than a hand ever moves, above 14 it snaps faster than one can. Both read as automation in a recording")
-        .group("Auto Solve")
-        .showIf { !rotation.isBlackum }
     private val rotation = AimCurve(this, "Auto Solve")
     /** Spread within the button's size. A flat jitter pushed aims off 0.25-block plates. */
     private val aimSpread by number(
@@ -162,7 +151,7 @@ object SimonSaysCheats : FeatureExtension(SimonSays, group = "Auto Solve") {
         owner = this,
         silent = { autoSolve.value && (noRotate.value || start.clicking && startNoRotate.value) },
         aimPoint = { SimonSaysDevice.aimPoint(it, aimSpread.value / 100.0) },
-        rotationParams = { rotation.params(rotSpeed.value.toFloat(), it, BUTTON_RADIUS) },
+        rotationParams = { rotation.params(it, BUTTON_RADIUS) },
         now = { tick },
         contactDelay = { if (clickOnContact.value) contactDelay.value.toInt() else null },
     )

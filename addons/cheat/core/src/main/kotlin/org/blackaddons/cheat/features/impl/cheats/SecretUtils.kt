@@ -326,7 +326,7 @@ object SecretUtils : Feature(
 
     /** Re-turns to the same point from the new position after a missed camera aim. */
     private fun turn(aim: Aim, point: Vec3d, radius: Float) {
-        aim.turnToPoint(point, rotation.params(correctionSpeed.value.toFloat(), targetRadius = radius))
+        aim.turnToPoint(point, rotation.params(targetRadius = radius))
         if (snap.value) aim.snap()
     }
 
