@@ -300,6 +300,7 @@ public final class org/blackaddons/api/chat/ChatClick$SuggestCommand : org/black
 }
 
 public abstract interface class org/blackaddons/api/chat/ChatHost {
+	public fun clear ()V
 	public fun getLines ()Ljava/util/List;
 	public fun lineAt (DD)Lorg/blackaddons/api/chat/ChatLine;
 	public abstract fun local (Ljava/lang/String;)V
@@ -313,6 +314,7 @@ public abstract interface class org/blackaddons/api/chat/ChatHost {
 }
 
 public final class org/blackaddons/api/chat/ChatHost$DefaultImpls {
+	public static fun clear (Lorg/blackaddons/api/chat/ChatHost;)V
 	public static fun getLines (Lorg/blackaddons/api/chat/ChatHost;)Ljava/util/List;
 	public static fun lineAt (Lorg/blackaddons/api/chat/ChatHost;DD)Lorg/blackaddons/api/chat/ChatLine;
 	public static fun openInput (Lorg/blackaddons/api/chat/ChatHost;Ljava/lang/String;)V

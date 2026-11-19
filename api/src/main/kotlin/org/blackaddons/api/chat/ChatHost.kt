@@ -32,6 +32,9 @@ interface ChatHost {
 
     /** Shows only lines [filter] accepts (null = all). Hidden lines are kept. Client thread only. */
     fun showOnly(filter: ((ChatLine) -> Boolean)?) {}
+
+    /** Removes every chat line. The sent-message history stays. */
+    fun clear() {}
 }
 
 /** A chat line that can still be edited. Revising is async; a line that left the chat's history can't be changed. */

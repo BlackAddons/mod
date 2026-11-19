@@ -81,6 +81,8 @@ object MinecraftChat : ChatHost {
         (mc.chatComponent as? ChatLines)?.blackaddonsRefreshView()
     }
 
+    override fun clear() = onClient { it.chatComponent.clearMessages(false) }
+
     override fun send(text: String) = onClient { it.connection?.sendChat(text) }
 
     private val dispatching = HashSet<String>()
