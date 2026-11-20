@@ -1,6 +1,8 @@
 package org.blackaddons.platform.impl.gui
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen
+import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.world.inventory.Slot
 import org.blackaddons.api.gui.CapturedPlayerInventory
 import org.blackaddons.api.gui.CapturedSlots
@@ -44,7 +46,8 @@ abstract class AbstractOpenContainer : OpenContainerHost {
 
     override fun isPlayerInventoryOpen(): Boolean {
         val player = mc.player ?: return false
-        return mc.currentScreen is AbstractContainerScreen<*> && player.containerMenu === player.inventoryMenu
+        val screen = mc.currentScreen
+        return screen is CreativeModeInventoryScreen || screen is AbstractContainerScreen<*> && player.containerMenu === player.inventoryMenu
     }
 
     override fun capturePlayerInventory(): CapturedPlayerInventory? {
@@ -66,7 +69,6 @@ abstract class AbstractOpenContainer : OpenContainerHost {
 
     override fun interactionId(): Int? = mc.player?.containerMenu?.containerId
 
-    // Hopped, because the client tick changes the menu too.
     final override fun clickSlot(slotIndex: Int, button: Int, quickMove: Boolean) = onClient {
         val menu = mc.player?.containerMenu ?: return@onClient
         if (slotIndex < 0 || slotIndex >= menu.slots.size) return@onClient
@@ -97,6 +99,11 @@ abstract class AbstractOpenContainer : OpenContainerHost {
     // Hopped: ends in Gui.setScreen(null), like MinecraftScreen.hide.
     override fun close() = onClient {
         mc.player?.closeContainer()
+    }
+
+    override fun openPlayerInventory() = onClient {
+        val player = mc.player ?: return@onClient
+        mc.setScreenAndShow(InventoryScreen(player))
     }
 
     private companion object {

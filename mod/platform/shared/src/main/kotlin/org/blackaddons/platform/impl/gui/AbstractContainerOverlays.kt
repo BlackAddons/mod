@@ -11,7 +11,10 @@ import org.blackaddons.api.event.EventPriority
 import org.blackaddons.api.gui.ContainerMetrics
 import org.blackaddons.api.gui.ContainerOverlay
 import org.blackaddons.api.gui.ContainerOverlayRegistry
+import org.blackaddons.api.gui.GuiBox
 import org.blackaddons.api.ui.render.Render
+import org.blackaddons.api.ui.screen.Tooltip
+import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.widget.KeyInput
 import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.ui.widget.MouseDragInput
@@ -51,7 +54,6 @@ abstract class AbstractContainerOverlays : ContainerOverlayRegistry, Installable
             val title = screen.title.string
             if (overlays.none { it.appliesTo(title) }) return@register
 
-            // Runs on resize too. Only when an overlay wants it (not a page whose chest has to stay).
             if (overlays.any { it.appliesTo(title) && it.repositionInventory(title) }) anchorInventoryToBottom(screen)
 
             ScreenMouseEvents.allowMouseClick(screen).register { s, click ->
@@ -83,7 +85,6 @@ abstract class AbstractContainerOverlays : ContainerOverlayRegistry, Installable
         val title = screen.title.string
         val active = overlays.filter { it.appliesTo(title) }
         if (active.isEmpty()) return
-        // Every frame, so a resize can't strand the inventory.
         if (active.any { it.repositionInventory(title) }) anchorInventoryToBottom(screen)
         val m = metrics(screen)
         Render.beginPass()
@@ -95,6 +96,12 @@ abstract class AbstractContainerOverlays : ContainerOverlayRegistry, Installable
             o.renderUi(m, mouseX, mouseY)
             Render.pop()
         }
+        if (!UiManager.isOpen) Render.isolated {
+            Render.push()
+            Render.scale(scale, scale)
+            Tooltip.flush(mouseX.toFloat(), mouseY.toFloat())
+            Render.pop()
+        }
         SkijaCompositor.markScreenLayer(graphics)
         graphics.nextStratum()
         for (o in active) o.render(graphics, m, mouseX, mouseY)
@@ -104,6 +111,15 @@ abstract class AbstractContainerOverlays : ContainerOverlayRegistry, Installable
     fun charTyped(screen: AbstractContainerScreen<*>, codepoint: Int): Boolean {
         val title = screen.title.string
         return overlays.any { it.appliesTo(title) && it.charTyped(codepoint) }
+    }
+
+    /** What the open container's overlays draw outside it, for REI. */
+    fun exclusionZones(screen: AbstractContainerScreen<*>): List<GuiBox> {
+        val title = screen.title.string
+        val active = overlays.filter { it.appliesTo(title) }
+        if (active.isEmpty()) return emptyList()
+        val m = metrics(screen)
+        return active.flatMap { it.exclusionZones(m) }
     }
 
     /** Skip vanilla's draw so the overlay sits over the world. It redraws what it needs. */
@@ -121,7 +137,6 @@ abstract class AbstractContainerOverlays : ContainerOverlayRegistry, Installable
     private fun anchorInventoryToBottom(screen: AbstractContainerScreen<*>) {
         val acc = screen as AbstractContainerScreenAccessor
         val inv = playerStorageSlots(screen)
-        // Horizontally centered, the selector draws to its left.
         acc.`blackaddons$setTopPos`(screen.height - BOTTOM_MARGIN - (inv.maxOf { it.y } + 16))
     }
 
@@ -144,7 +159,10 @@ abstract class AbstractContainerOverlays : ContainerOverlayRegistry, Installable
         val inventoryBottom = top + inv.maxOf { it.y } + 16 + 2
         val inventoryLeft = left + inv.minOf { it.x } - 2
         val inventoryRight = left + inv.maxOf { it.x } + 16 + 2
-        return ContainerMetrics(screen.width, screen.height, inventoryTop, inventoryLeft, inventoryRight, inventoryBottom)
+        val gui = GuiBox(left, top, acc.`blackaddons$getImageWidth`(), acc.`blackaddons$getImageHeight`())
+        return ContainerMetrics(
+            screen.width, screen.height, inventoryTop, inventoryLeft, inventoryRight, inventoryBottom, gui, suppressesVanilla(screen),
+        )
     }
 
     private fun playerStorageSlots(screen: AbstractContainerScreen<*>): List<Slot> {

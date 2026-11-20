@@ -21,7 +21,6 @@ import org.blackaddons.api.hud.AnchorX
 import org.blackaddons.api.hud.AnchorY
 import org.blackaddons.api.input.InputType
 import org.blackaddons.api.input.Keys
-import org.blackaddons.api.skyblock.LocationUtils
 import org.blackaddons.api.ui.toast.Toasts
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.Workers
@@ -41,28 +40,28 @@ object Fme : Feature(
 
     override val section = Categories.Visual.World
 
-    private val replacements = FmeReplacementStore()
-    private val typeReplacements = FmeTypeReplacementStore()
+    internal val replacements = FmeReplacementStore()
+    internal val typeReplacements = FmeTypeReplacementStore()
     private val saveWorker = Workers.single("fme-save").also { worker ->
         EventBus.subscribe<ClientStoppingEvent> {
             worker.shutdown()
             worker.awaitTermination(SAVE_DRAIN_SECONDS, TimeUnit.SECONDS)
         }
     }
-    private val storage = FmeStorage(replacements, typeReplacements, saveWorker)
-    @Volatile private var renderingEnabled = false
+    internal val storage = FmeStorage(replacements, typeReplacements, saveWorker)
+    @Volatile internal var renderingEnabled = false
     @Volatile private var preserveShapeEnabled = true
-    @Volatile private var renderIndex = FmeRenderIndex.EMPTY
+    @Volatile internal var renderIndex = FmeRenderIndex.EMPTY
     private var scannerRefresh: Cancellation? = null
-    private var lastRenderContext: FmeActiveContext? = null
-    private val preloaded = HashMap<FmeActiveContext, FmeRenderIndex>()
-    private var preloading: Cancellation? = null
-    private val undoHistory = ArrayDeque<FmeSnapshot>()
-    private val redoHistory = ArrayDeque<FmeSnapshot>()
+    internal var lastRenderContext: FmeActiveContext? = null
+    internal val preloaded = HashMap<FmeActiveContext, FmeRenderIndex>()
+    internal var preloading: Cancellation? = null
+    internal val undoHistory = ArrayDeque<FmeSnapshot>()
+    internal val redoHistory = ArrayDeque<FmeSnapshot>()
     private val blockCatalog by lazy(Platform.world::registeredBlocks)
     private val blocksById by lazy { blockCatalog.associateBy { it.blockId } }
     private val knownBlockIds by lazy { blocksById.keys }
-    private val rules: FmeRules by lazy {
+    internal val rules: FmeRules by lazy {
         FmeRules(
             replacements = replacements,
             typeReplacements = typeReplacements,
@@ -76,7 +75,7 @@ object Fme : Feature(
             refreshRendering = { refreshRendering() },
         )
     }
-    private val worldEditor: FmeWorldEditor by lazy {
+    internal val worldEditor: FmeWorldEditor by lazy {
         FmeWorldEditor(
             replacements = replacements,
             profileId = { activeProfile().id },
@@ -98,7 +97,7 @@ object Fme : Feature(
         )
     }
 
-    private val editMode by boolean("Edit Mode")
+    internal val editMode by boolean("Edit Mode")
         .withDescription("Right-click replaces and left-click restores the block you are looking at.")
     private val preserveBlockShape by boolean("Preserve Block Shape", default = true)
         .onChange { enabled ->
@@ -474,116 +473,10 @@ object Fme : Feature(
         .flatMap { rule -> rule.cells.take(limit).map { FmePositionKey(rule.key.profileId, rule.key.scope, rule.key.scopeKey, it.x, it.y, it.z) } }
         .take(limit)
 
-    private fun hasDungeonRules(): Boolean {
-        val profileId = activeProfile().id
-        return replacements.rules(profileId, FmeScope.DUNGEON).isNotEmpty() || typeReplacements.entries(profileId, FmeScope.DUNGEON).isNotEmpty()
-    }
-
-    private fun snapshot() = FmeSnapshot(replacements.snapshot(), typeReplacements.lines())
-
-    private fun remember(before: FmeSnapshot) {
-        if (before == snapshot()) return
-        undoHistory.addLast(before)
-        while (undoHistory.size > HISTORY_LIMIT) undoHistory.removeFirst()
-        redoHistory.clear()
-    }
-
-    private fun restore(target: FmeSnapshot) {
-        replacements.restore(target.replacements)
-        typeReplacements.replaceAll(target.typeReplacements)
-        rules.invalidate()
-        persistAll()
-        refreshRendering()
-    }
-
-    private fun persistReplacements() {
-        storage.saveProfile(activeProfile().id)
-    }
-
-    private fun persistTypeReplacements() {
-        storage.saveProfile(activeProfile().id)
-    }
-
-    private fun persistAll() {
-        storage.saveProfile(activeProfile().id)
-    }
-
-    private fun refreshRendering(context: FmeActiveContext = activeContext(), reusePreloaded: Boolean = false) {
-        val previous = renderIndex
-        val previousContext = lastRenderContext
-        if (!reusePreloaded) dropPreloaded()
-        renderIndex = if (renderingEnabled) {
-            preloaded.remove(context) ?: buildRenderIndex(context)
-        } else {
-            FmeRenderIndex.EMPTY
-        }
-        if (reusePreloaded && renderingEnabled && previousContext != null) preloaded[previousContext] = previous
-        lastRenderContext = context
-        redraw(renderIndex.invalidationFrom(previous))
-        if (renderingEnabled) preloadNeighbours(context)
-    }
-
-    private fun buildRenderIndex(context: FmeActiveContext) =
-        buildFmeRenderIndex(activeProfile().id, replacements, typeReplacements, context)
-
-    private fun preloadNeighbours(context: FmeActiveContext) {
-        val neighbours = neighbourContexts(context)
-        preloaded.keys.retainAll(neighbours.toSet())
-        preloading?.cancel()
-        preloading = null
-        val missing = neighbours.filterNot(preloaded::containsKey)
-        fun next(index: Int) {
-            if (index >= missing.size) return
-            preloading = Platform.scheduler.schedule(PRELOAD_INTERVAL_TICKS) {
-                preloading = null
-                if (lastRenderContext != context || !renderingEnabled) return@schedule
-                preloaded.getOrPut(missing[index]) { buildRenderIndex(missing[index]) }
-                next(index + 1)
-            }
-        }
-        next(0)
-    }
-
-    private fun neighbourContexts(context: FmeActiveContext): List<FmeActiveContext> {
-        if (!context.inDungeon) return emptyList()
-        val floor = if (LocationUtils.hasF7Boss) 7 else LocationUtils.dungeonFloorNumber ?: return emptyList()
-        if (context.location != null) return emptyList()
-        return listOf(FmeActiveContext(fmeBossLocationKey(floor, if (floor == 7) 1 else null), inDungeon = true))
-    }
-
-    private fun dropPreloaded() {
-        preloading?.cancel()
-        preloading = null
-        preloaded.clear()
-    }
-
-    private fun redraw(invalidation: FmeRenderInvalidation) {
-        if (!Platform.world.isLoaded) return
-        if (invalidation.blockTypes.isNotEmpty()) Platform.world.redrawBlockTypes(invalidation.blockTypes)
-        invalidation.chunks.forEach { (chunkX, chunkZ) -> Platform.world.redrawChunk(chunkX, chunkZ) }
-        invalidation.blocks.forEach { pos -> Platform.world.redrawBlock(pos.x, pos.y, pos.z) }
-    }
-
-    private fun activeContext() = FmeActiveContext(
-        worldEditor.currentLocationKey()?.let { fmePositionLocations(it).first() },
-        LocationUtils.inDungeon,
-    )
-
-    private fun renderEditTarget() {
-        if (!editMode.value || Platform.screenHost.anyScreenOpen) return
-        worldEditor.renderTarget()
-    }
-
-    private fun cancelTintApply() {
-        rules.cancelPendingTint()
-    }
-
-    private fun normalizeBlockId(id: String): String = if (':' in id) id.lowercase() else "minecraft:${id.lowercase()}"
-
     private val EDIT_BUTTONS = setOf(Keys.MOUSE_LEFT, Keys.MOUSE_RIGHT)
-    private const val HISTORY_LIMIT = 50
+    internal const val HISTORY_LIMIT = 50
     private const val SCANNER_REFRESH_DELAY = 10
-    private const val PRELOAD_INTERVAL_TICKS = 1
+    internal const val PRELOAD_INTERVAL_TICKS = 1
     private const val SAVE_DRAIN_SECONDS = 10L
     private const val INDICATOR_OFFSET_Y = 35f
 }

@@ -29,6 +29,7 @@ val iasVersion = mcProp("ias_version")
 val modmenuVersion = mcProp("modmenu_version")
 val irisVersion = mcProp("iris_version")
 val sodiumVersion = mcProp("sodium_version")
+val reiVersion = mcProp("rei_version")
 val skijaVersion = mcProp("skija_version")
 
 base {
@@ -87,6 +88,7 @@ dependencies {
     runtimeOnly("maven.modrinth:modmenu:$modmenuVersion")
 
     compileOnly("maven.modrinth:modmenu:$modmenuVersion")
+	
     // Optional pipeline registration API. Iris and Sodium are still on the user to install.
     compileOnly("maven.modrinth:iris:$irisVersion") { isTransitive = false }
 
@@ -95,6 +97,10 @@ dependencies {
     runtimeOnly("io.github.humbleui:skija-macos-x64:$skijaVersion")
     runtimeOnly("io.github.humbleui:skija-macos-arm64:$skijaVersion")
     compileOnly("maven.modrinth:sodium:$sodiumVersion") { isTransitive = false }
+
+    // Optional REI support. REI's Rectangle class comes from its basic-math library.
+    compileOnly("maven.modrinth:rei:$reiVersion") { isTransitive = false }
+    compileOnly("me.shedaniel.cloth:basic-math:${prop("rei_basic_math_version")}") { isTransitive = false }
 }
 
 /*

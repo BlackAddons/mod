@@ -32,6 +32,9 @@ interface CommandBuilder {
      * getters return null); the parent node must not have its own [execute], or registration throws.
      */
     fun arg(name: String, type: ArgType, optional: Boolean = false, build: ArgBuilder.() -> Unit)
+
+    /** Hides this node (no suggestions, unknown when typed) while [predicate] is false. Checked on every use. */
+    fun requires(predicate: () -> Boolean)
 }
 
 fun CommandBuilder.subcommands(vararg names: String, build: CommandBuilder.() -> Unit) {

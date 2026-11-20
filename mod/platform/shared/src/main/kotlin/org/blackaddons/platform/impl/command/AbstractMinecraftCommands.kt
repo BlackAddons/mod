@@ -233,6 +233,10 @@ private open class BrigadierCommandBuilder(
         node.then(child)
     }
 
+    override fun requires(predicate: () -> Boolean) {
+        node.requires { predicate() }
+    }
+
     override fun arg(name: String, type: ArgType, optional: Boolean, build: ArgBuilder.() -> Unit) {
         val argNode = commands.argument(name, type.toBrigadier())
         val child = BrigadierArgBuilder(commands, argNode)

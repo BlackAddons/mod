@@ -2,7 +2,6 @@ package org.blackaddons.api.ui.render
 
 import org.blackaddons.api.Platform
 import org.blackaddons.api.chat.ChatMessage
-import org.blackaddons.api.feature.settings.impl.ChromaMode
 import org.blackaddons.api.feature.settings.impl.ColorSetting
 import org.blackaddons.api.ui.icon.VectorIcon
 import org.blackaddons.api.ui.layout.Rect
@@ -19,16 +18,11 @@ import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.util.color.Chroma
 import org.blackaddons.api.util.color.ColorStop
-import org.blackaddons.api.util.color.GradientColors
 import org.blackaddons.api.util.color.lerpColor
-import org.blackaddons.api.util.graphemes
 import org.blackaddons.api.util.stripFormatting
-import org.blackaddons.api.util.takeValidUtf16
 import org.joml.Matrix3x2f
 import org.joml.Matrix3x2fc
 import java.awt.Color
-import kotlin.math.cos
-import kotlin.math.sin
 
 /** Entry point for UI drawing. Resolves [Platform.renderer] per call; immediate-mode, so there's no frame to open. */
 object Render {
@@ -295,41 +289,10 @@ object Render {
      * Ellipsizes [text] to fit [maxWidth] (just the ellipsis if nothing fits). For drawing, pass `maxWidth` to [text]
      * instead: it also shows the cut part on hover.
      */
-    fun ellipsize(text: String, maxWidth: Number, size: Number, font: Font): String {
-        val max = maxWidth.toFloat()
-        if (textWidth(text, size, font) <= max) return text
-        /*
-         * The search probes are new layouts, so a cut drawn every frame is remembered. Re-measuring the result
-         * (a cached layout) catches a font that changed under it.
-         */
-        val key = Cut(text, max, size.toFloat(), font)
-        cuts[key]?.takeIf { textWidth(it, size, font) <= max }?.let { return it }
-        return ellipsize(text, max) { textWidth(it, size, font) }.also { cuts[key] = it }
-    }
-
-    private data class Cut(val text: String, val maxWidth: Float, val size: Float, val font: Font)
-
-    private val cuts = object : LinkedHashMap<Cut, String>(CUT_CACHE, 0.75f, true) {
-        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<Cut, String>) = size > CUT_CACHE
-    }
-
-    private const val CUT_CACHE = 512
+    fun ellipsize(text: String, maxWidth: Number, size: Number, font: Font): String = TextFit.ellipsize(text, maxWidth, size, font)
 
     /** [ellipsize] for text drawn some other way than one plain run, with [measure] giving its drawn width. */
-    fun ellipsize(text: String, maxWidth: Number, measure: (String) -> Float): String {
-        val max = maxWidth.toFloat()
-        if (measure(text) <= max) return text
-        // Binary search: each probe is a text layout, and a linear walk floods the layout cache.
-        var low = 0
-        var high = text.length - 1
-        while (low < high) {
-            val mid = (low + high + 1) / 2
-            val candidate = text.takeValidUtf16(mid) + ELLIPSIS
-            if (measure(candidate) <= max) low = mid else high = mid - 1
-        }
-        val resultText = text.takeValidUtf16(low)
-        return if (resultText.isEmpty()) ELLIPSIS else resultText + ELLIPSIS
-    }
+    fun ellipsize(text: String, maxWidth: Number, measure: (String) -> Float): String = TextFit.ellipsize(text, maxWidth, measure)
 
     fun textOverflows(text: String, maxWidth: Number, size: Number, font: Font): Boolean =
         textWidth(text, size, font) > maxWidth.toFloat()
@@ -338,49 +301,7 @@ object Render {
      * Wraps at spaces and breaks at `\n`. Words that are too long break between characters. Always returns at least one
      * line.
      */
-    fun wrapText(text: String, maxWidth: Number, size: Number, font: Font): List<String> {
-        if ('\n' in text) return text.split('\n').flatMap { wrapText(it, maxWidth, size, font) }
-        val limit = maxWidth.toFloat()
-        if (text.isEmpty() || limit <= 0f) return listOf(text)
-
-        val lines = ArrayList<String>()
-        var line = ""
-
-        for (rawWord in text.split(' ')) {
-            if (rawWord.isEmpty()) continue
-            var word = rawWord
-            // Chop words that can't fit on their own line.
-            while (word.length > 1 && textWidth(word, size, font) > limit) {
-                if (line.isNotEmpty()) { lines += line; line = "" }
-                val clusters = word.graphemes()
-                var subLen = 0
-                for (g in clusters) {
-                    val nextLen = subLen + g.length
-                    if (textWidth(word.substring(0, nextLen), size, font) <= limit) {
-                        subLen = nextLen
-                    } else {
-                        break
-                    }
-                }
-                if (subLen == 0 && clusters.isNotEmpty()) {
-                    subLen = clusters[0].length
-                }
-                lines += word.substring(0, subLen)
-                word = word.substring(subLen)
-            }
-            val candidate = if (line.isEmpty()) word else "$line $word"
-            if (line.isEmpty() || textWidth(candidate, size, font) <= limit) {
-                line = candidate
-            } else {
-                lines += line
-                line = word
-            }
-        }
-        if (line.isNotEmpty()) lines += line
-        return lines.ifEmpty { listOf("") }
-    }
-
-    private const val ELLIPSIS = "..."
+    fun wrapText(text: String, maxWidth: Number, size: Number, font: Font): List<String> = TextFit.wrapText(text, maxWidth, size, font)
 
     /**
      * `y` that vertically centers text in the box. Don't use `top + (height - size) / 2` - [size] is an em
@@ -394,33 +315,14 @@ object Render {
         base: Color, speed: Float, font: Font,
         angleDeg: Float = Chroma.DEFAULT_ANGLE,
         scale: Float = Chroma.DEFAULT_SPATIAL,
-    ): Float {
-        val rad = Math.toRadians(angleDeg.toDouble())
-        val dirX = cos(rad).toFloat()
-        val dirY = sin(rad).toFloat()
-        val startX = x.toFloat()
-        var cx = startX
-        for (s in text.graphemes()) {
-            val screen = r.toScreen(cx, y)
-            val offset = (screen[0] * dirX + screen[1] * dirY) * scale
-            r.text(s, cx, y, size, Chroma.color(base, speed, offset), font)
-            cx += r.textWidth(s, size, font)
-        }
-        return cx - startX
-    }
+    ): Float = TextEffects.chromaText(text, x, y, size, base, speed, font, angleDeg, scale)
 
     fun chromaText(
         text: String, x: Number, y: Number, size: Number,
         color: ColorSetting, font: Font,
         angleDeg: Float = Chroma.DEFAULT_ANGLE,
         scale: Float = Chroma.DEFAULT_SPATIAL,
-    ): Float {
-        if (!color.chroma || color.chromaMode == ChromaMode.ALL) {
-            r.text(text, x, y, size, color.value, font)
-            return r.textWidth(text, size, font)
-        }
-        return chromaText(text, x, y, size, color.baseColor, color.chromaSpeed, font, angleDeg, scale)
-    }
+    ): Float = TextEffects.chromaText(text, x, y, size, color, font, angleDeg, scale)
 
     /**
      * Per-character gradient. [animated] flows it, [solid] cycles the whole string as one color. Parse CSS
@@ -430,31 +332,7 @@ object Render {
         text: String, x: Number, y: Number, size: Number,
         stops: List<ColorStop>, font: Font,
         animated: Boolean = false, speed: Float = 1f, solid: Boolean = false,
-    ): Float {
-        if (stops.isEmpty()) {
-            r.text(text, x, y, size, Color.WHITE, font)
-            return r.textWidth(text, size, font)
-        }
-        val glyphs = text.graphemes()
-        val n = glyphs.size
-        val time = System.currentTimeMillis() / 1000.0
-        val startX = x.toFloat()
-        var cx = startX
-        for (i in glyphs.indices) {
-            val s = glyphs[i]
-            val rgb = if (animated) {
-                // Reversed phase so the wave flows left to right; solid or single glyph pulses in unison.
-                val offset = if (solid || n <= 1) 0f else (n - 1 - i).toFloat() / (n - 1)
-                GradientColors.animatedGradientColor(stops, speed, offset, time)
-            } else {
-                val frac = if (solid || n <= 1) 0f else i.toFloat() / (n - 1)
-                GradientColors.colorAt(stops, frac)
-            }
-            r.text(s, cx, y, size, Color((0xFF shl 24) or (rgb and 0xFFFFFF), true), font)
-            cx += r.textWidth(s, size, font)
-        }
-        return cx - startX
-    }
+    ): Float = TextEffects.gradientText(text, x, y, size, stops, font, animated, speed, solid)
 
     /** Draws `§`/`&`-coded text. Returns drawn width. */
     fun formattedText(

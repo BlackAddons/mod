@@ -22,6 +22,7 @@ import org.blackaddons.core.backend.gateway.Gateway
 import org.blackaddons.core.chat.Brand
 import org.blackaddons.core.chat.brand
 import org.blackaddons.core.config.portable.PortableImports
+import org.blackaddons.core.features.impl.ui.inventorybuttons.InventoryButtons
 import org.blackaddons.core.features.impl.visual.fme.Fme
 import org.blackaddons.core.profile.RecentPlayers
 import org.blackaddons.core.profile.friends.Friends
@@ -98,6 +99,11 @@ object BlackaddonsCommand {
             }
 
             subcommands("alias", "commandaliases") { registerAliasBranches() }
+
+            subcommands("buttons", "invbuttons", "invbt") {
+                requires { InventoryButtons.isRunning }
+                execute { InventoryButtons.edit() }
+            }
 
             subcommand("link") {
                 execute { AccountLink.requestCode() }

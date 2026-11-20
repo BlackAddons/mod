@@ -10,9 +10,9 @@ interface OpenContainerHost {
     /** Unformatted. Headless menus have one too. */
     fun title(): String?
 
-    /** For dev tooling. */
     fun hoveredItemRaw(): String?
 
+    /** Includes the creative inventory. */
     fun isPlayerInventoryOpen(): Boolean
 
     /** The 36 player slots (hotbar first) of the open menu, headless ones included, with their menu indices for [clickSlot]. */
@@ -36,6 +36,8 @@ interface OpenContainerHost {
     fun parkChestSlot(index: Int)
 
     fun close()
+
+    fun openPlayerInventory()
 }
 
 /** Row-major, [rows] x [cols]; null = empty slot. */

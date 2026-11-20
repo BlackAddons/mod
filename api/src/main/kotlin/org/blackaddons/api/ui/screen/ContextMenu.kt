@@ -146,10 +146,14 @@ class ContextMenu(
     }
 
     private fun choose(item: Item) {
-        UiManager.pop()
-        val prompt = item.confirm ?: return item.onClick()
+        val prompt = item.confirm
+        if (prompt == null) {
+            UiManager.pop()
+            item.onClick()
+            return
+        }
         val box = boxes.getValue(item)
-        UiManager.push(ConfirmPopover(box.x, box.y, box.w, box.h, message = prompt, danger = item.danger, onConfirm = item.onClick))
+        UiManager.replaceTop(ConfirmPopover(box.x, box.y, box.w, box.h, message = prompt, danger = item.danger, onConfirm = item.onClick))
     }
 
     private fun heightOf(entry: Entry): Float = if (entry is Separator) SEPARATOR_H else ITEM_H

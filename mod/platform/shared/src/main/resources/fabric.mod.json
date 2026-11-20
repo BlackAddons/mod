@@ -20,6 +20,9 @@
     ],
     "modmenu": [
       "org.blackaddons.platform.ui.screen.BlackaddonsModMenu"
+    ],
+    "rei_client": [
+      "org.blackaddons.platform.impl.gui.ReiCompat"
     ]
   },
   "mixins": [

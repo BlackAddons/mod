@@ -265,6 +265,14 @@ object UiManager {
         panel.onShow()
     }
 
+    /** Swaps the top panel for [panel] without the host closing in between. Thread-safe. */
+    fun replaceTop(panel: Panel) = onClient {
+        DropdownManager.closeAll()
+        stack.removeLastOrNull()?.onClose()
+        stack.addLast(panel)
+        panel.onShow()
+    }
+
     /** Hides the host once the stack empties. Thread-safe. */
     fun pop() = onClient {
         DropdownManager.closeAll()

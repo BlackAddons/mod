@@ -68,8 +68,8 @@ object Tooltip {
         pendingStyle = style
     }
 
-    /** Called by [UiManager] once per frame, never by a panel. */
-    internal fun flush(mouseX: Float, mouseY: Float) {
+    /** Once per frame, from [UiManager] or from a host drawing toolkit UI with no panel open. Never from a panel. */
+    fun flush(mouseX: Float, mouseY: Float) {
         val text = pending
         pending = null
 

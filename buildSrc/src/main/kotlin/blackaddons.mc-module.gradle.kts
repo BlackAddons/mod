@@ -47,6 +47,11 @@ repositories {
     mavenCentral()
     maven("https://jitpack.io") { name = "JitPack" }
     maven("https://api.modrinth.com/maven") { name = "Modrinth" }
+    // REI's basic-math (me.shedaniel.math.Rectangle) is published only here. >:(
+    maven("https://maven.shedaniel.me") {
+        name = "Shedaniel"
+        content { includeGroup("me.shedaniel.cloth") }
+    }
 }
 
 tasks.withType<JavaCompile>().configureEach {

@@ -1695,6 +1695,29 @@
           "desc": "Pulsa esta tecla en el mundo para mostrar u ocultar la lista de jugadores."
         }
       }
+    },
+    "inventorybuttons": {
+      "name": "Inventory Buttons",
+      "desc": "Buttons around your inventory that run a command or a shortcut action. Edit them in the inventory itself.",
+      "setting": {
+        "hover_tooltip": {
+          "name": "Hover Tooltip",
+          "desc": "Shows what a button runs when you hover it."
+        },
+        "skyblock_only": {
+          "name": "Skyblock Only",
+          "desc": "Shows the buttons only on Skyblock. Edit mode works anywhere."
+        },
+        "edit_key": {
+          "name": "Edit Key",
+          "desc": "Toggles edit mode in an open container, or opens your inventory in it."
+        },
+        "edit_buttons": {
+          "name": "Edit Buttons",
+          "desc": "Opens your inventory in edit mode. Also /b buttons.",
+          "label": "Edit"
+        }
+      }
     }
   },
   "configs": {
@@ -3219,5 +3242,59 @@
     "cancel": "Cancelar",
     "customize": "Personalizar menú",
     "all_settings": "Todos los ajustes"
+  },
+  "inventory_buttons": {
+    "hint": "Drag to move · corner to resize · Shift: grid (scroll to size) · right-click: menu · drag an item onto a button for its icon · Esc: done",
+    "anchor": {
+      "top_left": "top left",
+      "top_right": "top right",
+      "bottom_left": "bottom left",
+      "bottom_right": "bottom right"
+    },
+    "pencil": {
+      "edit": "Edit buttons",
+      "done": "Done editing"
+    },
+    "tooltip": {
+      "shortcut": "Shortcut: %s",
+      "shortcut_off": "Shortcut: %s (off)",
+      "nothing": "Doesn't do anything"
+    },
+    "menu": {
+      "edit": "Edit...",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "delete_confirm": "Delete this button?",
+      "new": "New button here",
+      "always_grid": "Always show grid",
+      "remove_all": "Remove all buttons here",
+      "remove_all_confirm": "Remove every button shown on this screen?"
+    },
+    "editor": {
+      "caption": {
+        "label": "Label",
+        "icon": "Icon",
+        "runs": "Runs",
+        "command": "Command",
+        "shortcut": "Shortcut",
+        "scope": "Show in"
+      },
+      "label_hint": "Optional",
+      "icon_hint": "HYPERION, skull:<hash>, diamond or /give ...",
+      "runs": {
+        "command": "Command",
+        "shortcut": "Shortcut action"
+      },
+      "command_hint": "warp hub",
+      "no_shortcuts": "No shortcuts yet",
+      "unnamed": "Unnamed",
+      "scope": {
+        "inventory": "Inventory",
+        "all": "All containers",
+        "title": "Title contains"
+      },
+      "title_hint": "Part of the container title",
+      "done": "Done"
+    }
   }
 }

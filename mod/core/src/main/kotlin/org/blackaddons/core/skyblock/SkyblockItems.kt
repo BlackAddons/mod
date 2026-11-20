@@ -55,6 +55,9 @@ internal object SkyblockItems {
 
     fun skinTexture(id: String): String? = items?.get(id)?.skin
 
+    // value is the base64 "textures" property.
+    fun headSpec(value: String): String = """{"id":"minecraft:player_head","count":1,"components":{${headProfile(value)}}}"""
+
     /** The item's display name, e.g. `Tier Boost`, or null until the table is in. */
     fun name(id: String): String? = items?.get(id)?.name
 
@@ -129,6 +132,7 @@ internal object SkyblockItems {
     }
 
     // Only renamed or flattened names need entries. Colored variants only map their base value for now.
+	// Cancer, hypixel should refactor their stuff, not my problem.
     private val LEGACY = mapOf(
         "SULPHUR" to "gunpowder",
         "RAW_FISH" to "cod", "RAW_FISH:1" to "salmon", "RAW_FISH:2" to "tropical_fish", "RAW_FISH:3" to "pufferfish",
@@ -153,5 +157,33 @@ internal object SkyblockItems {
         "STAINED_GLASS" to "white_stained_glass", "STAINED_GLASS_PANE" to "white_stained_glass_pane",
         "DOUBLE_PLANT" to "sunflower", "RED_ROSE" to "poppy", "YELLOW_FLOWER" to "dandelion", "LONG_GRASS" to "short_grass",
         "SUGAR_CANE_BLOCK" to "sugar_cane",
+        "GOLD_SWORD" to "golden_sword", "WOOD_SWORD" to "wooden_sword", "GOLD_PICKAXE" to "golden_pickaxe",
+        "WOOD_PICKAXE" to "wooden_pickaxe", "GOLD_AXE" to "golden_axe", "WOOD_AXE" to "wooden_axe",
+        "GOLD_HOE" to "golden_hoe", "WOOD_HOE" to "wooden_hoe", "WOOD_SPADE" to "wooden_shovel",
+        "GOLD_SPADE" to "golden_shovel", "STONE_SPADE" to "stone_shovel", "IRON_SPADE" to "iron_shovel",
+        "DIAMOND_SPADE" to "diamond_shovel", "GOLD_HELMET" to "golden_helmet", "GOLD_CHESTPLATE" to "golden_chestplate",
+        "GOLD_LEGGINGS" to "golden_leggings", "GOLD_BOOTS" to "golden_boots", "GOLD_BARDING" to "golden_horse_armor",
+        "IRON_BARDING" to "iron_horse_armor", "DIAMOND_BARDING" to "diamond_horse_armor",
+        "GOLD_PLATE" to "light_weighted_pressure_plate", "IRON_PLATE" to "heavy_weighted_pressure_plate",
+        "STONE_PLATE" to "stone_pressure_plate", "WOOD_PLATE" to "oak_pressure_plate", "GOLD_RECORD" to "music_disc_13",
+        "GREEN_RECORD" to "music_disc_cat", "RECORD_3" to "music_disc_blocks", "RECORD_4" to "music_disc_chirp",
+        "RECORD_5" to "music_disc_far", "RECORD_6" to "music_disc_mall", "RECORD_7" to "music_disc_mellohi",
+        "RECORD_8" to "music_disc_stal", "RECORD_9" to "music_disc_strad", "RECORD_10" to "music_disc_ward",
+        "RECORD_11" to "music_disc_11", "RECORD_12" to "music_disc_wait", "LEASH" to "lead",
+        "CARROT_STICK" to "carrot_on_a_stick", "MUSHROOM_SOUP" to "mushroom_stew", "SNOW_BALL" to "snowball",
+        "WEB" to "cobweb", "HUGE_MUSHROOM_1" to "brown_mushroom_block", "HUGE_MUSHROOM_2" to "red_mushroom_block",
+        "ENDER_STONE" to "end_stone", "MYCEL" to "mycelium", "NETHER_BRICK_ITEM" to "nether_brick",
+        "NETHER_BRICK" to "nether_bricks", "QUARTZ_ORE" to "nether_quartz_ore", "CLAY_BRICK" to "brick",
+        "BRICK" to "bricks", "SMOOTH_BRICK" to "stone_bricks", "SMOOTH_STAIRS" to "stone_brick_stairs",
+        "WOOD_STAIRS" to "oak_stairs", "SPRUCE_WOOD_STAIRS" to "spruce_stairs", "BIRCH_WOOD_STAIRS" to "birch_stairs",
+        "JUNGLE_WOOD_STAIRS" to "jungle_stairs", "FIREWORK_CHARGE" to "firework_star",
+        "ENDER_PORTAL_FRAME" to "end_portal_frame", "REDSTONE_TORCH_ON" to "redstone_torch", "DIODE" to "repeater",
+        "REDSTONE_COMPARATOR" to "comparator", "PISTON_BASE" to "piston", "PISTON_STICKY_BASE" to "sticky_piston",
+        "TRAP_DOOR" to "oak_trapdoor", "FENCE" to "oak_fence", "FENCE_GATE" to "oak_fence_gate",
+        "WOOD_DOOR" to "oak_door", "WOOD_BUTTON" to "oak_button", "BED" to "red_bed", "SIGN" to "oak_sign",
+        "BOAT" to "oak_boat", "STORAGE_MINECART" to "chest_minecart", "POWERED_MINECART" to "furnace_minecart",
+        "EXPLOSIVE_MINECART" to "tnt_minecart", "COMMAND" to "command_block", "MOB_SPAWNER" to "spawner",
+        "WATER_LILY" to "lily_pad", "BANNER" to "white_banner", "RAILS" to "rail", "GRASS" to "grass_block",
+        "BURNING_FURNACE" to "furnace", "GOLDEN_APPLE:1" to "enchanted_golden_apple", "SKULL" to "player_head",
     )
 }

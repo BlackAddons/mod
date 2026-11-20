@@ -2,7 +2,6 @@ package org.blackaddons.platform.impl.gui
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.Screens
-import net.minecraft.SharedConstants
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.components.Button
@@ -22,8 +21,6 @@ import org.blackaddons.api.ui.icon.VectorIcon
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
-import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.util.FrameClock
 import org.blackaddons.api.util.I18n
 import org.blackaddons.core.ui.screen.ClickGuiScreen
@@ -63,37 +60,37 @@ internal object TitleMenu {
     private const val HYPIXEL_HOST = "mc.hypixel.net"
     private const val WEBSITE_URL = "https://dash.blackaddons.com"
 
-    private const val LOGO_SIZE = 64f
-    private const val LOGO_GAP = 6f
-    private const val LOGO_PATH = "assets/blackaddons/window_icon/large/512.png"
-    private const val TITLE_SIZE = 22f
-    private const val OUTLINE = 0.75f
-    private const val SHADOW_DROP = 1.5f
-    private const val VERSION_SIZE = 8f
-    private const val ITEM_SIZE = 13f
-    private const val ITEM_HEIGHT = 20
+    internal const val LOGO_SIZE = 64f
+    internal const val LOGO_GAP = 6f
+    internal const val LOGO_PATH = "assets/blackaddons/window_icon/large/512.png"
+    internal const val TITLE_SIZE = 22f
+    internal const val OUTLINE = 0.75f
+    internal const val SHADOW_DROP = 1.5f
+    internal const val VERSION_SIZE = 8f
+    internal const val ITEM_SIZE = 13f
+    internal const val ITEM_HEIGHT = 20
     private const val ITEM_GAP = 2
-    private const val ITEM_ICON = 12f
-    private const val ITEM_PAD = 10f
-    private const val CELL = 20
+    internal const val ITEM_ICON = 12f
+    internal const val ITEM_PAD = 10f
+    internal const val CELL = 20
     private const val CELL_GAP = 4
-    private const val CELL_ICON = 12f
+    internal const val CELL_ICON = 12f
     private const val SECTION_GAP = 14
-    private const val TITLE_GAP = 14
-    private const val LEGAL_SIZE = 12
-    private const val LEGAL_TEXT = 8f
-    private const val LEGAL_LINE_GAP = 2f
+    internal const val TITLE_GAP = 14
+    internal const val LEGAL_SIZE = 12
+    internal const val LEGAL_TEXT = 8f
+    internal const val LEGAL_LINE_GAP = 2f
     private const val EDGE = 6
     private const val HOVER_RATE = 14.0
-    private const val UNDERLINE = 1.5f
-    private const val POPOVER_PAD = 6
+    internal const val UNDERLINE = 1.5f
+    internal const val POPOVER_PAD = 6
     private const val POPOVER_GAP = 6
-    private const val POPOVER_TEXT = 9f
+    internal const val POPOVER_TEXT = 9f
     private const val POPOVER_BUTTON_HEIGHT = 14
     private const val POPOVER_BUTTON_PAD = 8
-    private const val TOOLTIP_PAD_X = 5f
-    private const val TOOLTIP_PAD_Y = 3f
-    private const val TOOLTIP_GAP = 4f
+    internal const val TOOLTIP_PAD_X = 5f
+    internal const val TOOLTIP_PAD_Y = 3f
+    internal const val TOOLTIP_GAP = 4f
 
     // IAS labels its button with a literal, not a translation key.
     private const val IAS_LABEL = "In-Game Account Switcher"
@@ -101,9 +98,9 @@ internal object TitleMenu {
     // The space the vanilla logo takes, kept clear while the logo stays. In game units: vanilla draws that logo.
     private const val LOGO_BOTTOM = 30 + 44 + 14
 
-    private enum class Role { TEXT, ICON, FOREIGN_ICON, LEGAL_TOGGLE, LEGAL_LINK, CONFIRM, HIDDEN }
+    internal enum class Role { TEXT, ICON, FOREIGN_ICON, LEGAL_TOGGLE, LEGAL_LINK, CONFIRM, HIDDEN }
 
-    private class Slot(
+    internal class Slot(
         val widget: AbstractWidget,
         val role: Role,
         val icon: VectorIcon?,
@@ -114,13 +111,13 @@ internal object TitleMenu {
 
     private class Own(val icon: VectorIcon?, val order: Int, val role: Role, val danger: Boolean = false)
 
-    private data class Box(val x: Float, val y: Float, val width: Float, val height: Float)
+    internal data class Box(val x: Float, val y: Float, val width: Float, val height: Float)
 
     // Widgets this screen draws itself. Vanilla skips rendering them (AbstractWidgetRenderMixin).
     private val owned: MutableSet<AbstractWidget> = Collections.newSetFromMap(IdentityHashMap())
-    private val hover = IdentityHashMap<AbstractWidget, Float>()
-    private var slots = emptyList<Slot>()
-    private var legalOpen = false
+    internal val hover = IdentityHashMap<AbstractWidget, Float>()
+    internal var slots = emptyList<Slot>()
+    internal var legalOpen = false
     private var quitConfirmOpen = false
     private var popover: Box? = null
     private val frameClock = FrameClock(cap = 100.milliseconds)
@@ -133,8 +130,8 @@ internal object TitleMenu {
      */
     private var scale = 1f
 
-    private fun sf(value: Float): Float = value * scale
-    private fun si(value: Int): Int = (value * scale).roundToInt()
+    internal fun sf(value: Float): Float = value * scale
+    internal fun si(value: Int): Int = (value * scale).roundToInt()
 
     fun install() {
         ScreenEvents.AFTER_INIT.register { _, screen, _, _ ->
@@ -272,7 +269,7 @@ internal object TitleMenu {
     private fun accountLabel(fallback: String): String =
         Platform.session.username?.let { tr("account", "Account: %s", it) } ?: fallback
 
-    private fun texts() = slots.filter { it.role == Role.TEXT }.sortedBy { it.order }
+    internal fun texts() = slots.filter { it.role == Role.TEXT }.sortedBy { it.order }
     private fun icons() = slots.filter { it.role == Role.ICON || it.role == Role.FOREIGN_ICON }.sortedBy { it.order }
 
     private fun titleHeight(): Int = when (options.title) {
@@ -361,7 +358,7 @@ internal object TitleMenu {
         }
     }
 
-    private fun confirmQuestion() = tr("confirm_quit", "Quit the game?")
+    internal fun confirmQuestion() = tr("confirm_quit", "Quit the game?")
 
     /**
      * Focus highlights a widget only during keyboard navigation. A clicked button keeps focus, and a click that opens
@@ -397,110 +394,8 @@ internal object TitleMenu {
         hover.keys.retainAll(slots.map { it.widget }.toSet())
     }
 
-    private fun drawTitle(screen: TitleScreen) {
-        val texts = texts()
-        val firstY = texts.firstOrNull()?.widget?.y ?: (screen.height / 2)
-        val cx = screen.width / 2f
-        val versionHeight = Render.textHeight(sf(VERSION_SIZE), Fonts.regular)
-        val titleHeight = Render.textHeight(sf(TITLE_SIZE), Fonts.bold)
-        val titleY = firstY - si(TITLE_GAP) - versionHeight - titleHeight
-        Render.image(LOGO_PATH, cx - sf(LOGO_SIZE) / 2, titleY - sf(LOGO_GAP) - sf(LOGO_SIZE), sf(LOGO_SIZE), sf(LOGO_SIZE))
-        val name = "BlackAddons"
-        val x = cx - Render.textWidth(name, sf(TITLE_SIZE), Fonts.bold) / 2
-        outlined(name, x, titleY)
-        Render.textCentered(Platform.blackaddonsVersion, cx, titleY + titleHeight, sf(VERSION_SIZE), Theme.TEXT_MUTED, Fonts.regular)
-    }
+    internal val CONTOUR = Color(8, 4, 14, 235)
+    internal val SHADOW = Color(0, 0, 0, 120)
+    internal val OUTLINE_OFFSETS = listOf(-1 to -1, 0 to -1, 1 to -1, -1 to 0, 1 to 0, -1 to 1, 0 to 1, 1 to 1)
 
-    // A dark outline plus a soft shadow under it, so the gradient looks raised instead of printed on the nebula.
-    private fun outlined(text: String, x: Float, y: Float) {
-        Render.text(text, x, y + sf(SHADOW_DROP), sf(TITLE_SIZE), SHADOW, Fonts.bold)
-        OUTLINE_OFFSETS.forEach { (dx, dy) -> Render.text(text, x + dx * sf(OUTLINE), y + dy * sf(OUTLINE), sf(TITLE_SIZE), CONTOUR, Fonts.bold) }
-        Render.textGradient(text, x, y, sf(TITLE_SIZE), Theme.BRAND_FROM, Theme.BRAND_TO, Fonts.bold)
-    }
-
-    private val CONTOUR = Color(8, 4, 14, 235)
-    private val SHADOW = Color(0, 0, 0, 120)
-    private val OUTLINE_OFFSETS = listOf(-1 to -1, 0 to -1, 1 to -1, -1 to 0, 1 to 0, -1 to 1, 0 to 1, 1 to 1)
-
-    private fun drawText(slot: Slot, hover: Float) {
-        val w = slot.widget
-        val enabled = w.active
-        val color = when {
-            !enabled -> Theme.TEXT_DISABLED
-            else -> blend(Theme.TEXT_PRIMARY, Theme.ACCENT, hover)
-        }
-        var x = w.x + sf(ITEM_PAD)
-        slot.icon?.let {
-            Render.icon(it, x, w.y + (si(ITEM_HEIGHT) - sf(ITEM_ICON)) / 2, sf(ITEM_ICON), color)
-            x += sf(ITEM_ICON) + sf(ITEM_PAD) / 2
-        }
-        val textY = Render.centerY(w.y, si(ITEM_HEIGHT), sf(ITEM_SIZE), Fonts.medium)
-        Render.text(slot.label, x, textY, sf(ITEM_SIZE), color, Fonts.medium)
-        // An underline under the word that fills from its first letter to its last as the hover comes in.
-        if (hover > 0.01f) {
-            val textWidth = Render.textWidth(slot.label, sf(ITEM_SIZE), Fonts.medium)
-            val lineY = textY + Render.textHeight(sf(ITEM_SIZE), Fonts.medium)
-            Render.rect(x, lineY, textWidth * hover, sf(UNDERLINE), Theme.ACCENT, radius = sf(UNDERLINE) / 2)
-        }
-    }
-
-    private fun drawIcon(slot: Slot, hover: Float) {
-        val w = slot.widget
-        val accent = accentOf(slot)
-        val fill = blend(Theme.SURFACE.withAlpha(150), accent.withAlpha(70), hover)
-        Render.rect(w.x, w.y, si(CELL), si(CELL), fill, radius = sf(Theme.RADIUS_SMALL))
-        val color = if (w.active) blend(Theme.TEXT_SECONDARY, accent, hover) else Theme.TEXT_DISABLED
-        slot.icon?.let { Render.icon(it, w.x + (si(CELL) - sf(CELL_ICON)) / 2, w.y + (si(CELL) - sf(CELL_ICON)) / 2, sf(CELL_ICON), color) }
-    }
-
-    private fun accentOf(slot: Slot): Color = if (slot.danger) Theme.DANGER else Theme.ACCENT
-
-    private fun drawPopover(box: Box) {
-        Render.rect(box.x, box.y, box.width, box.height, Theme.SURFACE.withAlpha(240), radius = sf(Theme.RADIUS_SMALL))
-        Render.hollowRect(box.x, box.y, box.width, box.height, 1f, Theme.BORDER, radius = sf(Theme.RADIUS_SMALL))
-        Render.textCentered(confirmQuestion(), box.x + box.width / 2, box.y + si(POPOVER_PAD), sf(POPOVER_TEXT), Theme.TEXT_PRIMARY, Fonts.medium)
-        slots.filter { it.role == Role.CONFIRM }.forEach { slot ->
-            val w = slot.widget
-            val hover = hover[w] ?: 0f
-            val accent = accentOf(slot)
-            val fill = blend(Theme.SURFACE_HOVER, if (slot.danger) accent.withAlpha(200) else Theme.SURFACE_ACTIVE, hover)
-            Render.rect(w.x, w.y, w.width, w.height, fill, radius = sf(Theme.RADIUS_SMALL))
-            val color = if (slot.danger) blend(accent, Theme.TEXT_PRIMARY, hover) else Theme.TEXT_PRIMARY
-            Render.textCentered(slot.label, w.x + w.width / 2f, Render.centerY(w.y, w.height, sf(POPOVER_TEXT), Fonts.medium), sf(POPOVER_TEXT), color, Fonts.medium)
-        }
-    }
-
-    private fun drawTooltip(slot: Slot) {
-        val w = slot.widget
-        val text = slot.label.trimEnd('.')
-        val textWidth = Render.textWidth(text, sf(LEGAL_TEXT), Fonts.regular)
-        val padX = sf(TOOLTIP_PAD_X)
-        val padY = sf(TOOLTIP_PAD_Y)
-        val height = Render.textHeight(sf(LEGAL_TEXT), Fonts.regular) + padY * 2
-        val x = w.x + si(CELL) / 2f - textWidth / 2 - padX
-        val y = w.y - height - sf(TOOLTIP_GAP)
-        Render.rect(x, y, textWidth + padX * 2, height, Theme.SURFACE.withAlpha(230), radius = sf(Theme.RADIUS_SMALL))
-        Render.text(text, x + padX, y + padY, sf(LEGAL_TEXT), Theme.TEXT_PRIMARY, Fonts.regular)
-    }
-
-    private fun drawLegalToggle(slot: Slot, hover: Float) {
-        val w = slot.widget
-        val color = blend(Theme.TEXT_MUTED, Theme.TEXT_PRIMARY, maxOf(hover, if (legalOpen) 1f else 0f))
-        slot.icon?.let { Render.icon(it, w.x, w.y, si(LEGAL_SIZE), color) }
-    }
-
-    private fun drawLegal(slot: Slot, hover: Float) {
-        val w = slot.widget
-        val version = "Minecraft ${SharedConstants.getCurrentVersion().name()}"
-        val color = blend(Theme.TEXT_MUTED, Theme.TEXT_PRIMARY, hover)
-        val y = Render.centerY(w.y, w.height, sf(LEGAL_TEXT), Fonts.regular)
-        Render.text(version, w.x, y - Render.textHeight(sf(LEGAL_TEXT), Fonts.regular) - sf(LEGAL_LINE_GAP), sf(LEGAL_TEXT), Theme.TEXT_MUTED, Fonts.regular)
-        Render.text(slot.label, w.x, y, sf(LEGAL_TEXT), color, Fonts.regular)
-    }
-
-    private fun blend(from: Color, to: Color, t: Float): Color {
-        val k = t.coerceIn(0f, 1f)
-        fun mix(a: Int, b: Int) = (a + (b - a) * k).toInt()
-        return Color(mix(from.red, to.red), mix(from.green, to.green), mix(from.blue, to.blue), mix(from.alpha, to.alpha))
-    }
 }

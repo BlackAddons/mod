@@ -1,11 +1,14 @@
 package org.blackaddons.platform.impl.world
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
+import com.mojang.brigadier.StringReader
 import com.mojang.serialization.Dynamic
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.JsonOps
 import net.minecraft.SharedConstants
 import net.minecraft.client.Minecraft
+import net.minecraft.commands.CommandBuildContext
+import net.minecraft.commands.arguments.item.ItemArgument
 import net.minecraft.core.RegistryAccess
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
@@ -16,6 +19,7 @@ import net.minecraft.nbt.NbtOps
 import net.minecraft.nbt.Tag
 import net.minecraft.util.datafix.DataFixers
 import net.minecraft.util.datafix.fixes.References
+import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.world.item.ItemStack
 import org.blackaddons.api.world.ItemHost
 import org.blackaddons.api.world.ItemInfo
@@ -175,6 +179,14 @@ object MinecraftItems : ItemHost {
             registries.createSerializationContext(NbtOps.INSTANCE),
             registries.createSerializationContext(JsonOps.INSTANCE),
         ).also { cachedOps = it }
+    }
+
+    override fun parseItemArgument(text: String): String? {
+        val ops = connectionOps() ?: return null
+        return runCatching {
+            val input = ItemArgument.item(CommandBuildContext.simple(ops.registries, FeatureFlags.VANILLA_SET)).parse(StringReader(text))
+            serialize(input.createItemStack(1), ops.json)
+        }.getOrNull()
     }
 
     @Volatile

@@ -577,6 +577,7 @@ public abstract interface class org/blackaddons/api/commands/CommandBuilder {
 	public abstract fun arg (Ljava/lang/String;Lorg/blackaddons/api/commands/ArgType;ZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun arg$default (Lorg/blackaddons/api/commands/CommandBuilder;Ljava/lang/String;Lorg/blackaddons/api/commands/ArgType;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public abstract fun execute (Lkotlin/jvm/functions/Function1;)V
+	public abstract fun requires (Lkotlin/jvm/functions/Function0;)V
 	public abstract fun subcommand (Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -2255,21 +2256,25 @@ public final class org/blackaddons/api/gui/CapturedSlots {
 }
 
 public final class org/blackaddons/api/gui/ContainerMetrics {
-	public fun <init> (IIIIII)V
+	public fun <init> (IIIIIILorg/blackaddons/api/gui/GuiBox;Z)V
 	public final fun component1 ()I
 	public final fun component2 ()I
 	public final fun component3 ()I
 	public final fun component4 ()I
 	public final fun component5 ()I
 	public final fun component6 ()I
-	public final fun copy (IIIIII)Lorg/blackaddons/api/gui/ContainerMetrics;
-	public static synthetic fun copy$default (Lorg/blackaddons/api/gui/ContainerMetrics;IIIIIIILjava/lang/Object;)Lorg/blackaddons/api/gui/ContainerMetrics;
+	public final fun component7 ()Lorg/blackaddons/api/gui/GuiBox;
+	public final fun component8 ()Z
+	public final fun copy (IIIIIILorg/blackaddons/api/gui/GuiBox;Z)Lorg/blackaddons/api/gui/ContainerMetrics;
+	public static synthetic fun copy$default (Lorg/blackaddons/api/gui/ContainerMetrics;IIIIIILorg/blackaddons/api/gui/GuiBox;ZILjava/lang/Object;)Lorg/blackaddons/api/gui/ContainerMetrics;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGui ()Lorg/blackaddons/api/gui/GuiBox;
 	public final fun getHeight ()I
 	public final fun getInventoryBottom ()I
 	public final fun getInventoryLeft ()I
 	public final fun getInventoryRight ()I
 	public final fun getInventoryTop ()I
+	public final fun getReplaced ()Z
 	public final fun getWidth ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -2278,6 +2283,7 @@ public final class org/blackaddons/api/gui/ContainerMetrics {
 public abstract interface class org/blackaddons/api/gui/ContainerOverlay {
 	public abstract fun appliesTo (Ljava/lang/String;)Z
 	public fun charTyped (I)Z
+	public fun exclusionZones (Lorg/blackaddons/api/gui/ContainerMetrics;)Ljava/util/List;
 	public fun keepsCursor (Ljava/lang/String;)Z
 	public fun keyPressed (Lorg/blackaddons/api/gui/ContainerMetrics;Lorg/blackaddons/api/ui/widget/KeyInput;)Z
 	public fun mouseClicked (Lorg/blackaddons/api/gui/ContainerMetrics;Lorg/blackaddons/api/ui/widget/MouseButtonInput;)Z
@@ -2292,6 +2298,7 @@ public abstract interface class org/blackaddons/api/gui/ContainerOverlay {
 
 public final class org/blackaddons/api/gui/ContainerOverlay$DefaultImpls {
 	public static fun charTyped (Lorg/blackaddons/api/gui/ContainerOverlay;I)Z
+	public static fun exclusionZones (Lorg/blackaddons/api/gui/ContainerOverlay;Lorg/blackaddons/api/gui/ContainerMetrics;)Ljava/util/List;
 	public static fun keepsCursor (Lorg/blackaddons/api/gui/ContainerOverlay;Ljava/lang/String;)Z
 	public static fun keyPressed (Lorg/blackaddons/api/gui/ContainerOverlay;Lorg/blackaddons/api/gui/ContainerMetrics;Lorg/blackaddons/api/ui/widget/KeyInput;)Z
 	public static fun mouseClicked (Lorg/blackaddons/api/gui/ContainerOverlay;Lorg/blackaddons/api/gui/ContainerMetrics;Lorg/blackaddons/api/ui/widget/MouseButtonInput;)Z
@@ -2307,6 +2314,27 @@ public abstract interface class org/blackaddons/api/gui/ContainerOverlayRegistry
 	public abstract fun register (Lorg/blackaddons/api/gui/ContainerOverlay;)V
 }
 
+public final class org/blackaddons/api/gui/GuiBox {
+	public fun <init> (IIII)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun copy (IIII)Lorg/blackaddons/api/gui/GuiBox;
+	public static synthetic fun copy$default (Lorg/blackaddons/api/gui/GuiBox;IIIIILjava/lang/Object;)Lorg/blackaddons/api/gui/GuiBox;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBottom ()I
+	public final fun getH ()I
+	public final fun getRight ()I
+	public final fun getW ()I
+	public final fun getX ()I
+	public final fun getY ()I
+	public final fun has (II)Z
+	public fun hashCode ()I
+	public final fun intersects (Lorg/blackaddons/api/gui/GuiBox;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract interface class org/blackaddons/api/gui/OpenContainerHost {
 	public abstract fun capture ()Lorg/blackaddons/api/gui/CapturedSlots;
 	public abstract fun capturePlayerInventory ()Lorg/blackaddons/api/gui/CapturedPlayerInventory;
@@ -2318,6 +2346,7 @@ public abstract interface class org/blackaddons/api/gui/OpenContainerHost {
 	public abstract fun interactionId ()Ljava/lang/Integer;
 	public abstract fun isPlayerInventoryOpen ()Z
 	public abstract fun moveChestSlot (III)V
+	public abstract fun openPlayerInventory ()V
 	public abstract fun parkChestSlot (I)V
 	public abstract fun title ()Ljava/lang/String;
 }
@@ -4706,6 +4735,7 @@ public final class org/blackaddons/api/ui/icon/LucideIcons {
 	public final fun getNetworth ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getOverview ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getPaperclip ()Lorg/blackaddons/api/ui/icon/VectorIcon;
+	public final fun getPencil ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getPets ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getPower ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getRotateCcw ()Lorg/blackaddons/api/ui/icon/VectorIcon;
@@ -6128,6 +6158,7 @@ protected final class org/blackaddons/api/ui/screen/Popover$Companion {
 
 public final class org/blackaddons/api/ui/screen/Tooltip {
 	public static final field INSTANCE Lorg/blackaddons/api/ui/screen/Tooltip;
+	public final fun flush (FF)V
 	public final fun mouseScrolled (F)Z
 	public final fun show (Ljava/lang/String;)V
 	public final fun show (Lorg/blackaddons/api/chat/ChatMessage;Lorg/blackaddons/api/ui/screen/Tooltip$Style;)V
@@ -6174,6 +6205,7 @@ public final class org/blackaddons/api/ui/screen/UiManager {
 	public final fun pushSilently (Lorg/blackaddons/api/ui/screen/Panel;)V
 	public final fun render (FFF)V
 	public final fun renderOverlay (FF)V
+	public final fun replaceTop (Lorg/blackaddons/api/ui/screen/Panel;)V
 }
 
 public final class org/blackaddons/api/ui/screen/color/ColorPickerScreen : org/blackaddons/api/ui/screen/ModalPanel {
@@ -7889,6 +7921,7 @@ public final class org/blackaddons/api/world/ItemFrameSnapshot {
 public abstract interface class org/blackaddons/api/world/ItemHost {
 	public abstract fun decodeLegacyInventory (Ljava/lang/String;)Ljava/util/List;
 	public abstract fun describe (Ljava/lang/String;)Lorg/blackaddons/api/world/ItemInfo;
+	public abstract fun parseItemArgument (Ljava/lang/String;)Ljava/lang/String;
 }
 
 public final class org/blackaddons/api/world/ItemInfo {

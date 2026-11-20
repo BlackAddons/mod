@@ -18,6 +18,9 @@ interface ItemHost {
      * Needs a live connection for registries. Backpacks nest another blob; decode it the same way.
      */
     fun decodeLegacyInventory(base64: String): List<String?>
+
+    /** Parses `/give` item syntax, such as `diamond_sword[enchantment_glint_override=true]`, into a [raw] stack. Null if it's invalid or there's no world. */
+    fun parseItemArgument(text: String): String?
 }
 
 /** [id] is the registry id (e.g. `minecraft:barrier`). */

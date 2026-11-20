@@ -5,7 +5,7 @@ import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-/** {@code topPos}/{@code leftPos} for {@code MinecraftContainerOverlays}, {@code hoveredSlot} for the dev copy tool. */
+/** {@code topPos}/{@code leftPos}/image size for {@code MinecraftContainerOverlays}, {@code hoveredSlot} for the dev copy tool. */
 @Mixin(AbstractContainerScreen.class)
 public interface AbstractContainerScreenAccessor {
     @Accessor("topPos")
@@ -19,6 +19,12 @@ public interface AbstractContainerScreenAccessor {
 
     @Accessor("leftPos")
     void blackaddons$setLeftPos(int leftPos);
+
+    @Accessor("imageWidth")
+    int blackaddons$getImageWidth();
+
+    @Accessor("imageHeight")
+    int blackaddons$getImageHeight();
 
     @Accessor("hoveredSlot")
     Slot blackaddons$getHoveredSlot();

@@ -1,6 +1,5 @@
 package org.blackaddons.core.soloclears
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import org.blackaddons.api.Platform
 import org.blackaddons.api.event.ClientTickEvent
@@ -27,11 +26,9 @@ import org.blackaddons.core.backend.gateway.intOrNull
 import org.blackaddons.core.backend.gateway.stringOrNull
 import org.blackaddons.core.dungeon.DungeonTracker
 import org.blackaddons.core.dungeon.ScoreCalculation
-import org.blackaddons.core.dungeon.map.MapState
 import org.blackaddons.core.log.Log
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.math.roundToInt
 
 /**
  * Records a solo clear and uploads it.
@@ -44,14 +41,14 @@ object RunRecorder {
     /** The server's 299 minimum is its own slack. */
     private const val TARGET_SCORE = 300
 
-    private const val FIXED_POINT = 32.0
+    internal const val FIXED_POINT = 32.0
 
     private const val FINISH_TICKS = 20 * 60
 
     /** Upload retry delays, well inside the server's 5-minute `SubmitGraceSeconds`. */
     private val RETRY_DELAYS = intArrayOf(5, 20, 60)
 
-    private enum class Phase { IDLE, ASKING, RECORDING, FINISHING, UPLOADING }
+    internal enum class Phase { IDLE, ASKING, RECORDING, FINISHING, UPLOADING }
 
     /** The feature picks the words, this picks the time. */
     internal interface Listener {
@@ -74,15 +71,15 @@ object RunRecorder {
 
     // Socket threads read it to decide if they queue.
     @Volatile
-    private var phase = Phase.IDLE
-    private var log: RunLog? = null
+    internal var phase = Phase.IDLE
+    internal var log: RunLog? = null
     private var session: RunSession? = null
-    private var floor = ""
-    private var startedAtNanos = 0L
-    private var lastOffset = 0L
+    internal var floor = ""
+    internal var startedAtNanos = 0L
+    internal var lastOffset = 0L
     private var ticks = 0
     private var finishTicks = 0
-    private var lastRoom: String? = null
+    internal var lastRoom: String? = null
 
     /** Kept, so a retry sends the same bytes. */
     private var blob: ByteArray? = null
@@ -93,9 +90,9 @@ object RunRecorder {
     @Volatile
     private var outcome: RunUpload.Outcome? = null
 
-    private val deferred = ArrayList<JsonObject>()
+    internal val deferred = ArrayList<JsonObject>()
 
-    private val samples = ArrayList<Sample>(TICKS_PER_SECOND)
+    internal val samples = ArrayList<Sample>(TICKS_PER_SECOND)
 
     private val inbox = ConcurrentLinkedQueue<Pair<String, JsonObject>>()
 
@@ -458,115 +455,10 @@ object RunRecorder {
         inbox.clear()
     }
 
-    private fun writeHeader(runId: UUID) {
-        val header = JsonObject().apply {
-            addProperty("t", RunRecords.HEADER)
-            // The header is first. Offsets never go back.
-            addProperty("ms", 0L)
-            addProperty("v", 1)
-            addProperty("runId", runId.toString())
-            addProperty("floor", floor)
-            DungeonTracker.thePlayer?.dungeonClass?.name?.let { addProperty("class", it) }
-            addProperty("mod", Platform.blackaddonsVersion)
-            addProperty("mc", Platform.minecraftVersion)
-            Platform.world.serverBrand?.let { addProperty("brand", it) }
-            Platform.world.serverAddress?.let { addProperty("server", it) }
-            RunPartySnapshot.apply(this)
-        }
-        log?.append(header)
-    }
-
-    private fun secretFeed(): JsonObject {
-        val feed = ScoreCalculation.secretFeed
-        return JsonObject().apply {
-            addProperty("actionBars", feed.actionBars)
-            addProperty("withSecrets", feed.withSecrets)
-            addProperty("credited", feed.credited)
-            add("skipped", JsonObject().apply { feed.skipped.forEach { (reason, count) -> addProperty(reason, count) } })
-        }
-    }
-
-    /** Held until a run exists. Offsets never decrease, because the backend rejects files whose clock goes back. */
-    private fun record(type: String, build: JsonObject.() -> Unit = {}): Boolean {
-        if (phase == Phase.IDLE || phase == Phase.UPLOADING) return false
-
-        val record = JsonObject().apply {
-            addProperty("t", type)
-            addProperty("ms", offset())
-            build()
-        }
-        val log = this.log
-        if (log == null) deferred += record else log.append(record)
-        return true
-    }
-
-    private fun offset(): Long {
-        val elapsed = (System.nanoTime() - startedAtNanos) / 1_000_000L
-        lastOffset = maxOf(lastOffset, elapsed)
-        return lastOffset
-    }
-
-    /** The board's five score components, because the finish is judged on the board total. */
-    private fun recordScore() {
-        val parts = ScoreCalculation.board
-        record(RunRecords.SCORE) {
-            addProperty("secrets", parts.secrets)
-            addProperty("rooms", parts.rooms)
-            addProperty("skill", parts.skill)
-            addProperty("speed", parts.speed)
-            addProperty("bonus", parts.bonus)
-            addProperty("total", parts.total)
-            // The sidebar clock, the one clock we didn't write.
-            addProperty("elapsed", ScoreCalculation.secondsElapsed)
-        }
-    }
-
-    private fun noteRoom() {
-        val room = MapState.getRoomAt(Platform.player.x, Platform.player.z)?.name ?: return
-        if (room == lastRoom) return
-        lastRoom = room
-        split("room", room)
-    }
-
-    private fun split(at: String, label: String?) {
-        record(RunRecords.SPLIT) {
-            addProperty("at", at)
-            label?.let { addProperty("label", it) }
-        }
-    }
-
-    private fun sampleMovement() {
-        samples += Sample(Platform.player.x, Platform.player.y, Platform.player.z, Platform.player.yaw)
-    }
-
-    /** One anchor plus deltas per tick `[dx, dy, dz, ...]` in 1/32 block, batched per second. */
-    private fun flushTrack() {
-        if (samples.isEmpty()) return
-        val anchor = samples.first()
-
-        val deltas = JsonArray()
-        for (index in 1 until samples.size) {
-            val from = samples[index - 1]
-            val to = samples[index]
-            deltas.add(((to.x - from.x) * FIXED_POINT).roundToInt())
-            deltas.add(((to.y - from.y) * FIXED_POINT).roundToInt())
-            deltas.add(((to.z - from.z) * FIXED_POINT).roundToInt())
-        }
-        samples.clear()
-
-        record(RunRecords.TRACK) {
-            addProperty("x", anchor.x)
-            addProperty("y", anchor.y)
-            addProperty("z", anchor.z)
-            addProperty("yaw", anchor.yaw)
-            if (deltas.size() > 0) add("d", deltas)
-        }
-    }
-
     private const val DEFAULT_PULSE_SECONDS = 5
 
     // Not a wire op. Queued, so socket loss gets handled on the tick.
     private const val SOCKET_LOST = "socket_lost"
 
-    private class Sample(val x: Double, val y: Double, val z: Double, val yaw: Float)
+    internal class Sample(val x: Double, val y: Double, val z: Double, val yaw: Float)
 }

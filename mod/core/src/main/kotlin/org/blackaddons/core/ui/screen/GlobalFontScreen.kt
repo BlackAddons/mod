@@ -7,12 +7,10 @@ import org.blackaddons.api.ui.layout.Align
 import org.blackaddons.api.ui.layout.LayoutBuilder
 import org.blackaddons.api.ui.layout.centered
 import org.blackaddons.api.ui.layout.column
-import org.blackaddons.api.ui.layout.columnWidth
 import org.blackaddons.api.ui.layout.row
 import org.blackaddons.api.ui.render.Font
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.ModalPanel
-import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.screen.color.ColorPopover
 import org.blackaddons.api.ui.theme.Fonts
@@ -23,7 +21,6 @@ import org.blackaddons.api.ui.widget.Button
 import org.blackaddons.api.ui.widget.ProgressBar
 import org.blackaddons.api.ui.widget.ScrollableList
 import org.blackaddons.api.ui.widget.Slider
-import org.blackaddons.api.ui.widget.Swatch
 import org.blackaddons.api.ui.widget.TabStrip
 import org.blackaddons.api.ui.widget.text.AnimatedText
 import org.blackaddons.api.ui.widget.text.TextInput
@@ -39,13 +36,12 @@ import org.blackaddons.core.font.FontsDocument
 import org.blackaddons.core.font.GlobalFontDocument
 import org.blackaddons.core.font.GlobalFontDraft
 import org.blackaddons.core.font.InstalledFont
-import java.awt.Color
 import kotlin.math.floor
 
 internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_screen.title", "Fonts")) {
-    private val tr = I18n.scope("blackaddons.global_font_screen")
+    internal val tr = I18n.scope("blackaddons.global_font_screen")
 
-    private var tab = Tab.MINECRAFT
+    internal var tab = Tab.MINECRAFT
     private val picks = FontSettings.document.let {
         mapOf(
             Tab.MINECRAFT to Pick(it.minecraft.font, it.minecraft.draft),
@@ -55,8 +51,8 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
     }
     private val pick: Pick get() = picks.getValue(tab)
 
-    private val tuning: Boolean get() = tab == Tab.HUD || selected.isFile
-    private val native: FontSettings.NativeFont?
+    internal val tuning: Boolean get() = tab == Tab.HUD || selected.isFile
+    internal val native: FontSettings.NativeFont?
         get() = when (tab) {
             Tab.MINECRAFT -> FontSettings.minecraft
             Tab.HUD -> null
@@ -77,8 +73,8 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
     override val panelHeight: Float get() = fitHeight(470f, margin = 24f)
     override val closeOnOutsideClick = false
 
-    private val search = widgets.add(TextInput(placeholder = tr("search", "Search fonts...")))
-    private val list = widgets.add(ScrollableList<FontRow>().apply {
+    internal val search = widgets.add(TextInput(placeholder = tr("search", "Search fonts...")))
+    internal val list = widgets.add(ScrollableList<FontRow>().apply {
         rowHeight = 22f
         rowGap = 1f
         drawRow = { row, _, x, y, w -> drawFontRow(row, x, y, w) }
@@ -99,51 +95,51 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         syncControls()
     })
     private val deleteButton = widgets.add(Button(tr("delete", "Delete")) { confirmDelete() }.apply { danger = true })
-    private val boldButton = widgets.add(Button("") { draft = draft.copy(forceBold = !draft.forceBold) })
-    private val italicButton = widgets.add(Button("") { draft = draft.copy(forceItalic = !draft.forceItalic) })
-    private val shadowButton = widgets.add(Button("") { draft = draft.copy(shadowEnabled = !draft.shadowEnabled) })
-    private val outlineButton = widgets.add(Button("") { draft = draft.copy(outlineEnabled = !draft.outlineEnabled) })
-    private val shadowColorButton = widgets.add(Button(tr("shadow_color", "Shadow color")) { openShadowColor() })
-    private val outlineColorButton = widgets.add(Button(tr("outline_color", "Outline color")) { openOutlineColor() })
-    private val selectedText = AnimatedText(fontSize = Theme.FONT_SMALL, font = Fonts.medium)
-    private val statusText = AnimatedText(fontSize = LABEL_SIZE)
-    private val libraryStatusText = AnimatedText(fontSize = LABEL_SIZE)
-    private val previewReveal = Animation(1f, Theme.ANIM_NORMAL.toLong(), Easing.easeOutBack)
-    private val selectionPulse = Animation(0f, Theme.ANIM_NORMAL.toLong())
+    internal val boldButton = widgets.add(Button("") { draft = draft.copy(forceBold = !draft.forceBold) })
+    internal val italicButton = widgets.add(Button("") { draft = draft.copy(forceItalic = !draft.forceItalic) })
+    internal val shadowButton = widgets.add(Button("") { draft = draft.copy(shadowEnabled = !draft.shadowEnabled) })
+    internal val outlineButton = widgets.add(Button("") { draft = draft.copy(outlineEnabled = !draft.outlineEnabled) })
+    internal val shadowColorButton = widgets.add(Button(tr("shadow_color", "Shadow color")) { openShadowColor() })
+    internal val outlineColorButton = widgets.add(Button(tr("outline_color", "Outline color")) { openOutlineColor() })
+    internal val selectedText = AnimatedText(fontSize = Theme.FONT_SMALL, font = Fonts.medium)
+    internal val statusText = AnimatedText(fontSize = LABEL_SIZE)
+    internal val libraryStatusText = AnimatedText(fontSize = LABEL_SIZE)
+    internal val previewReveal = Animation(1f, Theme.ANIM_NORMAL.toLong(), Easing.easeOutBack)
+    internal val selectionPulse = Animation(0f, Theme.ANIM_NORMAL.toLong())
     private val rowHover = HashMap<String, Animation>()
     private val rowSelection = HashMap<String, Animation>()
 
-    private val rasterSlider = slider(GlobalFontDraft.RASTER_SIZE, 0.5) {
+    internal val rasterSlider = slider(GlobalFontDraft.RASTER_SIZE, 0.5) {
         draft = draft.copy(rasterSize = it)
         updateOversamplingLimits()
     }
-    private val oversample2dSlider = slider(GlobalFontDraft.OVERSAMPLE_2D, 1.0) { draft = draft.copy(oversample2d = it) }
-    private val oversampleWorldSlider = slider(GlobalFontDraft.OVERSAMPLE, 1.0) { draft = draft.copy(oversampleWorld = it) }
-    private val spacingSlider = slider(GlobalFontDraft.LETTER_SPACING, 0.25) { draft = draft.copy(letterSpacing = it) }
-    private val shiftXSlider = slider(GlobalFontDraft.SHIFT_X, 0.25) { draft = draft.copy(shiftX = it) }
-    private val shiftYSlider = slider(GlobalFontDraft.SHIFT_Y, 0.25) { draft = draft.copy(shiftY = it) }
-    private val shadowXSlider = slider(GlobalFontDraft.SHADOW_OFFSET, 0.25) { draft = draft.copy(shadowX = it) }
-    private val shadowYSlider = slider(GlobalFontDraft.SHADOW_OFFSET, 0.25) { draft = draft.copy(shadowY = it) }
-    private val outlineSlider = slider(GlobalFontDraft.OUTLINE_WIDTH, 0.05) {
+    internal val oversample2dSlider = slider(GlobalFontDraft.OVERSAMPLE_2D, 1.0) { draft = draft.copy(oversample2d = it) }
+    internal val oversampleWorldSlider = slider(GlobalFontDraft.OVERSAMPLE, 1.0) { draft = draft.copy(oversampleWorld = it) }
+    internal val spacingSlider = slider(GlobalFontDraft.LETTER_SPACING, 0.25) { draft = draft.copy(letterSpacing = it) }
+    internal val shiftXSlider = slider(GlobalFontDraft.SHIFT_X, 0.25) { draft = draft.copy(shiftX = it) }
+    internal val shiftYSlider = slider(GlobalFontDraft.SHIFT_Y, 0.25) { draft = draft.copy(shiftY = it) }
+    internal val shadowXSlider = slider(GlobalFontDraft.SHADOW_OFFSET, 0.25) { draft = draft.copy(shadowX = it) }
+    internal val shadowYSlider = slider(GlobalFontDraft.SHADOW_OFFSET, 0.25) { draft = draft.copy(shadowY = it) }
+    internal val outlineSlider = slider(GlobalFontDraft.OUTLINE_WIDTH, 0.05) {
         draft = draft.copy(outlineWidth = it)
     }
 
-    private var selected: InstalledFont
+    internal var selected: InstalledFont
         get() = pick.font
         set(value) {
             if (pick.font.key == value.key) return
             pick.font = value
             revealPreview()
         }
-    private var draft: GlobalFontDraft
+    internal var draft: GlobalFontDraft
         get() = pick.draft
         set(value) {
             pick.draft = value
         }
-    private var downloading = false
+    internal var downloading = false
     private var removing = false
     private val busy: Boolean get() = downloading || removing
-    private var operationError: String? = null
+    internal var operationError: String? = null
     private var previewKey: String? = null
     private var cachedPreviewFont: Font = Fonts.regular
     private var lastSearch = ""
@@ -152,7 +148,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
 
     @Volatile private var pendingInstall: Result<InstalledFont>? = null
     @Volatile private var pendingRemoval: Result<InstalledFont>? = null
-    @Volatile private var transferProgress: FontLoadProgress? = null
+    @Volatile internal var transferProgress: FontLoadProgress? = null
 
     init {
         picks.values.forEach { FontCatalog.track(it.font) }
@@ -252,115 +248,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         }.draw(contentX, contentY)
     }
 
-    private fun drawControls(x: Float, y: Float, w: Float, h: Float, mouseX: Float, mouseY: Float) {
-        val selectedLabel = if (downloading) tr("downloading", "Downloading...") else selected.label
-        val fullSelected = tr("selected", "Selected: %s", selectedLabel)
-        selectedText.text = Render.ellipsize(fullSelected, w, Theme.FONT_SMALL, Fonts.medium)
-        selectedText.render(x, y + 1f)
-        Tooltip.showOver(x, y, w, 13f, fullSelected.takeIf { it != selectedText.text })
-        val progress = transferProgress
-        val fullStatus = operationError ?: progress?.label ?: native?.status.orEmpty()
-        statusText.text = Render.ellipsize(fullStatus, w, LABEL_SIZE, Fonts.regular)
-        statusText.color = if (operationError != null) Theme.DANGER else Theme.TEXT_MUTED
-        statusText.render(x, y + 15f)
-        Tooltip.showOver(x, y + 13f, w, 13f, fullStatus.takeIf { it != statusText.text })
-        when {
-            progress?.fraction != null -> ProgressBar.draw(x, y + 28f, w, PROGRESS_H, progress.fraction)
-            progress != null || native?.applying == true -> ProgressBar.drawIndeterminate(x, y + 28f, w, PROGRESS_H)
-        }
-
-        val gap = 12f
-        val cellW = (w - gap) / 2f
-        shadowXSlider.enabled = draft.shadowEnabled
-        shadowYSlider.enabled = draft.shadowEnabled
-        outlineSlider.enabled = draft.outlineEnabled
-        shadowColorButton.enabled = draft.shadowEnabled
-        outlineColorButton.enabled = draft.outlineEnabled
-        val buttonGap = 4f
-        val toggles = if (tab == Tab.HUD) listOf(boldButton, italicButton) else listOf(boldButton, italicButton, shadowButton, outlineButton)
-        val buttonW = columnWidth(w, toggles.size, buttonGap)
-        boldButton.label = toggleLabel(tr("bold", "Bold"), draft.forceBold)
-        italicButton.label = toggleLabel(tr("italic", "Italic"), draft.forceItalic)
-        shadowButton.label = toggleLabel(tr("shadow", "Shadow"), draft.shadowEnabled)
-        outlineButton.label = toggleLabel(tr("outline", "Outline"), draft.outlineEnabled)
-        boldButton.accent = draft.forceBold
-        italicButton.accent = draft.forceItalic
-        shadowButton.accent = draft.shadowEnabled
-        outlineButton.accent = draft.outlineEnabled
-        val fixedHeight = when {
-            !tuning -> 39f + NOTE_H
-            tab == Tab.HUD -> 39f + CONTROL_ROW_H * 2f + 22f + 8f
-            tab == Tab.MINECRAFT -> 39f + CONTROL_ROW_H * 5f + 22f + 6f + 22f + 8f
-            else -> 39f + CONTROL_ROW_H * 4f + 22f + 6f + 22f + 8f
-        }
-        val previewH = (h - fixedHeight).coerceAtLeast(48f)
-        column(width = w, height = h) {
-            spacer(height = 39f)
-            if (!tuning) {
-                cell(w, NOTE_H) { cx, cy -> drawNote(tr("vanilla_note", "Minecraft's own font, unchanged."), cx, cy, w) }
-                cell(w, previewH) { cx, cy -> drawPreview(cx, cy, w, previewH) }
-                return@column
-            }
-            when (tab) {
-                Tab.HUD -> sliderRow(tr("size", "Size"), draft.rasterSize, rasterSlider,
-                    tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider, w, mouseX, mouseY)
-                Tab.MINECRAFT -> {
-                    sliderRow(tr("raster_size", "Raster size"), draft.rasterSize, rasterSlider,
-                        tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider, w, mouseX, mouseY)
-                    sliderRow(tr("oversampling_2d", "2D oversampling"), draft.oversample2d, oversample2dSlider,
-                        tr("oversampling_world", "World oversampling"), draft.oversampleWorld, oversampleWorldSlider,
-                        w, mouseX, mouseY, "×",
-                        leftShown = if (draft.oversample2d == GlobalFontDraft.AUTO_OVERSAMPLE) {
-                            tr("oversampling_auto", "Auto")
-                        } else {
-                            format(draft.oversample2d)
-                        })
-                }
-                Tab.WORLD -> sliderRow(tr("raster_size", "Raster size"), draft.rasterSize, rasterSlider,
-                    tr("oversampling_world", "World oversampling"), draft.oversampleWorld, oversampleWorldSlider,
-                    w, mouseX, mouseY, "×")
-            }
-            if (tab == Tab.WORLD) {
-                sliderRow(tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider,
-                    tr("outline_width", "Outline width"), draft.outlineWidth, outlineSlider, w, mouseX, mouseY)
-            }
-            sliderRow(tr("glyph_x_offset", "Glyph X offset"), draft.shiftX, shiftXSlider,
-                tr("glyph_y_offset", "Glyph Y offset"), draft.shiftY, shiftYSlider, w, mouseX, mouseY)
-            if (tab == Tab.MINECRAFT) {
-                singleSliderRow(tr("outline_width", "Outline width"), draft.outlineWidth, outlineSlider, w, mouseX, mouseY)
-            }
-            if (tab != Tab.HUD) {
-                sliderRow(tr("shadow_x", "Shadow X"), draft.shadowX, shadowXSlider,
-                    tr("shadow_y", "Shadow Y"), draft.shadowY, shadowYSlider, w, mouseX, mouseY)
-            }
-            row(spacing = buttonGap, width = w, height = 22f) {
-                toggles.forEach { button ->
-                    cell(buttonW, 22f) { cx, cy -> button.render(cx, cy, buttonW, 22f, mouseX, mouseY) }
-                }
-            }
-            if (tab != Tab.HUD) {
-                spacer(height = 6f)
-                row(spacing = gap, width = w, height = 22f) {
-                    cell(cellW, 22f) { cx, cy ->
-                        shadowColorButton.render(cx, cy, cellW, 22f, mouseX, mouseY)
-                        drawSwatch(cx + cellW - 22f, cy + 4f, draft.shadowColor, shadowColorButton.enabled)
-                    }
-                    cell(cellW, 22f) { cx, cy ->
-                        outlineColorButton.render(cx, cy, cellW, 22f, mouseX, mouseY)
-                        drawSwatch(cx + cellW - 22f, cy + 4f, draft.outlineColor, outlineColorButton.enabled)
-                    }
-                }
-            }
-            spacer(height = 8f)
-            cell(w, previewH) { cx, cy -> drawPreview(cx, cy, w, previewH) }
-        }.draw(x, y)
-    }
-
-    private fun drawNote(note: String, x: Float, y: Float, w: Float) {
-        Render.text(note, x, y, LABEL_SIZE, Theme.TEXT_MUTED, Fonts.regular, maxWidth = w)
-    }
-
-    private fun LayoutBuilder.sliderRow(
+    internal fun LayoutBuilder.sliderRow(
         leftLabel: String, leftValue: Double, leftSlider: Slider,
         rightLabel: String, rightValue: Double, rightSlider: Slider,
         width: Float, mouseX: Float, mouseY: Float, rightSuffix: String = "",
@@ -378,7 +266,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         }
     }
 
-    private fun LayoutBuilder.singleSliderRow(
+    internal fun LayoutBuilder.singleSliderRow(
         label: String,
         value: Double,
         slider: Slider,
@@ -392,100 +280,14 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         }
     }
 
-    private fun drawCompactSlider(
-        label: String,
-        value: Double,
-        slider: Slider,
-        x: Float,
-        y: Float,
-        w: Float,
-        mouseX: Float,
-        mouseY: Float,
-        suffix: String = "",
-        shown: String = format(value),
-    ) {
-        Render.text("$label: $shown$suffix", x, y, LABEL_SIZE, Theme.TEXT_SECONDARY, Fonts.regular)
-        slider.render(x, y + 11f, w, 14f, mouseX, mouseY)
-    }
+    internal val look: GlobalFontDraft get() = if (tuning && tab != Tab.HUD) draft else GlobalFontDraft.WORLD_DEFAULT
 
-    private fun drawSwatch(x: Float, y: Float, color: Color, enabled: Boolean) =
-        Swatch.draw(x, y, 18f, 14f, if (enabled) color else color.withAlpha(55))
-
-    private fun drawPreview(x: Float, y: Float, w: Float, h: Float) {
-        Render.rect(x, y, w, h, Theme.SURFACE.withAlpha(150), Theme.RADIUS_SMALL)
-        val pulse = selectionPulse.get()
-        if (pulse > 0f) Render.hollowRect(x, y, w, h, 1f, Theme.ACCENT.withAlpha((pulse * 150f).toInt()), Theme.RADIUS_SMALL)
-        Render.text(tr("preview", "Preview"), x + 8f, y + 6f, LABEL_SIZE, Theme.TEXT_MUTED, Fonts.regular)
-        val font = previewFont()
-        val size = (11f * (look.rasterSize / 11.0)).toFloat().coerceIn(8f, 17f)
-        val reveal = previewReveal.get()
-        var lineY = y + 20f + look.shiftY.toFloat() + (1f - reveal) * 5f
-        val textX = x + 9f + look.shiftX.toFloat()
-        Render.pushScissor(x + 4f, y + 16f, w - 8f, h - 20f)
-        for (line in PREVIEW_LINES) {
-            drawPreviewLine(line, textX, lineY, size, font)
-            lineY += size * font.scale * 1.35f
-        }
-        Render.popScissor()
-    }
-
-    private fun drawPreviewLine(text: String, x: Float, y: Float, size: Float, font: Font) {
-        if (look.outlineEnabled) {
-            val width = look.outlineWidth.toFloat()
-            for ((dx, dy) in OUTLINE) drawSpaced(text, x + dx * width, y + dy * width, size, look.outlineColor, font)
-        }
-        if (look.shadowEnabled) {
-            drawSpaced(text, x + look.shadowX.toFloat(), y + look.shadowY.toFloat(), size, look.shadowColor, font)
-        }
-        drawSpaced(text, x, y, size, Theme.TEXT_PRIMARY, font)
-    }
-
-    private fun drawSpaced(text: String, x: Float, y: Float, size: Float, color: Color, font: Font) {
-        if (look.forceItalic) {
-            Render.push()
-            Render.translate(x, y)
-            Render.shearX(-0.2f)
-            drawSpacedRaw(text, 0f, 0f, size, color, font)
-            Render.pop()
-            return
-        }
-        drawSpacedRaw(text, x, y, size, color, font)
-    }
-
-    private fun drawSpacedRaw(text: String, x: Float, y: Float, size: Float, color: Color, font: Font) {
-        val spacing = look.letterSpacing
-        if (spacing == 0.0) {
-            Render.text(text, x, y, size, color, font)
-            return
-        }
-        var cursor = x
-        for (codePoint in text.codePoints().toArray()) {
-            val glyph = String(Character.toChars(codePoint))
-            Render.text(glyph, cursor, y, size, color, font)
-            cursor += Render.textWidth(glyph, size, font) + spacing.toFloat()
-        }
-    }
-
-    private val look: GlobalFontDraft get() = if (tuning && tab != Tab.HUD) draft else GlobalFontDraft.WORLD_DEFAULT
-
-    private fun previewFont(): Font {
+    internal fun previewFont(): Font {
         val key = "$tab:${selected.key}:${draft.hashCode()}"
         if (previewKey == key) return cachedPreviewFont
         previewKey = key
         val font = if (tab == Tab.HUD) selected.hudFont(draft) else selected.uiFont(look.forceBold)
         return font.also { cachedPreviewFont = it }
-    }
-
-    private fun matchingFonts(): List<FontRow> {
-        val installed = (listOf(InstalledFont.VANILLA, InstalledFont.BUNDLED) + FontCatalog.installed())
-            .distinctBy(InstalledFont::key)
-            .map { FontRow(installed = it) }
-        val installedKeys = installed.mapTo(HashSet()) { it.key }
-        val catalog = (FontCatalog.state as? FontCatalogState.Ready)?.fonts.orEmpty()
-            .filterNot { "${FontCatalog.FONTSOURCE_KEY_PREFIX}${it.id}" in installedKeys }
-            .map { FontRow(catalog = it) }
-        val term = search.text.trim()
-        return (installed + catalog).filter { term.isEmpty() || it.name.contains(term, ignoreCase = true) }
     }
 
     private fun drawFontRow(row: FontRow, x: Float, y: Float, w: Float) {
@@ -518,21 +320,6 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         Render.text(tag, x + w - tagWidth - 8f, Render.centerY(y, list.rowHeight, LABEL_SIZE, Fonts.regular), LABEL_SIZE,
             if (row.installed != null || emphasized) Theme.ACCENT else Theme.TEXT_MUTED, Fonts.regular)
         if (isDownloading) ProgressBar.drawIndeterminate(x + 7f, y + list.rowHeight - 3f, w - 14f, PROGRESS_H)
-    }
-
-    private fun drawLibraryStatus(x: Float, y: Float, w: Float, rows: List<FontRow>) {
-        val state = FontCatalog.state
-        libraryStatusText.text = when (state) {
-            FontCatalogState.Loading -> tr("library_loading", "Loading font library...")
-            is FontCatalogState.Failed -> tr("library_unavailable", "Font library unavailable")
-            is FontCatalogState.Ready -> {
-                val files = rows.filter { it.installed?.isFile != false }
-                tr("library_count", "%d fonts · %d installed", files.size, files.count { it.installed != null })
-            }
-        }
-        libraryStatusText.color = if (state is FontCatalogState.Failed) Theme.DANGER else Theme.TEXT_MUTED
-        libraryStatusText.render(x + 2f, y)
-        if (state == FontCatalogState.Loading) ProgressBar.drawIndeterminate(x, y + 12f, w, PROGRESS_H)
     }
 
     private fun chooseLocal() {
@@ -640,15 +427,15 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         outlineSlider.value = draft.outlineWidth
     }
 
-    private fun slider(range: ClosedFloatingPointRange<Double>, step: Double, changed: (Double) -> Unit) =
+    internal fun slider(range: ClosedFloatingPointRange<Double>, step: Double, changed: (Double) -> Unit) =
         widgets.add(Slider(range.start, range.endInclusive, range.start, step, changed).apply { defaultValue = range.start })
 
-    private fun toggleLabel(name: String, enabled: Boolean) =
+    internal fun toggleLabel(name: String, enabled: Boolean) =
         "$name: ${if (enabled) tr("on", "On") else tr("off", "Off")}"
 
-    private fun format(value: Double) = value.formatTrimmed()
+    internal fun format(value: Double) = value.formatTrimmed()
 
-    private data class FontRow(
+    internal data class FontRow(
         val installed: InstalledFont? = null,
         val catalog: FontCatalogEntry? = null,
     ) {
@@ -656,13 +443,13 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         val name: String get() = installed?.label ?: requireNotNull(catalog).family
     }
 
-    private enum class Tab { MINECRAFT, HUD, WORLD }
+    internal enum class Tab { MINECRAFT, HUD, WORLD }
 
     private class Pick(var font: InstalledFont, var draft: GlobalFontDraft) {
         val document: GlobalFontDocument get() = GlobalFontDocument(font, draft)
     }
 
-    private companion object {
+    internal companion object {
         const val LABEL_SIZE = 9f
         const val CONTROL_ROW_H = 31f
         const val PROGRESS_H = 3f

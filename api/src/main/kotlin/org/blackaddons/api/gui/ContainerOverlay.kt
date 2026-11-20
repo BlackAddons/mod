@@ -1,5 +1,6 @@
 package org.blackaddons.api.gui
 
+import org.blackaddons.api.ui.layout.hit
 import org.blackaddons.api.ui.widget.KeyInput
 import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.ui.widget.MouseDragInput
@@ -45,6 +46,9 @@ interface ContainerOverlay {
     fun mouseDragged(metrics: ContainerMetrics, drag: MouseDragInput): Boolean = false
 
     fun mouseReleased(mouse: MouseButtonInput) {}
+
+    /** What this overlay draws outside the container, so REI can keep clear of it. */
+    fun exclusionZones(metrics: ContainerMetrics): List<GuiBox> = emptyList()
 }
 
 /**
@@ -58,4 +62,18 @@ data class ContainerMetrics(
     val inventoryLeft: Int,
     val inventoryRight: Int,
     val inventoryBottom: Int,
+    /** The container's background box: `leftPos`, `topPos` and image size. */
+    val gui: GuiBox,
+    /** Another overlay hides the vanilla GUI and draws its own instead. */
+    val replaced: Boolean,
 )
+
+/** In GUI pixels. */
+data class GuiBox(val x: Int, val y: Int, val w: Int, val h: Int) {
+    val right: Int get() = x + w
+    val bottom: Int get() = y + h
+
+    fun intersects(other: GuiBox): Boolean = x < other.right && other.x < right && y < other.bottom && other.y < bottom
+
+    fun has(px: Int, py: Int): Boolean = hit(px, py, x, y, w, h)
+}
