@@ -71,6 +71,12 @@ interface MovementHost {
     /** Default 0.3. */
     val sneakingSpeed: Float
 
+    /** The physical key bound to [key] is down, read even while a screen keeps it from the game. */
+    fun isKeyDown(key: MoveKey): Boolean
+
+    /** The server last heard no movement keys, sneak or sprint, so a click or close now counts as standing still. */
+    val isStillForServer: Boolean
+
     fun stopSprinting()
 
     /** Blocks sprinting while a movement controller needs walking physics. */

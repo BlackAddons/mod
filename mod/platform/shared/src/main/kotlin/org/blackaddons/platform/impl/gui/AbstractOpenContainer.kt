@@ -3,7 +3,9 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen
 import net.minecraft.client.gui.screens.inventory.InventoryScreen
+import net.minecraft.network.protocol.game.ServerboundContainerClosePacket
 import net.minecraft.world.inventory.Slot
+import org.blackaddons.api.event.world.ClickKind
 import org.blackaddons.api.gui.CapturedPlayerInventory
 import org.blackaddons.api.gui.CapturedSlots
 import org.blackaddons.api.gui.OpenContainerHost
@@ -77,6 +79,20 @@ abstract class AbstractOpenContainer : OpenContainerHost {
 
     /** [quickMove] = shift-click. */
     protected abstract fun sendClick(containerId: Int, slotIndex: Int, button: Int, quickMove: Boolean)
+
+    final override fun click(slotIndex: Int, button: Int, kind: ClickKind) = onClient {
+        val menu = mc.player?.containerMenu ?: return@onClient
+        sendInput(menu.containerId, slotIndex, button, kind)
+    }
+
+    protected abstract fun sendInput(containerId: Int, slotIndex: Int, button: Int, kind: ClickKind)
+
+    override fun isCraftingGridEmpty(): Boolean = mc.player?.inventoryMenu?.craftSlots?.isEmpty ?: true
+
+    override fun closeSilently() = onClient {
+        val player = mc.player ?: return@onClient
+        player.connection.send(ServerboundContainerClosePacket(player.containerMenu.containerId))
+    }
 
     override fun chestSlotCount(): Int = chestSlots().size
 

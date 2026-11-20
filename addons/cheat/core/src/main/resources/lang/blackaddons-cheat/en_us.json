@@ -521,6 +521,16 @@
         }
       }
     },
+    "invwalk": {
+      "name": "InvWalk",
+      "desc": "Walk with your inventory open. You stop for item clicks and walk again once your cursor is empty.",
+      "setting": {
+        "resume_delay": {
+          "name": "Resume Delay",
+          "desc": "How long your cursor has to stay empty before you walk again. 0 walks again right away."
+        }
+      }
+    },
     "freecam": {
       "name": "Freecam",
       "desc": "Allows you to fly out of your body to inspect the world.",

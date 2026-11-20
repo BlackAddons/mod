@@ -8,12 +8,17 @@ import net.minecraft.client.multiplayer.chat.GuiMessage
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.network.chat.TextColor
+import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ServerboundChatCommandPacket
+import net.minecraft.network.protocol.game.ServerboundChatCommandSignedPacket
+import net.minecraft.network.protocol.game.ServerboundChatPacket
 import org.blackaddons.api.chat.ChatHost
 import org.blackaddons.api.chat.ChatLine
 import org.blackaddons.api.chat.ChatMessage
 import org.blackaddons.api.chat.ChatRetentions
 import org.blackaddons.api.chat.RevisableLine
+import org.blackaddons.api.event.EventBus
+import org.blackaddons.api.event.chat.ChatPacketEvent
 import org.blackaddons.platform.chat.ChatLines
 import org.blackaddons.platform.compat.chatComponent
 import org.blackaddons.platform.compat.openScreen
@@ -109,6 +114,36 @@ object MinecraftChat : ChatHost {
             }
         }
         connection.send(ServerboundChatCommandPacket(command))
+    }
+
+    private val held = ArrayList<Packet<*>>()
+    private var releasing = false
+
+    // Asks ChatPacketEvent listeners about a chat or command packet. True keeps it back.
+    fun hold(packet: Packet<*>): Boolean {
+        if (releasing) return false
+        val event = when (packet) {
+            is ServerboundChatPacket -> ChatPacketEvent(packet.message(), isCommand = false)
+            is ServerboundChatCommandPacket -> ChatPacketEvent(packet.command(), isCommand = true)
+            is ServerboundChatCommandSignedPacket -> ChatPacketEvent(packet.command(), isCommand = true)
+            else -> return false
+        }
+        if (!EventBus.post(event).held) return false
+        held += packet
+        return true
+    }
+
+    override fun releaseHeld() = onClient { mc ->
+        if (held.isEmpty()) return@onClient
+        val packets = held.toList()
+        held.clear()
+        val connection = mc.connection ?: return@onClient
+        releasing = true
+        try {
+            packets.forEach(connection::send)
+        } finally {
+            releasing = false
+        }
     }
 
     /** Handle to one line, bound once the client thread prints it. Revisions queue behind the print, nothing waits. */

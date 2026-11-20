@@ -521,6 +521,16 @@
         }
       }
     },
+    "invwalk": {
+      "name": "InvWalk",
+      "desc": "Camina con el inventario abierto. Te detienes al hacer clic en un objeto y vuelves a caminar cuando el cursor queda vacío.",
+      "setting": {
+        "resume_delay": {
+          "name": "Retraso de reanudación",
+          "desc": "Cuánto tiempo debe quedar vacío tu cursor antes de volver a caminar. 0 vuelve a caminar al instante."
+        }
+      }
+    },
     "freecam": {
       "name": "Freecam",
       "desc": "Te permite volar fuera de tu cuerpo para inspeccionar el mundo.",

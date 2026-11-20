@@ -307,6 +307,7 @@ public abstract interface class org/blackaddons/api/chat/ChatHost {
 	public abstract fun local (Ljava/lang/String;Ljava/awt/Color;)V
 	public abstract fun local (Lorg/blackaddons/api/chat/ChatMessage;)V
 	public fun openInput (Ljava/lang/String;)V
+	public abstract fun releaseHeld ()V
 	public abstract fun revisable (Lorg/blackaddons/api/chat/ChatMessage;)Lorg/blackaddons/api/chat/RevisableLine;
 	public abstract fun send (Ljava/lang/String;)V
 	public abstract fun sendCommand (Ljava/lang/String;)V
@@ -1011,6 +1012,14 @@ public final class org/blackaddons/api/event/chat/ChatMessageType : java/lang/En
 	public static fun values ()[Lorg/blackaddons/api/event/chat/ChatMessageType;
 }
 
+public final class org/blackaddons/api/event/chat/ChatPacketEvent : org/blackaddons/api/event/Event {
+	public fun <init> (Ljava/lang/String;Z)V
+	public final fun getHeld ()Z
+	public final fun getMessage ()Ljava/lang/String;
+	public final fun isCommand ()Z
+	public final fun setHeld (Z)V
+}
+
 public final class org/blackaddons/api/event/chat/ChatReceiveEvent : org/blackaddons/api/event/Event {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lorg/blackaddons/api/event/chat/ChatMessageType;Lkotlin/jvm/functions/Function0;)V
 	public final fun getChannel ()Lorg/blackaddons/api/chat/ChatChannel;
@@ -1695,6 +1704,14 @@ public final class org/blackaddons/api/event/world/GuiEvent$Open : org/blackaddo
 public abstract class org/blackaddons/api/event/world/InventoryEvent : org/blackaddons/api/event/Event {
 }
 
+public final class org/blackaddons/api/event/world/InventoryEvent$Close : org/blackaddons/api/event/world/InventoryEvent, org/blackaddons/api/event/Cancellable {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCancelled ()Z
+	public fun setCancelled (Z)V
+}
+
 public final class org/blackaddons/api/event/world/InventoryEvent$SlotClick : org/blackaddons/api/event/world/InventoryEvent, org/blackaddons/api/event/Cancellable {
 	public fun <init> (IILorg/blackaddons/api/event/world/ClickKind;Z)V
 	public synthetic fun <init> (IILorg/blackaddons/api/event/world/ClickKind;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -2340,10 +2357,13 @@ public abstract interface class org/blackaddons/api/gui/OpenContainerHost {
 	public abstract fun capturePlayerInventory ()Lorg/blackaddons/api/gui/CapturedPlayerInventory;
 	public abstract fun carriedItemRaw ()Ljava/lang/String;
 	public abstract fun chestSlotCount ()I
+	public abstract fun click (IILorg/blackaddons/api/event/world/ClickKind;)V
 	public abstract fun clickSlot (IIZ)V
 	public abstract fun close ()V
+	public abstract fun closeSilently ()V
 	public abstract fun hoveredItemRaw ()Ljava/lang/String;
 	public abstract fun interactionId ()Ljava/lang/Integer;
+	public abstract fun isCraftingGridEmpty ()Z
 	public abstract fun isPlayerInventoryOpen ()Z
 	public abstract fun moveChestSlot (III)V
 	public abstract fun openPlayerInventory ()V
@@ -3418,9 +3438,11 @@ public abstract interface class org/blackaddons/api/player/MovementHost {
 	public abstract fun isFallFlying ()Z
 	public abstract fun isInFluid ()Z
 	public abstract fun isItemUseChangingSpeed ()Z
+	public abstract fun isKeyDown (Lorg/blackaddons/api/player/MoveKey;)Z
 	public abstract fun isPassenger ()Z
 	public abstract fun isScreenOpen ()Z
 	public abstract fun isSprinting ()Z
+	public abstract fun isStillForServer ()Z
 	public fun setSprintBlocked (Z)V
 	public fun sneakNow ()V
 	public abstract fun stopSprinting ()V

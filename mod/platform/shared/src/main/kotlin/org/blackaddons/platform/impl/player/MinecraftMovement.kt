@@ -21,10 +21,12 @@ import org.blackaddons.api.player.MovementHost
 import org.blackaddons.api.world.ViewAngles
 import org.blackaddons.core.control.MovementControl
 import org.blackaddons.platform.Installable
+import org.blackaddons.platform.compat.NativeKeys
 import org.blackaddons.platform.compat.currentScreen
 import org.blackaddons.platform.event.impl.PacketEvent
 import org.blackaddons.platform.impl.player.rotation.MouseGrid
 import org.blackaddons.platform.mixin.control.LocalPlayerAccessor
+import org.blackaddons.platform.mixin.input.KeyMappingAccessor
 import org.blackaddons.platform.mixin.network.ServerboundMovePlayerPacketAccessor
 import org.blackaddons.platform.mixin.network.ServerboundUseItemPacketAccessor
 import org.blackaddons.platform.util.onClient
@@ -181,6 +183,28 @@ object MinecraftMovement : MovementHost, Installable {
 
     override val isScreenOpen: Boolean
         get() = mc.currentScreen != null
+
+    override fun isKeyDown(key: MoveKey): Boolean {
+        val options = mc.options
+        val mapping = when (key) {
+            MoveKey.FORWARD -> options.keyUp
+            MoveKey.BACKWARD -> options.keyDown
+            MoveKey.LEFT -> options.keyLeft
+            MoveKey.RIGHT -> options.keyRight
+            MoveKey.JUMP -> options.keyJump
+            MoveKey.SNEAK -> options.keyShift
+            MoveKey.SPRINT -> options.keySprint
+        }
+        return !mapping.isUnbound && NativeKeys.isDown((mapping as KeyMappingAccessor).`blackaddons$getBoundKey`())
+    }
+
+    override val isStillForServer: Boolean
+        get() {
+            val p = player ?: return true
+            val sent = p.lastSentInput
+            return !p.isSprinting && !sent.forward() && !sent.backward() && !sent.left() && !sent.right() &&
+                !sent.jump() && !sent.shift()
+        }
 
     override fun stopSprinting() = onClient {
         player?.isSprinting = false
