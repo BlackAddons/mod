@@ -138,10 +138,13 @@ internal class PortableExportModal(
         private const val MAX_LINES = 8
         private const val BOX_PAD = 6f
 
-        fun share(label: String, exported: String) = UiManager.push(PortableExportModal(
-            PortableImports.tr("share", "Share"),
-            PortableImports.tr("shared", "%s is on your clipboard.", label),
-            exported,
-        ))
+        fun share(label: String, exported: String, over: Boolean = false) {
+            val modal = PortableExportModal(
+                PortableImports.tr("share", "Share"),
+                PortableImports.tr("shared", "%s is on your clipboard.", label),
+                exported,
+            )
+            if (over) UiManager.overlay(modal) else UiManager.push(modal)
+        }
     }
 }

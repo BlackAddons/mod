@@ -45,7 +45,8 @@ internal object SkyblockItems {
     fun spec(id: String, components: String? = null): String? {
         val key = if (components == null) id else "$id|$components"
         specCache[key]?.let { return it }
-        if (':' in id) {
+        // Skyblock ids can hold a colon too (WOOD:4), but never lowercase.
+        if (NAMESPACED.matches(id)) {
             val body = components?.let { ""","components":{$it}""" } ?: ""
             return """{"id":"$id","count":1$body}""".also { specCache[key] = it }
         }
@@ -63,6 +64,9 @@ internal object SkyblockItems {
 
     /** The item's rarity, e.g. `LEGENDARY`, or null until the table is in. */
     fun tier(id: String): String? = items?.get(id)?.tier
+
+    /** Every Skyblock id, or null until the table is in. */
+    fun ids(): Set<String>? = items?.keys
 
     /** Once. Blocking. A failure leaves it null, so ids stay unresolved instead of wrong. */
     fun prefetch() {
@@ -125,6 +129,8 @@ internal object SkyblockItems {
         return """"minecraft:profile":{"id":[$id],"properties":[{"name":"textures","value":"$value"}]}"""
     }
 
+    private val NAMESPACED = Regex("[a-z0-9_.-]+:[a-z0-9_./-]+")
+
     private fun material(name: String, durability: Int): String {
         val keyed = if (durability != 0) "$name:$durability" else name
         (LEGACY[keyed] ?: LEGACY[name])?.let { return "minecraft:$it" }
@@ -185,5 +191,8 @@ internal object SkyblockItems {
         "EXPLOSIVE_MINECART" to "tnt_minecart", "COMMAND" to "command_block", "MOB_SPAWNER" to "spawner",
         "WATER_LILY" to "lily_pad", "BANNER" to "white_banner", "RAILS" to "rail", "GRASS" to "grass_block",
         "BURNING_FURNACE" to "furnace", "GOLDEN_APPLE:1" to "enchanted_golden_apple", "SKULL" to "player_head",
+        "ACACIA_DOOR_ITEM" to "acacia_door", "BIRCH_DOOR_ITEM" to "birch_door", "DARK_OAK_DOOR_ITEM" to "dark_oak_door",
+        "JUNGLE_DOOR_ITEM" to "jungle_door", "SPRUCE_DOOR_ITEM" to "spruce_door", "REDSTONE_LAMP_OFF" to "redstone_lamp",
+        "COBBLE_WALL" to "cobblestone_wall", "MONSTER_EGG" to "pig_spawn_egg",
     )
 }

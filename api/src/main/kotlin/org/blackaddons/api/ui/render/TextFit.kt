@@ -14,7 +14,8 @@ internal object TextFit {
          */
         val key = Cut(text, max, size.toFloat(), font)
         cuts[key]?.takeIf { Render.textWidth(it, size, font) <= max }?.let { return it }
-        return ellipsize(text, max) { Render.textWidth(it, size, font) }.also { cuts[key] = it }
+        val cut = ellipsize(text, max) { Render.textWidth(it, size, font) }
+        return cut.takeIf { Render.textWidth(it, size, font) <= max }.orEmpty().also { cuts[key] = it }
     }
 
     private data class Cut(val text: String, val maxWidth: Float, val size: Float, val font: Font)
@@ -50,7 +51,6 @@ internal object TextFit {
         for (rawWord in text.split(' ')) {
             if (rawWord.isEmpty()) continue
             var word = rawWord
-            // Chop words that can't fit on their own line.
             while (word.length > 1 && Render.textWidth(word, size, font) > limit) {
                 if (line.isNotEmpty()) { lines += line; line = "" }
                 val clusters = word.graphemes()

@@ -4,19 +4,24 @@ import org.blackaddons.api.gui.GuiBox
 import org.blackaddons.api.ui.anim.Animation
 import org.blackaddons.api.ui.icon.LucideIcons
 import org.blackaddons.api.ui.render.Render
+import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
+import org.blackaddons.api.ui.theme.Theme.withAlpha
+import org.blackaddons.api.util.color.lerpColor
 import java.awt.Color
 import java.util.IdentityHashMap
 import kotlin.math.min
 
+// Theme glass like a popover card, accent on hover; sizes scale from panel units to the GUI units drawn in here.
 internal object ButtonPainter {
 
-    const val RADIUS = 3f
     const val ICON_INSET = 1f
 
-    // Keyed by identity, since a duplicated button equals its original.
+    val radius: Float get() = Theme.RADIUS_SMALL * UiManager.normalizedScale
+
     private val pops = IdentityHashMap<InventoryButton, Animation>()
+    private val hovers = IdentityHashMap<InventoryButton, Animation>()
 
     fun pop(button: InventoryButton) {
         pops.getOrPut(button) { Animation(initial = 1f) }.apply {
@@ -25,7 +30,15 @@ internal object ButtonPainter {
         }
     }
 
-    fun clearPops() = pops.clear()
+    fun clearPops() {
+        pops.clear()
+        hovers.clear()
+    }
+
+    fun forget(buttons: List<InventoryButton>) = buttons.forEach {
+        pops.remove(it)
+        hovers.remove(it)
+    }
 
     fun drawButton(button: InventoryButton, box: GuiBox, hovered: Boolean, dropTarget: Boolean) {
         val scale = (pops[button]?.get() ?: 1f) * if (dropTarget) DROP_TARGET_SCALE else 1f
@@ -33,6 +46,7 @@ internal object ButtonPainter {
         val y = box.y.toFloat()
         val w = box.w.toFloat()
         val h = box.h.toFloat()
+        val t = hover(button, hovered || dropTarget)
         Render.push()
         if (scale != 1f) {
             Render.translate(x + w / 2f, y + h / 2f)
@@ -40,20 +54,24 @@ internal object ButtonPainter {
             Render.translate(-(x + w / 2f), -(y + h / 2f))
         }
         try {
-            Render.rect(x, y, w, h, if (hovered) Theme.SURFACE_HOVER else Theme.SURFACE, RADIUS)
-            val border = when {
-                dropTarget -> Theme.ACCENT
-                hovered -> Theme.TEXT_MUTED
-                else -> Theme.BORDER
-            }
-            Render.hollowRect(x, y, w, h, 1f, border, RADIUS)
-            drawContent(button, x, y, w, h)
+            drawGlass(x, y, w, h, t)
+            drawContent(button, x, y, w, h, lerpColor(Theme.TEXT_SECONDARY, Theme.TEXT_PRIMARY, t))
         } finally {
             Render.pop()
         }
     }
 
-    private fun drawContent(button: InventoryButton, x: Float, y: Float, w: Float, h: Float) {
+    private fun drawGlass(x: Float, y: Float, w: Float, h: Float, t: Float) {
+        Render.rect(x, y, w, h, Theme.BACKGROUND, radius)
+        val soft = Theme.ACCENT_SOFT
+        if (t > 0f) Render.rect(x, y, w, h, soft.withAlpha((soft.alpha * t).toInt()), radius)
+        Render.hollowRect(x, y, w, h, UiManager.normalizedScale, lerpColor(Theme.BORDER, Theme.ACCENT, t), radius)
+    }
+
+    private fun hover(button: InventoryButton, hovered: Boolean): Float =
+        hovers.getOrPut(button) { Animation(durationMs = Theme.ANIM_HOVER.toLong()) }.apply { animateTo(if (hovered) 1f else 0f) }.get()
+
+    private fun drawContent(button: InventoryButton, x: Float, y: Float, w: Float, h: Float, textColor: Color) {
         val spec = ButtonIcons.spec(button.icon)
         val iconSize = (min(w, h) - ICON_INSET * 2f).coerceAtLeast(0f)
         val label = button.label.trim()
@@ -68,9 +86,10 @@ internal object ButtonPainter {
         }
         val maxW = (x + w - ICON_INSET - textX).coerceAtLeast(0f)
         if (maxW <= 0f) return
-        val textW = Render.textWidth(label, LABEL_SIZE, Fonts.medium).coerceAtMost(maxW)
+        val size = Theme.FONT_SMALL * UiManager.normalizedScale
+        val textW = Render.textWidth(label, size, Fonts.medium).coerceAtMost(maxW)
         val tx = if (spec == null) x + (w - textW) / 2f else textX
-        Render.text(label, tx, Render.centerY(y, h, LABEL_SIZE, Fonts.medium), LABEL_SIZE, Theme.TEXT_PRIMARY, Fonts.medium, maxW)
+        Render.text(label, tx, Render.centerY(y, h, size, Fonts.medium), size, textColor, Fonts.medium, maxW)
     }
 
     fun drawPencil(box: GuiBox, hovered: Boolean, editMode: Boolean) {
@@ -78,24 +97,14 @@ internal object ButtonPainter {
         val y = box.y.toFloat()
         val w = box.w.toFloat()
         val h = box.h.toFloat()
-        val bg = when {
-            editMode -> Theme.ACCENT
-            hovered -> Theme.SURFACE_HOVER
-            else -> Theme.SURFACE
-        }
-        Render.rect(x, y, w, h, bg, RADIUS)
-        Render.hollowRect(x, y, w, h, 1f, if (editMode) Theme.ACCENT else Theme.BORDER, RADIUS)
-        val iconColor = when {
-            editMode -> Color.WHITE
-            hovered -> Theme.TEXT_PRIMARY
-            else -> Theme.TEXT_SECONDARY
-        }
+        val t = hover(InventoryButtonStore.pencil, hovered)
+        if (editMode) Render.rect(x, y, w, h, Theme.ACCENT, radius) else drawGlass(x, y, w, h, t)
         val size = min(w, h) * PENCIL_ICON_FILL
-        Render.icon(LucideIcons.pencil, x + (w - size) / 2f, y + (h - size) / 2f, size, iconColor)
+        val color = if (editMode) Theme.TEXT_PRIMARY else lerpColor(Theme.TEXT_SECONDARY, Theme.TEXT_PRIMARY, t)
+        Render.icon(LucideIcons.pencil, x + (w - size) / 2f, y + (h - size) / 2f, size, color)
     }
 
     private const val LABEL_GAP = 2f
-    private const val LABEL_SIZE = 8f
     private const val PENCIL_ICON_FILL = 2f / 3f
     private const val POP_SCALE = 1.15f
     private const val DROP_TARGET_SCALE = 1.08f

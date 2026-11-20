@@ -79,7 +79,8 @@ internal object InventoryButtonsOverlay : ContainerOverlay {
 
         if (UiManager.isOpen) return
         if (pencilHovered) {
-            Tooltip.show(if (editMode) tr("pencil.done", "Done editing") else tr("pencil.edit", "Edit buttons"))
+            val action = if (editMode) tr("pencil.done", "Done editing") else tr("pencil.edit", "Edit buttons")
+            Tooltip.show("$action\n" + tr("pencil.profiles", "Right-click: profiles"))
         } else if (!editMode && InventoryButtons.hoverTooltip.value) {
             hovered?.let { Tooltip.show(describe(it)) }
         }
@@ -98,6 +99,7 @@ internal object InventoryButtonsOverlay : ContainerOverlay {
         }
         if (pencilBox?.has(mx, my) == true) {
             if (mouse.isLeft) editMode = true
+            if (mouse.isRight) InventoryButtonMenus.forPencil(mouse)
             return true
         }
         val button = buttonAt(mx, my) ?: return false
@@ -156,6 +158,7 @@ internal object InventoryButtonsOverlay : ContainerOverlay {
         editMode = false
         editPending = false
         InventoryButtonEditor.reset()
+        InventoryButtonEditor.clearHistory()
         ButtonPainter.clearPops()
     }
 

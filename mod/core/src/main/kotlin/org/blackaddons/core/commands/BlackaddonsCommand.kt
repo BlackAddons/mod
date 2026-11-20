@@ -22,6 +22,8 @@ import org.blackaddons.core.backend.gateway.Gateway
 import org.blackaddons.core.chat.Brand
 import org.blackaddons.core.chat.brand
 import org.blackaddons.core.config.portable.PortableImports
+import org.blackaddons.core.features.impl.ui.inventorybuttons.InventoryButtonProfiles
+import org.blackaddons.core.features.impl.ui.inventorybuttons.InventoryButtonStore
 import org.blackaddons.core.features.impl.ui.inventorybuttons.InventoryButtons
 import org.blackaddons.core.features.impl.visual.fme.Fme
 import org.blackaddons.core.profile.RecentPlayers
@@ -103,6 +105,23 @@ object BlackaddonsCommand {
             subcommands("buttons", "invbuttons", "invbt") {
                 requires { InventoryButtons.isRunning }
                 execute { InventoryButtons.edit() }
+                subcommand("profile") {
+                    arg("profile", ArgType.GreedyStrArg) {
+                        suggests { InventoryButtonStore.profiles.map { it.name } }
+                        execute {
+                            val name = str("profile")
+                            val selected = InventoryButtonProfiles.selectNamed(name)
+                            reply(ChatMessage.build {
+                                brand()
+                                if (selected) {
+                                    append(I18n.trOr("blackaddons.inventory_buttons.command.selected", "Switched to button profile %s.", name), Brand.OK)
+                                } else {
+                                    append(I18n.trOr("blackaddons.inventory_buttons.command.not_found", "No button profile is named %s.", name), Brand.FAIL)
+                                }
+                            })
+                        }
+                    }
+                }
             }
 
             subcommand("link") {

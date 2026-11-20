@@ -14,14 +14,14 @@ internal object ButtonIcons {
 
         data class Give(val argument: String) : Icon
 
-        // Always the base64 textures value; a hash is converted while parsing.
         data class Skull(val textures: String) : Icon
     }
 
     // Only hits are cached, because the item table may still be loading.
     private val specs = LinkedHashMap<String, String>()
 
-    @Volatile private var itemTableRequested = false
+    @Volatile private var fetching = false
+    @Volatile private var lastRequestMs = 0L
 
     // Null until it can be drawn: bad text, no world yet, or the item table is still loading.
     fun spec(icon: String): String? {
@@ -51,10 +51,8 @@ internal object ButtonIcons {
         val give = GIVE.find(trimmed)
         if (give != null) return give.groupValues[1].trim().takeIf { it.isNotEmpty() }?.let(Icon::Give)
         if ('[' in trimmed) return Icon.Give(trimmed)
-        if (':' in trimmed || trimmed != trimmed.uppercase()) {
-            return Icon.Vanilla(if (':' in trimmed) trimmed.lowercase() else "minecraft:${trimmed.lowercase()}")
-        }
-        return Icon.SkyblockId(trimmed)
+        if (trimmed == trimmed.uppercase()) return Icon.SkyblockId(trimmed)
+        return Icon.Vanilla(if (':' in trimmed) trimmed.lowercase() else "minecraft:${trimmed.lowercase()}")
     }
 
     // A head keeps its skin; anything else is stored by Skyblock id, or by vanilla id.
@@ -78,14 +76,27 @@ internal object ButtonIcons {
         return Base64.getEncoder().encodeToString(json.toByteArray())
     }
 
-    private fun requestItemTable() {
-        if (itemTableRequested) return
-        itemTableRequested = true
-        Workers.start("inventory-button-items") { SkyblockItems.prefetch() }
+    // Retried, since the fetch needs the backend login, which can come later than the first icon.
+    fun requestItemTable() {
+        if (fetching || SkyblockItems.ids() != null) return
+        val now = System.currentTimeMillis()
+        if (now - lastRequestMs < RETRY_MS) return
+        lastRequestMs = now
+        fetching = true
+        Workers.start("inventory-button-items") {
+            try {
+                SkyblockItems.prefetch()
+            } finally {
+                fetching = false
+            }
+        }
     }
+
+    val itemTableFailed: Boolean get() = !fetching && lastRequestMs != 0L && SkyblockItems.ids() == null
 
     private const val SKULL_PREFIX = "skull:"
     private const val MAX_CACHED = 256
+    private const val RETRY_MS = 15_000L
     private val TEXTURE_HASH = Regex("[0-9a-fA-F]{32,64}")
 
     // "/give @s stone" or "give Steve stone"; the target is ignored.

@@ -1708,6 +1708,10 @@
           "name": "Skyblock Only",
           "desc": "Shows the buttons only on Skyblock. Edit mode works anywhere."
         },
+        "picker_rarity_colors": {
+          "name": "Picker Rarity Colors",
+          "desc": "Tints the item picker's cells by rarity."
+        },
         "edit_key": {
           "name": "Edit Key",
           "desc": "Toggles edit mode in an open container, or opens your inventory in it."
@@ -1716,6 +1720,11 @@
           "name": "Edit Buttons",
           "desc": "Opens your inventory in edit mode. Also /b buttons.",
           "label": "Edit"
+        },
+        "profiles": {
+          "name": "Profiles",
+          "desc": "Switch, create, share or delete button profiles. Also on the pencil's right-click, or /b buttons profile <name>.",
+          "label": "Manage"
         }
       }
     }
@@ -2702,7 +2711,16 @@
       "changed": "%d cambios:",
       "missing": "Se omiten %d funciones que este juego no tiene."
     },
-    "share_hint": "Lo importan desde el mismo menú o con /b import."
+    "share_hint": "Lo importan desde el mismo menú o con /b import.",
+    "inventory_buttons": {
+      "title": "Import inventory buttons",
+      "noun": "inventory buttons",
+      "err_empty": "That string has no buttons in it.",
+      "row_shortcut": "Shortcut",
+      "row_shortcut_missing": "Shortcut this game doesn't have",
+      "row_unnamed": "Button %d",
+      "imported_name": "Imported"
+    }
   },
   "screenshots": {
     "send": "Enviar al chat",
@@ -3253,7 +3271,8 @@
     },
     "pencil": {
       "edit": "Edit buttons",
-      "done": "Done editing"
+      "done": "Done editing",
+      "profiles": "Right-click: profiles"
     },
     "tooltip": {
       "shortcut": "Shortcut: %s",
@@ -3268,7 +3287,12 @@
       "new": "New button here",
       "always_grid": "Always show grid",
       "remove_all": "Remove all buttons here",
-      "remove_all_confirm": "Remove every button shown on this screen?"
+      "remove_all_confirm": "Remove every button shown on this screen?",
+      "delete_many": "Delete %d buttons",
+      "delete_many_confirm": "Delete these %d buttons?",
+      "snap": "Snap to buttons",
+      "share_here": "Share buttons on this screen",
+      "manage_profiles": "Manage profiles..."
     },
     "editor": {
       "caption": {
@@ -3294,7 +3318,24 @@
         "title": "Title contains"
       },
       "title_hint": "Part of the container title",
-      "done": "Done"
+      "done": "Done",
+      "pick_icon": "Pick an item"
+    },
+    "hint_select": "Ctrl+click or drag a box: select several · Alt: toggle snapping to buttons · Del: delete · Ctrl+D: duplicate · Ctrl+Z: undo",
+    "selected": "%d selected",
+    "share_label": "The share string",
+    "picker": {
+      "search_hint": "Search by name or id",
+      "loading": "Loading items...",
+      "no_match": "No items match",
+      "failed": "Couldn't load the item list. Trying again..."
+    },
+    "profiles": {
+      "title": "Inventory Button Profiles"
+    },
+    "command": {
+      "selected": "Switched to button profile %s.",
+      "not_found": "No button profile is named %s."
     }
   }
 }

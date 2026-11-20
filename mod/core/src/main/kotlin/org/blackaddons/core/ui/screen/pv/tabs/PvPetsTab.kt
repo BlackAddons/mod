@@ -25,6 +25,7 @@ import org.blackaddons.api.ui.widget.WidgetHost
 import org.blackaddons.api.util.I18n
 import org.blackaddons.core.profile.pets.PetLeveling
 import org.blackaddons.core.skyblock.SkyblockItems
+import org.blackaddons.core.skyblock.rarityColor
 import org.blackaddons.core.ui.screen.pv.PvFormat
 import org.blackaddons.core.ui.screen.pv.parts.PvIcons
 import org.blackaddons.core.ui.screen.pv.parts.PvProgressCard
@@ -286,15 +287,6 @@ internal class PvPetsTab {
 
         private fun prettyName(type: String): String = type.lowercase().split('_').joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
         private fun rarityRank(tier: String): Int = listOf("COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY", "MYTHIC", "SPECIAL", "VERY_SPECIAL").indexOf(tier.uppercase())
-        private fun rarityColor(tier: String): Color = when (tier.uppercase()) {
-            "UNCOMMON" -> Color(85, 255, 85)
-            "RARE" -> Color(85, 85, 255)
-            "EPIC" -> Color(170, 85, 255)
-            "LEGENDARY" -> Color(255, 170, 0)
-            "MYTHIC" -> Color(255, 85, 255)
-            "SPECIAL", "VERY_SPECIAL" -> Color(255, 85, 85)
-            else -> Theme.TEXT_SECONDARY
-        }
 
         private const val LIST_PORTION = 0.64f
         private const val ICON_SIZE = 38f

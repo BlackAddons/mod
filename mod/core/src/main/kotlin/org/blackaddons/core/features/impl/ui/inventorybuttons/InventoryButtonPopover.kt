@@ -1,7 +1,9 @@
 package org.blackaddons.core.features.impl.ui.inventorybuttons
 
+import org.blackaddons.api.ui.icon.LucideIcons
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Popover
+import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
@@ -114,12 +116,20 @@ internal class InventoryButtonPopover(
     private fun iconRow(x: Float, y: Float, w: Float, mouseX: Float, mouseY: Float) {
         icon.render(x, y, w - FIELD_H - Theme.PADDING_SMALL, FIELD_H, mouseX, mouseY)
         val px = x + w - FIELD_H
-        Render.rect(px, y, FIELD_H, FIELD_H, Theme.SURFACE, Theme.RADIUS_SMALL)
-        Render.hollowRect(px, y, FIELD_H, FIELD_H, 1f, Theme.BORDER, Theme.RADIUS_SMALL)
-        ButtonIcons.spec(button.icon)?.let {
-            val inset = (FIELD_H - PREVIEW) / 2f
-            Render.itemSpec(it, px + inset, y + inset, PREVIEW, PREVIEW)
+        val hovered = widgets.clickable(px, y, FIELD_H, FIELD_H) {
+            UiManager.push(IconPicker(card.x, card.x + card.w, y, button.icon) { icon.text = it })
         }
+        Render.rect(px, y, FIELD_H, FIELD_H, if (hovered) Theme.SURFACE_HOVER else Theme.SURFACE, Theme.RADIUS_SMALL)
+        Render.hollowRect(px, y, FIELD_H, FIELD_H, 1f, if (hovered) Theme.TEXT_MUTED else Theme.BORDER, Theme.RADIUS_SMALL)
+        val spec = ButtonIcons.spec(button.icon)
+        if (spec != null) {
+            val inset = (FIELD_H - PREVIEW) / 2f
+            Render.itemSpec(spec, px + inset, y + inset, PREVIEW, PREVIEW)
+        } else {
+            val inset = (FIELD_H - EMPTY_ICON) / 2f
+            Render.icon(LucideIcons.image, px + inset, y + inset, EMPTY_ICON, if (hovered) Theme.TEXT_PRIMARY else Theme.TEXT_MUTED)
+        }
+        if (hovered) Tooltip.show(tr("pick_icon", "Pick an item"))
     }
 
     override fun renderOverlay(mouseX: Float, mouseY: Float) {
@@ -141,6 +151,7 @@ internal class InventoryButtonPopover(
         const val CAPTION_GAP = 2f
         const val ROW_GAP = 6f
         const val PREVIEW = 16f
+        const val EMPTY_ICON = 12f
         const val GAP = 4f
         const val RISE = 4f
     }

@@ -26,12 +26,12 @@ internal object PortableImports {
         return AnyImport.Opens { open(kind, document) }
     }
 
-    fun <T> open(kind: PortableKind<T>, text: String, onApplied: (T) -> Unit = kind::afterImport) {
-        val preview = when (val read = Portable.decode(text)) {
-            is PortableRead.Document -> previewAs(kind, read)
-            else -> ImportPreview.Failed(failureMessage(read))
-        }
-        UiManager.push(PortableImportModal(kind.title, preview, onApplied))
+    fun <T> open(kind: PortableKind<T>, text: String, onApplied: (T) -> Unit = kind::afterImport) =
+        UiManager.push(PortableImportModal(kind.title, preview(kind, text), onApplied))
+
+    fun <T> preview(kind: PortableKind<T>, text: String): ImportPreview<T> = when (val read = Portable.decode(text)) {
+        is PortableRead.Document -> previewAs(kind, read)
+        else -> ImportPreview.Failed(failureMessage(read))
     }
 
     fun <T> open(kind: PortableKind<T>, preview: ImportPreview<T>, onApplied: (T) -> Unit = kind::afterImport) =

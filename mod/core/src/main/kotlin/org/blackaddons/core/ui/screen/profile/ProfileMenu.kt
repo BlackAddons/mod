@@ -15,9 +15,12 @@ import org.blackaddons.core.ui.screen.portable.PortableExportModal
 internal object ProfileMenu {
     val tr = I18n.scope("blackaddons.profiles")
 
-    fun open(store: ProfileStore, changed: () -> Unit, extra: List<ContextMenu.Entry> = emptyList()) {
+    fun open(store: ProfileStore, changed: () -> Unit, extra: List<ContextMenu.Entry> = emptyList()) =
+        UiManager.contextMenu(entries(store, changed, extra))
+
+    fun entries(store: ProfileStore, changed: () -> Unit, extra: List<ContextMenu.Entry> = emptyList()): List<ContextMenu.Entry> {
         val active = store.active
-        UiManager.contextMenu(buildList {
+        return buildList {
             store.profiles.forEach { profile ->
                 add(ContextMenu.Item(profile.name, LucideIcons.usersRound, enabled = profile.id != active.id) {
                     store.select(profile.id)
@@ -29,18 +32,18 @@ internal object ProfileMenu {
                 store.create(tr("new_name", "New Profile"), copyCurrent = false)
                 changed()
                 // Straight to naming, because nobody keeps "New Profile".
-                UiManager.push(ProfilesModal(store, changed))
+                UiManager.overlay(ProfilesModal(store, changed))
             })
             add(ContextMenu.Item(tr("duplicate", "Duplicate Profile"), LucideIcons.copy) {
                 store.create(tr("copy_name", "%s (Copy)", active.name), copyCurrent = true)
                 changed()
             })
             add(ContextMenu.Item(tr("manage", "Rename / Manage..."), LucideIcons.settings) {
-                UiManager.push(ProfilesModal(store, changed))
+                UiManager.overlay(ProfilesModal(store, changed))
             })
             add(ContextMenu.Separator)
             add(ContextMenu.Item(PortableImports.tr("share_profile", "Share profile"), LucideIcons.share) {
-                store.export()?.let { PortableExportModal.share(active.name, it) }
+                store.export()?.let { PortableExportModal.share(active.name, it, over = true) }
             })
             add(ContextMenu.Item(PortableImports.tr("paste", "Paste from clipboard"), LucideIcons.clipboardPaste) {
                 store.paste(Platform.clipboard.paste(), changed)
@@ -55,6 +58,6 @@ internal object ProfileMenu {
                     changed()
                 })
             }
-        })
+        }
     }
 }

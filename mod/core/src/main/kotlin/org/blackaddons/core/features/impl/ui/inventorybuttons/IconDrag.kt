@@ -56,7 +56,7 @@ internal class IconDrag(val raw: String, private var x: Float, private var y: Fl
         val top = cy - size / 2f
         Render.globalAlpha(alpha)
         try {
-            Render.dropShadow(left, top, size, size, SHADOW_BLUR, 0f, ButtonPainter.RADIUS, Color(0, 0, 0, SHADOW_ALPHA))
+            Render.dropShadow(left, top, size, size, SHADOW_BLUR, 0f, ButtonPainter.radius, Color(0, 0, 0, SHADOW_ALPHA))
             Render.itemSpec(raw, left, top, size, size)
         } finally {
             Render.globalAlpha(1f)

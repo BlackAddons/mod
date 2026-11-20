@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import org.blackaddons.api.util.io.Portable
 import org.blackaddons.api.util.io.bool
 import org.blackaddons.core.actions.ActionPortable
+import org.blackaddons.core.features.impl.ui.inventorybuttons.InventoryButtonPortable
 import org.blackaddons.core.features.impl.visual.fme.FmePortable
 import org.blackaddons.core.font.FontPortable
 import org.blackaddons.core.theme.ThemePortable
@@ -82,7 +83,9 @@ internal abstract class PortableKind<T>(val kind: String) {
 
 internal object PortableKinds {
 
-    val all: List<PortableKind<*>> get() = listOf(ThemePortable, FeatureSettingsKind(), ActionPortable, FmePortable, ConfigPortable, FontPortable)
+    val all: List<PortableKind<*>> get() = listOf(
+        ThemePortable, FeatureSettingsKind(), ActionPortable, FmePortable, ConfigPortable, FontPortable, InventoryButtonPortable,
+    )
 
     fun byKind(kind: String): PortableKind<*>? = all.firstOrNull { it.kind == kind }
 }

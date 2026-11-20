@@ -87,6 +87,7 @@ class InventoryButtonsTest {
     @Test
     fun `icon text picks its kind`() {
         assertEquals(ButtonIcons.Icon.SkyblockId("HYPERION"), ButtonIcons.parse(" HYPERION "))
+        assertEquals(ButtonIcons.Icon.SkyblockId("WOOD:4"), ButtonIcons.parse("WOOD:4"))
         assertEquals(ButtonIcons.Icon.Vanilla("minecraft:diamond"), ButtonIcons.parse("diamond"))
         assertEquals(ButtonIcons.Icon.Vanilla("minecraft:ender_chest"), ButtonIcons.parse("minecraft:ender_chest"))
         assertEquals(ButtonIcons.Icon.Give("stone[enchantment_glint_override=true]"), ButtonIcons.parse("/give @s stone[enchantment_glint_override=true]"))

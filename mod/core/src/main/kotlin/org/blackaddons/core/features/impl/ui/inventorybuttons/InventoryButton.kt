@@ -7,10 +7,7 @@ internal enum class ButtonRuns { COMMAND, SHORTCUT }
 
 internal enum class ButtonScope { INVENTORY, ALL_CONTAINERS, TITLE }
 
-/*
- * x and y are offsets from the container's left or right and top or bottom edges. That's NEU's model, so its
- * NEUBUTTONS presets can be imported later.
- */
+// x and y are offsets from the container's left or right and top or bottom edges.
 internal data class InventoryButton(
     var x: Int = 0,
     var y: Int = 0,
@@ -34,7 +31,7 @@ internal data class InventoryButton(
     companion object {
         const val DEFAULT_SIZE = 18
         const val MIN_SIZE = 10
-        const val MAX_SIZE = 64
+        const val MAX_SIZE = 256
     }
 }
 
