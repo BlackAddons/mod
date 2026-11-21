@@ -4,7 +4,6 @@ import org.blackaddons.api.gui.GuiBox
 import org.blackaddons.api.ui.anim.Animation
 import org.blackaddons.api.ui.icon.LucideIcons
 import org.blackaddons.api.ui.render.Render
-import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
@@ -13,12 +12,12 @@ import java.awt.Color
 import java.util.IdentityHashMap
 import kotlin.math.min
 
-// Theme glass like a popover card, accent on hover; sizes scale from panel units to the GUI units drawn in here.
+// Theme glass like a popover card, accent on hover; everything in GUI units so it scales with the container.
 internal object ButtonPainter {
 
     const val ICON_INSET = 1f
 
-    val radius: Float get() = Theme.RADIUS_SMALL * UiManager.normalizedScale
+    val radius = Theme.RADIUS_SMALL
 
     private val pops = IdentityHashMap<InventoryButton, Animation>()
     private val hovers = IdentityHashMap<InventoryButton, Animation>()
@@ -65,7 +64,7 @@ internal object ButtonPainter {
         Render.rect(x, y, w, h, Theme.BACKGROUND, radius)
         val soft = Theme.ACCENT_SOFT
         if (t > 0f) Render.rect(x, y, w, h, soft.withAlpha((soft.alpha * t).toInt()), radius)
-        Render.hollowRect(x, y, w, h, UiManager.normalizedScale, lerpColor(Theme.BORDER, Theme.ACCENT, t), radius)
+        Render.hollowRect(x, y, w, h, 1f, lerpColor(Theme.BORDER, Theme.ACCENT, t), radius)
     }
 
     private fun hover(button: InventoryButton, hovered: Boolean): Float =
@@ -86,7 +85,7 @@ internal object ButtonPainter {
         }
         val maxW = (x + w - ICON_INSET - textX).coerceAtLeast(0f)
         if (maxW <= 0f) return
-        val size = Theme.FONT_SMALL * UiManager.normalizedScale
+        val size = Theme.FONT_SMALL
         val textW = Render.textWidth(label, size, Fonts.medium).coerceAtMost(maxW)
         val tx = if (spec == null) x + (w - textW) / 2f else textX
         Render.text(label, tx, Render.centerY(y, h, size, Fonts.medium), size, textColor, Fonts.medium, maxW)

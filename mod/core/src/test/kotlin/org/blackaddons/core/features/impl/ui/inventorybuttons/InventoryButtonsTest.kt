@@ -73,6 +73,24 @@ class InventoryButtonsTest {
     }
 
     @Test
+    fun `a button with no room on its side moves to a side it fits`() {
+        // Kept on screen above, it would land on the GUI.
+        val button = InventoryButton(y = -60, width = 100, height = 60)
+
+        assertEquals(GuiBox(52, 0, 100, 60), placeButton(button, inventory, SCREEN_W, SCREEN_H))
+    }
+
+    @Test
+    fun `a button too big for every side shrinks beside the GUI`() {
+        val button = InventoryButton(x = -200, width = 200, height = 100)
+        val box = placeButton(button, inventory, SCREEN_W, SCREEN_H)
+
+        assertEquals(GuiBox(0, 57, 152, 76), box)
+        assertFalse(box.intersects(inventory))
+        assertEquals(200, button.width)
+    }
+
+    @Test
     fun `buttons stay on screen`() {
         assertEquals(GuiBox(0, SCREEN_H - 18, 18, 18), keepOnScreen(GuiBox(-30, SCREEN_H + 5, 18, 18), SCREEN_W, SCREEN_H))
     }
