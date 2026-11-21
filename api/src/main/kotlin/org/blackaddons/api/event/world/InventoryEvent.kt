@@ -15,6 +15,9 @@ sealed class InventoryEvent : Event() {
         val kind: ClickKind,
         override var cancelled: Boolean = false,
     ) : InventoryEvent(), Cancellable
+
+    /** The client is about to tell the server the open menu closed. Cancelling keeps the packet back, the screen still closes. */
+    class Close(override var cancelled: Boolean = false) : InventoryEvent(), Cancellable
 }
 
 enum class ClickKind {

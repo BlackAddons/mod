@@ -1,5 +1,6 @@
 package org.blackaddons.api.gui
 
+import org.blackaddons.api.event.world.ClickKind
 import org.blackaddons.api.world.ItemHost
 
 /** Reads and drives the open container screen. [ItemHost] owns the raw item format, [ScreenDraw] draws. */
@@ -25,6 +26,15 @@ interface OpenContainerHost {
 
     /** Clicks a slot like the player would ([button] 0=left/1=right; [quickMove] = shift). No-op if out of range. */
     fun clickSlot(slotIndex: Int, button: Int, quickMove: Boolean)
+
+    /** Sends a click of any [kind] like the player's own, outside the slots (-999) too. No-op for [ClickKind.UNKNOWN]. */
+    fun click(slotIndex: Int, button: Int, kind: ClickKind)
+
+    /** The player's 2x2 crafting grid. Closing the inventory empties it into the inventory server-side. */
+    fun isCraftingGridEmpty(): Boolean
+
+    /** Tells the server the open menu closed but keeps the screen open. */
+    fun closeSilently()
 
     /** Same set and order as [capture]; 0 if nothing is open. */
     fun chestSlotCount(): Int

@@ -22,6 +22,9 @@ interface ChatHost {
      */
     fun sendCommand(command: String)
 
+    /** Sends the packets a [org.blackaddons.api.event.chat.ChatPacketEvent] listener held, in order. */
+    fun releaseHeld()
+
     /** Newest first. On the client thread this is the live list; on any other thread it is a copy. */
     val lines: List<ChatLine> get() = emptyList()
 

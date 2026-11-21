@@ -15,6 +15,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.network.chat.Component
 import net.minecraft.network.protocol.common.ClientboundPingPacket
 import net.minecraft.network.protocol.game.ClientboundBossEventPacket
+import net.minecraft.network.protocol.game.ServerboundContainerClosePacket
 import net.minecraft.world.BossEvent
 import net.minecraft.world.InteractionResult
 import org.blackaddons.api.event.ClientTickEvent
@@ -35,6 +36,7 @@ import org.blackaddons.api.event.world.BossBarEvent
 import org.blackaddons.api.event.world.ChunkEvent
 import org.blackaddons.api.event.world.EntityInteractEvent
 import org.blackaddons.api.event.world.GuiEvent
+import org.blackaddons.api.event.world.InventoryEvent
 import org.blackaddons.api.hud.HudEditorMode
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.core.feature.FeatureManager
@@ -45,6 +47,7 @@ import org.blackaddons.platform.compat.registerWorldPass
 import org.blackaddons.platform.event.impl.PacketEvent
 import org.blackaddons.platform.event.impl.RenderOverlayEvent
 import org.blackaddons.platform.event.impl.ScreenEvent
+import org.blackaddons.platform.impl.chat.MinecraftChat
 import org.blackaddons.platform.impl.player.MinecraftInteraction
 import org.blackaddons.platform.impl.world.EntitySnapshots
 import org.blackaddons.platform.impl.world.EntityView
@@ -62,6 +65,13 @@ object EventEmitters {
 
         emitServerTicks()
         emitBossBars()
+
+        EventListener(PacketEvent.C2S.Pre::class.java, EventPriority.LOWEST) {
+            if (event.packet is ServerboundContainerClosePacket && EventBus.post(InventoryEvent.Close()).cancelled) {
+                event.cancelled = true
+            }
+            if (!event.cancelled && MinecraftChat.hold(event.packet)) event.cancelled = true
+        }.register()
 
         ClientLevelEvents.AFTER_CLIENT_LEVEL_CHANGE.register { _, _ -> EventBus.post(WorldChangeEvent) }
         ClientPlayConnectionEvents.JOIN.register { _, _, client -> EventBus.post(ServerJoinEvent(client.currentServer?.ip)) }
