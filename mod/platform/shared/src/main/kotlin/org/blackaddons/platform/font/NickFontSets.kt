@@ -72,7 +72,6 @@ internal object NickFontSets {
         val sets = (manager as FontManagerAccessor).`blackaddons$getFontSets`()
 
         var family = families[font.familyKey]
-        // A resource reload closed it along with every other set.
         if (family != null && sets[family.id] !== family.set) {
             families.remove(font.familyKey)
             family = null
@@ -103,8 +102,7 @@ internal object NickFontSets {
         if (providers.isEmpty()) return null
         access.`blackaddons$getProvidersToClose`().addAll(loaded.values)
 
-        val conditional = providers.values.map { GlyphProvider.Conditional(it, FontOption.Filter.ALWAYS_PASS) } +
-            fallback(sets[Minecraft.DEFAULT_FONT])
+        val conditional = conditional(providers, sets[Minecraft.DEFAULT_FONT])
         val options = FontManagerAccessor.`blackaddons$getFontOptions`(Minecraft.getInstance().options)
         val id = old?.id ?: modId(NICK_PREFIX + font.familyKey)
         val set = if (old != null) old.set.also { it.reload(conditional, options) }
@@ -115,6 +113,21 @@ internal object NickFontSets {
             if (old == null) evict(access)
         }
     }
+
+    /*
+     * The global font swapped the default set's providers and closes the old ones right after. Every family still has
+     * the old list as its fallback, so point them at the new one first or a missing letter reads a freed FreeType face.
+     */
+    fun defaultFontChanged(access: FontManagerAccessor) {
+        val sets = access.`blackaddons$getFontSets`()
+        families.values.removeIf { sets[it.id] !== it.set }
+        if (families.isEmpty()) return
+        val options = FontManagerAccessor.`blackaddons$getFontOptions`(Minecraft.getInstance().options)
+        families.values.forEach { it.set.reload(conditional(it.providers, sets[Minecraft.DEFAULT_FONT]), options) }
+    }
+
+    private fun conditional(providers: Map<String, GlyphProvider>, default: FontSet?): List<GlyphProvider.Conditional> =
+        providers.values.map { GlyphProvider.Conditional(it, FontOption.Filter.ALWAYS_PASS) } + fallback(default)
 
     // The game's own font goes behind ours, so a letter the subsets don't have gets drawn instead of shown as a box.
     private fun fallback(default: FontSet?): List<GlyphProvider.Conditional> =

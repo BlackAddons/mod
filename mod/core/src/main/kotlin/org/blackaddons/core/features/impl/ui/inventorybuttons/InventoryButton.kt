@@ -1,6 +1,7 @@
 package org.blackaddons.core.features.impl.ui.inventorybuttons
 
 import org.blackaddons.api.gui.GuiBox
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 internal enum class ButtonRuns { COMMAND, SHORTCUT }
@@ -40,8 +41,40 @@ internal fun placeButton(button: InventoryButton, gui: GuiBox, screenW: Int, scr
     val x = (if (button.anchorRight) gui.right else gui.x) + button.x
     val y = (if (button.anchorBottom) gui.bottom else gui.y) + button.y
     val box = GuiBox(x, y, button.width, button.height)
-    return keepOnScreen(if (button.insideGui) box else pushOut(box, gui), screenW, screenH)
+    return if (button.insideGui) keepOnScreen(box, screenW, screenH) else placeOutside(box, gui, screenW, screenH)
 }
+
+/*
+ * Beside the GUI on the nearest side it fits; with no room on any side, shrunk into the side where it can be biggest,
+ * so a big button in a small window doesn't land on the slots. Display only, the saved size stays.
+ */
+internal fun placeOutside(box: GuiBox, gui: GuiBox, screenW: Int, screenH: Int): GuiBox {
+    val kept = keepOnScreen(pushOut(box, gui), screenW, screenH)
+    if (!kept.intersects(gui)) return kept
+    val sides = freeSides(box, gui, screenW, screenH)
+    sides.firstOrNull { box.w <= it.w && box.h <= it.h }?.let { return clampInto(box, it) }
+    val best = sides.maxBy { fitScale(box, it) }
+    val scale = fitScale(box, best)
+    if (scale <= 0f) return kept
+    val w = (box.w * scale).roundToInt()
+    val h = (box.h * scale).roundToInt()
+    return clampInto(GuiBox(box.x + (box.w - w) / 2, box.y + (box.h - h) / 2, w, h), best)
+}
+
+// The screen strips above, below, left and right of the GUI, nearest to the box first.
+private fun freeSides(box: GuiBox, gui: GuiBox, screenW: Int, screenH: Int): List<GuiBox> = listOf(
+    box.bottom - gui.y to GuiBox(0, 0, screenW, gui.y),
+    gui.bottom - box.y to GuiBox(0, gui.bottom, screenW, screenH - gui.bottom),
+    box.right - gui.x to GuiBox(0, 0, gui.x, screenH),
+    gui.right - box.x to GuiBox(gui.right, 0, screenW - gui.right, screenH),
+).sortedBy { it.first }.map { it.second }
+
+private fun fitScale(box: GuiBox, area: GuiBox): Float = min(area.w.toFloat() / box.w, area.h.toFloat() / box.h)
+
+private fun clampInto(box: GuiBox, area: GuiBox): GuiBox = box.copy(
+    x = box.x.coerceIn(area.x, (area.right - box.w).coerceAtLeast(area.x)),
+    y = box.y.coerceIn(area.y, (area.bottom - box.h).coerceAtLeast(area.y)),
+)
 
 // A button dropped with its center on the GUI stays there; otherwise it is pushed off.
 internal fun settleButton(button: InventoryButton, at: GuiBox, gui: GuiBox, screenW: Int, screenH: Int) {

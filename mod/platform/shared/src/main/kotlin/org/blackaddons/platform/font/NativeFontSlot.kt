@@ -168,6 +168,7 @@ internal class NativeFontSlot(private val fontId: Identifier) {
         resetAtlasStats()
         set.reload(conditional, options)
         fontRevision++
+        NickFontSets.defaultFontChanged(managerAccess)
         owned.removeAll(old.toSet())
         owned.addAll(providers)
         old.forEach(StyledGlyphProvider::close)
@@ -187,6 +188,7 @@ internal class NativeFontSlot(private val fontId: Identifier) {
         resetAtlasStats()
         set.reload(baseProviders(set), FontManagerAccessor.`blackaddons$getFontOptions`(mc.options))
         fontRevision++
+        NickFontSets.defaultFontChanged(manager)
         manager.`blackaddons$getProvidersToClose`().removeAll(old.toSet())
         old.forEach(StyledGlyphProvider::close)
         activeProviders = emptyList()
