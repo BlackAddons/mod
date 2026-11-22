@@ -209,6 +209,18 @@
         "swap_back": {
           "name": "Swap Back",
           "desc": "Put the slot you were holding back after the cast. Off leaves you on the wand."
+        },
+        "min_swap_delay": {
+          "name": "Min Swap Delay",
+          "desc": "Shortest wait between taking the wand and clicking, and again before swapping back. One tick is the floor: the server has to see the wand before the click."
+        },
+        "max_swap_delay": {
+          "name": "Max Swap Delay",
+          "desc": "Longest wait. Each wait is drawn fresh between the two."
+        },
+        "wait_for_rod": {
+          "name": "Wait For Rod",
+          "desc": "Hold off while your fishing line is out, and for a moment after you reel in. Swapping off the rod would pull the line."
         }
       }
     },

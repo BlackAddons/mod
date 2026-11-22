@@ -41,6 +41,7 @@ import org.blackaddons.core.gamedata.LevelingTables
 import org.blackaddons.core.gamedata.SkillCaps
 import org.blackaddons.core.gamedata.SkyblockAreas
 import org.blackaddons.core.hypixel.CoreParty
+import org.blackaddons.core.interaction.FishingTracker
 import org.blackaddons.core.log.Log
 import org.blackaddons.core.platform.CoreHosts
 import org.blackaddons.core.profile.friends.FriendListWatcher
@@ -127,6 +128,7 @@ class BlackaddonsClient : ClientModInitializer {
         CoreElection.start()
         PartyInfoChannel.install()
         StatsTracker.start()
+        FishingTracker.start()
         LocationChanges.start()
         ContainerTasks.install()
 

@@ -13,6 +13,11 @@ class AutoFireVeilTest {
     }
 
     @Test
+    fun `reads the mana cost through Hypixel's color codes`() {
+        assertEquals(300, manaCost(listOf("§8Mana Cost: §3300")))
+    }
+
+    @Test
     fun `no mana cost line means no cost`() {
         assertNull(manaCost(listOf("Cooldown: 5s")))
         assertNull(manaCost(emptyList()))

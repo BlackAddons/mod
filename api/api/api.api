@@ -1687,6 +1687,17 @@ public final class org/blackaddons/api/event/world/EntitySnapshot {
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract class org/blackaddons/api/event/world/FishingRodEvent : org/blackaddons/api/event/Event {
+}
+
+public final class org/blackaddons/api/event/world/FishingRodEvent$Cast : org/blackaddons/api/event/world/FishingRodEvent {
+	public static final field INSTANCE Lorg/blackaddons/api/event/world/FishingRodEvent$Cast;
+}
+
+public final class org/blackaddons/api/event/world/FishingRodEvent$Reel : org/blackaddons/api/event/world/FishingRodEvent {
+	public static final field INSTANCE Lorg/blackaddons/api/event/world/FishingRodEvent$Reel;
+}
+
 public abstract class org/blackaddons/api/event/world/GuiEvent : org/blackaddons/api/event/Event {
 	public synthetic fun <init> (Ljava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getTitle ()Ljava/lang/String;
