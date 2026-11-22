@@ -198,6 +198,20 @@
         }
       }
     },
+    "autofireveil": {
+      "name": "Auto Fire Veil",
+      "desc": "Casts Fire Veil every few seconds while you have the wand in your hotbar and the mana for it.",
+      "setting": {
+        "interval": {
+          "name": "Interval",
+          "desc": "Time between casts. Fire Veil lasts 5 seconds and has a 5 second cooldown; a dungeon Mage casts it sooner."
+        },
+        "swap_back": {
+          "name": "Volver a la ranura anterior",
+          "desc": "Put the slot you were holding back after the cast. Off leaves you on the wand."
+        }
+      }
+    },
     "rotations": {
       "name": "Rotaciones",
       "desc": "Preajustes de habilidad para el Blackum Algorithm y la mano simulada detrás de sus giros.",
