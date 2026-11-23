@@ -41,7 +41,7 @@ import org.blackaddons.core.ui.screen.tickets.TicketScreen
  * `/blackaddons` (`/b`, `/bl`, `/black`):
  * - no args -> ClickGUI
  * - `action` (`ac`, `actions`), `link`, `chat`, `clear`, `tickets`, `fme`, `elevate`, `reauth`, `pv [name]`, `soloclears`
- *   (`sc`), `screenshots`, `net [socket|restart]`, `import`
+ *   (`sc`), `screenshots` (`ss`), `net [socket|restart]`, `import`
  * Screens open a tick later, because the chat screen is still closing when a command runs.
  */
 object BlackaddonsCommand {
@@ -154,7 +154,7 @@ object BlackaddonsCommand {
                 execute { openLater { SoloClearsScreen.open() } }
             }
 
-            subcommand("screenshots") {
+            subcommands("screenshots", "ss") {
                 execute { openLater { ScreenshotsScreen.open() } }
             }
 

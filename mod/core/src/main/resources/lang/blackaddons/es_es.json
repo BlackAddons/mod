@@ -187,7 +187,13 @@
     },
     "screenshots": {
       "name": "Capturas de pantalla",
-      "desc": "Muestra una vista previa con acciones rápidas cuando tomas una captura de pantalla, en lugar de una línea de chat."
+      "desc": "Muestra una vista previa con acciones rápidas cuando tomas una captura de pantalla, en lugar de una línea de chat.",
+      "setting": {
+        "open_screenshots": {
+          "name": "Abrir capturas de pantalla",
+          "desc": "Abre el visor de capturas de pantalla. También con /blackaddons ss."
+        }
+      }
     },
     "uitheme": {
       "name": "Tema",

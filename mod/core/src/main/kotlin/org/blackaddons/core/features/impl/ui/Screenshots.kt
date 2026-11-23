@@ -22,11 +22,17 @@ object Screenshots : Feature(
 ) {
     private val tr = I18n.scope("blackaddons.screenshots")
 
+    private val openKey by keybind(name = "Open Screenshots")
+        .withDescription("Opens the screenshot viewer.")
+
     override fun init() {
+        onKeybind(openKey) {
+            ScreenshotsScreen.open()
+        }
+
         register<ScreenshotEvent> {
             event.cancelled = true
             val shot = Screenshot(event.path, runCatching { event.path.getLastModifiedTime().toMillis() }.getOrDefault(0L))
-            // Decoding on the render thread would make the capture frame hitch.
             val ready = ScreenshotLibrary.thumbnail(shot) { preview -> Platform.scheduler.schedule(0) { announce(shot, preview) } }
             if (ready != null) announce(shot, ready)
         }

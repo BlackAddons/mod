@@ -187,7 +187,13 @@
     },
     "screenshots": {
       "name": "Screenshots",
-      "desc": "Shows a preview with quick actions when you take a screenshot, instead of a chat line."
+      "desc": "Shows a preview with quick actions when you take a screenshot, instead of a chat line.",
+      "setting": {
+        "open_screenshots": {
+          "name": "Open Screenshots",
+          "desc": "Opens the screenshot viewer. Also on /blackaddons ss."
+        }
+      }
     },
     "uitheme": {
       "name": "Theme",
