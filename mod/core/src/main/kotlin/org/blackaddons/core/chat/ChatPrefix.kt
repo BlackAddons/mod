@@ -17,8 +17,8 @@ internal sealed interface ChatAddress {
 
 internal object ChatPrefix {
 
-    /** `/chat b` and `/chat black`, next to Hypixel's own `/chat` channels. */
-    val CHANNEL = setOf("b", "black")
+    /** `/chat b`, `/chat black`, `/chat blackaddons` and `/chat irc`, next to Hypixel's own `/chat` channels. */
+    val CHANNEL = setOf("b", "black", "blackaddons", "irc")
 
     /** An empty [prefix] disables routing. */
     fun read(message: String, prefix: String): ChatAddress = when {
