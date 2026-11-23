@@ -221,6 +221,10 @@
         "wait_for_rod": {
           "name": "Wait For Rod",
           "desc": "Hold off while your fishing line is out, and for a moment after you reel in. Swapping off the rod would pull the line."
+        },
+        "hold_rod_for_veil": {
+          "name": "Hold Rod For Veil",
+          "desc": "Don't let your rod cast right before Fire Veil. With Swap Back on, your rod casts once you're back on it."
         }
       }
     },

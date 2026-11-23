@@ -2,9 +2,12 @@ package org.blackaddons.cheat.features.impl.cheats
 
 import org.blackaddons.api.Platform
 import org.blackaddons.api.event.ClientTickEvent
+import org.blackaddons.api.event.EventPriority
+import org.blackaddons.api.event.input.MouseClickEvent
 import org.blackaddons.api.event.world.FishingRodEvent
 import org.blackaddons.api.feature.Categories
 import org.blackaddons.api.feature.Feature
+import org.blackaddons.api.input.Keys
 import org.blackaddons.api.player.ClientAction
 import org.blackaddons.api.player.Hotbar
 import org.blackaddons.api.player.HotbarBorrow
@@ -42,33 +45,53 @@ object AutoFireVeil : Feature(
     private val waitForRod by boolean("Wait For Rod", default = true)
         .withDescription("Wait when your fishing line is out.")
 
+    private val holdRodForVeil by boolean("Hold Rod For Veil", default = false)
+        .withDescription("Don't let your rod cast right before Fire Veil. With Swap Back on, your rod casts once you're back on it.")
+
     private val FIRE_VEIL_WAND = SkyblockItem("FIRE_VEIL_WAND", "Fire Veil Wand")
+
+    private const val FISHING_ROD = "minecraft:fishing_rod"
 
     private const val JCNLK_TICKS = 7 // JC MENTIONED!!!!
 
     private const val ROD_SETTLE_TICKS = 10
 
-    private var wandSlot: Int? = null
+    private const val REEL_CLICK_TICKS = 10
 
+    private var wandSlot: Int? = null
     private var casting = false
+    private var rodClickHeld = false
 
     private val nextCast = TickTimer()
     private val swap = TickTimer()
     private val rodSettle = TickTimer()
+    private val reelClick = TickTimer()
     private val borrow = HotbarBorrow()
 
     override fun init() {
-        register<ClientTickEvent.Pre> { onTick() }
+        register<ClientTickEvent.Pre>(EventPriority.LOW) { onTick() }
         register<FishingRodEvent.Reel> { rodSettle.arm(ROD_SETTLE_TICKS) }
+        register<FishingRodEvent.Cast> { reelClick.clear() }
+        register<MouseClickEvent> {
+            if (!event.isPress || event.button != Keys.MOUSE_RIGHT) return@register
+            if (!blocksRodCast()) {
+                if (holdingRod() && Platform.player.isFishing) reelClick.arm(REEL_CLICK_TICKS)
+                return@register
+            }
+            event.cancelled = true
+            rodClickHeld = swapBack.value
+        }
     }
 
     override fun onDisable() {
         super.onDisable()
         borrow.release()
         casting = false
+        rodClickHeld = false
         nextCast.clear()
         swap.clear()
         rodSettle.clear()
+        reelClick.clear()
         wandSlot = null
     }
 
@@ -76,21 +99,29 @@ object AutoFireVeil : Feature(
         nextCast.tick()
         swap.tick()
         rodSettle.tick()
+        reelClick.tick()
 
         if (borrow.isActive && Platform.interaction.selectedSlot != borrow.slot) {
             borrow.forget()
             casting = false
+            rodClickHeld = false
             return
         }
 
         if (!canRun()) {
             casting = false
+            rodClickHeld = false
             handBack()
             return
         }
 
         if (!casting) {
             handBack()
+            if (rodClickHeld && !borrow.isActive && swap.ready && !blocksRodCast()) {
+                rodClickHeld = false
+                if (holdingRod() && !Platform.player.isFishing) Platform.interaction.submit(ClientAction.UseItem, owner = this)
+                return
+            }
             if (!nextCast.ready || borrow.isActive || rodBusy()) return
             val slot = Hotbar.find(preferred = wandSlot, match = FIRE_VEIL_WAND) ?: return
             wandSlot = slot
@@ -118,6 +149,13 @@ object AutoFireVeil : Feature(
 
     private fun rodBusy(): Boolean = waitForRod.value && (Platform.player.isFishing || !rodSettle.ready)
 
+    private fun blocksRodCast(): Boolean =
+        holdRodForVeil.value && canRun() && nextCast.ready && holdingRod() &&
+            (!Platform.player.isFishing || !reelClick.ready) &&
+            Hotbar.find(preferred = wandSlot, match = FIRE_VEIL_WAND)?.let(::hasManaFor) == true
+
+    private fun holdingRod(): Boolean = Platform.player.mainHandItem?.id == FISHING_ROD
+
     private fun hasManaFor(slot: Int): Boolean {
         val stats = SkyblockStats.current
         val mana = stats.mana ?: return false
@@ -128,6 +166,7 @@ object AutoFireVeil : Feature(
     private fun handBack() {
         if (!borrow.isActive || !swap.ready) return
         borrow.release()
+        if (rodClickHeld) armSwap()
     }
 }
 
