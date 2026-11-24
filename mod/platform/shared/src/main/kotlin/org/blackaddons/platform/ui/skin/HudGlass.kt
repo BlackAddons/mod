@@ -68,7 +68,10 @@ object HudGlass {
     fun actionBar(g: GuiGraphicsExtractor, font: Font, text: Component, x: Int, y: Int, width: Int, color: Int): Boolean {
         if (!actionBar) return false
         val h = font.lineHeight + PILL_PAD_Y * 2
-        SkinGlass.panel(g, x - PILL_PAD_X, y - PILL_PAD_Y, width + PILL_PAD_X * 2, h, h / 2f, (color ushr 24) / 255f)
+        // Hypixel centers their fucking action bar with spaces!!!
+        val raw = text.string
+        val shown = if (raw.endsWith(' ')) font.width(raw.trimEnd()) else width
+        if (shown > 0) SkinGlass.panel(g, x - PILL_PAD_X, y - PILL_PAD_Y, shown + PILL_PAD_X * 2, h, h / 2f, (color ushr 24) / 255f)
         g.text(font, text, x, y, color, true)
         return true
     }
