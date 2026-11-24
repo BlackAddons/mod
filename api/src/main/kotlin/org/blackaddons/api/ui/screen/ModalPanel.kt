@@ -6,6 +6,7 @@ import org.blackaddons.api.ui.layout.hit
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.ModalPanel.Companion.FOOTER_GAP
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.ui.widget.Button
@@ -108,7 +109,7 @@ abstract class ModalPanel(private val title: String) : Panel() {
         Render.scale(scale, scale)
         Render.translate(-cx, -cy)
 
-        Render.rect(px, py, pw, ph, Theme.BACKGROUND, Theme.RADIUS_LARGE)
+        Render.glass(px, py, pw, ph, Glass.WINDOW)
         val title = modalTitle
         if (title.isNotEmpty()) {
             val maxTitleW = pw - Theme.PADDING_LARGE * 2f

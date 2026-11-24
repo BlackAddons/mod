@@ -7,6 +7,7 @@ import org.blackaddons.api.input.Keys
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Panel
 import org.blackaddons.api.ui.screen.UiManager
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.widget.CharInput
@@ -140,7 +141,7 @@ class ClickGuiScreen(private var focus: FeatureSection? = null) : Panel() {
         containerX = (w - containerW) / 2f
         containerY = (h - containerH) / 2f
 
-        Render.rect(containerX, containerY, containerW, containerH, Theme.BACKGROUND, Theme.RADIUS_LARGE)
+        Render.glass(containerX, containerY, containerW, containerH, Glass.WINDOW)
 
         sidebar.render(containerX, containerY, sidebar.width, containerH, mouseX, mouseY)
 

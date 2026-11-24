@@ -9,6 +9,7 @@ import net.minecraft.util.ArrayListDeque;
 import org.blackaddons.api.chat.ChatMotions;
 import org.blackaddons.api.chat.ChatRetentions;
 import org.blackaddons.platform.compat.McCommonKt;
+import org.blackaddons.platform.ui.skin.ChatGlass;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,7 +41,9 @@ public abstract class ChatScreenMixin {
     private void blackaddons$slideInputBackground(
             GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, int color, Operation<Void> original
     ) {
-        blackaddons$slid(graphics, () -> original.call(graphics, x0, y0, x1, y1, color));
+        blackaddons$slid(graphics, () -> {
+            if (!ChatGlass.INSTANCE.input(graphics, x0, y0, x1, y1)) original.call(graphics, x0, y0, x1, y1, color);
+        });
     }
 
     @WrapOperation(

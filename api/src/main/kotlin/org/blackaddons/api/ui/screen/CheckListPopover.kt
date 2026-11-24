@@ -1,6 +1,8 @@
 package org.blackaddons.api.ui.screen
 
+import org.blackaddons.api.ui.anim.AnimationMap
 import org.blackaddons.api.ui.render.Render
+import org.blackaddons.api.ui.theme.GlassCheck
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.ui.widget.Scroll
@@ -18,6 +20,7 @@ internal class CheckListPopover(
 ) : Popover() {
 
     private val scroll = widgets.add(Scroll())
+    private val checks = AnimationMap<String>(GlassCheck.DURATION_MS, settled = true)
 
     override fun render(mouseX: Float, mouseY: Float, deltaTicks: Float) {
         val screenW = UiManager.screenWidth
@@ -43,7 +46,8 @@ internal class CheckListPopover(
                     if (widgets.clickable(x, top, rowW, bottom - top) { onToggle(id) }) {
                         Render.rect(x, rowY, rowW, ROW_H, Theme.SURFACE_HOVER, Theme.RADIUS_SMALL)
                     }
-                    drawCheckRow(label, checked(id), x, rowY, rowW, ROW_H)
+                    val on = checked(id)
+                    drawCheckRow(label, on, checks[id, on], x, rowY, rowW, ROW_H)
                 }
             }
         }

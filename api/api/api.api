@@ -4701,6 +4701,7 @@ public final class org/blackaddons/api/ui/anim/AnimationMap {
 	public fun <init> ()V
 	public fun <init> (J)V
 	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (JZ)V
 	public final fun clear ()V
 	public final fun get (Ljava/lang/Object;Z)F
 	public final fun getSize ()I
@@ -5775,6 +5776,7 @@ public final class org/blackaddons/api/ui/render/Render {
 	public final fun beginPass ()V
 	public final fun centerY (Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Lorg/blackaddons/api/ui/render/Font;)F
 	public final fun centerY (Ljava/lang/Number;Ljava/lang/Number;Lorg/blackaddons/api/ui/theme/TextStyle;)F
+	public final fun checkbox (FFFF)V
 	public final fun chromaText (Ljava/lang/String;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/awt/Color;FLorg/blackaddons/api/ui/render/Font;FF)F
 	public final fun chromaText (Ljava/lang/String;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Lorg/blackaddons/api/feature/settings/impl/ColorSetting;Lorg/blackaddons/api/ui/render/Font;FF)F
 	public static synthetic fun chromaText$default (Lorg/blackaddons/api/ui/render/Render;Ljava/lang/String;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/awt/Color;FLorg/blackaddons/api/ui/render/Font;FFILjava/lang/Object;)F
@@ -5794,6 +5796,8 @@ public final class org/blackaddons/api/ui/render/Render {
 	public final fun formattedText (Ljava/lang/String;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Lorg/blackaddons/api/ui/render/Font;Ljava/awt/Color;)F
 	public static synthetic fun formattedText$default (Lorg/blackaddons/api/ui/render/Render;Ljava/lang/String;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Lorg/blackaddons/api/ui/render/Font;Ljava/awt/Color;ILjava/lang/Object;)F
 	public final fun formattedTextWidth (Ljava/lang/String;Ljava/lang/Number;Lorg/blackaddons/api/ui/render/Font;)F
+	public final fun glass (Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Lorg/blackaddons/api/ui/theme/Glass;F)V
+	public static synthetic fun glass$default (Lorg/blackaddons/api/ui/render/Render;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Lorg/blackaddons/api/ui/theme/Glass;FILjava/lang/Object;)V
 	public final fun globalAlpha (Ljava/lang/Number;)V
 	public final fun gradientRect (Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/awt/Color;Ljava/awt/Color;Lorg/blackaddons/api/ui/render/GradientDir;Ljava/lang/Number;)V
 	public static synthetic fun gradientRect$default (Lorg/blackaddons/api/ui/render/Render;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/lang/Number;Ljava/awt/Color;Ljava/awt/Color;Lorg/blackaddons/api/ui/render/GradientDir;Ljava/lang/Number;ILjava/lang/Object;)V
@@ -6299,6 +6303,51 @@ public final class org/blackaddons/api/ui/theme/Fonts {
 	public final fun getSans ()Lorg/blackaddons/api/ui/render/Font;
 	public final fun getSansBold ()Lorg/blackaddons/api/ui/render/Font;
 	public final fun getUnifont ()Lorg/blackaddons/api/ui/render/Font;
+}
+
+public final class org/blackaddons/api/ui/theme/Glass : java/lang/Enum {
+	public static final field BACKDROP Lorg/blackaddons/api/ui/theme/Glass;
+	public static final field BUTTON Lorg/blackaddons/api/ui/theme/Glass;
+	public static final field CARD Lorg/blackaddons/api/ui/theme/Glass;
+	public static final field CELL Lorg/blackaddons/api/ui/theme/Glass;
+	public static final field HUD Lorg/blackaddons/api/ui/theme/Glass;
+	public static final field TOOLTIP Lorg/blackaddons/api/ui/theme/Glass;
+	public static final field WINDOW Lorg/blackaddons/api/ui/theme/Glass;
+	public final fun border (F)I
+	public final fun fill ()I
+	public final fun getBorderWidth ()F
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getHasBorder ()Z
+	public final fun getRadius ()F
+	public static fun valueOf (Ljava/lang/String;)Lorg/blackaddons/api/ui/theme/Glass;
+	public static fun values ()[Lorg/blackaddons/api/ui/theme/Glass;
+	public final fun wash (F)I
+}
+
+public final class org/blackaddons/api/ui/theme/GlassCheck {
+	public static final field DURATION_MS J
+	public static final field ELBOW_X F
+	public static final field ELBOW_Y F
+	public static final field END_X F
+	public static final field END_Y F
+	public static final field INSTANCE Lorg/blackaddons/api/ui/theme/GlassCheck;
+	public static final field RADIUS F
+	public static final field SHEEN_END F
+	public static final field START_X F
+	public static final field START_Y F
+	public static final field STROKE F
+	public final fun accent (F)I
+	public final fun base ()I
+	public final fun edge (FF)I
+	public final fun frost (FF)I
+	public final fun glow (F)I
+	public final fun mark ()I
+	public final fun sheen (FF)I
+}
+
+public final class org/blackaddons/api/ui/theme/GlassDecor {
+	public static final field INSTANCE Lorg/blackaddons/api/ui/theme/GlassDecor;
+	public final fun lift ([III[III)[I
 }
 
 public final class org/blackaddons/api/ui/theme/MinecraftColors {
@@ -7538,6 +7587,7 @@ public final class org/blackaddons/api/util/color/ColorHexKt {
 }
 
 public final class org/blackaddons/api/util/color/ColorMathKt {
+	public static final fun fade (IF)I
 	public static final fun lerpColor (Ljava/awt/Color;Ljava/awt/Color;F)Ljava/awt/Color;
 	public static final fun scaled (Ljava/awt/Color;F)Ljava/awt/Color;
 }

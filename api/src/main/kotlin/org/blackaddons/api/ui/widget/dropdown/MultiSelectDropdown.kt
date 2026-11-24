@@ -1,11 +1,12 @@
 package org.blackaddons.api.ui.widget.dropdown
+import org.blackaddons.api.ui.anim.AnimationMap
 import org.blackaddons.api.ui.layout.centered
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.GlassCheck
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.ui.widget.InputTarget
 import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.ui.widget.MouseDragInput
@@ -20,6 +21,7 @@ class MultiSelectDropdown(
     data class Item(val id: String, val label: String, val tooltip: String? = null)
 
     private val popup = DropdownPopup(this).also { it.maxVisibleItems = maxVisibleItems }
+    private val checks = AnimationMap<String>(GlassCheck.DURATION_MS, settled = true)
 
     var items: List<Item> = emptyList()
     val selectedIds: MutableSet<String> = mutableSetOf()
@@ -98,24 +100,17 @@ class MultiSelectDropdown(
     override fun mouseScrolled(wheel: MouseScrollInput): Boolean =
         popup.mouseScrolled(wheel)
 
-    private fun drawRow(item: Item, rowX: Float, rowY: Float, rowW: Float) =
-        drawCheckRow(item.label, item.id in selectedIds, rowX, rowY, rowW, popup.box.h)
+    private fun drawRow(item: Item, rowX: Float, rowY: Float, rowW: Float) {
+        val checked = item.id in selectedIds
+        drawCheckRow(item.label, checked, checks[item.id, checked], rowX, rowY, rowW, popup.box.h)
+    }
 }
 
 private const val CHECK_SIZE = 13f
 
-internal fun drawCheckRow(label: String, checked: Boolean, x: Float, rowY: Float, rowW: Float, rowH: Float) {
+internal fun drawCheckRow(label: String, checked: Boolean, on: Float, x: Float, rowY: Float, rowW: Float, rowH: Float) {
     val boxX = x + Theme.PADDING
-    val boxY = centered(rowY, rowH, CHECK_SIZE)
-    if (checked) {
-        Render.rect(boxX, boxY, CHECK_SIZE, CHECK_SIZE, Theme.ACCENT, 3f)
-        Render.hollowRect(boxX, boxY, CHECK_SIZE, CHECK_SIZE, 1.2f, Theme.ACCENT.withAlpha(220), 3f)
-        Render.line(boxX + 2.8f, boxY + CHECK_SIZE / 2f + 0.5f, boxX + CHECK_SIZE / 2.3f, boxY + CHECK_SIZE - 3.2f, 1.5f, Theme.TEXT_PRIMARY)
-        Render.line(boxX + CHECK_SIZE / 2.3f, boxY + CHECK_SIZE - 3.2f, boxX + CHECK_SIZE - 2.8f, boxY + 3.2f, 1.5f, Theme.TEXT_PRIMARY)
-    } else {
-        Render.rect(boxX, boxY, CHECK_SIZE, CHECK_SIZE, Theme.SURFACE_ACTIVE, 3f)
-        Render.hollowRect(boxX, boxY, CHECK_SIZE, CHECK_SIZE, 1.2f, Theme.BORDER.withAlpha(200), 3f)
-    }
+    Render.checkbox(boxX, centered(rowY, rowH, CHECK_SIZE), CHECK_SIZE, on)
     val textX = boxX + CHECK_SIZE + 8f
     val textAvail = (x + rowW - Theme.PADDING - textX).coerceAtLeast(10f)
     val color = if (checked) Theme.TEXT_PRIMARY else Theme.TEXT_SECONDARY

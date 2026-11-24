@@ -13,16 +13,21 @@ import org.blackaddons.api.ui.render.Render.popScissor
 import org.blackaddons.api.ui.render.Render.rect
 import org.blackaddons.api.ui.render.Render.toggleSwitch
 import org.blackaddons.api.ui.screen.Tooltip
+import org.blackaddons.api.ui.theme.Glass
+import org.blackaddons.api.ui.theme.GlassCheck
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.util.color.Chroma
 import org.blackaddons.api.util.color.ColorStop
+import org.blackaddons.api.util.color.fade
 import org.blackaddons.api.util.color.lerpColor
 import org.blackaddons.api.util.stripFormatting
 import org.joml.Matrix3x2f
 import org.joml.Matrix3x2fc
 import java.awt.Color
+import kotlin.math.hypot
+import kotlin.math.min
 
 /** Entry point for UI drawing. Resolves [Platform.renderer] per call; immediate-mode, so there's no frame to open. */
 object Render {
@@ -159,6 +164,42 @@ object Render {
 
     /** [rect] over a laid-out box. */
     fun rect(box: Rect, color: Color, radius: Number = 0f) = rect(box.x, box.y, box.w, box.h, color, radius)
+
+    /** A [Glass] card, eased toward its hover look by [hover] (0..1). */
+    fun glass(x: Number, y: Number, w: Number, h: Number, style: Glass, hover: Float = 0f) {
+        rect(x, y, w, h, Color(style.fill(), true), style.radius)
+        val wash = style.wash(hover)
+        if (wash ushr 24 != 0) rect(x, y, w, h, Color(wash, true), style.radius)
+        if (style.hasBorder) hollowRect(x, y, w, h, style.borderWidth, Color(style.border(hover), true), style.radius)
+    }
+
+    /** A [GlassCheck] box, [on] eased 0..1 (the mark draws on with it). */
+    fun checkbox(x: Float, y: Float, size: Float, on: Float) {
+        val r = GlassCheck.RADIUS
+        if (on > 0f) hollowRect(x - 1f, y - 1f, size + 2f, size + 2f, 1f, Color(GlassCheck.glow(on), true), r + 1f)
+        rect(x, y, size, size, Color(GlassCheck.base(), true), r)
+        rect(x, y, size, size, Color(GlassCheck.frost(on, 0f), true), r)
+        rect(x, y, size, size, Color(GlassCheck.accent(on), true), r)
+        val sheen = GlassCheck.sheen(on, 0f)
+        gradientRect(x, y, size, size * GlassCheck.SHEEN_END, Color(sheen, true), Color(fade(sheen, 0f), true), GradientDir.TOP_BOTTOM, r)
+        hollowRect(x, y, size, size, 1f, Color(GlassCheck.edge(on, 0f), true), r)
+        if (on <= 0f) return
+        val sx = x + GlassCheck.START_X * size
+        val sy = y + GlassCheck.START_Y * size
+        val ex = x + GlassCheck.ELBOW_X * size
+        val ey = y + GlassCheck.ELBOW_Y * size
+        val fx = x + GlassCheck.END_X * size
+        val fy = y + GlassCheck.END_Y * size
+        val first = hypot(ex - sx, ey - sy)
+        val drawn = on * (first + hypot(fx - ex, fy - ey))
+        val mark = Color(GlassCheck.mark(), true)
+        val stroke = size * GlassCheck.STROKE
+        val t1 = min(1f, drawn / first)
+        line(sx, sy, sx + (ex - sx) * t1, sy + (ey - sy) * t1, stroke, mark)
+        if (drawn <= first) return
+        val t2 = (drawn - first) / hypot(fx - ex, fy - ey)
+        line(ex, ey, ex + (fx - ex) * t2, ey + (fy - ey) * t2, stroke, mark)
+    }
 
     /** [hollowRect] over a laid-out box. */
     fun hollowRect(box: Rect, thickness: Number, color: Color, radius: Number = 0f) =

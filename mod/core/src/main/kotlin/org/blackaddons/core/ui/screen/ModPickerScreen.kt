@@ -3,11 +3,13 @@ package org.blackaddons.core.ui.screen
 import org.blackaddons.api.Platform
 import org.blackaddons.api.feature.settings.impl.ListSetting
 import org.blackaddons.api.host.ModEntry
+import org.blackaddons.api.ui.anim.AnimationMap
 import org.blackaddons.api.ui.layout.centered
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.ModalPanel
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.GlassCheck
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
@@ -49,6 +51,7 @@ internal class ModPickerScreen(
 
     private var selection: Set<String> = setting.value.toSet()
     private val collapsed = HashSet<String>()
+    private val checks = AnimationMap<Row>(GlassCheck.DURATION_MS, settled = true)
 
     private var listX = 0f
 
@@ -187,7 +190,7 @@ internal class ModPickerScreen(
             is Row.Group -> (listOf(row.entry) + row.members).all { it.id in selection }
             is Row.Mod -> row.entry.id in selection
         }
-        renderCheckbox(cursor, centered(ry, list.rowHeight, BOX_SIZE), checked)
+        Render.checkbox(cursor, centered(ry, list.rowHeight, BOX_SIZE), BOX_SIZE, checks[row, checked])
         cursor += BOX_SIZE + 6f
 
         val bold = row is Row.Group
@@ -195,18 +198,6 @@ internal class ModPickerScreen(
         val font = if (bold) Fonts.medium else Fonts.regular
         val color = if (checked) Theme.TEXT_PRIMARY else Theme.TEXT_SECONDARY
         Render.text(label, cursor, Render.centerY(ry, list.rowHeight, Theme.FONT_SMALL, font), Theme.FONT_SMALL, color, font)
-    }
-
-    private fun renderCheckbox(x: Float, y: Float, checked: Boolean) {
-        if (checked) {
-            Render.rect(x, y, BOX_SIZE, BOX_SIZE, Theme.ACCENT, 3f)
-            Render.hollowRect(x, y, BOX_SIZE, BOX_SIZE, 1.2f, Theme.ACCENT.withAlpha(220), 3f)
-            Render.line(x + 2.8f, y + BOX_SIZE / 2f + 0.5f, x + BOX_SIZE / 2.3f, y + BOX_SIZE - 3.2f, 1.5f, Theme.TEXT_PRIMARY)
-            Render.line(x + BOX_SIZE / 2.3f, y + BOX_SIZE - 3.2f, x + BOX_SIZE - 2.8f, y + 3.2f, 1.5f, Theme.TEXT_PRIMARY)
-        } else {
-            Render.rect(x, y, BOX_SIZE, BOX_SIZE, Theme.SURFACE_ACTIVE, 3f)
-            Render.hollowRect(x, y, BOX_SIZE, BOX_SIZE, 1.2f, Theme.BORDER.withAlpha(200), 3f)
-        }
     }
 
     private companion object {

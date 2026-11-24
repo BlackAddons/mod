@@ -5,8 +5,8 @@ import org.blackaddons.api.ui.anim.Animation
 import org.blackaddons.api.ui.icon.LucideIcons
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.util.color.lerpColor
 import java.awt.Color
 import java.util.IdentityHashMap
@@ -17,7 +17,7 @@ internal object ButtonPainter {
 
     const val ICON_INSET = 1f
 
-    val radius = Theme.RADIUS_SMALL
+    val radius = Glass.BUTTON.radius
 
     private val pops = IdentityHashMap<InventoryButton, Animation>()
     private val hovers = IdentityHashMap<InventoryButton, Animation>()
@@ -60,12 +60,7 @@ internal object ButtonPainter {
         }
     }
 
-    private fun drawGlass(x: Float, y: Float, w: Float, h: Float, t: Float) {
-        Render.rect(x, y, w, h, Theme.BACKGROUND, radius)
-        val soft = Theme.ACCENT_SOFT
-        if (t > 0f) Render.rect(x, y, w, h, soft.withAlpha((soft.alpha * t).toInt()), radius)
-        Render.hollowRect(x, y, w, h, 1f, lerpColor(Theme.BORDER, Theme.ACCENT, t), radius)
-    }
+    private fun drawGlass(x: Float, y: Float, w: Float, h: Float, t: Float) = Render.glass(x, y, w, h, Glass.BUTTON, t)
 
     private fun hover(button: InventoryButton, hovered: Boolean): Float =
         hovers.getOrPut(button) { Animation(durationMs = Theme.ANIM_HOVER.toLong()) }.apply { animateTo(if (hovered) 1f else 0f) }.get()
