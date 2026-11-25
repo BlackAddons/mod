@@ -4,6 +4,7 @@ import org.blackaddons.api.Platform
 import org.blackaddons.api.gui.ContainerMetrics
 import org.blackaddons.api.gui.ContainerOverlay
 import org.blackaddons.api.ui.render.Render
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.widget.KeyInput
 import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.ui.widget.MouseDragInput
@@ -61,7 +62,7 @@ internal object StoragePanel : ContainerOverlay {
         activeKey = live?.key
 
         // The platform mixin hides the vanilla GUI, so this only dims the world.
-        Render.rect(0, 0, metrics.width, metrics.height, StorageTheme.panel)
+        Render.glass(0, 0, metrics.width, metrics.height, Glass.BACKDROP)
 
         val tileHover = tileList.renderUi(metrics, searchBox.text, activeKey, live, mouseX, mouseY)
         searchBox.render(metrics, mouseX, mouseY)

@@ -9,14 +9,27 @@ import org.blackaddons.api.ui.theme.Theme
 class AnimationMap<K>(private val durationMs: Long = Theme.ANIM_HOVER.toLong()) {
 
     private val animations = HashMap<K, Animation>()
+    private var settled = false
+
+    /**
+     * With [settled], a key seen for the first time starts at its state instead of easing in, so a checkbox already
+     * checked when its screen opens doesn't play its check. Keys then stay until [clear].
+     */
+    constructor(durationMs: Long, settled: Boolean) : this(durationMs) {
+        this.settled = settled
+    }
 
     /** Heads to 1 while [active], else to 0. */
     operator fun get(key: K, active: Boolean): Float {
-        val animation = animations[key]
-            ?: if (active) Animation(durationMs = durationMs).also { animations[key] = it } else return 0f
-        animation.animateTo(if (active) 1f else 0f)
+        val target = if (active) 1f else 0f
+        val animation = animations[key] ?: when {
+            settled -> Animation(target, durationMs)
+            active -> Animation(durationMs = durationMs)
+            else -> return 0f
+        }.also { animations[key] = it }
+        animation.animateTo(target)
         val amount = animation.get()
-        if (!active && !animation.isRunning) animations.remove(key)
+        if (!settled && !active && !animation.isRunning) animations.remove(key)
         return amount
     }
 

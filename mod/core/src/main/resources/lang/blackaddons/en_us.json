@@ -1688,6 +1688,92 @@
         }
       }
     },
+    "customui": {
+      "name": "Custom UI",
+      "desc": "Repaint vanilla screens in the BlackAddons look. Follows your theme.",
+      "setting": {
+        "containers": {
+          "name": "Containers",
+          "desc": "Every container screen, the creative inventory and the recipe book."
+        },
+        "hide_filler_panes": {
+          "name": "Hide Filler Panes",
+          "desc": "Hide the blank gray and black glass panes that fill Skyblock menus. Clicking them still works."
+        },
+        "buttons_inputs": {
+          "name": "Buttons & Inputs",
+          "desc": "Buttons, text fields, sliders, checkboxes, tabs, scroll bars and page arrows."
+        },
+        "button_scope": {
+          "name": "Button Scope",
+          "desc": "Minecraft Screens leaves other mods' screens as they are.",
+          "option": {
+            "all_screens": "All Screens",
+            "minecraft_screens": "Minecraft Screens"
+          }
+        },
+        "chat": {
+          "name": "Chat",
+          "desc": "Chat messages, the chat input and command suggestions."
+        },
+        "chat_style": {
+          "name": "Chat Style",
+          "desc": "A bubble per message, or one card behind the whole chat.",
+          "option": {
+            "bubbles": "Bubbles",
+            "card": "Card"
+          }
+        },
+        "toasts": {
+          "name": "Toasts",
+          "desc": "Advancement, recipe, system and tutorial toasts."
+        },
+        "tint": {
+          "name": "Tint",
+          "desc": "Color the glass with your theme. Off leaves it a neutral smoke."
+        },
+        "opacity": {
+          "name": "Opacity",
+          "desc": "How much of the world shows through the glass."
+        },
+        "blur": {
+          "name": "Blur",
+          "desc": "Blur the world behind in-game screens. Follows Minecraft's Menu Background Blur."
+        },
+        "menus": {
+          "name": "Menus",
+          "desc": "Menu backgrounds and lists, in-game backdrops, popups, game mode switcher and advancements."
+        },
+        "tooltips": {
+          "name": "Tooltips",
+          "desc": "Item and button tooltips."
+        },
+        "tab_list": {
+          "name": "Tab List",
+          "desc": "The player list's header, body and footer."
+        },
+        "scoreboard": {
+          "name": "Scoreboard",
+          "desc": "The scoreboard sidebar."
+        },
+        "boss_bar": {
+          "name": "Boss Bar",
+          "desc": "Boss health bars."
+        },
+        "action_bar": {
+          "name": "Action Bar",
+          "desc": "The message above the hotbar."
+        },
+        "hotbar_effects": {
+          "name": "Hotbar & Effects",
+          "desc": "The hotbar, offhand slot and status effect backgrounds."
+        },
+        "death_screen": {
+          "name": "Death Screen",
+          "desc": "The death screen's red backdrop in your theme."
+        }
+      }
+    },
     "tablisttoggle": {
       "name": "Tab List Toggle",
       "desc": "Toggles or holds display of player tab list.",
@@ -3201,7 +3287,11 @@
     "after_leap": "After Leap",
     "colors": "Colors",
     "brightness": "Brightness",
-    "motion": "Motion"
+    "motion": "Motion",
+    "appearance": "Appearance",
+    "screens": "Screens",
+    "chat": "Chat",
+    "hud": "HUD"
   },
   "hud": {
     "action_timer": "Action Timer",

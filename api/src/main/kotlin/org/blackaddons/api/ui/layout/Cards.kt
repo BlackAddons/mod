@@ -6,6 +6,7 @@ import org.blackaddons.api.ui.layout.Cards.scrolled
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.widget.ProgressBar
@@ -74,7 +75,7 @@ object Cards {
     }
 
     /** A card's background, for code that does not build a layout tree. */
-    fun drawCard(x: Float, y: Float, w: Float, h: Float) = Render.rect(x, y, w, h, Theme.SURFACE, Theme.RADIUS)
+    fun drawCard(x: Float, y: Float, w: Float, h: Float) = Render.glass(x, y, w, h, Glass.CARD)
 
     /** [empty], drawn in place. */
     fun drawEmpty(x: Float, y: Float, w: Float, h: Float, title: String, detail: String) {

@@ -9,8 +9,8 @@ import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Tooltip.show
 import org.blackaddons.api.ui.screen.Tooltip.showOver
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.ui.widget.Scroll
 
 /**
@@ -27,9 +27,6 @@ object Tooltip {
     // Hypixel wraps lore itself, and its lines are wider than the UI's.
     private const val ITEM_MAX_WIDTH = 280f
     private const val PADDING = 6f
-
-    /** Sits over a panel, not the world. */
-    private const val BOX_ALPHA = 240
 
     // Small vertical gap so the box hugs the cursor at high GUI scales.
     private const val CURSOR_GAP_X = 8f
@@ -125,8 +122,7 @@ object Tooltip {
         if (x + boxW > screenW) x = (mouseX - CURSOR_GAP_X - boxW).coerceAtLeast(0f)
         if (y + boxH > screenH) y = (mouseY - CURSOR_GAP_Y - boxH).coerceAtLeast(0f)
 
-        Render.rect(x, y, boxW, boxH, Theme.BACKGROUND.withAlpha(BOX_ALPHA), Theme.RADIUS_SMALL)
-        Render.hollowRect(x, y, boxW, boxH, 1f, Theme.BORDER, Theme.RADIUS_SMALL)
+        Render.glass(x, y, boxW, boxH, Glass.TOOLTIP)
         scroll.render(x + PADDING, y + PADDING, viewportW, viewportH, textH) { offset ->
             lines.forEachIndexed { index, line ->
                 val lineY = y + PADDING + index * lineH - offset

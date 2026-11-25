@@ -2,11 +2,13 @@ package org.blackaddons.core.ui.screen
 
 import org.blackaddons.api.Platform
 import org.blackaddons.api.feature.settings.impl.ListSetting
+import org.blackaddons.api.ui.anim.AnimationMap
 import org.blackaddons.api.ui.layout.centered
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.ModalPanel
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.GlassCheck
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
@@ -42,6 +44,7 @@ internal class ParticlePickerScreen(
 
     private var selection: MutableSet<String> = setting.value.toMutableSet()
     private val allParticleIds: List<String> = Platform.world.registeredParticleIds
+    private val checks = AnimationMap<String>(GlassCheck.DURATION_MS, settled = true)
 
     private fun rows(): List<String> {
         val terms = search.text.lowercase().splitWhitespace()
@@ -115,7 +118,7 @@ internal class ParticlePickerScreen(
 
         val cursor = x + 6f
         val checked = id in selection
-        renderCheckbox(cursor, centered(ry, list.rowHeight, 13f), checked)
+        Render.checkbox(cursor, centered(ry, list.rowHeight, 13f), 13f, checks[id, checked])
 
         val textX = cursor + 13f + 8f
         val simpleName = id.substringAfter(':').replace('_', ' ')
@@ -130,18 +133,4 @@ internal class ParticlePickerScreen(
             Fonts.medium,
         )
     }
-
-    private fun renderCheckbox(x: Float, y: Float, checked: Boolean) {
-        val boxSize = 13f
-        if (checked) {
-            Render.rect(x, y, boxSize, boxSize, Theme.ACCENT, 3f)
-            Render.hollowRect(x, y, boxSize, boxSize, 1.2f, Theme.ACCENT.withAlpha(220), 3f)
-            Render.line(x + 2.8f, y + boxSize / 2f + 0.5f, x + boxSize / 2.3f, y + boxSize - 3.2f, 1.5f, Theme.TEXT_PRIMARY)
-            Render.line(x + boxSize / 2.3f, y + boxSize - 3.2f, x + boxSize - 2.8f, y + 3.2f, 1.5f, Theme.TEXT_PRIMARY)
-        } else {
-            Render.rect(x, y, boxSize, boxSize, Theme.SURFACE_ACTIVE, 3f)
-            Render.hollowRect(x, y, boxSize, boxSize, 1.2f, Theme.BORDER.withAlpha(200), 3f)
-        }
-    }
-
 }

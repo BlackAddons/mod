@@ -43,11 +43,8 @@ internal class StorageSelector {
         // Icon on a slot background. Each captured ref is a registered real slot, so the click handler opens or relays.
         fun cell(x: Int, y: Int, iconRaw: String?, ref: StorageRef?) {
             val over = hit(mouseX, mouseY, x, y, StorageTheme.ITEM, StorageTheme.ITEM)
-            StorageTheme.cell(x, y)
-            if (ref != null) {
-                StorageTheme.hover(x, y, hover[ref.key, over])
-                found += Cell(x, y, ref)
-            }
+            StorageTheme.cell(x, y, if (ref != null) hover[ref.key, over] else 0f)
+            if (ref != null) found += Cell(x, y, ref)
             if (iconRaw != null) StorageTheme.item(iconRaw, x, y)
             // Real items only, not placeholder panes.
             if (over && iconRaw != null && iconRaw == ref?.icon) hovered = iconRaw

@@ -24,3 +24,21 @@ fun Color.scaled(factor: Float): Color = Color(
     (blue * factor).roundToInt().coerceIn(0, 255),
     alpha,
 )
+
+/** Packed [argb] with its alpha scaled by [alpha] (0..1). */
+fun fade(argb: Int, alpha: Float): Int =
+    if (alpha >= 1f) argb else (((argb ushr 24) * alpha.coerceAtLeast(0f)).toInt() shl 24) or (argb and RGB)
+
+/** Packed ARGB per channel, [t] clamped to 0..1. */
+internal fun lerpArgb(a: Int, b: Int, t: Float): Int {
+    val ct = t.coerceIn(0f, 1f)
+    return lerpChannel(a, b, ct, 24) or lerpChannel(a, b, ct, 16) or lerpChannel(a, b, ct, 8) or lerpChannel(a, b, ct, 0)
+}
+
+private fun lerpChannel(a: Int, b: Int, t: Float, shift: Int): Int {
+    val from = (a ushr shift) and 0xFF
+    val to = (b ushr shift) and 0xFF
+    return (from + (to - from) * t).toInt().coerceIn(0, 255) shl shift
+}
+
+private const val RGB = 0xFFFFFF

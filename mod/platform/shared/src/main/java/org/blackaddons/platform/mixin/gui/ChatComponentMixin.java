@@ -36,6 +36,7 @@ import org.blackaddons.platform.chat.StoredChatLine;
 import org.blackaddons.platform.cosmetics.NameReplacer;
 import org.blackaddons.platform.impl.chat.ChatComponentsKt;
 import org.blackaddons.platform.impl.chat.MinecraftChat;
+import org.blackaddons.platform.ui.skin.ChatGlass;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -124,10 +125,6 @@ public abstract class ChatComponentMixin implements ChatLines {
                     message.addedTime(), replacement, message.signature(), message.source(), message.tag());
             iterator.set(revised);
             ((StoredChatLine) (Object) message).blackaddonsCopyStateTo((StoredChatLine) (Object) revised);
-            /**
-             * Rebuilding re-wraps every message, and wrapping scrolls the chat once per line. Hold the position,
-             * scrollChat(0) clamps if the replacement wrapped shorter.
-             */
             int scroll = chatScrollbarPos;
             blackaddons$refreshTrimmedMessages();
             chatScrollbarPos = scroll;
@@ -201,7 +198,6 @@ public abstract class ChatComponentMixin implements ChatLines {
 
     @Inject(method = "addMessageToDisplayQueue", at = @At("HEAD"), cancellable = true)
     private void blackaddons$view(GuiMessage message, CallbackInfo ci) {
-        /** Vanilla shows a message before queueing it, so the view needs its raw text, not cosmetic names. */
         if (message.content() == blackaddons$pendingShown) ((StoredChatLine) (Object) message).blackaddonsSetRaw(blackaddons$pendingRaw);
         if (!MinecraftChat.INSTANCE.shows((ChatLine) (Object) message)) ci.cancel();
     }
@@ -307,6 +303,23 @@ public abstract class ChatComponentMixin implements ChatLines {
         return blackaddons$extraLine ? perPage + 1 : perPage;
     }
 
+    @Inject(
+        method = "extractRenderState(Lnet/minecraft/client/gui/components/ChatComponent$ChatGraphicsAccess;IILnet/minecraft/client/gui/components/ChatComponent$DisplayMode;)V",
+        at = @At("HEAD")
+    )
+    private void blackaddons$beginGlass(
+            ChatComponent.ChatGraphicsAccess access, int screenHeight, int ticks, ChatComponent.DisplayMode mode, CallbackInfo ci
+    ) {
+        if (blackaddons$drawingTo(access) != null) ChatGlass.INSTANCE.begin(trimmedMessages, chatScrollbarPos);
+    }
+
+    @Unique
+    private static GuiGraphicsExtractor blackaddons$drawingTo(ChatComponent.ChatGraphicsAccess access) {
+        if (access instanceof ChatBackgroundAccessAccessor background) return background.blackaddons$getGraphics();
+        if (access instanceof ChatFocusedAccessAccessor focused) return focused.blackaddons$getGraphics();
+        return null;
+    }
+
     /** Restoring used to wait for the first new message, so a quiet join showed an empty chat. */
     @Inject(
         method = "extractRenderState(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Font;IIILnet/minecraft/client/gui/components/ChatComponent$DisplayMode;Z)V",
@@ -386,7 +399,10 @@ public abstract class ChatComponentMixin implements ChatLines {
             @Local(argsOnly = true) GuiMessage.Line line,
             @Local(argsOnly = true, ordinal = 1) float alpha
     ) {
-        original.call(graphics, x0, y0, x1, y1, color);
+        GuiGraphicsExtractor glass = blackaddons$drawingTo(graphics);
+        if (glass == null || !ChatGlass.INSTANCE.line(glass, x0, y0, x1, y1, color, line, alpha)) {
+            original.call(graphics, x0, y0, x1, y1, color);
+        }
         ChatLine chatLine = (ChatLine) (Object) line.parent();
         Color highlight = chatLine.getHighlight();
         if (highlight == null) return;

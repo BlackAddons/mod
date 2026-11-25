@@ -1688,6 +1688,92 @@
         }
       }
     },
+    "customui": {
+      "name": "Custom UI",
+      "desc": "Redibuja las pantallas vanilla con el estilo de BlackAddons. Sigue tu tema.",
+      "setting": {
+        "containers": {
+          "name": "Contenedores",
+          "desc": "Todas las pantallas de contenedores, el inventario creativo y el libro de recetas."
+        },
+        "hide_filler_panes": {
+          "name": "Ocultar paneles de relleno",
+          "desc": "Oculta los paneles de cristal grises y negros vacíos que rellenan los menús de Skyblock. Se pueden seguir pulsando."
+        },
+        "buttons_inputs": {
+          "name": "Botones y campos",
+          "desc": "Botones, campos de texto, deslizadores, casillas, pestañas, barras de desplazamiento y flechas de página."
+        },
+        "button_scope": {
+          "name": "Alcance de botones",
+          "desc": "Pantallas de Minecraft deja como están las pantallas de otros mods.",
+          "option": {
+            "all_screens": "Todas las pantallas",
+            "minecraft_screens": "Pantallas de Minecraft"
+          }
+        },
+        "chat": {
+          "name": "Chat",
+          "desc": "Los mensajes del chat, su campo de texto y las sugerencias de comandos."
+        },
+        "chat_style": {
+          "name": "Estilo del chat",
+          "desc": "Una burbuja por mensaje, o una tarjeta detrás de todo el chat.",
+          "option": {
+            "bubbles": "Burbujas",
+            "card": "Tarjeta"
+          }
+        },
+        "toasts": {
+          "name": "Notificaciones",
+          "desc": "Notificaciones de logros, recetas, sistema y tutorial."
+        },
+        "tint": {
+          "name": "Tinte",
+          "desc": "Colorea el cristal con tu tema. Desactivado lo deja como un humo neutro."
+        },
+        "opacity": {
+          "name": "Opacidad",
+          "desc": "Cuánto del mundo se ve a través del cristal."
+        },
+        "blur": {
+          "name": "Desenfoque",
+          "desc": "Desenfoca el mundo detrás de las pantallas del juego. Sigue el desenfoque del fondo de menú de Minecraft."
+        },
+        "menus": {
+          "name": "Menús",
+          "desc": "Fondos de menú y listas, fondos en el juego, ventanas emergentes, selector de modo de juego y progresos."
+        },
+        "tooltips": {
+          "name": "Descripciones emergentes",
+          "desc": "Descripciones de objetos y botones."
+        },
+        "tab_list": {
+          "name": "Lista de jugadores",
+          "desc": "El encabezado, el cuerpo y el pie de la lista de jugadores."
+        },
+        "scoreboard": {
+          "name": "Marcador",
+          "desc": "La barra lateral del marcador."
+        },
+        "boss_bar": {
+          "name": "Barra de jefe",
+          "desc": "Las barras de vida de los jefes."
+        },
+        "action_bar": {
+          "name": "Barra de acción",
+          "desc": "El mensaje sobre la barra rápida."
+        },
+        "hotbar_effects": {
+          "name": "Barra rápida y efectos",
+          "desc": "La barra rápida, la ranura de la mano secundaria y los fondos de los efectos."
+        },
+        "death_screen": {
+          "name": "Pantalla de muerte",
+          "desc": "El fondo rojo de la pantalla de muerte con tu tema."
+        }
+      }
+    },
     "tablisttoggle": {
       "name": "Alternar lista de jugadores",
       "desc": "Alterna o mantiene visible la lista de jugadores.",
@@ -3201,7 +3287,11 @@
     "after_leap": "Tras el salto",
     "colors": "Colores",
     "brightness": "Brillo",
-    "motion": "Movimiento"
+    "motion": "Movimiento",
+    "appearance": "Apariencia",
+    "screens": "Pantallas",
+    "chat": "Chat",
+    "hud": "HUD"
   },
   "hud": {
     "action_timer": "Temporizador de acción",

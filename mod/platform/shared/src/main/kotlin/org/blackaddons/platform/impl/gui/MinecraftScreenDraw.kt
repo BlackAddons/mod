@@ -7,22 +7,17 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.world.item.ItemStack
 import org.blackaddons.api.gui.ScreenDraw
 import org.blackaddons.api.ui.anim.AnimationMap
-import org.blackaddons.api.ui.anim.isVisible
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.platform.compat.currentScreen
 import org.blackaddons.platform.compat.drawTooltip
 import org.blackaddons.platform.impl.world.MinecraftItems
 import org.blackaddons.platform.mixin.gui.AbstractContainerScreenAccessor
+import org.blackaddons.platform.ui.render.BakedGlass
 
 /** [ScreenDraw] via the caller's extract-phase [GuiGraphicsExtractor] `ctx`. Items use [MinecraftItems.deserialize]. */
 object MinecraftScreenDraw : ScreenDraw {
 
     private val mc get() = Minecraft.getInstance()
-
-    // Dark inventory: near-black backing, slightly lighter cells.
-    private const val INV_BACKING = 0xFF101013.toInt()
-    private const val INV_CELL = 0xFF2E2E33.toInt()
-    private const val INV_HOVER_RGB = 0xFFFFFF
-    private const val INV_HOVER_ALPHA = 128
 
     private val invHover = AnimationMap<Int>()
 
@@ -76,16 +71,14 @@ object MinecraftScreenDraw : ScreenDraw {
         val maxX = left + inv.maxOf { it.x } + 16
         val minY = top + inv.minOf { it.y }
         val maxY = top + inv.maxOf { it.y } + 16
-        g.fill(minX - 3, minY - 3, maxX + 3, maxY + 3, INV_BACKING)
+        BakedGlass.draw(g, minX - 3, minY - 3, maxX - minX + 6, maxY - minY + 6, Glass.CARD)
 
         var hovered: ItemStack? = null
         for (slot in inv) {
             val x = left + slot.x
             val y = top + slot.y
-            g.fill(x, y, x + 16, y + 16, INV_CELL) // 2px gap between cells
             val over = mouseX in x until x + 16 && mouseY in y until y + 16
-            val hover = invHover[slot.containerSlot, over]
-            if (hover.isVisible) g.fill(x, y, x + 16, y + 16, ((INV_HOVER_ALPHA * hover).toInt() shl 24) or INV_HOVER_RGB)
+            BakedGlass.draw(g, x, y, 16, 16, Glass.CELL, invHover[slot.containerSlot, over])
             val stack = slot.item
             if (!stack.isEmpty) {
                 g.item(stack, x, y)

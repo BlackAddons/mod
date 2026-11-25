@@ -10,6 +10,7 @@ import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.ContextMenu
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
+import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.widget.CharInput
@@ -153,26 +154,23 @@ internal class StorageTileList(private val onOpen: (StorageRef) -> Unit) {
             val cardW = tile.w - 2 + pad * 2
             val cardH = tile.h - 2 + pad * 2
             val overCard = pointerInList && hit(mouseX, mouseY, tile.x - pad, ty - pad, cardW, cardH)
-            Render.rect(tile.x - pad, ty - pad, cardW, cardH, if (overCard && !live) Theme.SURFACE_HOVER else Theme.SURFACE, Theme.RADIUS)
-            if (live) Render.hollowRect(tile.x - pad, ty - pad, cardW, cardH, 1f, Theme.ACCENT, Theme.RADIUS)
+            Render.glass(tile.x - pad, ty - pad, cardW, cardH, Glass.CARD, if (overCard && !live) 1f else 0f)
+            if (live) Render.hollowRect(tile.x - pad, ty - pad, cardW, cardH, 1f, Theme.ACCENT, Glass.CARD.radius)
 
             renderHeader(tile, ty, mouseX, mouseY)
             val key = tile.ref.key
             for (r in 0 until tile.rows) for (c in 0 until tile.cols) {
                 val cx = tile.x + c * slot
                 val cy = gy + r * slot
-                StorageTheme.cell(cx, cy)
-                if (tile.cached) {
-                    val over = pointerInList && hit(mouseX, mouseY, cx, cy, StorageTheme.ITEM, StorageTheme.ITEM)
-                    StorageTheme.hover(cx, cy, slotHover[key to r * tile.cols + c, over])
-                }
+                val over = tile.cached && pointerInList && hit(mouseX, mouseY, cx, cy, StorageTheme.ITEM, StorageTheme.ITEM)
+                StorageTheme.cell(cx, cy, if (tile.cached) slotHover[key to r * tile.cols + c, over] else 0f)
             }
 
             when {
                 live -> {}
                 tile.cached -> for (cell in tile.cells) {
                     val cy = cell.y - scrollY
-                    if (cell.matched) StorageTheme.cell(cell.x, cy, StorageTheme.match)
+                    if (cell.matched) StorageTheme.match(cell.x, cy)
                     StorageTheme.item(cell.raw, cell.x, cy)
                     if (pointerInList && hit(mouseX, mouseY, cell.x, cy, StorageTheme.ITEM, StorageTheme.ITEM)) hovered = cell.raw
                 }

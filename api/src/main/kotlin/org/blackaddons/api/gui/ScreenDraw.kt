@@ -21,7 +21,10 @@ interface ScreenDraw {
 
     fun tooltip(ctx: Any, raw: String, x: Int, y: Int)
 
-    /** Redraws the inventory dark-themed at real slot positions so clicks stay native. Call after the overlay panel. */
+    /**
+     * Redraws the inventory in the theme's card and cell glass at real slot positions, so clicks stay native. Call
+     * after the overlay panel.
+     */
     fun renderInventoryDark(ctx: Any, mouseX: Int, mouseY: Int)
 
     /** A stack - pair with [popScissor]. */
