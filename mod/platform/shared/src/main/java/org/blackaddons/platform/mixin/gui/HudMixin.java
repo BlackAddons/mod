@@ -1,5 +1,7 @@
 package org.blackaddons.platform.mixin.gui;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
@@ -15,7 +17,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
@@ -63,12 +64,12 @@ public abstract class HudMixin {
     }
 
     /**
-     * Optional: Lunar Client rewrites {@code Gui} without this method, so a hard requirement crashes on launch. If
-     * Lunar causes issues again, drop support for Lunar Client.
+     * Optional: Lunar Client rewrites {@code Gui} without this method, so a hard requirement crashes on launch. A wrap,
+     * not a redirect: Lunar's own required redirect on this call crashes the game when we claim it first.
      */
-    @Redirect(method = "extractTabList", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;isDown()Z"), require = 0)
-    private boolean blackaddons$onPlayerListKeyIsDown(KeyMapping keyMapping) {
-        TabListVisibilityEvent event = new TabListVisibilityEvent(keyMapping.isDown());
+    @WrapOperation(method = "extractTabList", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;isDown()Z"), require = 0)
+    private boolean blackaddons$onPlayerListKeyIsDown(KeyMapping keyMapping, Operation<Boolean> original) {
+        TabListVisibilityEvent event = new TabListVisibilityEvent(original.call(keyMapping));
         EventBus.INSTANCE.post(event);
         return event.getVisible();
     }
