@@ -56,7 +56,7 @@ License 1.0.0 with the additional permissions in `PERMISSIONS.md`:
 ## Build, run, verify
 
 Tasks are registered under the `blackaddons` group. There is **no committed
-Gradle wrapper**; use the IDE's Gradle or an installed `gradle` (9.7.x). Requires
+Gradle wrapper**; use the IDE's Gradle or an installed `gradle` (9.9.x). Requires
 **JDK 25**.
 
 Generating a wrapper locally (`gradle wrapper`) is fine and sometimes convenient -

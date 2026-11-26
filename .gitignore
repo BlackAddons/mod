@@ -11,7 +11,7 @@ build
 
 # Gradle wrapper - no wrapper script or jar is committed; builds run through the
 # IDE's Gradle or an installed one. `gradle-wrapper.properties` IS tracked: it pins
-# the distribution, so a fresh clone syncs on 9.7.1 rather than the IDE's bundled
+# the distribution, so a fresh clone syncs on 9.9.2 rather than the IDE's bundled
 # Gradle - which is too old for Fabric Loom.
 **/gradle/wrapper/gradle-wrapper.jar
 gradlew

@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.awt.*;
 
 /*
- * Far terrain fades into the horizon of a replaced sky instead of vanilla's blue. Vanilla's darkening still applies
- * afterward.
+ * Far terrain fades into the horizon of a replaced sky instead of vanilla's blue. Effect and boss darkening still
+ * apply afterward; FogRendererMixin drops the void darkening.
  */
 @Mixin(AtmosphericFogEnvironment.class)
 public abstract class AtmosphericFogMixin {
