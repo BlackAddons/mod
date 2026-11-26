@@ -2,7 +2,6 @@ package org.blackaddons.core.gamedata
 
 import com.google.gson.JsonObject
 import org.blackaddons.core.backend.Backend
-import org.blackaddons.core.gamedata.SkyblockAreas.prettify
 import org.blackaddons.core.log.Log
 import org.blackaddons.core.storage.ServedDocument
 

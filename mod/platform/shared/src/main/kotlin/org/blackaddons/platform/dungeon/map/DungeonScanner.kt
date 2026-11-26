@@ -21,14 +21,7 @@ import org.blackaddons.api.skyblock.dungeon.RoomShape
 import org.blackaddons.api.skyblock.dungeon.RoomType
 import org.blackaddons.api.world.BlockPos3
 import org.blackaddons.core.dungeon.ScoreCalculation
-import org.blackaddons.core.dungeon.map.DoorTile
-import org.blackaddons.core.dungeon.map.MapState
-import org.blackaddons.core.dungeon.map.RoomHashCollection
-import org.blackaddons.core.dungeon.map.RoomRegistry
-import org.blackaddons.core.dungeon.map.RoomTile
-import org.blackaddons.core.dungeon.map.Tile
-import org.blackaddons.core.dungeon.map.UniqueRoom
-import org.blackaddons.core.dungeon.map.Unknown
+import org.blackaddons.core.dungeon.map.*
 import org.blackaddons.core.features.impl.dungeons.map.DungeonMap
 import org.blackaddons.platform.compat.isBloodDoorWool
 import org.blackaddons.platform.compat.isBlueTerracotta

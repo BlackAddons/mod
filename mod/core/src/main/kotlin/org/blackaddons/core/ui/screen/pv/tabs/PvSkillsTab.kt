@@ -1,13 +1,8 @@
 package org.blackaddons.core.ui.screen.pv.tabs
+
 import org.blackaddons.api.skyblock.profile.ProfileMember
 import org.blackaddons.api.skyblock.profile.SkillStat
-import org.blackaddons.api.ui.layout.Cards
-import org.blackaddons.api.ui.layout.LayoutNode
-import org.blackaddons.api.ui.layout.Stat
-import org.blackaddons.api.ui.layout.column
-import org.blackaddons.api.ui.layout.grid
-import org.blackaddons.api.ui.layout.sectionHeader
-import org.blackaddons.api.ui.layout.stats
+import org.blackaddons.api.ui.layout.*
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle

@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.player
+
 import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.serialization.JsonOps
 import net.minecraft.client.KeyMapping
@@ -14,23 +15,10 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.storage.TagValueOutput
-import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.BlockHitResult
-import net.minecraft.world.phys.EntityHitResult
-import net.minecraft.world.phys.HitResult
-import net.minecraft.world.phys.Vec3
-import org.blackaddons.api.event.ClientTickEvent
-import org.blackaddons.api.event.EventBus
-import org.blackaddons.api.event.EventListener
-import org.blackaddons.api.event.EventPriority
-import org.blackaddons.api.event.WorldChangeEvent
+import net.minecraft.world.phys.*
+import org.blackaddons.api.event.*
 import org.blackaddons.api.event.world.BlockInteractEvent
-import org.blackaddons.api.player.ClickRequest
-import org.blackaddons.api.player.ClientAction
-import org.blackaddons.api.player.ClientActionResult
-import org.blackaddons.api.player.InteractionHost
-import org.blackaddons.api.player.Lease
-import org.blackaddons.api.player.MouseButton
+import org.blackaddons.api.player.*
 import org.blackaddons.api.world.BlockPos3
 import org.blackaddons.api.world.Vec3d
 import org.blackaddons.api.world.ViewAngles
@@ -50,7 +38,6 @@ import org.blackaddons.platform.impl.player.MinecraftInteraction.MAX_SETTLE
 import org.blackaddons.platform.impl.player.MinecraftInteraction.MIN_SETTLE
 import org.blackaddons.platform.impl.player.MinecraftInteraction.SETTLE_SPREAD
 import org.blackaddons.platform.impl.player.MinecraftInteraction.clicks
-import org.blackaddons.platform.impl.player.MinecraftInteraction.settleBeforeClicks
 import org.blackaddons.platform.impl.player.rotation.MinecraftRotation
 import org.blackaddons.platform.impl.world.BlockHitboxShapes
 import org.blackaddons.platform.mixin.input.KeyMappingAccessor
@@ -326,8 +313,10 @@ object MinecraftInteraction : InteractionHost, Installable {
         val center = (offsets.min() + offsets.max()) / 2
         val half = (offsets.max() - offsets.min()) / 2 * SETTLE_SPREAD
         val min = maxOf(MinecraftRotation.turnStep, MIN_SETTLE)
-        val sides = listOf(maxOf(center - half, min)..minOf(center + half, MAX_SETTLE),
-            maxOf(center - half, -MAX_SETTLE)..minOf(center + half, -min))
+        val sides = listOf(
+            maxOf(center - half, min)..minOf(center + half, MAX_SETTLE),
+            maxOf(center - half, -MAX_SETTLE)..minOf(center + half, -min)
+        )
             .filter { it.start < it.endInclusive }
         val side = sides.randomOrNull() ?: return null
         return side.start + Random.nextFloat() * (side.endInclusive - side.start)
@@ -417,7 +406,7 @@ object MinecraftInteraction : InteractionHost, Installable {
         val (from, to) = serverRay(player, reach)
         val blockHit = level.clip(ClipContext(from, to, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player))
         val blockDistance = if (blockHit.type == HitResult.Type.BLOCK) from.distanceToSqr(blockHit.location)
-            else reach * reach
+        else reach * reach
         val entityHit = ProjectileUtil.getEntityHitResult(
             player, from, to, player.boundingBox.expandTowards(to.subtract(from)).inflate(1.0),
             { it.isPickable && !it.isSpectator }, blockDistance,

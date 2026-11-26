@@ -4,7 +4,6 @@ import org.blackaddons.api.input.Keys
 import org.blackaddons.api.ui.anim.Animation
 import org.blackaddons.api.ui.layout.hit
 import org.blackaddons.api.ui.render.Render
-import org.blackaddons.api.ui.screen.ModalPanel.Companion.FOOTER_GAP
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.Theme
@@ -156,7 +155,7 @@ abstract class ModalPanel(private val title: String) : Panel() {
     /** Card height for [content] of room. */
     protected fun heightFor(content: Float, withFooter: Boolean = true): Float =
         Theme.PADDING_LARGE * 2f + Theme.FONT_TITLE + Theme.PADDING + content +
-            if (withFooter) FOOTER_GAP + FOOTER_H else 0f
+                if (withFooter) FOOTER_GAP + FOOTER_H else 0f
 
     /** True if used. An unused click outside the card dismisses the modal. */
     protected open fun contentClicked(mouse: MouseButtonInput): Boolean = widgets.mouseClicked(mouse)

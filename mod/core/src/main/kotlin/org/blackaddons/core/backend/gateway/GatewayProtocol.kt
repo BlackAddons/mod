@@ -2,8 +2,6 @@ package org.blackaddons.core.backend.gateway
 
 import com.google.gson.JsonObject
 import org.blackaddons.api.util.io.parseJsonObject
-import org.blackaddons.core.backend.gateway.Op.MESSAGE_SEND
-import org.blackaddons.core.backend.gateway.Op.RUN_START
 
 /**
  * Gateway wire format `{"op", "d"}`, same as the backend. Unknown opcodes, events and fields get ignored, never fatal,

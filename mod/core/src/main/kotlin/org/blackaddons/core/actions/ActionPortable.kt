@@ -4,11 +4,7 @@ import com.google.gson.JsonObject
 import org.blackaddons.api.util.formatCoordinates
 import org.blackaddons.api.util.io.withoutNulls
 import org.blackaddons.core.actions.steps.Conditional
-import org.blackaddons.core.config.portable.DiffRow
-import org.blackaddons.core.config.portable.DiffValue
-import org.blackaddons.core.config.portable.ImportPreview
-import org.blackaddons.core.config.portable.PortableImports
-import org.blackaddons.core.config.portable.PortableKind
+import org.blackaddons.core.config.portable.*
 import java.util.UUID
 
 /**

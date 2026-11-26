@@ -1,4 +1,5 @@
 package org.blackaddons.core.ui.screen.actions.tabs
+
 import org.blackaddons.api.Platform
 import org.blackaddons.api.input.InputType
 import org.blackaddons.api.input.Keys
@@ -11,13 +12,7 @@ import org.blackaddons.core.actions.ActionGroup
 import org.blackaddons.core.actions.ActionProfile
 import org.blackaddons.core.actions.ActionStorage
 import org.blackaddons.core.actions.ShortcutAction
-import org.blackaddons.core.ui.screen.actions.ActionEditors
-import org.blackaddons.core.ui.screen.actions.ActionMenu
-import org.blackaddons.core.ui.screen.actions.ActionRow
-import org.blackaddons.core.ui.screen.actions.ActionRowButtons
-import org.blackaddons.core.ui.screen.actions.ActionsPage
-import org.blackaddons.core.ui.screen.actions.RowButton
-import org.blackaddons.core.ui.screen.actions.actionTr
+import org.blackaddons.core.ui.screen.actions.*
 import java.awt.Color
 
 internal class ShortcutsTab(widgets: WidgetHost) : GroupedTab<ShortcutAction>(widgets, ActionsPage.SHORTCUT) {

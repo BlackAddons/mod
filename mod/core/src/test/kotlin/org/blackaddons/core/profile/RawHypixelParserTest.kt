@@ -4,17 +4,10 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.skyblock.dungeon.DungeonClass
 import org.blackaddons.api.skyblock.dungeon.DungeonFloor
-import org.blackaddons.api.skyblock.profile.InventoryPage
-import org.blackaddons.api.skyblock.profile.KuudraTier
-import org.blackaddons.api.skyblock.profile.ProfileMode
-import org.blackaddons.api.skyblock.profile.Skill
-import org.blackaddons.api.skyblock.profile.Slayer
+import org.blackaddons.api.skyblock.profile.*
 import org.blackaddons.api.util.Uuids
 import org.blackaddons.core.gamedata.SkillCaps
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.UUID
 

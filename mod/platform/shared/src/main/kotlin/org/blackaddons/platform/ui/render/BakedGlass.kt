@@ -1,14 +1,7 @@
 package org.blackaddons.platform.ui.render
 
 import com.mojang.blaze3d.platform.NativeImage
-import io.github.humbleui.skija.Bitmap
-import io.github.humbleui.skija.BlendMode
-import io.github.humbleui.skija.Canvas
-import io.github.humbleui.skija.ImageInfo
-import io.github.humbleui.skija.Paint
-import io.github.humbleui.skija.PaintMode
-import io.github.humbleui.skija.PaintStrokeCap
-import io.github.humbleui.skija.PaintStrokeJoin
+import io.github.humbleui.skija.*
 import io.github.humbleui.types.RRect
 import io.github.humbleui.types.Rect
 import net.minecraft.client.Minecraft

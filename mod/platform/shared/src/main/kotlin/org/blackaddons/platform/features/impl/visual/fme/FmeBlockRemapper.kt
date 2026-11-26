@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.state.properties.Property
 import org.blackaddons.api.world.BlockAppearance
 import org.blackaddons.api.world.BlockAppearances
 import org.blackaddons.core.features.impl.visual.fme.Fme
-import org.blackaddons.platform.features.impl.visual.fme.FmeBlockRemapper.blockEntityTint
 import org.blackaddons.platform.mixin.fme.StandingAndWallBlockItemAccessor
 import org.blackaddons.platform.util.withProperties
 import java.util.concurrent.ConcurrentHashMap
@@ -38,6 +37,7 @@ object FmeBlockRemapper {
 
     /** Cached [blockEntityTint] answers, valid for the current render index and block state. Render thread only. */
     private class BlockEntityTint(val state: BlockState, val tint: Int)
+
     private val blockEntityTints = HashMap<Long, BlockEntityTint>()
     private var blockEntityTintsFor: Any? = null
 
@@ -68,7 +68,7 @@ object FmeBlockRemapper {
         if (Fme.preserveBlockShape() && !original.isAir && !original.hasBlockEntity() && !seeThroughOverSolid(original, mapped) &&
             original.renderShape == RenderShape.MODEL &&
             (mapped.renderShape == RenderShape.MODEL ||
-                FmeEntityTextureProviders.supports(mapped)) &&
+                    FmeEntityTextureProviders.supports(mapped)) &&
             original.fluidState.isEmpty && mapped.fluidState.isEmpty
         ) {
             val cache = textureStates.get()
@@ -84,7 +84,7 @@ object FmeBlockRemapper {
 
     private fun seeThroughOverSolid(original: BlockState, mapped: BlockState): Boolean =
         original.isSolidRender && !mapped.isSolidRender &&
-            fullCubes.computeIfAbsent(mapped) { Block.isShapeFullBlock(it.getShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO)) }
+                fullCubes.computeIfAbsent(mapped) { Block.isShapeFullBlock(it.getShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO)) }
 
     @JvmStatic
     fun remapBlockEntity(existing: BlockEntity?, level: Level, pos: BlockPos, mapped: BlockState): BlockEntity? {

@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.world
+
 import com.mojang.serialization.Dynamic
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -13,12 +14,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.decoration.ItemFrame
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.CreativeModeTab
-import net.minecraft.world.item.CreativeModeTabs
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
+import net.minecraft.world.item.*
 import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.block.Blocks
@@ -34,11 +30,7 @@ import org.blackaddons.api.util.equalsIgnoreCase
 import org.blackaddons.api.world.*
 import org.blackaddons.platform.compat.redrawWorld
 import org.blackaddons.platform.mixin.world.BlockItemInvoker
-import org.blackaddons.platform.util.blockById
-import org.blackaddons.platform.util.changedProperties
-import org.blackaddons.platform.util.propertyValue
-import org.blackaddons.platform.util.readOnClient
-import org.blackaddons.platform.util.withProperties
+import org.blackaddons.platform.util.*
 import java.util.UUID
 
 /**

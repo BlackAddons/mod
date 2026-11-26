@@ -17,7 +17,6 @@ import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.gateway.Gateway
 import org.blackaddons.core.chat.Brand
 import org.blackaddons.core.chat.brand
-import org.blackaddons.core.update.UpdateCheck.recheck
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -31,10 +30,12 @@ object UpdateCheck {
     /** After the server's join spam, while chat is still readable. */
     private const val ANNOUNCE_DELAY_TICKS = 60
 
-    @Volatile private var outcome: Outcome? = null
+    @Volatile
+    private var outcome: Outcome? = null
 
     /** Last announced outcome. A verdict that got worse (behind -> unsupported) still gets told. */
-    @Volatile private var announcedOutcome: Outcome? = null
+    @Volatile
+    private var announcedOutcome: Outcome? = null
 
     private sealed interface Outcome {
         data class Update(val version: String, val url: String) : Outcome

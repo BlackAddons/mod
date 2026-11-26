@@ -5,7 +5,6 @@ import org.blackaddons.api.host.DesktopHost
 import org.blackaddons.core.log.Log
 import org.blackaddons.platform.compat.NativeDesktop
 import org.blackaddons.platform.compat.setWindowIcon
-import org.blackaddons.platform.impl.MinecraftDesktop.openUrl
 import org.blackaddons.platform.util.onClient
 import java.net.URI
 import java.nio.file.Files

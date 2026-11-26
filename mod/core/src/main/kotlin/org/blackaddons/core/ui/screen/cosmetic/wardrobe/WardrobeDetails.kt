@@ -7,18 +7,9 @@ import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.InputTarget
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.ScrollableList
-import org.blackaddons.api.ui.widget.Slider
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.util.I18n
-import org.blackaddons.core.cosmetics.mesh.AdjustAxis
-import org.blackaddons.core.cosmetics.mesh.Cosmetic3dEntry
-import org.blackaddons.core.cosmetics.mesh.CosmeticAdjust
-import org.blackaddons.core.cosmetics.mesh.ModifierAxis
-import org.blackaddons.core.cosmetics.mesh.ModifierOption
+import org.blackaddons.core.cosmetics.mesh.*
 import org.blackaddons.core.ui.screen.cosmetic.drawPill
 import java.util.Locale
 

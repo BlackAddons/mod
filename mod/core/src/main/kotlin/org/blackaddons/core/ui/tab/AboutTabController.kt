@@ -16,7 +16,6 @@ import org.blackaddons.api.util.color.ColorStop
 import org.blackaddons.api.util.color.lerpColor
 import org.blackaddons.core.chat.Brand
 import org.blackaddons.core.features.impl.visual.Cosmetics
-import org.blackaddons.core.ui.tab.AboutTabController.Companion.REVEAL_CLICKS
 
 /**
  * ClickGUI About page: the mod on the left, the people on the right, left-aligned like every other tab. Clicking a name

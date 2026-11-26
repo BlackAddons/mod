@@ -16,11 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.blackaddons.platform.impl.world.EntityView;
 import org.joml.Vector4f;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -69,7 +65,7 @@ public abstract class EntityViewMixin {
                 mainRenderTarget = target;
                 levelProjectionMatrixBuffer = view.getProjection();
                 RenderSystem.getDevice().createCommandEncoder()
-                    .clearColorAndDepthTextures(target.getColorTexture(), new Vector4f(0.0F, 0.0F, 0.0F, 1.0F), target.getDepthTexture(), 0.0D);
+                        .clearColorAndDepthTextures(target.getColorTexture(), new Vector4f(0.0F, 0.0F, 0.0F, 1.0F), target.getDepthTexture(), 0.0D);
                 blackaddons$uploadGlobals(view.getGlobals(), mainCamera.position());
                 renderLevel();
                 mainRenderTarget = main;
@@ -100,10 +96,10 @@ public abstract class EntityViewMixin {
     @Unique
     private void blackaddons$uploadGlobals(GlobalSettingsUniform globals, Vec3 cameraPos) {
         globals.update(
-            gameRenderState.windowRenderState.width, gameRenderState.windowRenderState.height,
-            gameRenderState.optionsRenderState.glintStrength, gameRenderState.levelRenderState.gameTime,
-            gameRenderState.levelRenderState.worldPartialTicks, gameRenderState.optionsRenderState.menuBackgroundBlurriness,
-            cameraPos, gameRenderState.optionsRenderState.textureFiltering == TextureFilteringMethod.RGSS
+                gameRenderState.windowRenderState.width, gameRenderState.windowRenderState.height,
+                gameRenderState.optionsRenderState.glintStrength, gameRenderState.levelRenderState.gameTime,
+                gameRenderState.levelRenderState.worldPartialTicks, gameRenderState.optionsRenderState.menuBackgroundBlurriness,
+                cameraPos, gameRenderState.optionsRenderState.textureFiltering == TextureFilteringMethod.RGSS
         );
     }
 }

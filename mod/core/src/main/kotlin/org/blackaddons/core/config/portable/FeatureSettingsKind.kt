@@ -5,13 +5,7 @@ import com.google.gson.JsonObject
 import org.blackaddons.api.config.Savable
 import org.blackaddons.api.feature.Feature
 import org.blackaddons.api.feature.settings.Setting
-import org.blackaddons.api.feature.settings.impl.BooleanSetting
-import org.blackaddons.api.feature.settings.impl.ColorSetting
-import org.blackaddons.api.feature.settings.impl.KeybindSetting
-import org.blackaddons.api.feature.settings.impl.ListSetting
-import org.blackaddons.api.feature.settings.impl.ModeSetting
-import org.blackaddons.api.feature.settings.impl.NumberSetting
-import org.blackaddons.api.feature.settings.impl.StringSetting
+import org.blackaddons.api.feature.settings.impl.*
 import org.blackaddons.api.feature.translatedName
 import org.blackaddons.api.feature.translatedOption
 import org.blackaddons.api.feature.translatedSettingGroup

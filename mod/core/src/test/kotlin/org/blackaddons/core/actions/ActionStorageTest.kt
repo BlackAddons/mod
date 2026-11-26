@@ -16,10 +16,7 @@ import org.blackaddons.core.actions.handlers.TempWaypoints
 import org.blackaddons.core.actions.steps.SendMessageStep
 import org.blackaddons.core.actions.steps.TempWaypointStep
 import org.blackaddons.core.actions.steps.TextOverlayStep
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir

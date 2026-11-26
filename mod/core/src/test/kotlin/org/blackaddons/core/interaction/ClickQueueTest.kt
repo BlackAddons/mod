@@ -5,9 +5,7 @@ import org.blackaddons.api.player.ClickRequest
 import org.blackaddons.api.player.ClientAction
 import org.blackaddons.api.player.ClientActionResult
 import org.blackaddons.api.world.BlockPos3
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class ClickQueueTest {

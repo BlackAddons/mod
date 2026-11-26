@@ -1,8 +1,5 @@
 package org.blackaddons.api.world
 
-import org.blackaddons.api.world.BlockTerrain.Companion.UNLOADED
-import org.blackaddons.api.world.TerrainSnapshot.Companion.UNLOADED_INDEX
-
 
 /** Fluid in a block, waterlogged blocks included. */
 enum class TerrainFluid { WATER, LAVA }

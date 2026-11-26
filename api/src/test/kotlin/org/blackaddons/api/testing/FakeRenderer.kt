@@ -1,14 +1,6 @@
 package org.blackaddons.api.testing
 
-import org.blackaddons.api.ui.render.BatchRect
-import org.blackaddons.api.ui.render.Font
-import org.blackaddons.api.ui.render.GradientDir
-import org.blackaddons.api.ui.render.Image
-import org.blackaddons.api.ui.render.PathData
-import org.blackaddons.api.ui.render.RenderLayer
-import org.blackaddons.api.ui.render.Renderer
-import org.blackaddons.api.ui.render.RichSpan
-import org.blackaddons.api.ui.render.ShapePath
+import org.blackaddons.api.ui.render.*
 import org.joml.Matrix3x2fc
 import java.awt.Color
 
@@ -93,6 +85,7 @@ class FakeRenderer : Renderer {
     override fun circle(x: Number, y: Number, radius: Number, color: Color) = call("circle")
     override fun dropShadow(x: Number, y: Number, w: Number, h: Number, blur: Number, spread: Number, radius: Number, color: Color) =
         call("dropShadow")
+
     override fun shaderRect(x: Number, y: Number, w: Number, h: Number, sksl: String, uniforms: Map<String, FloatArray>, radius: Number) =
         call("shaderRect")
 

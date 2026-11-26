@@ -1,12 +1,7 @@
 package org.blackaddons.core.control
 
 import java.util.Random
-import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.hypot
-import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /*
  * One flick or correction: two minimum-jerk halves joined at [skew], a scattered endpoint, a handed [arc], and mouse

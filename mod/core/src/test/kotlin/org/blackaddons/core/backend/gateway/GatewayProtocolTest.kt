@@ -1,9 +1,7 @@
 package org.blackaddons.core.backend.gateway
 
 import com.google.gson.JsonParser
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 /** Where a backend with new opcodes meets an older mod: unknown frames have to arrive intact and never throw. */

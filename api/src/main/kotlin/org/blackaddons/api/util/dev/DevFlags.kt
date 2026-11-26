@@ -1,6 +1,6 @@
 package org.blackaddons.api.util.dev
+
 import org.blackaddons.api.HostApi
-import org.blackaddons.api.util.dev.DevFlags.isDevelopment
 
 
 /**
@@ -8,13 +8,17 @@ import org.blackaddons.api.util.dev.DevFlags.isDevelopment
  * reads. [isDevelopment] must be seeded by the platform at startup, since :api has no Fabric.
  */
 object DevFlags {
-    @Volatile var isDevelopment: Boolean = false
+    @Volatile
+    var isDevelopment: Boolean = false
         @HostApi set
 
-    @Volatile var verboseLogging: Boolean = false
+    @Volatile
+    var verboseLogging: Boolean = false
         @HostApi set
-    @Volatile var rethrowListenerExceptions: Boolean = false
+    @Volatile
+    var rethrowListenerExceptions: Boolean = false
         @HostApi set
-    @Volatile var logEventDispatch: Boolean = false
+    @Volatile
+    var logEventDispatch: Boolean = false
         @HostApi set
 }

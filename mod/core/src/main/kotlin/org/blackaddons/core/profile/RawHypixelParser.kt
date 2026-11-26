@@ -7,12 +7,7 @@ import org.blackaddons.api.skyblock.dungeon.DungeonClass
 import org.blackaddons.api.skyblock.dungeon.DungeonFloor
 import org.blackaddons.api.skyblock.profile.*
 import org.blackaddons.api.util.Uuids
-import org.blackaddons.api.util.io.bool
-import org.blackaddons.api.util.io.child
-import org.blackaddons.api.util.io.double
-import org.blackaddons.api.util.io.int
-import org.blackaddons.api.util.io.long
-import org.blackaddons.api.util.io.str
+import org.blackaddons.api.util.io.*
 import org.blackaddons.api.util.stripFormatting
 import org.blackaddons.core.gamedata.SkillCaps
 import java.util.UUID
@@ -44,6 +39,7 @@ internal object RawHypixelParser {
     private val ARMOR_SLOTS = listOf("HELMET", "CHESTPLATE", "LEGGINGS", "BOOTS")
 
     private const val BLOB_KEY = "data"
+
     // Hypixel spells it `equippment` on some profiles.
     private val MAIN_CONTAINERS = listOf("inv_contents", "inv_armor", "equippment_contents", "equipment_contents")
     private const val STORAGE_PAGE_SIZE = 45

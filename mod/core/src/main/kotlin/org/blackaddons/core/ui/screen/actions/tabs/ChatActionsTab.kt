@@ -1,17 +1,12 @@
 package org.blackaddons.core.ui.screen.actions.tabs
+
 import org.blackaddons.api.input.Keys
 import org.blackaddons.api.ui.widget.WidgetHost
 import org.blackaddons.core.actions.ActionGroup
 import org.blackaddons.core.actions.ActionProfile
 import org.blackaddons.core.actions.ActionStorage
 import org.blackaddons.core.actions.ChatAction
-import org.blackaddons.core.ui.screen.actions.ActionEditors
-import org.blackaddons.core.ui.screen.actions.ActionMenu
-import org.blackaddons.core.ui.screen.actions.ActionRow
-import org.blackaddons.core.ui.screen.actions.ActionRowButtons
-import org.blackaddons.core.ui.screen.actions.ActionsPage
-import org.blackaddons.core.ui.screen.actions.RowButton
-import org.blackaddons.core.ui.screen.actions.actionTr
+import org.blackaddons.core.ui.screen.actions.*
 
 internal class ChatActionsTab(widgets: WidgetHost) : GroupedTab<ChatAction>(widgets, ActionsPage.CHAT) {
 

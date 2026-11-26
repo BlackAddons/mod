@@ -1,9 +1,6 @@
 package org.blackaddons.api.skyblock
 
 import org.blackaddons.api.Platform
-import org.blackaddons.api.skyblock.LocationUtils.dungeonFloor
-import org.blackaddons.api.skyblock.LocationUtils.inBoss
-import org.blackaddons.api.skyblock.LocationUtils.isP3Sim
 import org.blackaddons.api.skyblock.dungeon.DungeonFloor
 import org.blackaddons.api.skyblock.dungeon.F7Phase
 import org.blackaddons.api.util.containsIgnoreCase

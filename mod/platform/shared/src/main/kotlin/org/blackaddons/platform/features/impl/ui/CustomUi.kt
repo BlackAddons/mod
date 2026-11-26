@@ -1,12 +1,7 @@
 package org.blackaddons.platform.features.impl.ui
 
 import org.blackaddons.api.feature.Feature
-import org.blackaddons.platform.ui.skin.ChatGlass
-import org.blackaddons.platform.ui.skin.ContainerGlass
-import org.blackaddons.platform.ui.skin.GuiSkin
-import org.blackaddons.platform.ui.skin.HudGlass
-import org.blackaddons.platform.ui.skin.MenuGlass
-import org.blackaddons.platform.ui.skin.SkinGlass
+import org.blackaddons.platform.ui.skin.*
 
 object CustomUi : Feature(
     description = "Repaint vanilla screens in the BlackAddons look. Follows your theme.",

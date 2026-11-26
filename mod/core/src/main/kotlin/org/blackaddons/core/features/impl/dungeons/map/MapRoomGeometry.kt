@@ -1,21 +1,13 @@
 package org.blackaddons.core.features.impl.dungeons.map
 
-import org.blackaddons.api.skyblock.dungeon.DoorType
-import org.blackaddons.api.skyblock.dungeon.MapOverrides
-import org.blackaddons.api.skyblock.dungeon.RoomShape
-import org.blackaddons.api.skyblock.dungeon.RoomState
-import org.blackaddons.api.skyblock.dungeon.RoomType
+import org.blackaddons.api.skyblock.dungeon.*
 import org.blackaddons.api.ui.render.BatchRect
 import org.blackaddons.api.ui.render.PathData
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.render.ShapePath
 import org.blackaddons.api.util.color.scaled
 import org.blackaddons.core.dungeon.DungeonTracker
-import org.blackaddons.core.dungeon.map.DoorTile
-import org.blackaddons.core.dungeon.map.MapState
-import org.blackaddons.core.dungeon.map.RoomPrediction
-import org.blackaddons.core.dungeon.map.RoomTile
-import org.blackaddons.core.dungeon.map.Tile
+import org.blackaddons.core.dungeon.map.*
 import java.awt.Color
 
 internal object MapRoomGeometry {
@@ -334,7 +326,9 @@ internal object MapRoomGeometry {
 
         private fun fingerprint(originX: Float, originY: Float, pixelGrid: MapPixelGrid?): Int {
             var result = 17
-            fun add(value: Int) { result = 31 * result + value }
+            fun add(value: Int) {
+                result = 31 * result + value
+            }
 
             add(originX.toBits()); add(originY.toBits()); add(pixelGrid?.cacheKey ?: 0)
             add(MapState.mapRoomSize); add(MapState.quarterRoom)

@@ -2,7 +2,6 @@ package org.blackaddons.core.emoji
 
 import org.blackaddons.api.ui.render.RichSpan
 import org.blackaddons.api.ui.widget.text.TextInput
-import org.blackaddons.core.emoji.EmojiText.spans
 
 internal object EmojiText {
 

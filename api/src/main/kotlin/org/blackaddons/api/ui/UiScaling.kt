@@ -4,7 +4,6 @@ import org.blackaddons.api.HostApi
 import org.blackaddons.api.Platform
 import org.blackaddons.api.ui.UiScaling.autoHud
 import org.blackaddons.api.ui.UiScaling.autoInterface
-import org.blackaddons.api.ui.UiScaling.interfaceScale
 
 /**
  * Screen and HUD size multipliers, here because the `:api` toolkit reads them while drawing. Screens are

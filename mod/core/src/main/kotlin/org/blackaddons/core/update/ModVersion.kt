@@ -1,7 +1,5 @@
 package org.blackaddons.core.update
 
-import org.blackaddons.core.update.ModVersion.Companion.parse
-
 
 /**
  * Mod version in semver order. A string compare would rank `1.4.10` below `1.4.9`, and the backend's `latest` is in

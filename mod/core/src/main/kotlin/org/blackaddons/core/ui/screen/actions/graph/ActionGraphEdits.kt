@@ -2,12 +2,7 @@ package org.blackaddons.core.ui.screen.actions.graph
 
 import org.blackaddons.api.Platform
 import org.blackaddons.api.actions.StepType
-import org.blackaddons.api.ui.node.AddNode
-import org.blackaddons.api.ui.node.CompoundCommand
-import org.blackaddons.api.ui.node.Connect
-import org.blackaddons.api.ui.node.GraphNode
-import org.blackaddons.api.ui.node.LinkSpec
-import org.blackaddons.api.ui.node.NodeCanvas
+import org.blackaddons.api.ui.node.*
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.core.actions.ActionPortable
 import org.blackaddons.core.actions.ActionStorage
@@ -16,12 +11,7 @@ import org.blackaddons.core.actions.steps.BlockStep
 import org.blackaddons.core.actions.steps.EndStep
 import org.blackaddons.core.config.portable.PortableImports
 import org.blackaddons.core.ui.screen.actions.ActionEditors
-import org.blackaddons.core.ui.screen.actions.modals.StepEditModal
-import org.blackaddons.core.ui.screen.actions.modals.bindingLabel
-import org.blackaddons.core.ui.screen.actions.modals.duplicateFiltersOf
-import org.blackaddons.core.ui.screen.actions.modals.duplicateKeyOf
-import org.blackaddons.core.ui.screen.actions.modals.warnDuplicateFilters
-import org.blackaddons.core.ui.screen.actions.modals.warnDuplicateKey
+import org.blackaddons.core.ui.screen.actions.modals.*
 
 /** Node edits (add, copy/paste, edit, toggle). [commit] saves. [reload] rebuilds after a trigger's editor saved. */
 internal class ActionGraphEdits(

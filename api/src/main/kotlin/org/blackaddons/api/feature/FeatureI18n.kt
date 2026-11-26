@@ -1,11 +1,7 @@
 package org.blackaddons.api.feature
 
 import org.blackaddons.api.feature.settings.Setting
-import org.blackaddons.api.feature.settings.impl.ButtonSetting
-import org.blackaddons.api.feature.settings.impl.ListSetting
-import org.blackaddons.api.feature.settings.impl.ModeSetting
-import org.blackaddons.api.feature.settings.impl.OrderSetting
-import org.blackaddons.api.feature.settings.impl.StringSetting
+import org.blackaddons.api.feature.settings.impl.*
 import org.blackaddons.api.hud.HudElement
 import org.blackaddons.api.util.I18n
 

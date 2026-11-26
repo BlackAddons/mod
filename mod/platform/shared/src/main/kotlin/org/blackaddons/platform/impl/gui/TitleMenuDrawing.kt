@@ -1,7 +1,6 @@
 package org.blackaddons.platform.impl.gui
 
 import net.minecraft.SharedConstants
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.TitleScreen
 import org.blackaddons.api.Platform
 import org.blackaddons.api.ui.render.Render

@@ -4,7 +4,6 @@ import org.blackaddons.api.ui.anim.DecayAnimation
 import org.blackaddons.api.ui.layout.Rect
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.Slider.Companion.MAGNET_PX
 import org.blackaddons.api.util.snapToStep
 import kotlin.math.abs
 

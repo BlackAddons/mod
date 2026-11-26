@@ -5,13 +5,6 @@ import org.blackaddons.api.chat.ChatMessage
 import org.blackaddons.api.feature.settings.impl.ColorSetting
 import org.blackaddons.api.ui.icon.VectorIcon
 import org.blackaddons.api.ui.layout.Rect
-import org.blackaddons.api.ui.render.Render.ellipsize
-import org.blackaddons.api.ui.render.Render.hollowRect
-import org.blackaddons.api.ui.render.Render.invalidateLayer
-import org.blackaddons.api.ui.render.Render.layer
-import org.blackaddons.api.ui.render.Render.popScissor
-import org.blackaddons.api.ui.render.Render.rect
-import org.blackaddons.api.ui.render.Render.toggleSwitch
 import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.GlassCheck
@@ -73,6 +66,7 @@ object Render {
         r.pop()
         if (pushes > 0) pushes--
     }
+
     fun translate(x: Number, y: Number) = r.translate(x, y)
     fun scale(x: Number, y: Number) = r.scale(x, y)
     fun rotate(angle: Number) = r.rotate(angle)
@@ -250,8 +244,10 @@ object Render {
     fun textShadow(text: String, x: Number, y: Number, size: Number, color: Color, font: Font) =
         r.textShadow(text, x, y, size, color, font)
 
-    fun textGradient(text: String, x: Number, y: Number, size: Number,
-                     c1: Color, c2: Color, font: Font, dir: GradientDir = GradientDir.LEFT_RIGHT) =
+    fun textGradient(
+        text: String, x: Number, y: Number, size: Number,
+        c1: Color, c2: Color, font: Font, dir: GradientDir = GradientDir.LEFT_RIGHT
+    ) =
         r.textGradient(text, x, y, size, c1, c2, font, dir)
 
     fun textWidth(text: String, size: Number, font: Font): Float = r.textWidth(text, size, font)
@@ -394,8 +390,10 @@ object Render {
     fun formattedTextWidth(text: String, size: Number, font: Font): Float =
         r.textWidth(text.stripFormatting(), size, font)
 
-    fun wrappedText(text: String, x: Number, y: Number, w: Number, size: Number,
-                    color: Color, font: Font, lineHeight: Number = 1f) =
+    fun wrappedText(
+        text: String, x: Number, y: Number, w: Number, size: Number,
+        color: Color, font: Font, lineHeight: Number = 1f
+    ) =
         r.wrappedText(text, x, y, w, size, color, font, lineHeight)
 
     fun wrappedText(text: String, x: Number, y: Number, w: Number, style: TextStyle, lineHeight: Number = 1f) =
@@ -409,8 +407,10 @@ object Render {
         wrappedTextBounds(text, w, size, font, lineHeight)[3]
 
     /** Wrapped text with inline pictures (emoji). */
-    fun richText(spans: List<RichSpan>, x: Number, y: Number, w: Number, size: Number,
-                 color: Color, font: Font, lineHeight: Number = 1f) =
+    fun richText(
+        spans: List<RichSpan>, x: Number, y: Number, w: Number, size: Number,
+        color: Color, font: Font, lineHeight: Number = 1f
+    ) =
         r.richText(spans, x, y, w, size, color, font, lineHeight)
 
     fun richText(spans: List<RichSpan>, x: Number, y: Number, w: Number, style: TextStyle, lineHeight: Number = 1f) =
@@ -429,19 +429,25 @@ object Render {
     fun deleteImage(image: Image) = r.deleteImage(image)
     fun image(image: Image, x: Number, y: Number, w: Number, h: Number, radius: Number = 0f) =
         r.image(image, x, y, w, h, radius)
+
     fun image(path: String, x: Number, y: Number, w: Number, h: Number, radius: Number = 0f) =
         r.image(path, x, y, w, h, radius)
+
     fun imageSize(path: String): FloatArray? = r.imageSize(path)
-    fun image(image: Image, x: Number, y: Number, w: Number, h: Number,
-              srcX: Number, srcY: Number, srcW: Number, srcH: Number,
-              texW: Number, texH: Number, tint: Color? = null, radius: Number = 0f) =
+    fun image(
+        image: Image, x: Number, y: Number, w: Number, h: Number,
+        srcX: Number, srcY: Number, srcW: Number, srcH: Number,
+        texW: Number, texH: Number, tint: Color? = null, radius: Number = 0f
+    ) =
         r.image(image, x, y, w, h, srcX, srcY, srcW, srcH, texW, texH, tint, radius)
 
     fun item(id: String, x: Number, y: Number, w: Number, h: Number, radius: Number = 0f, tint: Color? = null) =
         r.item(id, x, y, w, h, radius, tint)
 
-    fun playerHead(uuid: String, name: String, textures: String?,
-                   x: Number, y: Number, w: Number, h: Number, radius: Number = 0f) =
+    fun playerHead(
+        uuid: String, name: String, textures: String?,
+        x: Number, y: Number, w: Number, h: Number, radius: Number = 0f
+    ) =
         r.playerHead(uuid, name, textures, x, y, w, h, radius)
 
     fun playerFace(name: String, x: Number, y: Number, w: Number, h: Number, showHat: Boolean = true, radius: Number = 0f): Boolean =

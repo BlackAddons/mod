@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.gui
+
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents
@@ -15,11 +16,7 @@ import org.blackaddons.api.gui.GuiBox
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.screen.UiManager
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.UiMouse
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.blackskija.backend.common.SkijaCompositor
 import org.blackaddons.platform.Installable
 import org.blackaddons.platform.event.impl.RenderScreenBodyEvent

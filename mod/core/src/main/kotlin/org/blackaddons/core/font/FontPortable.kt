@@ -5,12 +5,7 @@ import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.color.toHex
 import org.blackaddons.api.util.formatTrimmed
 import org.blackaddons.api.util.io.Portable
-import org.blackaddons.core.config.portable.DiffRow
-import org.blackaddons.core.config.portable.DiffValue
-import org.blackaddons.core.config.portable.FeatureSettingsKind
-import org.blackaddons.core.config.portable.ImportPreview
-import org.blackaddons.core.config.portable.PortableImports
-import org.blackaddons.core.config.portable.PortableKind
+import org.blackaddons.core.config.portable.*
 import org.blackaddons.core.features.impl.visual.FontSettings
 import java.awt.Color
 

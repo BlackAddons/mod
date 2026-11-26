@@ -1,13 +1,7 @@
 package org.blackaddons.core.ui.tab
 
 import org.blackaddons.api.util.color.ColorStop
-import org.blackaddons.core.ui.tab.eggs.AtkLxveEgg
-import org.blackaddons.core.ui.tab.eggs.AutismoEgg
-import org.blackaddons.core.ui.tab.eggs.BlackumEgg
-import org.blackaddons.core.ui.tab.eggs.DreamcastEgg
-import org.blackaddons.core.ui.tab.eggs.NoammEgg
-import org.blackaddons.core.ui.tab.eggs.TitleEgg
-import org.blackaddons.core.ui.tab.eggs.plain
+import org.blackaddons.core.ui.tab.eggs.*
 import java.awt.Color
 
 /**

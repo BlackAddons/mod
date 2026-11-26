@@ -7,13 +7,7 @@ import org.blackaddons.api.ui.screen.CheckListPopover
 import org.blackaddons.api.ui.screen.ContextMenu
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.screen.color.ColorPopover
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.UiKeys
-import org.blackaddons.api.ui.widget.UiMouse
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.ui.widget.text.TextInput
 import org.blackaddons.api.util.formatDecimals
 import org.blackaddons.api.util.roundToDecimals

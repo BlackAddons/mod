@@ -1,10 +1,6 @@
 package org.blackaddons.platform.impl.chat
-import net.minecraft.network.chat.ClickEvent
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.FontDescription
-import net.minecraft.network.chat.HoverEvent
-import net.minecraft.network.chat.Style
-import net.minecraft.network.chat.TextColor
+
+import net.minecraft.network.chat.*
 import net.minecraft.network.chat.contents.objects.PlayerSprite
 import net.minecraft.resources.Identifier
 import net.minecraft.world.item.component.ResolvableProfile

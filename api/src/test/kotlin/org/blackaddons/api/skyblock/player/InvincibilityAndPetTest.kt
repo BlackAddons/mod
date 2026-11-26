@@ -1,10 +1,7 @@
 package org.blackaddons.api.skyblock.player
 
 import org.blackaddons.api.world.ItemInfo
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class InvincibilityAndPetTest {

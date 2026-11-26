@@ -1,12 +1,7 @@
 package org.blackaddons.core.cosmetics
 
 import org.blackaddons.api.Platform
-import org.blackaddons.api.cosmetics.Cosmetic
-import org.blackaddons.api.cosmetics.Cosmetic3dItem
-import org.blackaddons.api.cosmetics.CosmeticHost
-import org.blackaddons.api.cosmetics.NickFont
-import org.blackaddons.api.cosmetics.NickFontFile
-import org.blackaddons.api.cosmetics.Scale
+import org.blackaddons.api.cosmetics.*
 import org.blackaddons.core.backend.auth.HostMojangSession
 import org.blackaddons.core.cosmetics.mesh.NpcCatEars
 import org.blackaddons.core.cosmetics.store.CosmeticStore
@@ -35,7 +30,7 @@ object PlayerCosmetics : CosmeticHost {
     /** For UIs that know a player by name (dungeon map, leap menu): [uuid] if known, else one seen this session. */
     fun nameFor(name: String, uuid: UUID?): Cosmetic? = nameFor(
         uuid ?: PlayerNames.uuidFor(name)
-            ?: Platform.player.uuid?.takeIf { name.equals(Platform.player.name, ignoreCase = true) },
+        ?: Platform.player.uuid?.takeIf { name.equals(Platform.player.name, ignoreCase = true) },
     )
 
     override fun capeUrlFor(uuid: UUID?): String? = server(uuid)?.capeUrl

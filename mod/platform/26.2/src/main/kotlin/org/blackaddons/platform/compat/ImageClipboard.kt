@@ -1,10 +1,6 @@
 package org.blackaddons.platform.compat
 
-import com.sun.jna.Library
-import com.sun.jna.Memory
-import com.sun.jna.Native
-import com.sun.jna.Pointer
-import com.sun.jna.Structure
+import com.sun.jna.*
 import net.minecraft.util.Util
 import org.blackaddons.api.util.concurrent.Workers
 import org.blackaddons.api.util.packInts
@@ -90,6 +86,7 @@ private object XcbClipboard {
             connection: Pointer, depth: Byte, window: Int, parent: Int, x: Short, y: Short, width: Short, height: Short,
             border: Short, windowClass: Short, visual: Int, valueMask: Int, values: Pointer?,
         ): Int
+
         fun xcb_intern_atom(connection: Pointer, onlyIfExists: Byte, length: Short, name: String): Int
         fun xcb_intern_atom_reply(connection: Pointer, cookie: Int, error: Pointer?): Pointer?
         fun xcb_set_selection_owner(connection: Pointer, owner: Int, selection: Int, time: Int): Int
@@ -98,6 +95,7 @@ private object XcbClipboard {
         fun xcb_change_property(
             connection: Pointer, mode: Byte, window: Int, property: Int, type: Int, format: Byte, length: Int, data: Pointer,
         ): Int
+
         fun xcb_change_window_attributes(connection: Pointer, window: Int, valueMask: Int, values: Pointer): Int
         fun xcb_send_event(connection: Pointer, propagate: Byte, destination: Int, eventMask: Int, event: Pointer): Int
         fun xcb_get_maximum_request_length(connection: Pointer): Int

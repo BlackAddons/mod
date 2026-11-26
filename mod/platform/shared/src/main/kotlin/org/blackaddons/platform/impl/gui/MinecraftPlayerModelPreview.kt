@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.gui
+
 import com.google.common.collect.LinkedHashMultimap
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
@@ -26,9 +27,7 @@ import org.blackaddons.blackvertex.api.attach.AttachmentPoint
 import org.blackaddons.core.cosmetics.PlayerScale
 import org.blackaddons.platform.cosmetics.Cosmetic3dManager
 import org.blackaddons.platform.cosmetics.PlayerCustomization
-import org.blackaddons.platform.impl.gui.MinecraftPlayerModelPreview.endFrame
 import org.blackaddons.platform.impl.gui.MinecraftPlayerModelPreview.record
-import org.blackaddons.platform.impl.gui.MinecraftPlayerModelPreview.request
 import org.blackaddons.platform.ui.render.ItemStacks
 import org.joml.Quaternionf
 import org.joml.Vector3f
@@ -95,11 +94,13 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
         showNameTag: Boolean,
     ) {
         PlayerScale.setPreview(Scale(scaleX, scaleY, scaleZ))
-        record(key, Request(
-            x.toInt(), y.toInt(), (x + w).toInt(), (y + h).toInt(),
-            yawDeg, pitchDeg, TimeSource.Monotonic.markNow(), target = null,
-            showNameTag = showNameTag,
-        ))
+        record(
+            key, Request(
+                x.toInt(), y.toInt(), (x + w).toInt(), (y + h).toInt(),
+                yawDeg, pitchDeg, TimeSource.Monotonic.markNow(), target = null,
+                showNameTag = showNameTag,
+            )
+        )
     }
 
     override fun requestPlayer(
@@ -114,14 +115,16 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
     ) {
         val id = Uuids.parse(uuid) ?: return
         // The real UUID shows a size cosmetic, and framing reads the same scale.
-        record(key, Request(
-            x.toInt(), y.toInt(), (x + w).toInt(), (y + h).toInt(),
-            yawDeg, pitchDeg, TimeSource.Monotonic.markNow(),
-            target = Target(id, name, textures, signature, skinTexture),
-            focusOnCosmetic = focusOnCosmetic,
-            showNameTag = showNameTag,
-            gear = gear,
-        ))
+        record(
+            key, Request(
+                x.toInt(), y.toInt(), (x + w).toInt(), (y + h).toInt(),
+                yawDeg, pitchDeg, TimeSource.Monotonic.markNow(),
+                target = Target(id, name, textures, signature, skinTexture),
+                focusOnCosmetic = focusOnCosmetic,
+                showNameTag = showNameTag,
+                gear = gear,
+            )
+        )
     }
 
     /** Queues the draw here so the model keeps caller paint order. A deferred pass drew all models over the UI. */
@@ -224,8 +227,10 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
 
     /** Render state, body at [yaw] (0 = facing the viewer), restoring live rotations. partialTick 1.0 skips lerp. */
     private fun extractAtYaw(player: LivingEntity, yaw: Float): EntityRenderState {
-        val sBody = player.yBodyRot; val sHead = player.yHeadRot
-        val sY = player.yRot; val sX = player.xRot
+        val sBody = player.yBodyRot;
+        val sHead = player.yHeadRot
+        val sY = player.yRot;
+        val sX = player.xRot
         val look = 180f + yaw
         player.yBodyRot = look; player.yHeadRot = look; player.yRot = look; player.xRot = 0f
         val rs = Minecraft.getInstance().entityRenderDispatcher.extractEntity(player, 1.0f)

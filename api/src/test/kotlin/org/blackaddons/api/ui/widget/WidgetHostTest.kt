@@ -4,9 +4,7 @@ import org.blackaddons.api.input.FakeKeyNames
 import org.blackaddons.api.input.Keys
 import org.blackaddons.api.ui.layout.Rect
 import org.blackaddons.api.ui.layout.hit
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class WidgetHostTest {
@@ -25,10 +23,12 @@ class WidgetHostTest {
         override fun draw(x: Float, y: Float) = Unit
         override fun mouseClicked(mouse: MouseButtonInput): Boolean =
             hit(mouse.x, mouse.y, x, y, width, height).also { if (it) events += "click" }
+
         override fun mouseDragged(drag: MouseDragInput): Boolean {
             events += "drag"
             return false
         }
+
         override fun mouseReleased(mouse: MouseButtonInput): Boolean {
             events += "release"
             return false

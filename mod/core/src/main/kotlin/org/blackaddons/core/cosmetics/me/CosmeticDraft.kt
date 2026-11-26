@@ -1,10 +1,7 @@
 package org.blackaddons.core.cosmetics.me
+
 import com.google.gson.JsonObject
-import org.blackaddons.api.cosmetics.ColorSpec
-import org.blackaddons.api.cosmetics.Cosmetic
-import org.blackaddons.api.cosmetics.NickFont
-import org.blackaddons.api.cosmetics.NickStyle
-import org.blackaddons.api.cosmetics.Scale
+import org.blackaddons.api.cosmetics.*
 import org.blackaddons.api.util.color.ColorStop
 import org.blackaddons.core.cosmetics.GradientStops
 import org.blackaddons.core.cosmetics.NickStyles

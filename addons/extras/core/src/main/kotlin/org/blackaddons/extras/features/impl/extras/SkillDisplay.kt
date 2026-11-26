@@ -11,14 +11,11 @@ import org.blackaddons.api.hud.hudText
 import org.blackaddons.api.skyblock.player.ActionBar
 import org.blackaddons.api.skyblock.player.SkillGain
 import org.blackaddons.api.skyblock.profile.Skill
-import org.blackaddons.api.ui.layout.Align
-import org.blackaddons.api.ui.layout.LayoutNode
-import org.blackaddons.api.ui.layout.Spacer
-import org.blackaddons.api.ui.layout.faded
-import org.blackaddons.api.ui.layout.row
+import org.blackaddons.api.ui.layout.*
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.formatDecimals
 import org.blackaddons.extras.core.iconItem
+import org.blackaddons.extras.features.impl.extras.SkillDisplay.FADE_OUT
 import java.awt.Color
 import java.util.Locale
 import kotlin.time.Duration.Companion.milliseconds
@@ -45,6 +42,7 @@ object SkillDisplay : Feature(
     // Client thread only, @Volatile publishes the reference.
     @Volatile
     private var current: SkillGain? = null
+
     @Volatile
     private var lastUpdate = TimeSource.Monotonic.markNow()
 

@@ -1,27 +1,15 @@
 package org.blackaddons.core.ui.screen.pv.tabs
+
 import org.blackaddons.api.skyblock.profile.InventoryPage
 import org.blackaddons.api.skyblock.profile.ProfileMember
 import org.blackaddons.api.skyblock.profile.ProfilePet
-import org.blackaddons.api.ui.layout.Cards
-import org.blackaddons.api.ui.layout.LayoutBuilder
-import org.blackaddons.api.ui.layout.LayoutNode
-import org.blackaddons.api.ui.layout.Rect
-import org.blackaddons.api.ui.layout.centered
-import org.blackaddons.api.ui.layout.column
-import org.blackaddons.api.ui.layout.sectionHeader
-import org.blackaddons.api.ui.layout.valueRow
+import org.blackaddons.api.ui.layout.*
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.Scroll
-import org.blackaddons.api.ui.widget.UiMouse
-import org.blackaddons.api.ui.widget.Widget
-import org.blackaddons.api.ui.widget.WidgetHost
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.util.I18n
 import org.blackaddons.core.profile.pets.PetLeveling
 import org.blackaddons.core.skyblock.SkyblockItems
@@ -29,7 +17,6 @@ import org.blackaddons.core.skyblock.rarityColor
 import org.blackaddons.core.ui.screen.pv.PvFormat
 import org.blackaddons.core.ui.screen.pv.parts.PvIcons
 import org.blackaddons.core.ui.screen.pv.parts.PvProgressCard
-import java.awt.Color
 import kotlin.math.roundToInt
 
 private val tr = I18n.scope("blackaddons.pv")
@@ -262,11 +249,13 @@ internal class PvPetsTab {
         override fun mouseReleased(mouse: MouseButtonInput): Boolean = scroll.mouseReleased(mouse)
         override fun mouseDragged(drag: MouseDragInput): Boolean =
             scroll.mouseDragged(drag)
+
         override fun mouseScrolled(wheel: MouseScrollInput): Boolean = scroll.mouseScrolled(wheel)
         fun reset() {
             scroll.reset()
             clear()
         }
+
         fun clear() {
             cells = emptyList()
             pets = emptyList()

@@ -3,10 +3,7 @@ package org.blackaddons.core.soloclears
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.util.Hashes
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 import java.security.MessageDigest

@@ -2,12 +2,7 @@ package org.blackaddons.api.ui.node
 
 import org.blackaddons.api.ui.layout.Rect
 import org.blackaddons.api.ui.screen.UiManager
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.Widget
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.util.FrameClock
 import java.awt.Color
 import kotlin.math.max
@@ -266,14 +261,18 @@ class NodeCanvas(val graph: NodeGraph) : Widget {
                 val d = dist2(wx, wy, NodeMetrics.inputX(node), NodeMetrics.socketY(node, slot))
                 if (d <= bestDist) {
                     val ref = SocketRef(node.id, slot, output = false)
-                    if (accept == null || accept(ref)) { best = ref; bestDist = d }
+                    if (accept == null || accept(ref)) {
+                        best = ref; bestDist = d
+                    }
                 }
             }
             for (slot in node.outputs.indices) {
                 val d = dist2(wx, wy, NodeMetrics.outputX(node), NodeMetrics.socketY(node, slot))
                 if (d <= bestDist) {
                     val ref = SocketRef(node.id, slot, output = true)
-                    if (accept == null || accept(ref)) { best = ref; bestDist = d }
+                    if (accept == null || accept(ref)) {
+                        best = ref; bestDist = d
+                    }
                 }
             }
         }

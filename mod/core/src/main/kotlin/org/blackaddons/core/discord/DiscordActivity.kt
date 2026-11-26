@@ -1,7 +1,6 @@
 package org.blackaddons.core.discord
 
 import com.google.gson.annotations.SerializedName
-import org.blackaddons.core.discord.DiscordActivity.Companion.of
 
 /** Discord's activity payload. Text fields have to be 2-128 characters long, and [of] makes sure they are. */
 internal data class DiscordActivity(

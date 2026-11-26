@@ -14,11 +14,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -55,7 +51,8 @@ public class AutoMixinDiscovery implements IMixinConfigPlugin {
                 switch (url.getProtocol()) {
                     case "jar" -> collectFromJar(url, found);
                     case "file" -> collectFromDir(url, found);
-                    default -> { }
+                    default -> {
+                    }
                 }
             }
         } catch (Exception e) {
@@ -92,7 +89,8 @@ public class AutoMixinDiscovery implements IMixinConfigPlugin {
     // A failed scan leaves events silently dead: log loudly, and fail in dev where it's a build problem.
     private static void scanFailed(Exception e) {
         Log.main.error("Mixin discovery failed; mixins may be missing", e);
-        if (FabricLoader.getInstance().isDevelopmentEnvironment()) throw new IllegalStateException("Mixin discovery failed", e);
+        if (FabricLoader.getInstance().isDevelopmentEnvironment())
+            throw new IllegalStateException("Mixin discovery failed", e);
     }
 
     private void add(String resourceName, Set<String> out) {

@@ -1,7 +1,6 @@
 package org.blackaddons.core.update
 
 import org.blackaddons.api.Platform
-import org.blackaddons.core.update.ReleaseChannel.DEFAULT
 
 /**
  * This build's release track, sent with `GET /v1/version` and gateway `IDENTIFY`. Without it the backend assumes

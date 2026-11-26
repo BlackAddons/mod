@@ -1,13 +1,8 @@
 package org.blackaddons.core.ui.screen.pv.tabs
+
 import org.blackaddons.api.skyblock.profile.DungeonClassStat
 import org.blackaddons.api.skyblock.profile.ProfileMember
-import org.blackaddons.api.ui.layout.Cards
-import org.blackaddons.api.ui.layout.LayoutBuilder
-import org.blackaddons.api.ui.layout.LayoutNode
-import org.blackaddons.api.ui.layout.Stat
-import org.blackaddons.api.ui.layout.column
-import org.blackaddons.api.ui.layout.sectionHeader
-import org.blackaddons.api.ui.layout.stats
+import org.blackaddons.api.ui.layout.*
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
@@ -174,6 +169,7 @@ internal class PvCa50Tab {
             Stat(label("class_xp_per_run", "Class XP / Run"), result.classXpPerRun.formatGrouped()),
             Stat(label("total_runs", "Total Runs"), reached(result.totalClassRuns)),
         )
+
         fun summary(title: String, metrics: List<Stat>, minHeight: Float) =
             Cards.card(cardW, title, minHeight = minHeight) { innerW -> stats(innerW, metrics, columns = 2) }
         // Equal heights, so the pair reads as one row even when one card has fewer metrics.

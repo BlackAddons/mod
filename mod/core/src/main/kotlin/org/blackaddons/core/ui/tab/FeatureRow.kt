@@ -1,12 +1,6 @@
 package org.blackaddons.core.ui.tab
 
-import org.blackaddons.api.feature.Feature
-import org.blackaddons.api.feature.FeatureExtension
-import org.blackaddons.api.feature.FeatureLabel
-import org.blackaddons.api.feature.translatedDescription
-import org.blackaddons.api.feature.translatedName
-import org.blackaddons.api.feature.translatedSettingGroup
-import org.blackaddons.api.feature.translatedUnsafeReason
+import org.blackaddons.api.feature.*
 import org.blackaddons.api.ui.anim.Animation
 import org.blackaddons.api.ui.anim.Easing
 import org.blackaddons.api.ui.anim.isVisible
@@ -23,12 +17,7 @@ import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.ui.toast.ToastKind
 import org.blackaddons.api.ui.toast.Toasts
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.Chevron
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.ui.widget.setting.SettingWidget
 import org.blackaddons.api.util.I18n
 import org.blackaddons.core.feature.FeatureLabels

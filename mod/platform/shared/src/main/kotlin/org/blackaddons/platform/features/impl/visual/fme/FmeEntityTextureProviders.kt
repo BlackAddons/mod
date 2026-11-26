@@ -5,12 +5,7 @@ import net.minecraft.client.renderer.blockentity.ChestRenderer
 import net.minecraft.client.renderer.blockentity.ShulkerBoxRenderer
 import net.minecraft.core.Direction
 import net.minecraft.resources.Identifier
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.ChestBlock
-import net.minecraft.world.level.block.CopperChestBlock
-import net.minecraft.world.level.block.EnderChestBlock
-import net.minecraft.world.level.block.ShulkerBoxBlock
-import net.minecraft.world.level.block.WeatheringCopper
+import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.ChestType
 import org.joml.Matrix4fc
@@ -71,7 +66,7 @@ object FmeEntityTextureProviders {
     private fun chestModelFace(state: BlockState, worldFace: Direction): Direction {
         if (worldFace.axis == Direction.Axis.Y) return worldFace
         val facing = if (state.block === Blocks.ENDER_CHEST) state.getValue(EnderChestBlock.FACING)
-            else state.getValue(ChestBlock.FACING)
+        else state.getValue(ChestBlock.FACING)
         var modelFace = worldFace
         var current = facing
         while (current != Direction.SOUTH) {

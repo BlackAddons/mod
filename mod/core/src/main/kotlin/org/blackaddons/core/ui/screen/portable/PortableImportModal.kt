@@ -16,7 +16,6 @@ import org.blackaddons.core.config.portable.DiffRow
 import org.blackaddons.core.config.portable.DiffValue
 import org.blackaddons.core.config.portable.ImportPreview
 import org.blackaddons.core.config.portable.PortableImports
-import org.blackaddons.core.ui.screen.portable.PortableImportModal.Companion.MAX_ROWS
 import java.awt.Color
 
 /** Previews what a copied config would change. Grows to [MAX_ROWS] rows, then scrolls. */

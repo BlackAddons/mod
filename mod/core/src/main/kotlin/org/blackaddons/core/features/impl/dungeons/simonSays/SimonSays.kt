@@ -21,7 +21,6 @@ import org.blackaddons.api.world.Vec3d
 import org.blackaddons.core.chat.Brand
 import org.blackaddons.core.chat.brand
 import org.blackaddons.core.dungeon.DungeonTracker
-import org.blackaddons.core.features.impl.dungeons.simonSays.SimonSays.solution
 import org.blackaddons.core.log.Log
 import java.awt.Color
 import kotlin.time.TimeSource
@@ -409,9 +408,13 @@ internal class SimonSaysChatTimer {
     private var startTick: Long? = null
     val started: Boolean get() = startTick != null
 
-    fun start(tick: Long) { startTick = tick }
+    fun start(tick: Long) {
+        startTick = tick
+    }
 
-    fun reset() { startTick = null }
+    fun reset() {
+        startTick = null
+    }
 
     fun complete(tick: Long, player: String, nearbyPlayers: Collection<String>): Double? {
         val startedAt = startTick ?: return null

@@ -1,4 +1,5 @@
 package org.blackaddons.core.cosmetics.store
+
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.cosmetics.ColorSpec
@@ -6,9 +7,7 @@ import org.blackaddons.api.cosmetics.Cosmetic
 import org.blackaddons.api.cosmetics.NickStyle
 import org.blackaddons.api.cosmetics.Scale
 import org.blackaddons.api.util.color.ColorStop
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.UUID
 

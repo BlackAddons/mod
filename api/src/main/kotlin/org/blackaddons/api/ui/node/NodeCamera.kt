@@ -1,12 +1,7 @@
 package org.blackaddons.api.ui.node
 
-import org.blackaddons.api.ui.node.NodeCamera.Companion.STEP
 import org.blackaddons.api.util.expSmoothing
-import kotlin.math.abs
-import kotlin.math.exp
-import kotlin.math.hypot
-import kotlin.math.ln
-import kotlin.math.pow
+import kotlin.math.*
 
 /**
  * `screen = (world - origin) * zoom`. Wheel zoom keeps the point under the cursor fixed and eases in log

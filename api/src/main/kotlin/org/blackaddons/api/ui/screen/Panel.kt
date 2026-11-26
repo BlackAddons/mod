@@ -1,12 +1,6 @@
 package org.blackaddons.api.ui.screen
 
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.Keymap
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.WidgetHost
+import org.blackaddons.api.ui.widget.*
 import java.nio.file.Path
 
 /**

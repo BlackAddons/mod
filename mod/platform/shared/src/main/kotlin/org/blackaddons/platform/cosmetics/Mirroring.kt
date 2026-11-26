@@ -1,7 +1,6 @@
 package org.blackaddons.platform.cosmetics
 
 import com.mojang.blaze3d.vertex.PoseStack
-import org.blackaddons.platform.cosmetics.Mirroring.evenOut
 import java.util.UUID
 
 /**

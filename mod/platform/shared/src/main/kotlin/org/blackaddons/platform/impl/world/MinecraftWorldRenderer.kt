@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.world
+
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -16,13 +17,8 @@ import org.blackaddons.platform.compat.drawGeometry
 import org.blackaddons.platform.compat.endWorldPass
 import org.blackaddons.platform.compat.mainCamera
 import org.blackaddons.platform.impl.world.MinecraftWorldRenderer.emitFilledBox
-import org.blackaddons.platform.impl.world.MinecraftWorldRenderer.endFrame
 import java.awt.Color
-import kotlin.math.PI
-import kotlin.math.ceil
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * [WorldRenderer] over Fabric's `LevelRenderContext`. Geometry and text go through `compat` because text submission
@@ -51,7 +47,9 @@ object MinecraftWorldRenderer : WorldRenderer {
 
     private val text = WorldTextBatch()
 
-    fun beginFrame(ctx: LevelRenderContext) { current = ctx }
+    fun beginFrame(ctx: LevelRenderContext) {
+        current = ctx
+    }
 
     fun endFrame() {
         val ctx = current
@@ -84,8 +82,12 @@ object MinecraftWorldRenderer : WorldRenderer {
         throughBlocks: Boolean,
         depthPriority: Boolean,
     ) = submit(lineLayer(throughBlocks, depthPriority)) { pose, buf, cam ->
-        val x1 = (minX - cam.x).toFloat(); val y1 = (minY - cam.y).toFloat(); val z1 = (minZ - cam.z).toFloat()
-        val x2 = (maxX - cam.x).toFloat(); val y2 = (maxY - cam.y).toFloat(); val z2 = (maxZ - cam.z).toFloat()
+        val x1 = (minX - cam.x).toFloat();
+        val y1 = (minY - cam.y).toFloat();
+        val z1 = (minZ - cam.z).toFloat()
+        val x2 = (maxX - cam.x).toFloat();
+        val y2 = (maxY - cam.y).toFloat();
+        val z2 = (maxZ - cam.z).toFloat()
         fun edge(ax: Float, ay: Float, az: Float, bx: Float, by: Float, bz: Float) =
             lineSegment(buf, pose, ax, ay, az, bx, by, bz, color, thickness)
         edge(x1, y1, z1, x2, y1, z1); edge(x2, y1, z1, x2, y1, z2); edge(x2, y1, z2, x1, y1, z2); edge(x1, y1, z2, x1, y1, z1)
@@ -134,14 +136,20 @@ object MinecraftWorldRenderer : WorldRenderer {
     ) = submit(filledLayer(throughBlocks, depthPriority = false)) { pose, buf, cam ->
         val half = 0.25
         val a = WorldAnim.spin(BEAM_BASE_PERIOD_MS, WorldRenderPrefs.beaconSpeed()).toDouble()
-        val c = cos(a); val s = sin(a)
+        val c = cos(a);
+        val s = sin(a)
         fun wx(dx: Double, dz: Double) = (x + dx * c - dz * s - cam.x).toFloat()
         fun wz(dx: Double, dz: Double) = (z + dx * s + dz * c - cam.z).toFloat()
-        val x0 = wx(-half, -half); val z0 = wz(-half, -half)
-        val x1 = wx(half, -half);  val z1 = wz(half, -half)
-        val x2 = wx(half, half);   val z2 = wz(half, half)
-        val x3 = wx(-half, half);  val z3 = wz(-half, half)
-        val y0 = (fromY - cam.y).toFloat(); val y1 = (toY - cam.y).toFloat()
+        val x0 = wx(-half, -half);
+        val z0 = wz(-half, -half)
+        val x1 = wx(half, -half);
+        val z1 = wz(half, -half)
+        val x2 = wx(half, half);
+        val z2 = wz(half, half)
+        val x3 = wx(-half, half);
+        val z3 = wz(-half, half)
+        val y0 = (fromY - cam.y).toFloat();
+        val y1 = (toY - cam.y).toFloat()
         emitBeamWall(buf, pose, x0, z0, x1, z1, y0, y1, color)
         emitBeamWall(buf, pose, x1, z1, x2, z2, y0, y1, color)
         emitBeamWall(buf, pose, x2, z2, x3, z3, y0, y1, color)
@@ -164,7 +172,8 @@ object MinecraftWorldRenderer : WorldRenderer {
     ) = submit(lineLayer(throughBlocks, depthPriority)) { pose, buf, cam ->
         val segments = ringSegments(radius, x - cam.x, y - cam.y, z - cam.z)
         val cy = (y - cam.y).toFloat()
-        var px = (x + radius - cam.x).toFloat(); var pz = (z - cam.z).toFloat()
+        var px = (x + radius - cam.x).toFloat();
+        var pz = (z - cam.z).toFloat()
         for (i in 1..segments) {
             val ang = 2.0 * PI * i / segments
             val nx = (x + radius * cos(ang) - cam.x).toFloat()
@@ -187,7 +196,10 @@ object MinecraftWorldRenderer : WorldRenderer {
         val cx = (x - cam.x).toFloat()
         val cz = (z - cam.z).toFloat()
 
-        val r = color.red / 255f; val g = color.green / 255f; val b = color.blue / 255f; val a = color.alpha / 255f
+        val r = color.red / 255f;
+        val g = color.green / 255f;
+        val b = color.blue / 255f;
+        val a = color.alpha / 255f
         fun tri(ax: Float, ay: Float, az: Float, bx: Float, by: Float, bz: Float, cx: Float, cy: Float, cz: Float) {
             buf.addVertex(pose, ax, ay, az).setColor(r, g, b, a)
             buf.addVertex(pose, bx, by, bz).setColor(r, g, b, a)
@@ -229,9 +241,12 @@ object MinecraftWorldRenderer : WorldRenderer {
         throughBlocks: Boolean,
         depthPriority: Boolean,
     ) = submit(filledLayer(throughBlocks, depthPriority)) { pose, buf, cam ->
-        val cx = x - cam.x; val cz = z - cam.z
-        val baseY = (y - cam.y).toFloat(); val apexY = (y + height - cam.y).toFloat()
-        val ax = cx.toFloat(); val az = cz.toFloat()
+        val cx = x - cam.x;
+        val cz = z - cam.z
+        val baseY = (y - cam.y).toFloat();
+        val apexY = (y + height - cam.y).toFloat()
+        val ax = cx.toFloat();
+        val az = cz.toFloat()
         val turn = Math.toRadians(yaw.toDouble())
         var px = (cx + radius * cos(turn)).toFloat()
         var pz = (cz + radius * sin(turn)).toFloat()
@@ -240,7 +255,10 @@ object MinecraftWorldRenderer : WorldRenderer {
             val nx = (cx + radius * cos(ang)).toFloat()
             val nz = (cz + radius * sin(ang)).toFloat()
             val c = color((i - 1).toFloat() / segments)
-            val r = c.red / 255f; val g = c.green / 255f; val b = c.blue / 255f; val a = c.alpha / 255f
+            val r = c.red / 255f;
+            val g = c.green / 255f;
+            val b = c.blue / 255f;
+            val a = c.alpha / 255f
             buf.addVertex(pose, px, baseY, pz).setColor(r, g, b, a)
             buf.addVertex(pose, nx, baseY, nz).setColor(r, g, b, a)
             buf.addVertex(pose, ax, apexY, az).setColor(r, g, b, a)
@@ -299,10 +317,15 @@ object MinecraftWorldRenderer : WorldRenderer {
         x2: Float, y2: Float, z2: Float,
         color: Color, width: Float,
     ) {
-        var nx = x2 - x1; var ny = y2 - y1; var nz = z2 - z1
+        var nx = x2 - x1;
+        var ny = y2 - y1;
+        var nz = z2 - z1
         val len = sqrt(nx * nx + ny * ny + nz * nz).coerceAtLeast(1e-6f)
         nx /= len; ny /= len; nz /= len
-        val r = color.red / 255f; val g = color.green / 255f; val b = color.blue / 255f; val a = color.alpha / 255f
+        val r = color.red / 255f;
+        val g = color.green / 255f;
+        val b = color.blue / 255f;
+        val a = color.alpha / 255f
         buf.addVertex(pose, x1, y1, z1).setColor(r, g, b, a).setNormal(pose, nx, ny, nz).setLineWidth(width)
         buf.addVertex(pose, x2, y2, z2).setColor(r, g, b, a).setNormal(pose, nx, ny, nz).setLineWidth(width)
     }
@@ -313,8 +336,13 @@ object MinecraftWorldRenderer : WorldRenderer {
         ax: Float, az: Float, bx: Float, bz: Float,
         y0: Float, y1: Float, color: Color,
     ) {
-        val r = color.red / 255f; val g = color.green / 255f; val b = color.blue / 255f; val al = color.alpha / 255f
-        fun v(x: Float, y: Float, z: Float) { buf.addVertex(pose, x, y, z).setColor(r, g, b, al) }
+        val r = color.red / 255f;
+        val g = color.green / 255f;
+        val b = color.blue / 255f;
+        val al = color.alpha / 255f
+        fun v(x: Float, y: Float, z: Float) {
+            buf.addVertex(pose, x, y, z).setColor(r, g, b, al)
+        }
         v(ax, y0, az); v(ax, y1, az); v(bx, y1, bz)
         v(ax, y0, az); v(bx, y1, bz); v(bx, y0, bz)
     }
@@ -325,7 +353,10 @@ object MinecraftWorldRenderer : WorldRenderer {
         x2: Float, y2: Float, z2: Float,
         color: Color,
     ) {
-        val r = color.red / 255f; val g = color.green / 255f; val b = color.blue / 255f; val a = color.alpha / 255f
+        val r = color.red / 255f;
+        val g = color.green / 255f;
+        val b = color.blue / 255f;
+        val a = color.alpha / 255f
         fun quad(ax: Float, ay: Float, az: Float, bx: Float, by: Float, bz: Float, cx: Float, cy: Float, cz: Float, dx: Float, dy: Float, dz: Float) {
             // Front face
             buf.addVertex(pose, ax, ay, az).setColor(r, g, b, a)

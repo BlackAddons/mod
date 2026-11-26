@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.world
+
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.mojang.brigadier.StringReader
@@ -12,11 +13,7 @@ import net.minecraft.commands.arguments.item.ItemArgument
 import net.minecraft.core.RegistryAccess
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.NbtAccounter
-import net.minecraft.nbt.NbtIo
-import net.minecraft.nbt.NbtOps
-import net.minecraft.nbt.Tag
+import net.minecraft.nbt.*
 import net.minecraft.util.datafix.DataFixers
 import net.minecraft.util.datafix.fixes.References
 import net.minecraft.world.flag.FeatureFlags
@@ -27,8 +24,6 @@ import org.blackaddons.core.log.Log
 import org.blackaddons.platform.impl.chat.toChatMessage
 import org.blackaddons.platform.impl.gui.MinecraftOpenContainer
 import org.blackaddons.platform.impl.gui.MinecraftScreenDraw
-import org.blackaddons.platform.impl.world.MinecraftItems.describe
-import org.blackaddons.platform.impl.world.MinecraftItems.deserialize
 import org.blackaddons.platform.impl.world.MinecraftItems.serialize
 import org.blackaddons.platform.mixin.world.CustomDataAccessor
 import java.io.ByteArrayInputStream

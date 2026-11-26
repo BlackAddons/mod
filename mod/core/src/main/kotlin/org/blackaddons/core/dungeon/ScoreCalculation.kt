@@ -6,21 +6,11 @@ import org.blackaddons.api.event.EventBus
 import org.blackaddons.api.event.WorldChangeEvent
 import org.blackaddons.api.event.chat.ActionBarReceiveEvent
 import org.blackaddons.api.event.chat.ChatReceiveEvent
-import org.blackaddons.api.event.dungeon.DungeonBonusEarnedEvent
-import org.blackaddons.api.event.dungeon.DungeonMimicKilledEvent
-import org.blackaddons.api.event.dungeon.DungeonPlayerDeathEvent
-import org.blackaddons.api.event.dungeon.DungeonSecretFoundEvent
-import org.blackaddons.api.event.dungeon.DungeonSecretUncreditedEvent
+import org.blackaddons.api.event.dungeon.*
 import org.blackaddons.api.event.subscribe
 import org.blackaddons.api.skyblock.LocationUtils
-import org.blackaddons.api.skyblock.dungeon.MapOverrides
-import org.blackaddons.api.skyblock.dungeon.Puzzle
-import org.blackaddons.api.skyblock.dungeon.PuzzleStatus
-import org.blackaddons.api.skyblock.dungeon.RoomState
-import org.blackaddons.api.skyblock.dungeon.RoomType
+import org.blackaddons.api.skyblock.dungeon.*
 import org.blackaddons.api.util.stripFormatting
-import org.blackaddons.core.dungeon.ScoreCalculation.board
-import org.blackaddons.core.dungeon.ScoreCalculation.target
 import org.blackaddons.core.dungeon.map.MapState
 import org.blackaddons.core.features.impl.dungeons.map.DungeonMap
 import org.blackaddons.core.features.impl.dungeons.soloclears.SoloClears
@@ -155,15 +145,19 @@ object ScoreCalculation {
         lastActionBarSecrets = counted
 
         val room = MapState.getRoomAt(px, pz)
-            ?: return uncredited(changed, "no_room", "no room at grid ${MapState.worldToGrid(px, pz)}",
-                null, secrets, maxSecrets)
+            ?: return uncredited(
+                changed, "no_room", "no room at grid ${MapState.worldToGrid(px, pz)}",
+                null, secrets, maxSecrets
+            )
         if (room.data.name == "Unknown") {
             return uncredited(changed, "unidentified_room", "the room here is not identified", null, secrets, maxSecrets)
         }
         if (room.data.secrets != maxSecrets) {
-            return uncredited(changed, "count_mismatch",
+            return uncredited(
+                changed, "count_mismatch",
                 "'${room.name}' holds ${room.data.secrets}, the action bar says $maxSecrets",
-                room.name, secrets, maxSecrets)
+                room.name, secrets, maxSecrets
+            )
         }
         secretsSkipped(null)
         secretFeed.credit()

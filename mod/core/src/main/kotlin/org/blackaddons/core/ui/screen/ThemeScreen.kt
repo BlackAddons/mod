@@ -312,19 +312,23 @@ internal class ThemeScreen : ModalPanel(tr("title", "Theme")) {
 
     private fun editBase(base: ThemeBase) {
         if (!editable) return
-        UiManager.push(ColorPopover(
-            initial = draft.spec.bases[base],
-            allowAlpha = false,
-            onChange = { edit(draft.spec.copy(bases = draft.spec.bases.with(base, it))) },
-        ))
+        UiManager.push(
+            ColorPopover(
+                initial = draft.spec.bases[base],
+                allowAlpha = false,
+                onChange = { edit(draft.spec.copy(bases = draft.spec.bases.with(base, it))) },
+            )
+        )
     }
 
     private fun pinSlot(slot: ThemeSlot) {
-        UiManager.push(ColorPopover(
-            initial = Theme.palette[slot],
-            allowAlpha = true,
-            onChange = { edit(draft.spec.copy(overrides = draft.spec.overrides + (slot to it))) },
-        ))
+        UiManager.push(
+            ColorPopover(
+                initial = Theme.palette[slot],
+                allowAlpha = true,
+                onChange = { edit(draft.spec.copy(overrides = draft.spec.overrides + (slot to it))) },
+            )
+        )
     }
 
     private fun releaseSlot(slot: ThemeSlot) {
@@ -367,23 +371,27 @@ internal class ThemeScreen : ModalPanel(tr("title", "Theme")) {
 
     private fun confirmDelete() {
         val target = ThemeCatalog.byId(draft.id)?.takeIf { !it.builtIn } ?: return
-        UiManager.push(ConfirmModal(
-            title = tr("delete_title", "Delete theme"),
-            message = tr("delete_message", "%s will be gone for good.", target.name),
-            onConfirm = {
-                ThemeCatalog.delete(target.id)
-                UiTheme.refresh()
-                select(UiTheme.current)
-            },
-        ))
+        UiManager.push(
+            ConfirmModal(
+                title = tr("delete_title", "Delete theme"),
+                message = tr("delete_message", "%s will be gone for good.", target.name),
+                onConfirm = {
+                    ThemeCatalog.delete(target.id)
+                    UiTheme.refresh()
+                    select(UiTheme.current)
+                },
+            )
+        )
     }
 
     private fun export() {
-        UiManager.push(PortableExportModal(
-            tr("export_title", "Theme exported"),
-            tr("export_done", "\"%s\" is on your clipboard.", draft.name),
-            ThemeCatalog.export(draft),
-        ))
+        UiManager.push(
+            PortableExportModal(
+                tr("export_title", "Theme exported"),
+                tr("export_done", "\"%s\" is on your clipboard.", draft.name),
+                ThemeCatalog.export(draft),
+            )
+        )
     }
 
     private fun import() {
@@ -405,12 +413,14 @@ internal class ThemeScreen : ModalPanel(tr("title", "Theme")) {
             action()
             return
         }
-        UiManager.push(ConfirmModal(
-            title = tr("unsaved_title", "Unsaved changes"),
-            message = tr("unsaved_message", "%s has changes you never saved. Leave them behind?", draft.name),
-            confirmLabel = tr("unsaved_discard", "Discard"),
-            onConfirm = action,
-        ))
+        UiManager.push(
+            ConfirmModal(
+                title = tr("unsaved_title", "Unsaved changes"),
+                message = tr("unsaved_message", "%s has changes you never saved. Leave them behind?", draft.name),
+                confirmLabel = tr("unsaved_discard", "Discard"),
+                onConfirm = action,
+            )
+        )
     }
 
     // Nothing gets committed unless Done did it.

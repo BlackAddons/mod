@@ -2,7 +2,6 @@ package org.blackaddons.core.ui.screen
 
 import org.blackaddons.api.ui.layout.column
 import org.blackaddons.api.ui.layout.columnWidth
-import org.blackaddons.api.ui.layout.row
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.theme.Fonts
@@ -71,36 +70,50 @@ internal fun GlobalFontScreen.drawControls(x: Float, y: Float, w: Float, h: Floa
             return@column
         }
         when (tab) {
-            Tab.HUD -> sliderRow(tr("size", "Size"), draft.rasterSize, rasterSlider,
-                tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider, w, mouseX, mouseY)
+            Tab.HUD -> sliderRow(
+                tr("size", "Size"), draft.rasterSize, rasterSlider,
+                tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider, w, mouseX, mouseY
+            )
             Tab.MINECRAFT -> {
-                sliderRow(tr("raster_size", "Raster size"), draft.rasterSize, rasterSlider,
-                    tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider, w, mouseX, mouseY)
-                sliderRow(tr("oversampling_2d", "2D oversampling"), draft.oversample2d, oversample2dSlider,
+                sliderRow(
+                    tr("raster_size", "Raster size"), draft.rasterSize, rasterSlider,
+                    tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider, w, mouseX, mouseY
+                )
+                sliderRow(
+                    tr("oversampling_2d", "2D oversampling"), draft.oversample2d, oversample2dSlider,
                     tr("oversampling_world", "World oversampling"), draft.oversampleWorld, oversampleWorldSlider,
                     w, mouseX, mouseY, "×",
                     leftShown = if (draft.oversample2d == GlobalFontDraft.AUTO_OVERSAMPLE) {
                         tr("oversampling_auto", "Auto")
                     } else {
                         format(draft.oversample2d)
-                    })
+                    }
+                )
             }
-            Tab.WORLD -> sliderRow(tr("raster_size", "Raster size"), draft.rasterSize, rasterSlider,
+            Tab.WORLD -> sliderRow(
+                tr("raster_size", "Raster size"), draft.rasterSize, rasterSlider,
                 tr("oversampling_world", "World oversampling"), draft.oversampleWorld, oversampleWorldSlider,
-                w, mouseX, mouseY, "×")
+                w, mouseX, mouseY, "×"
+            )
         }
         if (tab == Tab.WORLD) {
-            sliderRow(tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider,
-                tr("outline_width", "Outline width"), draft.outlineWidth, outlineSlider, w, mouseX, mouseY)
+            sliderRow(
+                tr("letter_spacing", "Letter spacing"), draft.letterSpacing, spacingSlider,
+                tr("outline_width", "Outline width"), draft.outlineWidth, outlineSlider, w, mouseX, mouseY
+            )
         }
-        sliderRow(tr("glyph_x_offset", "Glyph X offset"), draft.shiftX, shiftXSlider,
-            tr("glyph_y_offset", "Glyph Y offset"), draft.shiftY, shiftYSlider, w, mouseX, mouseY)
+        sliderRow(
+            tr("glyph_x_offset", "Glyph X offset"), draft.shiftX, shiftXSlider,
+            tr("glyph_y_offset", "Glyph Y offset"), draft.shiftY, shiftYSlider, w, mouseX, mouseY
+        )
         if (tab == Tab.MINECRAFT) {
             singleSliderRow(tr("outline_width", "Outline width"), draft.outlineWidth, outlineSlider, w, mouseX, mouseY)
         }
         if (tab != Tab.HUD) {
-            sliderRow(tr("shadow_x", "Shadow X"), draft.shadowX, shadowXSlider,
-                tr("shadow_y", "Shadow Y"), draft.shadowY, shadowYSlider, w, mouseX, mouseY)
+            sliderRow(
+                tr("shadow_x", "Shadow X"), draft.shadowX, shadowXSlider,
+                tr("shadow_y", "Shadow Y"), draft.shadowY, shadowYSlider, w, mouseX, mouseY
+            )
         }
         row(spacing = buttonGap, width = w, height = 22f) {
             toggles.forEach { button ->

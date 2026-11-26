@@ -2,11 +2,7 @@ package org.blackaddons.platform.cosmetics
 
 import net.minecraft.client.renderer.entity.state.AvatarRenderState
 import net.minecraft.core.ClientAsset
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.FontDescription
-import net.minecraft.network.chat.MutableComponent
-import net.minecraft.network.chat.Style
-import net.minecraft.network.chat.TextColor
+import net.minecraft.network.chat.*
 import net.minecraft.resources.Identifier
 import net.minecraft.world.entity.player.PlayerSkin
 import org.blackaddons.api.Platform

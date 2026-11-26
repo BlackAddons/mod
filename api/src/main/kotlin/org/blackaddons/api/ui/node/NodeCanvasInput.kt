@@ -1,12 +1,7 @@
 package org.blackaddons.api.ui.node
 
 import org.blackaddons.api.input.Keys
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.UiKeys
-import org.blackaddons.api.ui.widget.UiMouse
+import org.blackaddons.api.ui.widget.*
 import kotlin.math.hypot
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds

@@ -8,12 +8,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.io.path.extension
-import kotlin.io.path.invariantSeparatorsPathString
-import kotlin.io.path.isRegularFile
-import kotlin.io.path.listDirectoryEntries
-import kotlin.io.path.nameWithoutExtension
-import kotlin.io.path.readText
+import kotlin.io.path.*
 
 /** Lang checks for `lang/<namespace>/`. Features come from source, locales from the bundle: nothing listed by hand. */
 class LangCatalog(private val namespace: String) {

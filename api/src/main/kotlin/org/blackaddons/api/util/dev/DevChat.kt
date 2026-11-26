@@ -1,7 +1,7 @@
 package org.blackaddons.api.util.dev
+
 import org.blackaddons.api.Platform
 import org.blackaddons.api.chat.ChatMessage
-import org.blackaddons.api.util.dev.DevChat.enabled
 import java.awt.Color
 
 /**

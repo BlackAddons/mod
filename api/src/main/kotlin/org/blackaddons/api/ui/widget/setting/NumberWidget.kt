@@ -8,7 +8,6 @@ import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.ui.widget.MouseDragInput
 import org.blackaddons.api.ui.widget.MouseScrollInput
 import org.blackaddons.api.ui.widget.Slider
-import org.blackaddons.api.ui.widget.setting.SettingWidget.Companion.MAX_WIDTH
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.formatTrimmed
 import org.blackaddons.api.util.near

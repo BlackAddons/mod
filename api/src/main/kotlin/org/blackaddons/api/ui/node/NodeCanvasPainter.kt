@@ -8,11 +8,7 @@ import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Palette
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import java.awt.Color
-import kotlin.math.abs
-import kotlin.math.floor
-import kotlin.math.ln
-import kotlin.math.min
-import kotlin.math.roundToInt
+import kotlin.math.*
 
 internal class NodeCanvasPainter(private val canvas: NodeCanvas) {
 
@@ -204,6 +200,7 @@ internal class NodeCanvasPainter(private val canvas: NodeCanvas) {
 
     private val groupFrame = FloatArray(4)
     private val groupTints = HashMap<Color, Array<Color>>()
+
     private class GroupTitle(var source: String = "", var width: Float = -1f, var text: String = "")
 
     private val groupTitles = HashMap<NodeGroup, GroupTitle>()

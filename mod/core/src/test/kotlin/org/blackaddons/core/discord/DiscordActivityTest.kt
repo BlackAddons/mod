@@ -2,9 +2,7 @@ package org.blackaddons.core.discord
 
 import com.google.gson.JsonParser
 import org.blackaddons.api.util.io.Gsons
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class DiscordActivityTest {

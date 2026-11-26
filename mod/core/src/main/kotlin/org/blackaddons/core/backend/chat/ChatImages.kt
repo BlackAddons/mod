@@ -3,7 +3,6 @@ package org.blackaddons.core.backend.chat
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.util.concurrent.LoadOnce
 import org.blackaddons.core.backend.Backend
-import org.blackaddons.core.backend.chat.ChatImages.source
 import org.blackaddons.core.storage.ContentCache
 
 /**

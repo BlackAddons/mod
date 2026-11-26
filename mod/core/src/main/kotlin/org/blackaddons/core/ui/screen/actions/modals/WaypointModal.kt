@@ -1,4 +1,5 @@
 package org.blackaddons.core.ui.screen.actions.modals
+
 import org.blackaddons.api.Platform
 import org.blackaddons.api.ui.layout.Align
 import org.blackaddons.api.ui.layout.LayoutBuilder
@@ -13,11 +14,7 @@ import org.blackaddons.api.ui.widget.dropdown.Dropdown
 import org.blackaddons.api.ui.widget.dropdown.MultiSelectDropdown
 import org.blackaddons.api.ui.widget.text.TextInput
 import org.blackaddons.api.util.formatDecimals
-import org.blackaddons.core.actions.ActionStorage
-import org.blackaddons.core.actions.TriggeredBy
-import org.blackaddons.core.actions.WaypointAction
-import org.blackaddons.core.actions.WaypointDefinition
-import org.blackaddons.core.actions.WaypointShape
+import org.blackaddons.core.actions.*
 import org.blackaddons.core.ui.screen.actions.actionTr
 import org.blackaddons.core.ui.screen.actions.fields.GroupPicker
 import org.blackaddons.core.ui.screen.actions.fields.labelledSlider

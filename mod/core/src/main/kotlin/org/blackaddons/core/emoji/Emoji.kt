@@ -3,7 +3,6 @@ package org.blackaddons.core.emoji
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.util.graphemes
-import org.blackaddons.core.emoji.Emoji.FONT
 
 internal sealed interface EmojiSegment {
     data class Text(val text: String) : EmojiSegment
@@ -58,8 +57,10 @@ internal object Emoji {
     fun cellOf(glyph: Int): IntArray {
         val perSheet = catalog.grid * catalog.grid
         val slot = glyph % perSheet
-        return intArrayOf(glyph / perSheet, slot % catalog.grid * catalog.cell, slot / catalog.grid * catalog.cell,
-            catalog.cell)
+        return intArrayOf(
+            glyph / perSheet, slot % catalog.grid * catalog.cell, slot / catalog.grid * catalog.cell,
+            catalog.cell
+        )
     }
 
     fun sheetSize(): Int = catalog.grid * catalog.cell

@@ -1,9 +1,7 @@
 package org.blackaddons.cheat.features.impl.cheats.invWalk
 
 import org.blackaddons.api.event.world.ClickKind
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class InvWalkFlowTest {

@@ -7,11 +7,7 @@ import org.blackaddons.api.world.BlockPos3
 import org.blackaddons.api.world.Vec3d
 import org.blackaddons.core.dungeon.map.MapState
 import org.blackaddons.core.dungeon.map.RoomTransform
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class FmeReplacementStoreTest {

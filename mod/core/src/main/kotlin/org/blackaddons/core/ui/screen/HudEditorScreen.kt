@@ -21,11 +21,7 @@ import org.blackaddons.api.ui.theme.FontChoice
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.UiKeys
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.color.lerpColor
 import org.blackaddons.api.util.formatDecimals
@@ -207,6 +203,7 @@ internal class HudEditorScreen : Panel() {
             fontName(key),
             icon = LucideIcons.circleCheck.takeIf { key == hud.fontOverride },
         ) { hud.fontOverride = key }
+
         val installed = FontCatalog.installed().filter { it.isFile && !it.isBundled }
         UiManager.contextMenu(buildList {
             FontChoice.entries.forEach { add(item(it.name)) }

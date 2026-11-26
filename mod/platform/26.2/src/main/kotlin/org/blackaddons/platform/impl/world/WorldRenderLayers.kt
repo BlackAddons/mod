@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.world
+
 import com.mojang.blaze3d.PrimitiveTopology
 import com.mojang.blaze3d.pipeline.DepthStencilState
 import com.mojang.blaze3d.pipeline.RenderPipeline
@@ -7,7 +8,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.client.renderer.rendertype.RenderSetup
 import net.minecraft.client.renderer.rendertype.RenderType
-import org.blackaddons.platform.impl.world.WorldRenderLayers.FILLED
 import org.blackaddons.platform.util.modId
 
 /**

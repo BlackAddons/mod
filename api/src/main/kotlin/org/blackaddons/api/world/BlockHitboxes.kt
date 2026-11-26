@@ -1,7 +1,6 @@
 package org.blackaddons.api.world
 
 import org.blackaddons.api.Platform
-import org.blackaddons.api.world.BlockHitboxes.vanilla
 
 /** Enlarged outlines for small click targets; the crosshair pick tests the outline. */
 interface BlockHitboxOverride {

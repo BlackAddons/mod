@@ -1,11 +1,7 @@
 package org.blackaddons.cheat.actions
 
 import org.blackaddons.api.Platform
-import org.blackaddons.api.actions.NoParams
-import org.blackaddons.api.actions.StepCategory
-import org.blackaddons.api.actions.StepContext
-import org.blackaddons.api.actions.StepFlag
-import org.blackaddons.api.actions.StepType
+import org.blackaddons.api.actions.*
 import org.blackaddons.api.ui.node.NodeProperty
 import org.blackaddons.api.ui.node.nodeProperties
 import org.blackaddons.api.util.I18n

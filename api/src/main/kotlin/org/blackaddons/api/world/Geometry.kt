@@ -1,13 +1,6 @@
 package org.blackaddons.api.world
 
-import org.blackaddons.api.world.ViewAngles.between
-import org.blackaddons.api.world.ViewAngles.unwrap
-import org.blackaddons.api.world.ViewAngles.yawDelta
-import kotlin.math.IEEErem
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
 import kotlin.random.Random
 
 /** World-space point, MC-free. */
@@ -61,6 +54,7 @@ data class Box3d(val min: Vec3d, val max: Vec3d) {
             heightAxis -> height
             else -> width
         }
+
         fun lo(axis: Int) = mids[axis] - half(axis)
         fun hi(axis: Int) = mids[axis] + half(axis)
         return Box3d(Vec3d(lo(0), lo(1), lo(2)), Vec3d(hi(0), hi(1), hi(2)))

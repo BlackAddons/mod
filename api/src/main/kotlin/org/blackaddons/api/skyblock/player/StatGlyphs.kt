@@ -1,7 +1,5 @@
 package org.blackaddons.api.skyblock.player
 
-import org.blackaddons.api.skyblock.player.StatGlyphs.hasHeart
-
 
 /**
  * Action-bar stat glyphs. Hypixel uses the legacy symbol or a Private Use Area one depending on the font

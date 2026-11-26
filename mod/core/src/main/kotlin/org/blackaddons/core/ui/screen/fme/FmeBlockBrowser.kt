@@ -21,11 +21,7 @@ import org.blackaddons.api.util.color.lerpColor
 import org.blackaddons.api.util.containsIgnoreCase
 import org.blackaddons.api.util.splitWhitespace
 import org.blackaddons.api.world.BlockCatalogEntry
-import org.blackaddons.core.features.impl.visual.fme.FME_ANY_SOURCE
-import org.blackaddons.core.features.impl.visual.fme.Fme
-import org.blackaddons.core.features.impl.visual.fme.FmeManagedGroup
-import org.blackaddons.core.features.impl.visual.fme.FmeManagedKind
-import org.blackaddons.core.features.impl.visual.fme.FmeScope
+import org.blackaddons.core.features.impl.visual.fme.*
 import java.awt.Color
 
 internal class FmeBlockBrowser(

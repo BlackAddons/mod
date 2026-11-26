@@ -10,28 +10,17 @@ import net.minecraft.resources.Identifier
 import org.blackaddons.api.ui.render.*
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.util.sanitizeUtf16
-import org.blackaddons.blackskija.api.FontStyling
-import org.blackaddons.blackskija.api.RichRun
-import org.blackaddons.blackskija.api.ShapeBuilder
-import org.blackaddons.blackskija.api.Skija
-import org.blackaddons.blackskija.api.SkijaFonts
-import org.blackaddons.blackskija.api.SkijaLayer
-import org.blackaddons.blackskija.api.SkijaShape
-import org.blackaddons.blackskija.api.SkijaTextures
-import org.blackaddons.blackskija.api.draw.SkijaAnimation
-import org.blackaddons.blackskija.api.draw.SkijaImages
-import org.blackaddons.blackskija.api.draw.SkijaItems
-import org.blackaddons.blackskija.api.draw.SkijaLottie
-import org.blackaddons.blackskija.api.draw.SkijaVectors
+import org.blackaddons.blackskija.api.*
+import org.blackaddons.blackskija.api.draw.*
 import org.blackaddons.core.log.Log
 import org.joml.Matrix3x2fc
 import java.awt.Color
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.time.TimeSource
 import io.github.humbleui.skija.Image as SkImage
 import io.github.humbleui.skija.skottie.Animation as SkAnimation
 import org.blackaddons.blackskija.api.Gradient as SkGradient
-import kotlin.time.TimeSource
 
 /**
  * The only [Renderer] talking to BlackSkija, the UI goes through [Render]. Draws append to BlackSkija's per-frame
@@ -162,12 +151,30 @@ object SkijaRenderer : Renderer {
         GradientDir.TOP_BOTTOM -> SkGradient.TOP_BOTTOM
     }
 
-    override fun push() { Skija.push(); transforms.push() }
-    override fun pop() { Skija.pop(); transforms.pop() }
-    override fun translate(x: Number, y: Number) { Skija.translate(x, y); transforms.translate(x.toFloat(), y.toFloat()) }
-    override fun scale(x: Number, y: Number) { Skija.scale(x, y); transforms.scale(x.toFloat(), y.toFloat()) }
-    override fun rotate(angle: Number) { Skija.rotate(angle); transforms.rotate(angle.toFloat()) }
-    override fun transform(matrix: Matrix3x2fc) { Skija.transform(matrix); transforms.mul(matrix) }
+    override fun push() {
+        Skija.push(); transforms.push()
+    }
+
+    override fun pop() {
+        Skija.pop(); transforms.pop()
+    }
+
+    override fun translate(x: Number, y: Number) {
+        Skija.translate(x, y); transforms.translate(x.toFloat(), y.toFloat())
+    }
+
+    override fun scale(x: Number, y: Number) {
+        Skija.scale(x, y); transforms.scale(x.toFloat(), y.toFloat())
+    }
+
+    override fun rotate(angle: Number) {
+        Skija.rotate(angle); transforms.rotate(angle.toFloat())
+    }
+
+    override fun transform(matrix: Matrix3x2fc) {
+        Skija.transform(matrix); transforms.mul(matrix)
+    }
+
     override fun globalAlpha(alpha: Number) = Skija.globalAlpha(alpha)
     override fun pushAntiAlias(enabled: Boolean) = Skija.pushAntiAlias(enabled)
     override fun popAntiAlias() = Skija.popAntiAlias()
@@ -220,6 +227,7 @@ object SkijaRenderer : Renderer {
         override fun lineTo(x: Float, y: Float) = shape.lineTo(x, y)
         override fun cubicTo(c1x: Float, c1y: Float, c2x: Float, c2y: Float, x: Float, y: Float) =
             shape.cubicTo(c1x, c1y, c2x, c2y, x, y)
+
         override fun close() = shape.close()
         override fun rect(x: Float, y: Float, w: Float, h: Float) = shape.rect(x, y, w, h)
         override fun polygon(points: FloatArray, corner: Float) = shape.polygon(points, corner)
@@ -304,8 +312,10 @@ object SkijaRenderer : Renderer {
         is TextRun.Icon -> (run.glyph.srcW * run.glyph.height / run.glyph.srcH.toFloat() + 1f) * iconUnit(font.px(size))
     }
 
-    override fun textGradient(text: String, x: Number, y: Number, size: Number,
-                              c1: Color, c2: Color, font: Font, dir: GradientDir) =
+    override fun textGradient(
+        text: String, x: Number, y: Number, size: Number,
+        c1: Color, c2: Color, font: Font, dir: GradientDir
+    ) =
         Skija.textGradient(text.sanitizeUtf16(), font.x(x, size), font.y(y, size), font.px(size), c1, c2, dir.toSkija(), family(font))
 
     override fun textWidth(text: String, size: Number, font: Font): Float {
@@ -317,8 +327,10 @@ object SkijaRenderer : Renderer {
     override fun textMetrics(size: Number, font: Font): FloatArray =
         Skija.textMetrics(font.px(size), family(font))
 
-    override fun wrappedText(text: String, x: Number, y: Number, w: Number, size: Number,
-                             color: Color, font: Font, lineHeight: Number) {
+    override fun wrappedText(
+        text: String, x: Number, y: Number, w: Number, size: Number,
+        color: Color, font: Font, lineHeight: Number
+    ) {
         Skija.wrappedText(text.sanitizeUtf16(), font.x(x, size), font.y(y, size), w, font.px(size), color, family(font), lineHeight)
     }
 
@@ -328,8 +340,10 @@ object SkijaRenderer : Renderer {
         return floatArrayOf(0f, 0f, wh[0], wh[1])
     }
 
-    override fun richText(spans: List<RichSpan>, x: Number, y: Number, w: Number, size: Number,
-                          color: Color, font: Font, lineHeight: Number) {
+    override fun richText(
+        spans: List<RichSpan>, x: Number, y: Number, w: Number, size: Number,
+        color: Color, font: Font, lineHeight: Number
+    ) {
         Skija.richText(runs(spans), font.x(x, size), font.y(y, size), w, font.px(size), color, family(font), lineHeight)
     }
 
@@ -393,9 +407,11 @@ object SkijaRenderer : Renderer {
     override fun imageSize(path: String): FloatArray? =
         resolve(path)?.let { floatArrayOf(it.width.toFloat(), it.height.toFloat()) }
 
-    override fun image(image: Image, x: Number, y: Number, w: Number, h: Number,
-                       srcX: Number, srcY: Number, srcW: Number, srcH: Number,
-                       texW: Number, texH: Number, tint: Color?, radius: Number) {
+    override fun image(
+        image: Image, x: Number, y: Number, w: Number, h: Number,
+        srcX: Number, srcY: Number, srcW: Number, srcH: Number,
+        texW: Number, texH: Number, tint: Color?, radius: Number
+    ) {
         // Skija samples in image pixels, texW/texH are unused.
         resolve(image.path)?.let { Skija.image(it, srcX, srcY, srcW, srcH, x, y, w, h, radius, tint) }
     }
@@ -419,8 +435,10 @@ object SkijaRenderer : Renderer {
         SkijaItems.draw(stack, x, y, w, h, radius, null)
     }
 
-    override fun playerHead(uuid: String, name: String, textures: String?,
-                            x: Number, y: Number, w: Number, h: Number, radius: Number) {
+    override fun playerHead(
+        uuid: String, name: String, textures: String?,
+        x: Number, y: Number, w: Number, h: Number, radius: Number
+    ) {
         val stack = ItemStacks.forPlayerHead(uuid, name, textures)
             ?: return itemPlaceholder(x, y, w, h, radius)
         SkijaItems.draw(stack, x, y, w, h, radius, null)

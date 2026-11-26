@@ -2,7 +2,6 @@ package org.blackaddons.platform.ui.render
 
 import org.blackaddons.api.Platform
 import org.blackaddons.api.util.concurrent.Workers
-import org.blackaddons.platform.ui.render.RemoteImages.poll
 import java.util.concurrent.ConcurrentHashMap
 
 /**

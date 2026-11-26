@@ -1,12 +1,8 @@
 package org.blackaddons.core.ui.screen.pv.parts
+
 import org.blackaddons.api.skyblock.profile.InventoryStorage
 import org.blackaddons.api.skyblock.profile.ProfileItem
-import org.blackaddons.api.ui.layout.Align
-import org.blackaddons.api.ui.layout.LayoutNode
-import org.blackaddons.api.ui.layout.centered
-import org.blackaddons.api.ui.layout.column
-import org.blackaddons.api.ui.layout.note
-import org.blackaddons.api.ui.layout.sectionHeader
+import org.blackaddons.api.ui.layout.*
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme

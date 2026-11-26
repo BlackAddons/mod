@@ -10,13 +10,7 @@ import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.UiMouse
-import org.blackaddons.api.ui.widget.Widget
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.util.graphemes
 
 /**
@@ -38,12 +32,16 @@ class TextInput(
     /** Null = no autocomplete. */
     var suggestions: ((String) -> List<String>)?
         get() = suggestionList.supplier
-        set(value) { suggestionList.supplier = value }
+        set(value) {
+            suggestionList.supplier = value
+        }
 
     /** Display only; the full value is inserted. */
     var suggestionDisplay: ((String) -> String)?
         get() = suggestionList.display
-        set(value) { suggestionList.display = value }
+        set(value) {
+            suggestionList.display = value
+        }
 
     var text: String
         get() = editor.text
@@ -249,8 +247,12 @@ class TextInput(
 
         if (suggestionList.isOpen) {
             when (key.code) {
-                Keys.DOWN -> { suggestionList.moveSelection(1); return true }
-                Keys.UP -> { suggestionList.moveSelection(-1); return true }
+                Keys.DOWN -> {
+                    suggestionList.moveSelection(1); return true
+                }
+                Keys.UP -> {
+                    suggestionList.moveSelection(-1); return true
+                }
                 Keys.TAB -> {
                     suggestionList.acceptHighlighted(orSingle = true)?.let { take(it) }
                     return true

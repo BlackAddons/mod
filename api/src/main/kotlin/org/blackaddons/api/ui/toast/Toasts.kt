@@ -2,11 +2,7 @@ package org.blackaddons.api.ui.toast
 
 import org.blackaddons.api.HostApi
 import org.blackaddons.api.Platform
-import org.blackaddons.api.hud.AnchorX
-import org.blackaddons.api.hud.AnchorY
-import org.blackaddons.api.hud.HudEditorMode
-import org.blackaddons.api.hud.HudElement
-import org.blackaddons.api.hud.HudFontContext
+import org.blackaddons.api.hud.*
 import org.blackaddons.api.ui.anim.Animation
 import org.blackaddons.api.ui.anim.Easing
 import org.blackaddons.api.ui.anim.isVisible
@@ -427,9 +423,13 @@ object Toasts {
         while (i < line.length - 1) {
             if (line[i] == '§') {
                 when (val code = line[i + 1].lowercaseChar()) {
-                    in '0'..'9', in 'a'..'f' -> { color = "§$code"; formats.clear() }
+                    in '0'..'9', in 'a'..'f' -> {
+                        color = "§$code"; formats.clear()
+                    }
                     in 'k'..'o' -> formats.append('§').append(code)
-                    'r' -> { color = ""; formats.clear() }
+                    'r' -> {
+                        color = ""; formats.clear()
+                    }
                 }
                 i += 2
             } else {

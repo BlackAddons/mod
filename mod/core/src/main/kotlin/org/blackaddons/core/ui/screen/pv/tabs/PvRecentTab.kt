@@ -1,4 +1,5 @@
 package org.blackaddons.core.ui.screen.pv.tabs
+
 import org.blackaddons.api.Platform
 import org.blackaddons.api.skyblock.profile.SkyblockProfile
 import org.blackaddons.api.ui.anim.Animation
@@ -10,11 +11,7 @@ import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.Button
-import org.blackaddons.api.ui.widget.DonutChart
-import org.blackaddons.api.ui.widget.ScrollableList
-import org.blackaddons.api.ui.widget.UiMouse
-import org.blackaddons.api.ui.widget.WidgetHost
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.ui.widget.dropdown.Dropdown
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.Uuids
@@ -85,6 +82,7 @@ internal class PvRecentTab(private val openProfile: (String) -> Unit) {
         widgets.add(orderDropdown)
         widgets.add(activityDropdown)
     }
+
     private val open = widgets.add(Button(tr("open", "Open Profile")) {
         selected()?.name?.let(openProfile)
     })

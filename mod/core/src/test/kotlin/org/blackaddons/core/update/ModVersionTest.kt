@@ -1,8 +1,6 @@
 package org.blackaddons.core.update
 
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 /** String comparison gets `1.4.10` vs `1.4.9` wrong, which would nag everyone on the newest build. */

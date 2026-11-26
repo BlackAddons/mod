@@ -5,7 +5,6 @@ import org.blackaddons.api.chat.ChatClick
 import org.blackaddons.api.chat.ChatMessage
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.Workers
-import org.blackaddons.core.backend.BackendNotifier.retry
 import org.blackaddons.core.backend.auth.BackendSession
 import org.blackaddons.core.backend.gateway.Gateway
 import org.blackaddons.core.chat.Brand

@@ -5,18 +5,13 @@ import org.blackaddons.api.Platform
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.backend.NetLog
-import org.blackaddons.core.backend.gateway.GatewayConnection.Companion.SILENCE_FACTOR
 import org.blackaddons.core.log.Log
 import org.blackaddons.core.update.ReleaseChannel
 import java.net.URI
 import java.net.http.WebSocket
 import java.net.http.WebSocketHandshakeException
 import java.time.Duration
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.CompletionStage
-import java.util.concurrent.ScheduledExecutorService
-import java.util.concurrent.ScheduledFuture
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.TimeSource
@@ -63,23 +58,29 @@ internal class GatewayConnection(
 
     private val ended = AtomicBoolean(false)
 
-    @Volatile private var socket: WebSocket? = null
-    @Volatile private var beat: ScheduledFuture<*>? = null
+    @Volatile
+    private var socket: WebSocket? = null
+    @Volatile
+    private var beat: ScheduledFuture<*>? = null
 
     /**
      * Gives up on an attempt that never identifies (e.g. a proxy that accepts with nothing behind it). The silence
      * check only starts after `HELLO`.
      */
-    @Volatile private var arrival: ScheduledFuture<*>? = null
+    @Volatile
+    private var arrival: ScheduledFuture<*>? = null
 
-    @Volatile private var lastFrameAt = TimeSource.Monotonic.markNow()
+    @Volatile
+    private var lastFrameAt = TimeSource.Monotonic.markNow()
 
-    @Volatile private var pending: GatewayOutcome? = null
+    @Volatile
+    private var pending: GatewayOutcome? = null
 
     /** Chained, not locked: the client forbids overlapping sends, but allows queued sends. */
     private var sending: CompletableFuture<WebSocket> = CompletableFuture.completedFuture(null)
 
-    @Volatile var established = false
+    @Volatile
+    var established = false
         private set
 
     fun open() {

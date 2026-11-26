@@ -1,7 +1,5 @@
 package org.blackaddons.api.host
 
-import org.blackaddons.api.host.Scheduler.Companion.MAX_FAILURES
-
 
 /**
  * Shared client-tick scheduler; callbacks run on the client thread. Out-of-range tick counts throw. Failing

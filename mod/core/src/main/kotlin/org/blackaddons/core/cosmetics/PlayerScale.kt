@@ -2,7 +2,6 @@ package org.blackaddons.core.cosmetics
 
 import org.blackaddons.api.Platform
 import org.blackaddons.api.cosmetics.Scale
-import org.blackaddons.core.cosmetics.PlayerScale.setPreview
 import org.blackaddons.core.features.impl.visual.PlayerSize
 import java.util.UUID
 import kotlin.time.Duration.Companion.milliseconds
@@ -16,8 +15,10 @@ import kotlin.time.TimeSource
 object PlayerScale {
 
     /** Editor preview override. Refreshed every frame and expires soon after, so closing the editor reverts it. */
-    @Volatile private var preview: Scale? = null
-    @Volatile private var previewAt = TimeSource.Monotonic.markNow()
+    @Volatile
+    private var preview: Scale? = null
+    @Volatile
+    private var previewAt = TimeSource.Monotonic.markNow()
 
     fun setPreview(scale: Scale?) {
         preview = scale

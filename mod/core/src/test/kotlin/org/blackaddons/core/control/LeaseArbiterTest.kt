@@ -2,17 +2,20 @@ package org.blackaddons.core.control
 
 import org.blackaddons.api.feature.Feature
 import org.blackaddons.api.player.LeaseState
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class LeaseArbiterTest {
 
     private val log = mutableListOf<String>()
     private val arbiter = LeaseArbiter(object : LeaseArbiter.Events<TestLease> {
-        override fun granted(lease: TestLease) { log += "grant ${lease.name}" }
-        override fun ended(lease: TestLease) { log += "end ${lease.name}" }
+        override fun granted(lease: TestLease) {
+            log += "grant ${lease.name}"
+        }
+
+        override fun ended(lease: TestLease) {
+            log += "end ${lease.name}"
+        }
     })
 
     private inner class TestLease(val name: String, owner: Any, priority: Int = 0) : LeaseArbiter.Entry(owner, priority) {

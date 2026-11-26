@@ -1,4 +1,5 @@
 package org.blackaddons.platform.impl.chat
+
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
@@ -12,11 +13,7 @@ import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ServerboundChatCommandPacket
 import net.minecraft.network.protocol.game.ServerboundChatCommandSignedPacket
 import net.minecraft.network.protocol.game.ServerboundChatPacket
-import org.blackaddons.api.chat.ChatHost
-import org.blackaddons.api.chat.ChatLine
-import org.blackaddons.api.chat.ChatMessage
-import org.blackaddons.api.chat.ChatRetentions
-import org.blackaddons.api.chat.RevisableLine
+import org.blackaddons.api.chat.*
 import org.blackaddons.api.event.EventBus
 import org.blackaddons.api.event.chat.ChatPacketEvent
 import org.blackaddons.platform.chat.ChatLines

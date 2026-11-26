@@ -2,9 +2,7 @@ package org.blackaddons.core.control
 
 import org.blackaddons.api.player.LeaseState
 import org.blackaddons.api.player.MouseButton
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class HoldsTest {

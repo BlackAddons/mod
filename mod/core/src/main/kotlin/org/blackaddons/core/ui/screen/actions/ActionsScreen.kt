@@ -12,11 +12,7 @@ import org.blackaddons.api.ui.widget.TabStrip
 import org.blackaddons.core.actions.ActionStorage
 import org.blackaddons.core.ui.screen.actions.fields.LocationBar
 import org.blackaddons.core.ui.screen.actions.graph.ActionGraphScreen
-import org.blackaddons.core.ui.screen.actions.tabs.ActionsTab
-import org.blackaddons.core.ui.screen.actions.tabs.ChatActionsTab
-import org.blackaddons.core.ui.screen.actions.tabs.LocationsTab
-import org.blackaddons.core.ui.screen.actions.tabs.ShortcutsTab
-import org.blackaddons.core.ui.screen.actions.tabs.WaypointsTab
+import org.blackaddons.core.ui.screen.actions.tabs.*
 import org.blackaddons.core.ui.screen.profile.ProfileMenu
 
 internal class ActionsScreen(initialPage: ActionsPage? = null) : ModalPanel(actionTr("title", "Actions")) {

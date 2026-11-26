@@ -1,19 +1,10 @@
 package org.blackaddons.core.ui.screen.pv.tabs
+
 import org.blackaddons.api.Platform
 import org.blackaddons.api.gui.PreviewGear
-import org.blackaddons.api.skyblock.profile.InventoryPage
-import org.blackaddons.api.skyblock.profile.InventoryStorage
-import org.blackaddons.api.skyblock.profile.PlayerProfiles
-import org.blackaddons.api.skyblock.profile.ProfileInventory
-import org.blackaddons.api.skyblock.profile.ProfileItem
-import org.blackaddons.api.skyblock.profile.ProfileMember
+import org.blackaddons.api.skyblock.profile.*
 import org.blackaddons.api.ui.anim.Animation
-import org.blackaddons.api.ui.layout.Align
-import org.blackaddons.api.ui.layout.Cards
-import org.blackaddons.api.ui.layout.LayoutNode
-import org.blackaddons.api.ui.layout.column
-import org.blackaddons.api.ui.layout.note
-import org.blackaddons.api.ui.layout.sectionHeader
+import org.blackaddons.api.ui.layout.*
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme

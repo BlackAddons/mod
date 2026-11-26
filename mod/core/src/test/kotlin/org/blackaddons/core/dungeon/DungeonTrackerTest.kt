@@ -7,19 +7,12 @@ import org.blackaddons.api.event.chat.ChatReceiveEvent
 import org.blackaddons.api.event.dungeon.DungeonPlayerDeathEvent
 import org.blackaddons.api.event.subscribe
 import org.blackaddons.api.skyblock.SkyblockHost
-import org.blackaddons.api.skyblock.dungeon.DungeonClass
-import org.blackaddons.api.skyblock.dungeon.DungeonFloor
-import org.blackaddons.api.skyblock.dungeon.DungeonPlayer
-import org.blackaddons.api.skyblock.dungeon.RoomShape
-import org.blackaddons.api.skyblock.dungeon.RoomState
-import org.blackaddons.api.skyblock.dungeon.RoomType
+import org.blackaddons.api.skyblock.dungeon.*
 import org.blackaddons.api.testing.TestPlatform
 import org.blackaddons.core.dungeon.map.MapState
 import org.blackaddons.core.dungeon.map.RoomData
 import org.blackaddons.core.dungeon.map.RoomTile
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 

@@ -1,7 +1,6 @@
 package org.blackaddons.core.discord
 
 import org.blackaddons.api.util.concurrent.Workers
-import org.blackaddons.core.discord.DiscordRpc.show
 import org.blackaddons.core.log.Log
 import java.util.UUID
 import java.util.concurrent.ScheduledExecutorService

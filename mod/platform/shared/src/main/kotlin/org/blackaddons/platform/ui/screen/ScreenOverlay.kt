@@ -7,11 +7,7 @@ import org.blackaddons.api.event.EventPriority
 import org.blackaddons.api.input.Keys
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.UiManager
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.platform.compat.currentScreen
 import org.blackaddons.platform.event.impl.RenderScreenEvent
 

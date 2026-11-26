@@ -1,9 +1,8 @@
 package org.blackaddons.api.util.io
+
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertInstanceOf
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.Base64
 

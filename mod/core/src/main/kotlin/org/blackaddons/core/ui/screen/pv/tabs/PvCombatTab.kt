@@ -1,4 +1,5 @@
 package org.blackaddons.core.ui.screen.pv.tabs
+
 import org.blackaddons.api.skyblock.profile.BestiaryMobStat
 import org.blackaddons.api.skyblock.profile.ProfileMember
 import org.blackaddons.api.skyblock.profile.SlayerStat

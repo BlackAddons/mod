@@ -11,13 +11,7 @@ import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.Chevron
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.Scroll
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.ui.widget.setting.SettingWidget
 import org.blackaddons.api.util.I18n
 import org.blackaddons.core.feature.FeatureManager

@@ -1,10 +1,7 @@
 package org.blackaddons.api.skyblock
 
 import org.blackaddons.api.skyblock.dungeon.DungeonFloor
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 /** Sidebar and tab-list parsing gates every "where am I" check: exact Hypixel lines in, null for anything else. */

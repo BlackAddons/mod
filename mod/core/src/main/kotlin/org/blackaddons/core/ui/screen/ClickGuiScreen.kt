@@ -10,25 +10,14 @@ import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.InputTarget
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.ui.widget.text.TextInput
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.containsIgnoreCase
 import org.blackaddons.core.config.BlackaddonsConfig
 import org.blackaddons.core.feature.FeatureManager
 import org.blackaddons.core.ui.sidebar.Sidebar
-import org.blackaddons.core.ui.tab.ContentTab
-import org.blackaddons.core.ui.tab.DividerTab
-import org.blackaddons.core.ui.tab.FeatureCategoryTabController
-import org.blackaddons.core.ui.tab.HeaderTab
-import org.blackaddons.core.ui.tab.Tab
-import org.blackaddons.core.ui.tab.TabRegistry
-import org.blackaddons.core.ui.tab.TriggerTab
+import org.blackaddons.core.ui.tab.*
 
 class ClickGuiScreen(private var focus: FeatureSection? = null) : Panel() {
 
@@ -41,10 +30,13 @@ class ClickGuiScreen(private var focus: FeatureSection? = null) : Panel() {
     private val content = widgets.add(object : InputTarget {
         override fun mouseClicked(mouse: MouseButtonInput) =
             currentController()?.mouseClicked(mouse) == true
+
         override fun mouseReleased(mouse: MouseButtonInput) =
             currentController()?.mouseReleased(mouse) == true
+
         override fun mouseDragged(drag: MouseDragInput) =
             currentController()?.mouseDragged(drag) == true
+
         override fun mouseScrolled(wheel: MouseScrollInput) =
             currentController()?.mouseScrolled(wheel) == true
     })
@@ -52,6 +44,7 @@ class ClickGuiScreen(private var focus: FeatureSection? = null) : Panel() {
     init {
         keys.on(Keys.F, ctrl = true) { widgets.focus(searchField) }
     }
+
     private val searchResults = FeatureCategoryTabController(
         featuresProvider = ::searchMatches,
         showCategoryBadge = true,

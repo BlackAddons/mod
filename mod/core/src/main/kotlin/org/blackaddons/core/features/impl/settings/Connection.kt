@@ -3,7 +3,6 @@ package org.blackaddons.core.features.impl.settings
 import org.blackaddons.api.feature.Feature
 import org.blackaddons.api.feature.annotations.AlwaysActive
 import org.blackaddons.core.backend.Network
-import org.blackaddons.core.features.impl.settings.Connection.liveUpdates
 
 /**
  * Push vs polling, not on vs off. Without the socket the mod polls, so everything still updates (late) and nothing
@@ -19,7 +18,7 @@ object Connection : Feature(
         default = true,
     ).withDescription(
         "Keep a connection open so cosmetics and notices arrive the moment they change, and count " +
-            "you among the players online. Off, the mod refreshes on a timer instead and reports nothing.",
+                "you among the players online. Off, the mod refreshes on a timer instead and reports nothing.",
     )
 
     private val onlineMarkersSetting by boolean(
@@ -27,7 +26,7 @@ object Connection : Feature(
         default = true,
     ).withDescription(
         "Show a dot beside players who are online in BlackAddons right now. Nobody is marked as " +
-            "absent — a player with live updates turned off simply isn't connected.",
+                "absent — a player with live updates turned off simply isn't connected.",
     )
 
     @Suppress("unused")
@@ -38,7 +37,7 @@ object Connection : Feature(
     private val restartNetwork by button("Restart Networking", action = { Network.restartAll() }, label = "Restart")
         .withDescription(
             "Start everything the mod uses to reach the server over: connections, sign-in and the live-updates " +
-                "connection. For when nothing reconnects on its own. The same as /blackaddons net restart.",
+                    "connection. For when nothing reconnects on its own. The same as /blackaddons net restart.",
         )
 
     val liveUpdates: Boolean get() = liveUpdatesSetting.value

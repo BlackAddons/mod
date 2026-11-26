@@ -7,10 +7,7 @@ import org.blackaddons.api.testing.TestPlatform
 import org.blackaddons.api.util.io.Portable
 import org.blackaddons.api.util.io.PortableRead
 import org.blackaddons.core.config.portable.ImportPreview
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertInstanceOf
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir

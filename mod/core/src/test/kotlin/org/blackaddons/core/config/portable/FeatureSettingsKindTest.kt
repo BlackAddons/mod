@@ -4,10 +4,7 @@ import org.blackaddons.api.feature.Feature
 import org.blackaddons.api.util.io.Portable
 import org.blackaddons.api.util.io.PortableRead
 import org.blackaddons.api.util.io.child
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertInstanceOf
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.awt.Color
 

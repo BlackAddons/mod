@@ -2,15 +2,7 @@ package org.blackaddons.core.dungeon.map
 
 import org.blackaddons.api.event.EventBus
 import org.blackaddons.api.event.dungeon.DungeonRoomStateChangeEvent
-import org.blackaddons.api.skyblock.dungeon.DoorType
-import org.blackaddons.api.skyblock.dungeon.DungeonDoor
-import org.blackaddons.api.skyblock.dungeon.DungeonRoom
-import org.blackaddons.api.skyblock.dungeon.MapOverrides
-import org.blackaddons.api.skyblock.dungeon.RoomShape
-import org.blackaddons.api.skyblock.dungeon.RoomState
-import org.blackaddons.api.skyblock.dungeon.RoomType
-import org.blackaddons.api.skyblock.dungeon.SecretKind
-import org.blackaddons.api.skyblock.dungeon.SecretSpot
+import org.blackaddons.api.skyblock.dungeon.*
 import org.blackaddons.api.world.BlockPos3
 import org.blackaddons.core.features.impl.dungeons.map.DungeonMap
 import java.awt.Color
@@ -258,8 +250,10 @@ class UniqueRoom(arrX: Int, arrY: Int, roomTile: RoomTile) : DungeonRoom {
         var maxHeight = roomSize
 
         if (data.shape != RoomShape.SL && data.shape != RoomShape.S1x1 && data.shape != RoomShape.S2x2) {
-            var minX = Int.MAX_VALUE; var maxX = Int.MIN_VALUE
-            var minZ = Int.MAX_VALUE; var maxZ = Int.MIN_VALUE
+            var minX = Int.MAX_VALUE;
+            var maxX = Int.MIN_VALUE
+            var minZ = Int.MAX_VALUE;
+            var maxZ = Int.MIN_VALUE
             for (tile in tiles) {
                 if (tile.x < minX) minX = tile.x
                 if (tile.x > maxX) maxX = tile.x

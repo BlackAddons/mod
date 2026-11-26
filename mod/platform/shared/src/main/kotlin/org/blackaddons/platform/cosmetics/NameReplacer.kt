@@ -4,11 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import it.unimi.dsi.fastutil.ints.IntArrayList
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.HoverEvent
-import net.minecraft.network.chat.MutableComponent
-import net.minecraft.network.chat.Style
-import net.minecraft.network.chat.TextColor
+import net.minecraft.network.chat.*
 import net.minecraft.network.chat.contents.PlainTextContents
 import net.minecraft.network.chat.contents.TranslatableContents
 import net.minecraft.util.FormattedCharSequence
@@ -20,6 +16,7 @@ import org.blackaddons.api.util.stripFormatting
 import org.blackaddons.core.backend.gateway.Presence
 import org.blackaddons.core.features.impl.settings.Connection
 import org.blackaddons.core.profile.PlayerNames
+import org.blackaddons.platform.cosmetics.NameReplacer.decorate
 import org.blackaddons.platform.cosmetics.NameReplacer.decorateSequence
 import org.blackaddons.platform.util.TickCache
 
@@ -71,14 +68,16 @@ object NameReplacer {
      */
     private fun explained(replacement: Component, realName: String): Component =
         replacement.copy().withStyle { style ->
-            style.withHoverEvent(HoverEvent.ShowText(
-                Component.literal(I18n.tr("blackaddons.cosmetics.name_hover_title"))
-                    .withStyle { it.withColor(TextColor.fromRgb(Theme.BRAND_FROM.rgb and RGB_MASK)) }
-                    .append(
-                        Component.literal("\n" + I18n.tr("blackaddons.cosmetics.name_hover_real", realName))
-                            .withStyle { it.withColor(TextColor.fromRgb(Theme.TEXT_MUTED.rgb and RGB_MASK)) },
-                    ),
-            ))
+            style.withHoverEvent(
+                HoverEvent.ShowText(
+                    Component.literal(I18n.tr("blackaddons.cosmetics.name_hover_title"))
+                        .withStyle { it.withColor(TextColor.fromRgb(Theme.BRAND_FROM.rgb and RGB_MASK)) }
+                        .append(
+                            Component.literal("\n" + I18n.tr("blackaddons.cosmetics.name_hover_real", realName))
+                                .withStyle { it.withColor(TextColor.fromRgb(Theme.TEXT_MUTED.rgb and RGB_MASK)) },
+                        ),
+                )
+            )
         }
 
     /**
@@ -86,14 +85,16 @@ object NameReplacer {
      * says so. Built per use, because translations aren't loaded with this object.
      */
     private fun explainedMark(): Component = ONLINE_MARK.copy().withStyle { style ->
-        style.withHoverEvent(HoverEvent.ShowText(
-            Component.literal(I18n.tr("blackaddons.cosmetics.online_hover_title"))
-                .withStyle { it.withColor(TextColor.fromRgb(ONLINE_RGB)) }
-                .append(
-                    Component.literal("\n" + I18n.tr("blackaddons.cosmetics.online_hover_detail"))
-                        .withStyle { it.withColor(TextColor.fromRgb(Theme.TEXT_MUTED.rgb and RGB_MASK)) },
-                ),
-        ))
+        style.withHoverEvent(
+            HoverEvent.ShowText(
+                Component.literal(I18n.tr("blackaddons.cosmetics.online_hover_title"))
+                    .withStyle { it.withColor(TextColor.fromRgb(ONLINE_RGB)) }
+                    .append(
+                        Component.literal("\n" + I18n.tr("blackaddons.cosmetics.online_hover_detail"))
+                            .withStyle { it.withColor(TextColor.fromRgb(Theme.TEXT_MUTED.rgb and RGB_MASK)) },
+                    ),
+            )
+        )
     }
 
     /** Minecraft colors are 24-bit, drop AWT's alpha. */
@@ -188,7 +189,8 @@ object NameReplacer {
         replacement.copy().withStyle { it.withInsertion(realName) }
 
     /** Set by the HUD render hook while vanilla and other mods extract the HUD. */
-    @JvmField var hudPass = false
+    @JvmField
+    var hudPass = false
 
     /** Render thread only: other threads would block in [TickCache] on a flag they might see stale. */
     fun inHudPass(): Boolean = hudPass && RenderSystem.isOnRenderThread()

@@ -10,8 +10,6 @@ import org.blackaddons.api.util.io.Gsons
 import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
-import org.blackaddons.core.backend.auth.Elevation.possible
-import org.blackaddons.core.backend.auth.Elevation.withheld
 import org.blackaddons.core.chat.Brand
 import org.blackaddons.core.chat.brand
 import org.blackaddons.core.ui.screen.StaffSignInModal

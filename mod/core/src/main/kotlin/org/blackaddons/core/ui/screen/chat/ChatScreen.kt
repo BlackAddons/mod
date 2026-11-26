@@ -23,11 +23,7 @@ import org.blackaddons.api.ui.widget.text.TextInput
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.core.backend.BackendNotifier
-import org.blackaddons.core.backend.chat.ChatAttachments
-import org.blackaddons.core.backend.chat.ChatChannel
-import org.blackaddons.core.backend.chat.ChatLine
-import org.blackaddons.core.backend.chat.ChatService
-import org.blackaddons.core.backend.chat.ChatStore
+import org.blackaddons.core.backend.chat.*
 import org.blackaddons.core.backend.gateway.Gateway
 import org.blackaddons.core.chat.ChatMirror
 import org.blackaddons.core.chat.ChatPalette

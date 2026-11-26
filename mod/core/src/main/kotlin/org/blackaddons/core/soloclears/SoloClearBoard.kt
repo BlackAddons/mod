@@ -3,11 +3,7 @@ package org.blackaddons.core.soloclears
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import org.blackaddons.api.Platform
-import org.blackaddons.api.util.io.array
-import org.blackaddons.api.util.io.int
-import org.blackaddons.api.util.io.long
-import org.blackaddons.api.util.io.parseJsonObject
-import org.blackaddons.api.util.io.str
+import org.blackaddons.api.util.io.*
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
 import kotlin.time.Duration.Companion.seconds

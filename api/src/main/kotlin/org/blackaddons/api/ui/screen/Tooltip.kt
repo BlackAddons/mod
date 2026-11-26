@@ -6,8 +6,6 @@ import org.blackaddons.api.ui.layout.Rect
 import org.blackaddons.api.ui.layout.hovered
 import org.blackaddons.api.ui.render.Font
 import org.blackaddons.api.ui.render.Render
-import org.blackaddons.api.ui.screen.Tooltip.show
-import org.blackaddons.api.ui.screen.Tooltip.showOver
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.Theme

@@ -6,11 +6,7 @@ import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.core.config.portable.ImportPreview
 import org.blackaddons.core.config.portable.PortableImports
-import org.blackaddons.core.features.impl.visual.fme.FmeConversion
-import org.blackaddons.core.features.impl.visual.fme.FmeFileFormat
-import org.blackaddons.core.features.impl.visual.fme.FmeLegacyImport
-import org.blackaddons.core.features.impl.visual.fme.FmePortable
-import org.blackaddons.core.features.impl.visual.fme.FmeProfileHeader
+import org.blackaddons.core.features.impl.visual.fme.*
 import java.nio.file.Path
 
 internal object FmeFileImport {

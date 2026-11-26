@@ -1,7 +1,6 @@
 package org.blackaddons.platform.cosmetics
 
 import com.mojang.blaze3d.platform.NativeImage
-import org.blackaddons.platform.cosmetics.CapeImages.drawFrame
 import org.blackaddons.platform.cosmetics.CapeImages.fillEmptyBacking
 import java.awt.AlphaComposite
 import java.awt.image.BufferedImage

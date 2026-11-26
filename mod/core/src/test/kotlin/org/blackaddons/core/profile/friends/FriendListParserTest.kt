@@ -2,10 +2,7 @@ package org.blackaddons.core.profile.friends
 
 import org.blackaddons.api.chat.ChatMessage
 import org.blackaddons.api.chat.ChatSpan
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 /**

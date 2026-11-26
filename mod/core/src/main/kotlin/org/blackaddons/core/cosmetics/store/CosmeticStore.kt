@@ -1,4 +1,5 @@
 package org.blackaddons.core.cosmetics.store
+
 import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.chat.ChatMessage
@@ -13,8 +14,6 @@ import org.blackaddons.core.chat.Brand
 import org.blackaddons.core.chat.brand
 import org.blackaddons.core.cosmetics.PlayerCosmetics
 import org.blackaddons.core.cosmetics.store.CosmeticStore.REFRESH_MINUTES
-import org.blackaddons.core.cosmetics.store.CosmeticStore.lookup
-import org.blackaddons.core.cosmetics.store.CosmeticStore.onCatalogVersion
 import org.blackaddons.core.log.Log
 import java.nio.file.Files
 import java.util.UUID
@@ -47,13 +46,17 @@ internal object CosmeticStore {
     private const val REFRESH_MINUTES = 5L
 
     // Replaced whole for lock-free reads.
-    @Volatile private var byUuid: Map<UUID, Cosmetic> = emptyMap()
+    @Volatile
+    private var byUuid: Map<UUID, Cosmetic> = emptyMap()
 
-    @Volatile private var source: CosmeticsSource? = null
-    @Volatile private var diskLoaded = false
+    @Volatile
+    private var source: CosmeticsSource? = null
+    @Volatile
+    private var diskLoaded = false
 
     // The first value is a baseline, not a change.
-    @Volatile private var catalogVersion: String? = null
+    @Volatile
+    private var catalogVersion: String? = null
 
     /**
      * Answered UUIDs, also the ones without a cosmetic, so they don't get queued every frame. Cleared on version

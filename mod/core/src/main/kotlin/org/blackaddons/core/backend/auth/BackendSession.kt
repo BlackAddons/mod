@@ -6,11 +6,7 @@ import org.blackaddons.api.host.SessionOwnership
 import org.blackaddons.api.util.Uuids
 import org.blackaddons.api.util.io.Gsons
 import org.blackaddons.api.util.io.parseJsonObject
-import org.blackaddons.core.backend.Backend
-import org.blackaddons.core.backend.BackendNotifier
-import org.blackaddons.core.backend.Http
-import org.blackaddons.core.backend.NetLog
-import org.blackaddons.core.backend.Timestamps
+import org.blackaddons.core.backend.*
 import org.blackaddons.core.backend.auth.BackendSession.token
 import org.blackaddons.core.log.Log
 import java.util.UUID
@@ -131,7 +127,8 @@ internal object BackendSession {
                 Log.main.warn("Mojang session service unreachable - can't verify right now")
                 return SessionOwnership.UNAVAILABLE
             }
-            JoinResult.JOINED -> { /* Proven to Mojang, confirm with the backend. */ }
+            JoinResult.JOINED -> { /* Proven to Mojang, confirm with the backend. */
+            }
         }
 
         // A remembered device replaces a 2FA code for staff.

@@ -4,9 +4,7 @@ import com.google.gson.JsonParser
 import org.blackaddons.api.skyblock.DungeonGeometry
 import org.blackaddons.api.testing.TestPlatform
 import org.blackaddons.core.dungeon.map.RoomTransform
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir

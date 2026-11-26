@@ -1,6 +1,5 @@
 package org.blackaddons.api.util
 
-import org.blackaddons.api.util.Hashes.hex
 import java.security.MessageDigest
 import java.util.HexFormat
 

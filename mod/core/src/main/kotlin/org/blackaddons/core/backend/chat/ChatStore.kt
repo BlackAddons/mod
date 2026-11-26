@@ -3,7 +3,6 @@ package org.blackaddons.core.backend.chat
 import com.google.gson.JsonObject
 import org.blackaddons.api.util.Uuids
 import org.blackaddons.core.backend.Timestamps
-import org.blackaddons.core.backend.chat.ChatStore.firstId
 import org.blackaddons.core.backend.gateway.stringOrNull
 import org.blackaddons.core.chat.ChatMirror
 import java.util.UUID

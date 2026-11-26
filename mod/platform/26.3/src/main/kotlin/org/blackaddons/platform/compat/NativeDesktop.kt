@@ -4,11 +4,7 @@ import com.mojang.blaze3d.Blaze3D
 import net.minecraft.client.Minecraft
 import org.blackaddons.core.log.Log
 import org.blackaddons.platform.util.onClient
-import org.lwjgl.sdl.SDLDialog
-import org.lwjgl.sdl.SDLProperties
-import org.lwjgl.sdl.SDLVideo
-import org.lwjgl.sdl.SDL_DialogFileCallback
-import org.lwjgl.sdl.SDL_DialogFileFilter
+import org.lwjgl.sdl.*
 import org.lwjgl.system.MemoryUtil
 import java.net.URI
 import java.net.URISyntaxException

@@ -1,26 +1,11 @@
 package org.blackaddons.core.ui.screen.actions.graph
 
 import org.blackaddons.api.actions.StepType
-import org.blackaddons.api.ui.node.GraphNode
-import org.blackaddons.api.ui.node.LinkSpec
-import org.blackaddons.api.ui.node.NodeGraph
-import org.blackaddons.api.ui.node.SocketSpec
-import org.blackaddons.api.ui.node.SocketType
-import org.blackaddons.core.actions.ActionProfile
-import org.blackaddons.core.actions.ActionStep
-import org.blackaddons.core.actions.ChatAction
-import org.blackaddons.core.actions.Groupable
-import org.blackaddons.core.actions.LocationAction
-import org.blackaddons.core.actions.ShortcutAction
-import org.blackaddons.core.actions.WaypointAction
-import org.blackaddons.core.actions.WaypointDefinition
+import org.blackaddons.api.ui.node.*
+import org.blackaddons.core.actions.*
 import org.blackaddons.core.actions.execution.ActionBlocks
 import org.blackaddons.core.actions.execution.ActionExecutor
-import org.blackaddons.core.actions.steps.BlockStep
-import org.blackaddons.core.actions.steps.ElseStep
-import org.blackaddons.core.actions.steps.EndStep
-import org.blackaddons.core.actions.steps.IfStep
-import org.blackaddons.core.actions.steps.RepeatStep
+import org.blackaddons.core.actions.steps.*
 import org.blackaddons.core.ui.screen.actions.ActionsPage
 import java.awt.Color
 
@@ -64,7 +49,10 @@ internal sealed class TriggerRef {
         override val steps get() = action.actions
         override var enabled
             get() = action.enabled
-            set(value) { action.enabled = value }
+            set(value) {
+                action.enabled = value
+            }
+
         override fun detach(profile: ActionProfile) = profile.chatActions.take(action)
         override fun attach(profile: ActionProfile) = profile.chatActions.restore(action)
     }
@@ -80,6 +68,7 @@ internal sealed class TriggerRef {
                 waypoint.enabled = value
                 if (value) action.enabled = true
             }
+
         override fun detach(profile: ActionProfile) = if (pending) profile.waypoints.take(waypoint) else waypoint.actions.take(action)
         override fun attach(profile: ActionProfile) = if (pending) profile.waypoints.restore(waypoint) else waypoint.actions.restore(action)
     }
@@ -90,7 +79,10 @@ internal sealed class TriggerRef {
         override val steps get() = shortcut.actions
         override var enabled
             get() = shortcut.enabled
-            set(value) { shortcut.enabled = value }
+            set(value) {
+                shortcut.enabled = value
+            }
+
         override fun detach(profile: ActionProfile) = profile.shortcuts.take(shortcut)
         override fun attach(profile: ActionProfile) = profile.shortcuts.restore(shortcut)
     }
@@ -101,7 +93,10 @@ internal sealed class TriggerRef {
         override val steps get() = action.actions
         override var enabled
             get() = action.enabled
-            set(value) { action.enabled = value }
+            set(value) {
+                action.enabled = value
+            }
+
         override fun detach(profile: ActionProfile) = profile.locationActions.take(action)
         override fun attach(profile: ActionProfile) = profile.locationActions.restore(action)
     }

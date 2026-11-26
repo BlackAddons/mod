@@ -1,4 +1,5 @@
 package org.blackaddons.core.ui.screen.pv.tabs
+
 import org.blackaddons.api.skyblock.profile.PlayerProfiles
 import org.blackaddons.api.skyblock.profile.ProfileMember
 import org.blackaddons.api.ui.anim.Animation
@@ -20,7 +21,6 @@ import org.blackaddons.core.ui.screen.pv.SkyblockLevelTier
 import org.blackaddons.core.ui.screen.pv.parts.ChipIcon
 import org.blackaddons.core.ui.screen.pv.parts.PvAvatarColumn
 import org.blackaddons.core.ui.screen.pv.parts.PvIcons
-import org.blackaddons.core.ui.screen.pv.tabs.PvOverviewTab.Companion.CHIP_PAD
 import java.awt.Color
 import java.util.Locale
 import kotlin.math.floor

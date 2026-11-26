@@ -7,12 +7,7 @@ import org.blackaddons.core.actions.steps.RepeatStep
 import org.blackaddons.core.actions.steps.SendMessageStep
 import org.blackaddons.core.actions.steps.TextOverlayStep
 import org.blackaddons.core.actions.steps.WaitStep
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertSame
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class ActionJsonTest {
@@ -85,8 +80,12 @@ class ActionJsonTest {
 
     @Test
     fun `a flag named like a param, or a param named like a flag, is refused`() {
-        assertNotNull(StepTypes.register(object : StepFlag("waitText") { override val label = "" }))
-        assertNotNull(StepTypes.register(object : StepFlag("enabled") { override val label = "" }))
+        assertNotNull(StepTypes.register(object : StepFlag("waitText") {
+            override val label = ""
+        }))
+        assertNotNull(StepTypes.register(object : StepFlag("enabled") {
+            override val label = ""
+        }))
     }
 
     @Test

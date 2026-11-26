@@ -13,36 +13,17 @@ import org.blackaddons.api.ui.screen.Tooltip
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.CharInput
-import org.blackaddons.api.ui.widget.InputTarget
-import org.blackaddons.api.ui.widget.KeyInput
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.TabStrip
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.ui.widget.dropdown.Dropdown
 import org.blackaddons.api.ui.widget.text.TextInput
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.LatestOnly
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.core.backend.BackendNotifier
-import org.blackaddons.core.profile.LoadResult
-import org.blackaddons.core.profile.LoadTrace
-import org.blackaddons.core.profile.ProfileService
-import org.blackaddons.core.profile.RecentPlayers
-import org.blackaddons.core.profile.SkinTextures
-import org.blackaddons.core.profile.dashless
+import org.blackaddons.core.profile.*
 import org.blackaddons.core.ui.screen.pv.parts.ProfileBadges
 import org.blackaddons.core.ui.screen.pv.parts.RecentPlayersColumn
-import org.blackaddons.core.ui.screen.pv.tabs.PvCa50Tab
-import org.blackaddons.core.ui.screen.pv.tabs.PvCombatTab
-import org.blackaddons.core.ui.screen.pv.tabs.PvDungeonsTab
-import org.blackaddons.core.ui.screen.pv.tabs.PvInventoryTab
-import org.blackaddons.core.ui.screen.pv.tabs.PvNetworthTab
-import org.blackaddons.core.ui.screen.pv.tabs.PvOverviewTab
-import org.blackaddons.core.ui.screen.pv.tabs.PvPetsTab
-import org.blackaddons.core.ui.screen.pv.tabs.PvRecentTab
-import org.blackaddons.core.ui.screen.pv.tabs.PvSkillsTab
+import org.blackaddons.core.ui.screen.pv.tabs.*
 import java.util.UUID
 import kotlin.time.TimeSource
 
@@ -186,6 +167,7 @@ internal class ProfileViewerScreen(private var query: String) : Panel() {
         override fun mouseReleased(mouse: MouseButtonInput) = input.mouseReleased(mouse)
         override fun mouseDragged(drag: MouseDragInput) =
             input.mouseDragged(drag)
+
         override fun mouseScrolled(wheel: MouseScrollInput) = input.mouseScrolled(wheel)
         override fun keyPressed(key: KeyInput) = input.keyPressed(key)
         override fun charTyped(typed: CharInput) = input.charTyped(typed)

@@ -1,12 +1,6 @@
 package org.blackaddons.api.testing
 
-import org.blackaddons.api.skyblock.dungeon.Dungeon
-import org.blackaddons.api.skyblock.dungeon.DungeonLayout
-import org.blackaddons.api.skyblock.dungeon.DungeonPlayer
-import org.blackaddons.api.skyblock.dungeon.DungeonProvider
-import org.blackaddons.api.skyblock.dungeon.DungeonRun
-import org.blackaddons.api.skyblock.dungeon.DungeonScore
-import org.blackaddons.api.skyblock.dungeon.DungeonTeam
+import org.blackaddons.api.skyblock.dungeon.*
 
 /** Test [DungeonProvider], bound on first use. The party is a plain list; other views throw until a fake is set. */
 object TestDungeon : DungeonProvider {

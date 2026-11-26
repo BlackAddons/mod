@@ -1,8 +1,5 @@
 package org.blackaddons.api.util.color
-import org.blackaddons.api.util.color.GradientColors.animatedGradientColor
-import org.blackaddons.api.util.color.GradientColors.chromaColor
-import org.blackaddons.api.util.color.GradientColors.colorAt
-import org.blackaddons.api.util.color.GradientColors.perChar
+
 import java.awt.Color
 import kotlin.math.roundToInt
 

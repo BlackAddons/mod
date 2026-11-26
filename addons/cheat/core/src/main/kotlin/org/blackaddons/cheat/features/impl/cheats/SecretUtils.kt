@@ -6,11 +6,7 @@ import org.blackaddons.api.event.WorldChangeEvent
 import org.blackaddons.api.event.world.BlockInteractEvent
 import org.blackaddons.api.feature.Categories
 import org.blackaddons.api.feature.Feature
-import org.blackaddons.api.player.Aim
-import org.blackaddons.api.player.ClickRequest
-import org.blackaddons.api.player.ClientAction
-import org.blackaddons.api.player.ClientActionResult
-import org.blackaddons.api.player.HandBack
+import org.blackaddons.api.player.*
 import org.blackaddons.api.skyblock.LocationUtils
 import org.blackaddons.api.skyblock.dungeon.Dungeon
 import org.blackaddons.api.skyblock.dungeon.DungeonUtils
@@ -27,7 +23,6 @@ import org.blackaddons.cheat.aim.ContactClick
 import org.blackaddons.cheat.features.impl.cheats.SecretUtils.aimSpread
 import org.blackaddons.cheat.features.impl.cheats.SecretUtils.clickOnContact
 import org.blackaddons.cheat.features.impl.cheats.SecretUtils.contactDelay
-import org.blackaddons.cheat.features.impl.cheats.SecretUtils.leverSize
 import org.blackaddons.cheat.features.impl.cheats.SecretUtils.realClick
 import org.blackaddons.cheat.features.impl.cheats.SecretUtils.triggerbot
 import org.blackaddons.cheat.features.impl.cheats.lightsDevice.LightsDevice
@@ -127,7 +122,8 @@ object SecretUtils : Feature(
     private var triggerClick: ClickRequest? = null
 
     /** [leverSize] runs inside `getShape`, way too hot to parse the scoreboard. */
-    @Volatile private var inFloor7 = false
+    @Volatile
+    private var inFloor7 = false
 
     override val buttonSize: Double? get() = if (buttons.value) buttonSizeSetting.value else null
     override val fullSecretSkulls: Boolean get() = skulls.value

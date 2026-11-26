@@ -2,9 +2,7 @@ package org.blackaddons.core.features.impl.visual.fme
 
 import org.blackaddons.api.skyblock.DungeonGeometry
 import org.blackaddons.api.world.BlockPlacement
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.nio.file.Files

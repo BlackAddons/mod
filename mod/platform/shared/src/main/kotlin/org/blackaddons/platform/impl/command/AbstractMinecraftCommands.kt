@@ -1,10 +1,6 @@
 package org.blackaddons.platform.impl.command
-import com.mojang.brigadier.arguments.ArgumentType
-import com.mojang.brigadier.arguments.BoolArgumentType
-import com.mojang.brigadier.arguments.DoubleArgumentType
-import com.mojang.brigadier.arguments.FloatArgumentType
-import com.mojang.brigadier.arguments.IntegerArgumentType
-import com.mojang.brigadier.arguments.StringArgumentType
+
+import com.mojang.brigadier.arguments.*
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
@@ -19,12 +15,7 @@ import net.minecraft.client.multiplayer.ClientSuggestionProvider
 import net.minecraft.network.chat.Component
 import org.blackaddons.api.Platform
 import org.blackaddons.api.chat.ChatMessage
-import org.blackaddons.api.commands.ArgBuilder
-import org.blackaddons.api.commands.ArgType
-import org.blackaddons.api.commands.CommandBuilder
-import org.blackaddons.api.commands.CommandContext
-import org.blackaddons.api.commands.CommandHost
-import org.blackaddons.api.commands.DynamicAlias
+import org.blackaddons.api.commands.*
 import org.blackaddons.api.util.cleanCommand
 import org.blackaddons.api.util.splitWhitespace
 import org.blackaddons.core.log.Log

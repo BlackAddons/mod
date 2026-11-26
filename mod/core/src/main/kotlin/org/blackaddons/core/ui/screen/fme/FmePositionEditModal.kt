@@ -13,12 +13,7 @@ import org.blackaddons.api.ui.toast.Toasts
 import org.blackaddons.api.ui.widget.Button
 import org.blackaddons.api.ui.widget.text.TextInput
 import org.blackaddons.api.util.I18n
-import org.blackaddons.core.features.impl.visual.fme.Fme
-import org.blackaddons.core.features.impl.visual.fme.FmeManagedGroup
-import org.blackaddons.core.features.impl.visual.fme.FmePositionAddResult
-import org.blackaddons.core.features.impl.visual.fme.FmePositionKey
-import org.blackaddons.core.features.impl.visual.fme.FmePositionMoveResult
-import org.blackaddons.core.features.impl.visual.fme.FmeScope
+import org.blackaddons.core.features.impl.visual.fme.*
 
 internal class FmePositionEditModal private constructor(
     title: String,

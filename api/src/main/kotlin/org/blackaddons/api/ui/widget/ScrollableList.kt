@@ -10,7 +10,6 @@ import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
-import org.blackaddons.api.ui.widget.ScrollableList.Companion.SIDE_INSET
 import org.blackaddons.api.util.FrameClock
 import org.blackaddons.api.util.color.lerpColor
 import kotlin.time.Duration.Companion.milliseconds

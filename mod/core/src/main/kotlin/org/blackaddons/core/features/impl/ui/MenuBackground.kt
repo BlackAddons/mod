@@ -13,11 +13,7 @@ import org.blackaddons.api.util.expSmoothing
 import org.blackaddons.core.theme.NebulaPalette
 import org.blackaddons.core.theme.ThemedPalette
 import java.awt.Color
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.roundToInt
-import kotlin.math.sin
+import kotlin.math.*
 import kotlin.random.Random
 
 /**

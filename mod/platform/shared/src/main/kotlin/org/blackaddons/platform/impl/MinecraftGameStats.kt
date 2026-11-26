@@ -3,7 +3,7 @@ package org.blackaddons.platform.impl
 import net.minecraft.client.Minecraft
 import net.minecraft.network.protocol.ping.ClientboundPongResponsePacket
 import net.minecraft.network.protocol.ping.ServerboundPingRequestPacket
-import net.minecraft.util.Util // mod/platform/shared/src/main/resources/assets/blackaddons/textures/modernProblemsRequireModernSolutions.png
+import net.minecraft.util.Util
 import org.blackaddons.api.event.ClientTickEvent
 import org.blackaddons.api.event.EventListener
 import org.blackaddons.api.event.EventPriority
@@ -13,8 +13,6 @@ import org.blackaddons.core.tps.TpsTracker
 import org.blackaddons.platform.Installable
 import org.blackaddons.platform.event.impl.PacketEvent
 import org.blackaddons.platform.impl.MinecraftGameStats.PING_INTERVAL_TICKS
-import org.blackaddons.platform.impl.MinecraftGameStats.install
-import org.blackaddons.platform.impl.MinecraftGameStats.ping
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -32,9 +30,12 @@ object MinecraftGameStats : GameStats, Installable {
     private const val PING_TIMEOUT_MS = 10_000L
 
     // Written on netty (pong) and client (send, reset) threads, read on render.
-    @Volatile private var currentPing = 0
-    @Volatile private var awaitingPong = false
-    @Volatile private var lastPacketReceivedAtMs = 0L
+    @Volatile
+    private var currentPing = 0
+    @Volatile
+    private var awaitingPong = false
+    @Volatile
+    private var lastPacketReceivedAtMs = 0L
     private var ticksSincePing = 0
     private var pingSentAtMs = 0L
     private val activePings = ConcurrentHashMap<Long, (Int) -> Unit>()

@@ -1,9 +1,5 @@
 package org.blackaddons.core.backend
 
-import org.blackaddons.core.backend.Backend.CHALLENGE_URL
-import org.blackaddons.core.backend.Backend.LINK_CODE_URL
-import org.blackaddons.core.backend.Backend.SIGN_IN_URL
-
 
 /** Backend endpoints. Traefik strips `/blackaddons`, `/v1` is the contract version. */
 object Backend {

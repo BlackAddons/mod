@@ -5,7 +5,6 @@ import org.blackaddons.api.cosmetics.ColorSpec
 import org.blackaddons.api.cosmetics.Cosmetic
 import org.blackaddons.api.cosmetics.NickFont
 import org.blackaddons.api.cosmetics.NickStyle
-import org.blackaddons.api.ui.render.CosmeticName.draw
 import org.blackaddons.api.util.color.GradientColors
 import org.blackaddons.api.util.graphemes
 import org.blackaddons.api.util.stripFormatting

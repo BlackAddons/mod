@@ -15,8 +15,6 @@ import org.blackaddons.api.hud.HudElement
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.dev.DevFlags
 import org.blackaddons.core.actions.StepTypes
-import org.blackaddons.core.feature.FeatureManager.activate
-import org.blackaddons.core.feature.FeatureManager.init
 import org.blackaddons.core.log.Log
 import java.util.IdentityHashMap
 import java.util.concurrent.CopyOnWriteArrayList
@@ -204,7 +202,7 @@ object FeatureManager {
             CategoryRegistry.register(addon.id, categories).forEach { refused ->
                 Log.main.error(
                     "Addon '{}' declares category '{}', which is already taken - its features should " +
-                        "go in the existing one instead of declaring a second",
+                            "go in the existing one instead of declaring a second",
                     addon.id, refused.id,
                 )
             }

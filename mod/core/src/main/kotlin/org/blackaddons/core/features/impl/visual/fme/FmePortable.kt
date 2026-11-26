@@ -3,11 +3,7 @@ package org.blackaddons.core.features.impl.visual.fme
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.util.I18n
-import org.blackaddons.core.config.portable.DiffRow
-import org.blackaddons.core.config.portable.DiffValue
-import org.blackaddons.core.config.portable.ImportPreview
-import org.blackaddons.core.config.portable.PortableImports
-import org.blackaddons.core.config.portable.PortableKind
+import org.blackaddons.core.config.portable.*
 import java.nio.file.Files
 import java.nio.file.Path
 

@@ -10,7 +10,6 @@ import org.blackaddons.core.backend.auth.BackendSession
 import org.blackaddons.core.backend.auth.HostMojangSession
 import org.blackaddons.core.backend.chat.ChatStore
 import org.blackaddons.core.backend.gateway.Gateway.connecting
-import org.blackaddons.core.backend.gateway.Gateway.restart
 import org.blackaddons.core.features.impl.settings.Connection
 import org.blackaddons.core.log.Log
 import org.blackaddons.core.soloclears.RunRecorder
@@ -36,27 +35,34 @@ object Gateway {
     private val started = AtomicBoolean(false)
     private val backoff = GatewayBackoff()
 
-    @Volatile private var connection: GatewayConnection? = null
+    @Volatile
+    private var connection: GatewayConnection? = null
 
     /**
      * Who the live socket identified as. IAS and the Auth addon swap `Minecraft.user` without closing anything, and
      * everything sent on the socket (chat included) goes out as this player.
      */
-    @Volatile private var account: UUID? = null
+    @Volatile
+    private var account: UUID? = null
 
-    @Volatile private var connecting = false
+    @Volatile
+    private var connecting = false
 
     /** [restart] increments it, so a hung token request gets abandoned instead of holding [connecting] forever. */
     private val generation = AtomicInteger()
 
-    @Volatile private var lastIdleReason: String? = null
+    @Volatile
+    private var lastIdleReason: String? = null
 
-    @Volatile var lastOutcome: String? = null
+    @Volatile
+    var lastOutcome: String? = null
         private set
 
-    @Volatile private var notBefore = TimeSource.Monotonic.markNow()
+    @Volatile
+    private var notBefore = TimeSource.Monotonic.markNow()
 
-    @Volatile private var blocked = false
+    @Volatile
+    private var blocked = false
 
     /** True when the socket is up and identified as the signed-in player. An unidentified socket delivers nothing. */
     val connected: Boolean get() = connection?.established == true && !accountChanged

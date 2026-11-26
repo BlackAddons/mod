@@ -11,13 +11,8 @@ import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
-import org.blackaddons.api.ui.widget.InputTarget
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
-import org.blackaddons.api.ui.widget.MouseScrollInput
-import org.blackaddons.api.ui.widget.Scroll
+import org.blackaddons.api.ui.widget.*
 import org.blackaddons.api.util.I18n
-import org.blackaddons.core.ui.sidebar.Sidebar.Companion.MAX_WIDTH
 import org.blackaddons.core.ui.tab.DividerTab
 import org.blackaddons.core.ui.tab.HeaderTab
 import org.blackaddons.core.ui.tab.Tab

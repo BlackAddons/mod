@@ -1,6 +1,5 @@
 package org.blackaddons.api.ui.node
 
-import org.blackaddons.api.ui.node.SpatialGrid.Companion.MAX_CELLS
 import org.blackaddons.api.util.packInts
 import org.blackaddons.api.util.packedHigh
 import org.blackaddons.api.util.packedLow

@@ -2,7 +2,6 @@ package org.blackaddons.core.profile
 
 import org.blackaddons.api.util.Uuids
 import org.blackaddons.core.cosmetics.store.CosmeticOwners
-import org.blackaddons.core.profile.PlayerNames.candidates
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration.Companion.hours

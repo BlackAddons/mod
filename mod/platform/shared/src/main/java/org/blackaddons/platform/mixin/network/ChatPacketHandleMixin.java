@@ -1,11 +1,7 @@
 package org.blackaddons.platform.mixin.network;
 
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundDisguisedChatPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerChatPacket;
-import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
+import net.minecraft.network.protocol.game.*;
 import org.blackaddons.platform.impl.chat.ChatReceive;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,10 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * {@code ChatComponentMixin} keeps the cancellable event at the GUI end.
  */
 @Mixin({
-    ClientboundSystemChatPacket.class,
-    ClientboundSetActionBarTextPacket.class,
-    ClientboundDisguisedChatPacket.class,
-    ClientboundPlayerChatPacket.class,
+        ClientboundSystemChatPacket.class,
+        ClientboundSetActionBarTextPacket.class,
+        ClientboundDisguisedChatPacket.class,
+        ClientboundPlayerChatPacket.class,
 })
 public abstract class ChatPacketHandleMixin {
 

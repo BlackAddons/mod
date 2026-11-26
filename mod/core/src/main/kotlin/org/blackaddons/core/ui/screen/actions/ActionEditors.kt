@@ -3,28 +3,14 @@ package org.blackaddons.core.ui.screen.actions
 import org.blackaddons.api.Platform
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.util.formatDecimals
-import org.blackaddons.core.actions.ActionGroup
-import org.blackaddons.core.actions.ActionProfile
-import org.blackaddons.core.actions.ActionStep
-import org.blackaddons.core.actions.ActionStorage
-import org.blackaddons.core.actions.ChatAction
-import org.blackaddons.core.actions.LocationAction
-import org.blackaddons.core.actions.ShortcutAction
-import org.blackaddons.core.actions.WaypointAction
-import org.blackaddons.core.actions.WaypointDefinition
+import org.blackaddons.core.actions.*
 import org.blackaddons.core.actions.execution.ActionExecutor
 import org.blackaddons.core.actions.steps.BlockStep
 import org.blackaddons.core.actions.steps.EndStep
 import org.blackaddons.core.actions.steps.SendMessageStep
 import org.blackaddons.core.features.impl.settings.Actions
 import org.blackaddons.core.ui.screen.actions.graph.ActionGraphScreen
-import org.blackaddons.core.ui.screen.actions.modals.ActionGroupModal
-import org.blackaddons.core.ui.screen.actions.modals.ActionStepsModal
-import org.blackaddons.core.ui.screen.actions.modals.ChatActionModal
-import org.blackaddons.core.ui.screen.actions.modals.LocationActionModal
-import org.blackaddons.core.ui.screen.actions.modals.ShortcutActionModal
-import org.blackaddons.core.ui.screen.actions.modals.StepEditModal
-import org.blackaddons.core.ui.screen.actions.modals.WaypointModal
+import org.blackaddons.core.ui.screen.actions.modals.*
 import org.blackaddons.core.ui.screen.profile.ProfilesModal
 
 internal enum class ActionsPage(val id: String, val label: String) {

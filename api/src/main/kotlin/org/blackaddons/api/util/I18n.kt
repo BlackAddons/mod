@@ -5,7 +5,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.log.Log
-import org.blackaddons.api.util.I18n.trOr
 import kotlin.math.abs
 
 /**
@@ -29,9 +28,12 @@ object I18n {
 
     private val namespaces = LinkedHashSet<String>()
 
-    @Volatile private var strings: Map<String, String> = emptyMap()
-    @Volatile private var fallback: Map<String, String> = emptyMap()
-    @Volatile private var loadedLocale: String? = null
+    @Volatile
+    private var strings: Map<String, String> = emptyMap()
+    @Volatile
+    private var fallback: Map<String, String> = emptyMap()
+    @Volatile
+    private var loadedLocale: String? = null
 
     /** Adds a `lang/<namespace>/` directory to read. A namespace with no bundle is fine. */
     @Synchronized
