@@ -640,6 +640,10 @@
         "disable_link_confirmation": {
           "name": "Отключить подтверждение ссылок",
           "desc": "Отключает окно подтверждения при переходе по ссылке в чате."
+        },
+        "confirm_disconnect": {
+          "name": "Подтверждать отключение",
+          "desc": "Спрашивает перед выходом с сервера в маленькой карточке под кнопкой «Отключиться»."
         }
       }
     },
@@ -3372,6 +3376,9 @@
     "cancel": "Отмена",
     "customize": "Настроить меню",
     "all_settings": "Все настройки"
+  },
+  "pause_menu": {
+    "confirm_disconnect": "Выйти с сервера?"
   },
   "inventory_buttons": {
     "hint": "Drag to move · corner to resize · Shift: grid (scroll to size) · right-click: menu · drag an item onto a button for its icon · Esc: done",

@@ -640,6 +640,10 @@
         "disable_link_confirmation": {
           "name": "Desactivar confirmación de enlace",
           "desc": "Quita el aviso de confirmación al hacer clic en un enlace del chat."
+        },
+        "confirm_disconnect": {
+          "name": "Confirmar desconexión",
+          "desc": "Pregunta antes de salir de un servidor, en una pequeña tarjeta bajo el botón Desconectar."
         }
       }
     },
@@ -3372,6 +3376,9 @@
     "cancel": "Cancelar",
     "customize": "Personalizar menú",
     "all_settings": "Todos los ajustes"
+  },
+  "pause_menu": {
+    "confirm_disconnect": "¿Salir del servidor?"
   },
   "inventory_buttons": {
     "hint": "Drag to move · corner to resize · Shift: grid (scroll to size) · right-click: menu · drag an item onto a button for its icon · Esc: done",

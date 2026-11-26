@@ -8,12 +8,10 @@ import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
-import org.blackaddons.platform.impl.gui.TitleMenu.Box
-import org.blackaddons.platform.impl.gui.TitleMenu.Role
 import org.blackaddons.platform.impl.gui.TitleMenu.Slot
 import java.awt.Color
 
-// TitleMenu's painting: the title, text and icon rows, the quit popover, tooltips and legal links.
+// TitleMenu's painting: the title, text and icon rows, tooltips and legal links.
 
 internal fun TitleMenu.drawTitle(screen: TitleScreen) {
     val texts = texts()
@@ -68,21 +66,6 @@ internal fun TitleMenu.drawIcon(slot: Slot, hover: Float) {
 }
 
 internal fun TitleMenu.accentOf(slot: Slot): Color = if (slot.danger) Theme.DANGER else Theme.ACCENT
-
-internal fun TitleMenu.drawPopover(box: Box) {
-    Render.rect(box.x, box.y, box.width, box.height, Theme.SURFACE.withAlpha(240), radius = sf(Theme.RADIUS_SMALL))
-    Render.hollowRect(box.x, box.y, box.width, box.height, 1f, Theme.BORDER, radius = sf(Theme.RADIUS_SMALL))
-    Render.textCentered(confirmQuestion(), box.x + box.width / 2, box.y + si(POPOVER_PAD), sf(POPOVER_TEXT), Theme.TEXT_PRIMARY, Fonts.medium)
-    slots.filter { it.role == Role.CONFIRM }.forEach { slot ->
-        val w = slot.widget
-        val hover = hover[w] ?: 0f
-        val accent = accentOf(slot)
-        val fill = blend(Theme.SURFACE_HOVER, if (slot.danger) accent.withAlpha(200) else Theme.SURFACE_ACTIVE, hover)
-        Render.rect(w.x, w.y, w.width, w.height, fill, radius = sf(Theme.RADIUS_SMALL))
-        val color = if (slot.danger) blend(accent, Theme.TEXT_PRIMARY, hover) else Theme.TEXT_PRIMARY
-        Render.textCentered(slot.label, w.x + w.width / 2f, Render.centerY(w.y, w.height, sf(POPOVER_TEXT), Fonts.medium), sf(POPOVER_TEXT), color, Fonts.medium)
-    }
-}
 
 internal fun TitleMenu.drawTooltip(slot: Slot) {
     val w = slot.widget

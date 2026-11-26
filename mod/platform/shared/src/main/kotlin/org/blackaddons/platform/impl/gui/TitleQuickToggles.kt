@@ -156,10 +156,6 @@ internal object TitleQuickToggles {
 
     private fun cardHeight() = si(PAD) + captionHeight() + si(GAP) + rows.size * si(ROW_HEIGHT) + si(DIVIDER) + si(PAD)
 
-    // Focus highlights a widget only during keyboard navigation, same as TitleMenu.
-    private fun highlighted(widget: AbstractWidget): Boolean =
-        widget.isHovered || (widget.isFocused && Minecraft.getInstance().lastInputType.isKeyboard)
-
     private fun draw(screen: TitleScreen) {
         val toggle = corner ?: return
         // A screen that got initialized again without us has no such button to click.

@@ -66,6 +66,7 @@ import org.blackaddons.platform.event.impl.RenderScreenEvent
 import org.blackaddons.platform.font.MinecraftGlobalFonts
 import org.blackaddons.platform.hypixel.PartyInfoChannel
 import org.blackaddons.platform.impl.chat.MinecraftChat
+import org.blackaddons.platform.impl.gui.PauseDisconnect
 import org.blackaddons.platform.impl.gui.TitleMenu
 import org.blackaddons.platform.impl.gui.TitleQuickToggles
 import org.blackaddons.platform.ui.screen.ScreenOverlay
@@ -146,6 +147,7 @@ class BlackaddonsClient : ClientModInitializer {
         ChatScreenEvents.start()
         TitleMenu.install()
         TitleQuickToggles.install()
+        PauseDisconnect.install()
         ScreenOverlay.start()
 
         UpdateCheck.start()

@@ -1340,6 +1340,14 @@ public final class org/blackaddons/api/event/render/CommandConfirmationEvent : o
 	public fun setCancelled (Z)V
 }
 
+public final class org/blackaddons/api/event/render/DisconnectConfirmationEvent : org/blackaddons/api/event/Event {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getConfirm ()Z
+	public final fun setConfirm (Z)V
+}
+
 public final class org/blackaddons/api/event/render/FireOverlayRenderEvent : org/blackaddons/api/event/Event, org/blackaddons/api/event/Cancellable {
 	public fun <init> ()V
 	public fun <init> (Z)V
@@ -6332,7 +6340,6 @@ public final class org/blackaddons/api/ui/theme/GlassCheck {
 	public static final field END_Y F
 	public static final field INSTANCE Lorg/blackaddons/api/ui/theme/GlassCheck;
 	public static final field RADIUS F
-	public static final field SHEEN_END F
 	public static final field START_X F
 	public static final field START_Y F
 	public static final field STROKE F
@@ -6342,7 +6349,6 @@ public final class org/blackaddons/api/ui/theme/GlassCheck {
 	public final fun frost (FF)I
 	public final fun glow (F)I
 	public final fun mark ()I
-	public final fun sheen (FF)I
 }
 
 public final class org/blackaddons/api/ui/theme/GlassDecor {

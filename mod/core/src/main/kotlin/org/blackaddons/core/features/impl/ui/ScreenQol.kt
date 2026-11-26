@@ -1,6 +1,7 @@
 package org.blackaddons.core.features.impl.ui
 
 import org.blackaddons.api.event.render.CommandConfirmationEvent
+import org.blackaddons.api.event.render.DisconnectConfirmationEvent
 import org.blackaddons.api.event.render.FireOverlayRenderEvent
 import org.blackaddons.api.event.render.LinkConfirmationEvent
 import org.blackaddons.api.event.render.NightVisionRenderEvent
@@ -33,6 +34,9 @@ object ScreenQol : Feature(
 
     val disableLinkConfirmation by boolean("Disable Link Confirmation", default = true)
         .withDescription("Suppresses the confirmation prompt when clicking a website link in chat.")
+
+    val confirmDisconnect by boolean("Confirm Disconnect", default = false)
+        .withDescription("Ask before leaving a server, in a small card under the Disconnect button.")
 
     override fun init() {
         register<FireOverlayRenderEvent> {
@@ -71,6 +75,12 @@ object ScreenQol : Feature(
         register<LinkConfirmationEvent> {
             if (disableLinkConfirmation.value || disableCommandConfirmation.value) {
                 event.cancelled = true
+            }
+        }
+
+        register<DisconnectConfirmationEvent> {
+            if (confirmDisconnect.value) {
+                event.confirm = true
             }
         }
     }

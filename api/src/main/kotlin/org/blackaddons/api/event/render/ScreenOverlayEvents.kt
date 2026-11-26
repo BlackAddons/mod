@@ -36,3 +36,8 @@ class LinkConfirmationEvent(
     val url: String,
     override var cancelled: Boolean = false,
 ) : Event(), Cancellable
+
+/** Set [confirm] to ask before the pause screen's Disconnect leaves a server. */
+class DisconnectConfirmationEvent(
+    var confirm: Boolean = false,
+) : Event()

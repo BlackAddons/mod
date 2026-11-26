@@ -640,6 +640,10 @@
         "disable_link_confirmation": {
           "name": "Disable Link Confirmation",
           "desc": "Suppresses the confirmation prompt when clicking a website link in chat."
+        },
+        "confirm_disconnect": {
+          "name": "Confirm Disconnect",
+          "desc": "Ask before leaving a server, in a small card under the Disconnect button."
         }
       }
     },
@@ -3372,6 +3376,9 @@
     "cancel": "Cancel",
     "customize": "Customize Menu",
     "all_settings": "All Settings"
+  },
+  "pause_menu": {
+    "confirm_disconnect": "Leave the server?"
   },
   "inventory_buttons": {
     "hint": "Drag to move · corner to resize · Shift: grid (scroll to size) · right-click: menu · drag an item onto a button for its icon · Esc: done",

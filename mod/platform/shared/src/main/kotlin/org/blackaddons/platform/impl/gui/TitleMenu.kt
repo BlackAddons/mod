@@ -83,11 +83,6 @@ internal object TitleMenu {
     private const val EDGE = 6
     private const val HOVER_RATE = 14.0
     internal const val UNDERLINE = 1.5f
-    internal const val POPOVER_PAD = 6
-    private const val POPOVER_GAP = 6
-    internal const val POPOVER_TEXT = 9f
-    private const val POPOVER_BUTTON_HEIGHT = 14
-    private const val POPOVER_BUTTON_PAD = 8
     internal const val TOOLTIP_PAD_X = 5f
     internal const val TOOLTIP_PAD_Y = 3f
     internal const val TOOLTIP_GAP = 4f
@@ -111,15 +106,13 @@ internal object TitleMenu {
 
     private class Own(val icon: VectorIcon?, val order: Int, val role: Role, val danger: Boolean = false)
 
-    internal data class Box(val x: Float, val y: Float, val width: Float, val height: Float)
-
     // Widgets this screen draws itself. Vanilla skips rendering them (AbstractWidgetRenderMixin).
     private val owned: MutableSet<AbstractWidget> = Collections.newSetFromMap(IdentityHashMap())
     internal val hover = IdentityHashMap<AbstractWidget, Float>()
     internal var slots = emptyList<Slot>()
     internal var legalOpen = false
     private var quitConfirmOpen = false
-    private var popover: Box? = null
+    private val quitCard = ConfirmCard()
     private val frameClock = FrameClock(cap = 100.milliseconds)
 
     private val ours = IdentityHashMap<AbstractWidget, Own>()
@@ -323,49 +316,14 @@ internal object TitleMenu {
         layoutPopover(screen)
     }
 
-    /**
-     * "Quit the game?" next to the quit icon: a small card with Cancel and then Quit, both real buttons so the keyboard
-     * works.
-     */
+    // "Quit the game?" next to the quit icon: Cancel and then Quit.
     private fun layoutPopover(screen: TitleScreen) {
-        val confirm = slots.filter { it.role == Role.CONFIRM }.sortedBy { it.order }
+        val confirm = slots.filter { it.role == Role.CONFIRM }.sortedBy { it.order }.map { ConfirmCard.Choice(it.widget, it.label, it.danger) }
         val anchor = slots.firstOrNull { it.role == Role.ICON && it.order == ICON_QUIT }?.widget
-        confirm.forEach { it.widget.visible = quitConfirmOpen && anchor != null }
-        if (!quitConfirmOpen || anchor == null || confirm.isEmpty()) {
-            popover = null
-            return
-        }
-        val buttonWidths = confirm.map { Render.textWidth(it.label, sf(POPOVER_TEXT), Fonts.medium).toInt() + si(POPOVER_BUTTON_PAD) * 2 }
-        val rowWidth = buttonWidths.sum() + si(POPOVER_GAP) * (confirm.size - 1)
-        val textHeight = Render.textHeight(sf(POPOVER_TEXT), Fonts.medium)
-        val width = maxOf(rowWidth.toFloat(), Render.textWidth(confirmQuestion(), sf(POPOVER_TEXT), Fonts.medium)) + si(POPOVER_PAD) * 2
-        val height = si(POPOVER_PAD) + textHeight + si(POPOVER_GAP) + si(POPOVER_BUTTON_HEIGHT) + si(POPOVER_PAD)
-        val x = (anchor.x + si(CELL) / 2f - width / 2).coerceIn(si(EDGE).toFloat(), screen.width - width - si(EDGE))
-        /*
-         * Below the row, where the screen is empty. Above it, the card would cover the text entries, and a click on its
-         * background would reach them.
-         */
-        val below = anchor.y + si(CELL) + si(POPOVER_GAP).toFloat()
-        val y = if (below + height <= screen.height - si(EDGE)) below else anchor.y - height - si(POPOVER_GAP)
-        popover = Box(x, y, width, height)
-
-        var buttonX = (x + (width - rowWidth) / 2).toInt()
-        val buttonY = (y + height - si(POPOVER_PAD) - si(POPOVER_BUTTON_HEIGHT)).toInt()
-        confirm.forEachIndexed { i, slot ->
-            slot.widget.setSize(buttonWidths[i], si(POPOVER_BUTTON_HEIGHT))
-            slot.widget.setPosition(buttonX, buttonY)
-            buttonX += buttonWidths[i] + si(POPOVER_GAP)
-        }
+        quitCard.layout(quitConfirmOpen, anchor, confirmQuestion(), confirm, screen.width, screen.height, scale)
     }
 
     internal fun confirmQuestion() = tr("confirm_quit", "Quit the game?")
-
-    /**
-     * Focus highlights a widget only during keyboard navigation. A clicked button keeps focus, and a click that opens
-     * the browser (Website) never moves it, so the highlight used to just stay on.
-     */
-    private fun highlighted(widget: AbstractWidget): Boolean =
-        widget.isHovered || (widget.isFocused && Minecraft.getInstance().lastInputType.isKeyboard)
 
     private fun itemWidth(slot: Slot): Float {
         val icon = if (slot.icon != null) sf(ITEM_ICON) + sf(ITEM_PAD) / 2 else 0f
@@ -388,9 +346,9 @@ internal object TitleMenu {
                 Role.FOREIGN_ICON, Role.CONFIRM, Role.HIDDEN -> Unit
             }
         }
-        popover?.let(::drawPopover)
+        quitCard.draw()
         // Tooltips go last, over the row, and none show while the quit card covers that spot.
-        if (popover == null) slots.firstOrNull { it.role == Role.ICON && highlighted(it.widget) }?.let(::drawTooltip)
+        if (!quitCard.shown) slots.firstOrNull { it.role == Role.ICON && highlighted(it.widget) }?.let(::drawTooltip)
         hover.keys.retainAll(slots.map { it.widget }.toSet())
     }
 

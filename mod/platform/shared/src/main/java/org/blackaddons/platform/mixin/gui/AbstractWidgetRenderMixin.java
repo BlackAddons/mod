@@ -2,6 +2,7 @@ package org.blackaddons.platform.mixin.gui;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
+import org.blackaddons.platform.impl.gui.PauseDisconnect;
 import org.blackaddons.platform.impl.gui.TitleMenu;
 import org.blackaddons.platform.impl.gui.TitleQuickToggles;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +21,6 @@ public abstract class AbstractWidgetRenderMixin {
     )
     private void blackaddons$restyled(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         AbstractWidget widget = (AbstractWidget) (Object) this;
-        if (TitleMenu.owns(widget) || TitleQuickToggles.owns(widget)) ci.cancel();
+        if (TitleMenu.owns(widget) || TitleQuickToggles.owns(widget) || PauseDisconnect.owns(widget)) ci.cancel();
     }
 }
