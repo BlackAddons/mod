@@ -1,5 +1,7 @@
 package org.blackaddons.platform.mixin.render;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleOptions;
@@ -10,7 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayDeque;
@@ -30,16 +31,16 @@ public class ParticleEngineMixin {
         blackaddons$particleCreationCancellations.get().push(event.getCancelled());
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "createParticle",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V"
         )
     )
-    private void blackaddons$addCreatedParticle(ParticleEngine engine, Particle particle) {
+    private void blackaddons$addCreatedParticle(ParticleEngine engine, Particle particle, Operation<Void> original) {
         if (!blackaddons$particleCreationCancellations.get().peek()) {
-            engine.add(particle);
+            original.call(engine, particle);
         }
     }
 
