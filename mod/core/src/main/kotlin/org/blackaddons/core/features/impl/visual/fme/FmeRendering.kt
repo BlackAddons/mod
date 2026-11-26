@@ -275,6 +275,10 @@ internal fun FmeReplacement.managedGroup() = FmeManagedGroup(
     positions = 1,
 )
 
+/** Exact rule first, then the scope's Any block rule, which keeps each block and only tints it. */
+internal fun Map<String, BlockAppearance>.typeAppearance(sourceBlockId: String): BlockAppearance? =
+    (get(sourceBlockId) ?: get(FME_ANY_SOURCE))?.let { if (it.blockId == FME_ANY_SOURCE) it.copy(blockId = sourceBlockId) else it }
+
 private fun List<FmeTypeReplacement>.toAppearanceMap(): Map<String, BlockAppearance> =
     associate { it.sourceBlockId to BlockAppearance(it.blockId, it.tintRgb) }
 

@@ -428,9 +428,9 @@ object Fme : Feature(
             return position.appearance
         }
         if (originalIsAir) return null
-        return index.roomTypes[packFmeRoomCell(x, z)]?.get(sourceBlockId)
-            ?: index.locationTypesAt(y)[sourceBlockId]
-            ?: index.globalTypes[sourceBlockId]
+        return index.roomTypes[packFmeRoomCell(x, z)]?.typeAppearance(sourceBlockId)
+            ?: index.locationTypesAt(y).typeAppearance(sourceBlockId)
+            ?: index.globalTypes.typeAppearance(sourceBlockId)
     }
 
     @JvmStatic

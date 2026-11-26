@@ -306,8 +306,8 @@ internal class FmeTypeReplacementStore {
         val profileId = json.str("profile")?.takeIf(::isValidFmeProfileId) ?: return null
         val scope = json.str("scope")?.let { runCatching { FmeScope.valueOf(it) }.getOrNull() } ?: return null
         val scopeKey = json.str("scopeKey") ?: return null
-        val source = json.str("source")?.takeIf(BLOCK_ID::matches) ?: return null
-        val block = json.str("block")?.takeIf(BLOCK_ID::matches) ?: return null
+        val source = json.str("source")?.takeIf(::isValidFmeSource) ?: return null
+        val block = json.str("block")?.takeIf(::isValidFmeSource) ?: return null
         return FmeTypeReplacement(
             profileId = profileId,
             scope = scope,

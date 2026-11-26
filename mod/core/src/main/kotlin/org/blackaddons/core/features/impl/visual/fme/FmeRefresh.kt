@@ -90,7 +90,11 @@ internal fun Fme.dropPreloaded() {
 
 internal fun Fme.redraw(invalidation: FmeRenderInvalidation) {
     if (!Platform.world.isLoaded) return
-    if (invalidation.blockTypes.isNotEmpty()) Platform.world.redrawBlockTypes(invalidation.blockTypes)
+    if (FME_ANY_SOURCE in invalidation.blockTypes) {
+        Platform.world.redrawWorld()
+    } else if (invalidation.blockTypes.isNotEmpty()) {
+        Platform.world.redrawBlockTypes(invalidation.blockTypes)
+    }
     invalidation.chunks.forEach { (chunkX, chunkZ) -> Platform.world.redrawChunk(chunkX, chunkZ) }
     invalidation.blocks.forEach { pos -> Platform.world.redrawBlock(pos.x, pos.y, pos.z) }
 }
@@ -109,4 +113,4 @@ internal fun Fme.cancelTintApply() {
     rules.cancelPendingTint()
 }
 
-internal fun Fme.normalizeBlockId(id: String): String = if (':' in id) id.lowercase() else "minecraft:${id.lowercase()}"
+internal fun Fme.normalizeBlockId(id: String): String = if (':' in id || id == FME_ANY_SOURCE) id.lowercase() else "minecraft:${id.lowercase()}"

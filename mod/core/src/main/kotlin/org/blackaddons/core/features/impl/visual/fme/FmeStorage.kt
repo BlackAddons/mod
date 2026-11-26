@@ -370,8 +370,8 @@ internal class FmeStorage(
     ) {
         fun replacement(profileId: String): FmeTypeReplacement? {
             val parsedScope = scope?.let { runCatching { FmeScope.valueOf(it) }.getOrNull() } ?: return null
-            val source = sourceBlock?.takeIf(::isValidFmeBlockId) ?: return null
-            val replacement = replacementBlock?.takeIf(::isValidFmeBlockId) ?: return null
+            val source = sourceBlock?.takeIf(::isValidFmeSource) ?: return null
+            val replacement = replacementBlock?.takeIf(::isValidFmeSource) ?: return null
             return FmeTypeReplacement(
                 profileId = profileId,
                 scope = parsedScope,

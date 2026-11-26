@@ -26,7 +26,8 @@ internal class FmeRules(
     fun setTypeReplacement(scope: FmeScope, scopeKey: String, from: String, to: String): Boolean {
         cancelPendingTint()
         if (scope != FmeScope.GLOBAL && scopeKey.isBlank()) return false
-        if (!isKnownBlock(from) || !isKnownBlock(to)) return false
+        val anyTint = from == FME_ANY_SOURCE && to == FME_ANY_SOURCE
+        if (!anyTint && (!isKnownBlock(from) || !isKnownBlock(to))) return false
         val before = snapshot()
         val context = FmeContext(scope, scopeKey)
         val existing = typeReplacements.get(profileId(), context, from)

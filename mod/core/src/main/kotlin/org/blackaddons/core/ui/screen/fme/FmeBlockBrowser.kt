@@ -149,7 +149,7 @@ internal class FmeBlockBrowser(
         val key = animationKey(group)
         val hovered = widgets.clickable(x, y, cardW, CHANGED_CARD_H) {
             selectedChangedKey = key
-            selectBlock(group.blockId)
+            if (group.blockId != FME_ANY_SOURCE) selectBlock(group.blockId)
         }
         widgets.clickable(x, y, cardW, CHANGED_CARD_H, Keys.MOUSE_RIGHT) {
             openChangedMenu(group, Rect(x, y, cardW, CHANGED_CARD_H))
@@ -209,9 +209,10 @@ internal class FmeBlockBrowser(
             val cellX = startX + index * CELL_STEP
             val selected = entry.blockId == Fme.selectedBlockId()
             val favorite = entry.blockId in cachedFavorites
+            val any = entry === ANY_ENTRY
             val hovered = widgets.clickable(cellX, y, CELL_SIZE, CELL_SIZE) {
                 selectedChangedKey = null
-                selectBlock(entry.blockId)
+                if (any) openBlockMenu(entry, Rect(cellX, y, CELL_SIZE, CELL_SIZE)) else selectBlock(entry.blockId)
             }
             widgets.clickable(cellX, y, CELL_SIZE, CELL_SIZE, Keys.MOUSE_RIGHT) {
                 openBlockMenu(entry, Rect(cellX, y, CELL_SIZE, CELL_SIZE))
@@ -227,9 +228,14 @@ internal class FmeBlockBrowser(
             }
             val itemSize = ITEM_SIZE + hover * 1.5f
             val itemInset = (CELL_SIZE - itemSize) / 2f
-            Render.item(entry.itemId, cellX + itemInset, y + itemInset, itemSize, itemSize, Theme.RADIUS_SMALL)
+            if (any) {
+                val markX = cellX + (CELL_SIZE - Render.textWidth(ANY_MARK, Theme.FONT_BODY, Fonts.medium)) / 2f
+                Render.text(ANY_MARK, markX, Render.centerY(y, CELL_SIZE, TextStyle.BODY_MUTED_MEDIUM), TextStyle.BODY_MUTED_MEDIUM)
+            } else {
+                Render.item(entry.itemId, cellX + itemInset, y + itemInset, itemSize, itemSize, Theme.RADIUS_SMALL)
+            }
             if (favorite) Render.icon(LucideIcons.starFilled, cellX + CELL_SIZE - 9f, y + 2f, 7f, Theme.ACCENT)
-            if (hovered) Tooltip.show("${displayName(entry.blockId)}\n${entry.blockId}")
+            if (hovered) Tooltip.show("${displayName(entry.blockId)}\n${if (any) tr("change_tint", "Change tint...") else entry.blockId}")
         }
     }
 
@@ -253,7 +259,7 @@ internal class FmeBlockBrowser(
         val terms = search.text.lowercase().splitWhitespace()
         val (favoriteEntries, otherEntries) = allBlocks.partition { it.blockId in favorites }
         val ordered = favoriteEntries + otherEntries
-        cachedBlocks = if (terms.isEmpty()) ordered else ordered.filter { entry ->
+        cachedBlocks = if (terms.isEmpty()) listOf(ANY_ENTRY) + ordered else ordered.filter { entry ->
             val simple = entry.blockId.substringAfter(':')
             terms.all { term -> entry.blockId.containsIgnoreCase(term) || entry.itemId.containsIgnoreCase(term) || simple.containsIgnoreCase(term) }
         }
@@ -308,6 +314,7 @@ internal class FmeBlockBrowser(
         const val CHANGED_ITEM_SIZE = 22f
         const val META_FONT = 8f
         const val ANY_MARK = "*"
+        val ANY_ENTRY = BlockCatalogEntry(FME_ANY_SOURCE, "")
 
         fun columnCount(width: Float): Int = ((width + CELL_GAP) / CELL_STEP).toInt().coerceAtLeast(1)
         fun gridWidth(columns: Int): Float = columns * CELL_SIZE + (columns - 1) * CELL_GAP

@@ -273,6 +273,24 @@ class FmeReplacementStoreTest {
     }
 
     @Test
+    fun `any block type rule tints each block as itself and loses to an exact rule`() {
+        val types = mapOf(
+            FME_ANY_SOURCE to BlockAppearance(FME_ANY_SOURCE, 0xC08040),
+            "minecraft:stone" to BlockAppearance("minecraft:glass"),
+        )
+
+        assertEquals(BlockAppearance("minecraft:dirt", 0xC08040), types.typeAppearance("minecraft:dirt"))
+        assertEquals(BlockAppearance("minecraft:glass"), types.typeAppearance("minecraft:stone"))
+        assertNull(emptyMap<String, BlockAppearance>().typeAppearance("minecraft:dirt"))
+
+        val tint = FmeTypeReplacement(sourceBlockId = FME_ANY_SOURCE, blockId = FME_ANY_SOURCE, tintRgb = 0xC08040)
+        val lines = FmeTypeReplacementStore().apply { put(tint) }.lines()
+        val restored = FmeTypeReplacementStore()
+        assertTrue(restored.replaceAll(lines))
+        assertEquals(tint, restored.get(tint.key))
+    }
+
+    @Test
     fun `copying a location pastes all its edits over the target and leaves the source`() {
         val positions = FmeReplacementStore()
         val types = FmeTypeReplacementStore()

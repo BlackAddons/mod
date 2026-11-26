@@ -239,6 +239,7 @@ internal class FmeScreen : ModalPanel("") {
     }
 
     private fun openBlockMenu(entry: BlockCatalogEntry, anchor: Rect) {
+        if (entry.blockId == FME_ANY_SOURCE) return openBlockTint(entry.blockId, anchor)
         val source = replaceSourceId
         val favorite = entry.blockId in Fme.favoriteBlockIds()
         val entries = buildList<ContextMenu.Entry> {
@@ -289,7 +290,8 @@ internal class FmeScreen : ModalPanel("") {
 
     private fun openChangedMenu(group: FmeManagedGroup, anchor: Rect) {
         val entries = buildList<ContextMenu.Entry> {
-            add(ContextMenu.Item(tr("select_replacement", "Select replacement"), LucideIcons.circleCheck) { select(group.blockId) })
+            val anyTint = group.blockId == FME_ANY_SOURCE
+            if (!anyTint) add(ContextMenu.Item(tr("select_replacement", "Select replacement"), LucideIcons.circleCheck) { select(group.blockId) })
             val typedSource = group.sourceBlockId != FME_ANY_SOURCE
             if (typedSource || group.kind == FmeManagedKind.POSITION) {
                 add(ContextMenu.Item(tr("change_replacement", "Change replacement..."), LucideIcons.settings) {
@@ -323,7 +325,7 @@ internal class FmeScreen : ModalPanel("") {
             } else {
                 add(ContextMenu.Item(tr("move_copy", "Move / Copy..."), LucideIcons.copy) { UiManager.push(FmeRuleTransferModal(group)) })
             }
-            add(ContextMenu.Item(tr("copy_block_id", "Copy replacement ID"), LucideIcons.copy) { Platform.clipboard.copy(group.blockId) })
+            if (!anyTint) add(ContextMenu.Item(tr("copy_block_id", "Copy replacement ID"), LucideIcons.copy) { Platform.clipboard.copy(group.blockId) })
             add(ContextMenu.Item(PortableImports.tr("share", "Share"), LucideIcons.share) {
                 FmePortable.export(group)?.let { PortableExportModal.share(group.blockId.removePrefix("minecraft:"), it) }
             })
