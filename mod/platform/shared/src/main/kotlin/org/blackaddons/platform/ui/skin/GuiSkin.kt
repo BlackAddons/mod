@@ -194,7 +194,6 @@ object GuiSkin {
         BakedGlass.fill(g, x, y, w, h, r, fade(SkinGlass.tone(GlassCheck.base()), alpha))
         BakedGlass.fill(g, x, y, w, h, r, fade(GlassCheck.frost(on, hover), alpha))
         BakedGlass.fill(g, x, y, w, h, r, fade(GlassCheck.accent(on), alpha))
-        BakedGlass.sheen(g, x, y, size, r, fade(GlassCheck.sheen(on, hover), alpha))
         BakedGlass.border(g, x, y, w, h, r, 1f, fade(GlassCheck.edge(on, hover), alpha))
         if (on <= 0f) return
         g.enableScissor(x, y, x + ceil(size * on).toInt(), y + h)

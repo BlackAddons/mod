@@ -9,7 +9,6 @@ import io.github.humbleui.skija.Paint
 import io.github.humbleui.skija.PaintMode
 import io.github.humbleui.skija.PaintStrokeCap
 import io.github.humbleui.skija.PaintStrokeJoin
-import io.github.humbleui.skija.Shader
 import io.github.humbleui.types.RRect
 import io.github.humbleui.types.Rect
 import net.minecraft.client.Minecraft
@@ -68,15 +67,6 @@ object BakedGlass {
             val start = floatArrayOf(GlassCheck.START_X, GlassCheck.START_Y, GlassCheck.ELBOW_X, GlassCheck.ELBOW_Y)
             val end = floatArrayOf(GlassCheck.ELBOW_X, GlassCheck.ELBOW_Y, GlassCheck.END_X, GlassCheck.END_Y)
             drawLines(FloatArray(8) { (if (it < 4) start[it] else end[it - 4]) * px }, paint)
-        }
-
-    /** A glossy highlight over a rounded [size] box: full [argb] at the top edge, gone by 60% of the way down. */
-    fun sheen(g: GuiGraphicsExtractor, x: Int, y: Int, size: Int, radius: Float, argb: Int) =
-        square(g, x, y, size, argb, key(SHEEN, radius, size)) { paint, px ->
-            Shader.makeLinearGradient(0f, 0f, 0f, px * GlassCheck.SHEEN_END, intArrayOf(-1, 0x00FFFFFF)).use { shader ->
-                paint.setShader(shader)
-                drawRRect(RRect.makeXYWH(0f, 0f, px.toFloat(), px.toFloat(), radius * bakedScale), paint)
-            }
         }
 
     enum class Corner(val right: Boolean, val bottom: Boolean) {
@@ -288,7 +278,6 @@ object BakedGlass {
      */
     private const val WHOLE_MAX = 24
     private const val CHECK = 0
-    private const val SHEEN = 1
     private const val CORNER = 2
     private const val MAX_MASKS = 48
     private const val GAP = 2

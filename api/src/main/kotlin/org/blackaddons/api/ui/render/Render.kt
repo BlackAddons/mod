@@ -20,7 +20,6 @@ import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.util.color.Chroma
 import org.blackaddons.api.util.color.ColorStop
-import org.blackaddons.api.util.color.fade
 import org.blackaddons.api.util.color.lerpColor
 import org.blackaddons.api.util.stripFormatting
 import org.joml.Matrix3x2f
@@ -180,8 +179,6 @@ object Render {
         rect(x, y, size, size, Color(GlassCheck.base(), true), r)
         rect(x, y, size, size, Color(GlassCheck.frost(on, 0f), true), r)
         rect(x, y, size, size, Color(GlassCheck.accent(on), true), r)
-        val sheen = GlassCheck.sheen(on, 0f)
-        gradientRect(x, y, size, size * GlassCheck.SHEEN_END, Color(sheen, true), Color(fade(sheen, 0f), true), GradientDir.TOP_BOTTOM, r)
         hollowRect(x, y, size, size, 1f, Color(GlassCheck.edge(on, 0f), true), r)
         if (on <= 0f) return
         val sx = x + GlassCheck.START_X * size
