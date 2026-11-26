@@ -11,6 +11,8 @@ import java.awt.Color
 import kotlin.math.floor
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /** Waypoints from TEMP_WAYPOINT steps. Removed on arrival, timeout or world change (coords are per lobby). */
 internal object TempWaypoints {
@@ -26,7 +28,7 @@ internal object TempWaypoints {
         val tracer: Boolean,
         val throughBlocks: Boolean,
         val arrivalRadius: Double,
-        val expiresAt: Long,
+        val expiresAt: TimeSource.Monotonic.ValueTimeMark?,
     )
 
     private val live = mutableListOf<Live>()
@@ -48,7 +50,7 @@ internal object TempWaypoints {
             tracer = step.waypointTracer,
             throughBlocks = !step.waypointDepthCheck,
             arrivalRadius = step.waypointArrivalRadius,
-            expiresAt = if (step.waypointExpireSeconds > 0f) System.currentTimeMillis() + (step.waypointExpireSeconds * 1000f).toLong() else Long.MAX_VALUE,
+            expiresAt = if (step.waypointExpireSeconds > 0f) TimeSource.Monotonic.markNow() + step.waypointExpireSeconds.toDouble().seconds else null,
         )
     }
 
@@ -61,8 +63,7 @@ internal object TempWaypoints {
 
     private fun onTick() {
         if (live.isEmpty() || !Platform.player.isInGame) return
-        val now = System.currentTimeMillis()
-        live.removeIf { now >= it.expiresAt || (it.arrivalRadius > 0.0 && distanceTo(it) <= it.arrivalRadius) }
+        live.removeIf { it.expiresAt?.hasPassedNow() == true || (it.arrivalRadius > 0.0 && distanceTo(it) <= it.arrivalRadius) }
     }
 
     private fun onRender() {

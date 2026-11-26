@@ -37,6 +37,8 @@ import org.blackaddons.core.font.GlobalFontDocument
 import org.blackaddons.core.font.GlobalFontDraft
 import org.blackaddons.core.font.InstalledFont
 import kotlin.math.floor
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_screen.title", "Fonts")) {
     internal val tr = I18n.scope("blackaddons.global_font_screen")
@@ -143,7 +145,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
     private var previewKey: String? = null
     private var cachedPreviewFont: Font = Fonts.regular
     private var lastSearch = ""
-    private var activityVisibleUntil = 0L
+    private var activityVisibleUntil: TimeSource.Monotonic.ValueTimeMark? = null
     private var transferKey: String? = null
 
     @Volatile private var pendingInstall: Result<InstalledFont>? = null
@@ -176,7 +178,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
                 selected = font
                 operationError = null
                 transferProgress = FontLoadProgress(tr("ready", "%s is ready", font.displayName), 1.0)
-                activityVisibleUntil = System.currentTimeMillis() + READY_VISIBLE_MS
+                activityVisibleUntil = TimeSource.Monotonic.markNow() + READY_VISIBLE
             }.onFailure { failure ->
                 operationError = failure.message ?: tr("load_failed", "Font could not be loaded")
                 transferProgress = null
@@ -190,15 +192,15 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
                 revealPreview()
                 operationError = null
                 transferProgress = FontLoadProgress(tr("removed", "%s removed", font.displayName), 1.0)
-                activityVisibleUntil = System.currentTimeMillis() + READY_VISIBLE_MS
+                activityVisibleUntil = TimeSource.Monotonic.markNow() + READY_VISIBLE
             }.onFailure { failure ->
                 operationError = failure.message ?: tr("remove_failed", "Font could not be removed")
                 transferProgress = null
             }
         }
-        if (!busy && activityVisibleUntil != 0L && System.currentTimeMillis() >= activityVisibleUntil) {
+        if (!busy && activityVisibleUntil?.hasPassedNow() == true) {
             transferProgress = null
-            activityVisibleUntil = 0L
+            activityVisibleUntil = null
         }
 
         val leftW = minOf(220f, contentW * 0.35f)
@@ -345,7 +347,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         downloading = true
         transferKey = key
         operationError = null
-        activityVisibleUntil = 0L
+        activityVisibleUntil = null
         transferProgress = FontLoadProgress(label, null)
     }
 
@@ -357,7 +359,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         ) {
             removing = true
             operationError = null
-            activityVisibleUntil = 0L
+            activityVisibleUntil = null
             transferProgress = FontLoadProgress(tr("deleting_font", "Deleting %s...", font.displayName), null)
             FontCatalog.uninstall(font) { result ->
                 Platform.scheduler.schedule(0) {
@@ -454,7 +456,7 @@ internal class GlobalFontScreen : ModalPanel(I18n.trOr("blackaddons.global_font_
         const val CONTROL_ROW_H = 31f
         const val PROGRESS_H = 3f
         const val NOTE_H = 16f
-        const val READY_VISIBLE_MS = 900L
+        val READY_VISIBLE = 900.milliseconds
         val FONT_EXTENSIONS = setOf("ttf", "otf")
         val PREVIEW_LINES = listOf(
             "The quick brown fox jumps over the lazy dog.",

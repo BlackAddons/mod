@@ -15,11 +15,13 @@ import org.blackaddons.core.actions.LocationAction
 import org.blackaddons.core.actions.execution.ActionExecutor
 import org.blackaddons.core.actions.execution.ActionSignals
 import java.util.UUID
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 internal object LocationActionHandler {
 
     private val matchingStates = mutableMapOf<UUID, Boolean>()
-    private val lastTriggered = mutableMapOf<UUID, Long>()
+    private val lastTriggered = mutableMapOf<UUID, TimeSource.Monotonic.ValueTimeMark>()
     private var worldGeneration = 0L
 
     internal var serverClock = ServerClock()
@@ -81,12 +83,11 @@ internal object LocationActionHandler {
 
     internal fun fire(actions: List<LocationAction>) {
         if (actions.isEmpty()) return
-        val now = System.currentTimeMillis()
+        val now = TimeSource.Monotonic.markNow()
         val immediate = mutableListOf<LocationAction>()
         val delayed = mutableMapOf<Int, MutableList<LocationAction>>()
         for (action in actions) {
-            val cooldownMs = (action.cooldownSeconds * 1000f).toLong()
-            if (now - lastTriggered.getOrDefault(action.id, 0L) < cooldownMs) continue
+            if (lastTriggered[action.id]?.let { now - it < action.cooldownSeconds.toDouble().seconds } == true) continue
             lastTriggered[action.id] = now
             if (action.delayServerTicks > 0) {
                 serverDelayed += action to serverClock.after(action.delayServerTicks)

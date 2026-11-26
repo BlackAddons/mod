@@ -5,6 +5,8 @@ import org.blackaddons.core.cosmetics.store.CosmeticOwners
 import org.blackaddons.core.profile.PlayerNames.candidates
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.TimeSource
 
 /**
  * Every name -> UUID seen this session, so we still know players after their tab entry is gone (Hypixel's Skyblock tab
@@ -23,7 +25,7 @@ object PlayerNames {
         if (!Uuids.isAccount(uuid) || !NAME.matches(name)) return
         if (byName.size >= MAX_ENTRIES) sweep()
         if (byName.size >= MAX_ENTRIES) return
-        byName[name.lowercase()] = Entry(uuid, name, System.currentTimeMillis())
+        byName[name.lowercase()] = Entry(uuid, name, TimeSource.Monotonic.markNow())
     }
 
     fun uuidFor(name: String): UUID? {
@@ -63,17 +65,16 @@ object PlayerNames {
     fun candidates(): Map<String, UUID> = CosmeticOwners.known() + known()
 
     private fun sweep() {
-        val now = System.currentTimeMillis()
-        byName.values.removeIf { it.isExpired(now) }
+        byName.values.removeIf { it.isExpired() }
     }
 
-    private fun Entry.isExpired(now: Long = System.currentTimeMillis()) = now - seenAt > EXPIRY_MS
+    private fun Entry.isExpired() = seenAt.elapsedNow() > EXPIRY
 
     // Keeps the original spelling. The key is lowercase.
-    private class Entry(val uuid: UUID, val name: String, val seenAt: Long)
+    private class Entry(val uuid: UUID, val name: String, val seenAt: TimeSource.Monotonic.ValueTimeMark)
 
     /** Longer than a server hop, still short enough to catch renames. */
-    private const val EXPIRY_MS = 60L * 60L * 1000L
+    private val EXPIRY = 1.hours
 
     private const val MAX_ENTRIES = 2000
 }

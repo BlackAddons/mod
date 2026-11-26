@@ -10,31 +10,32 @@ import org.blackaddons.core.log.Log
 import org.blackaddons.platform.compat.currentOverlay
 import java.lang.management.ManagementFactory
 import java.lang.management.ThreadInfo
-import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Captures JVM stacks from a worker while the client thread is stuck. */
 object FreezeCapture : Feature(
     name = "Freeze Capture",
     description = "Save thread stacks after a 200 ms client stall to config/blackaddons/dev/freezes.",
 ) {
-    private const val STALL_MS = 200L
+    private val STALL = 200.milliseconds
     private const val POLL_MS = 50L
     private const val SAMPLE_GAP_MS = 100L
 
-    @Volatile private var lastBeatNs = 0L
+    @Volatile private var lastBeat = TimeSource.Monotonic.markNow()
     @Volatile private var clientThread: Thread? = null
     @Volatile private var watcher: Thread? = null
 
     override fun init() {
         register<ClientTickEvent.Post> {
             clientThread = Thread.currentThread()
-            lastBeatNs = System.nanoTime()
+            lastBeat = TimeSource.Monotonic.markNow()
         }
         ClientLifecycleEvents.CLIENT_STOPPING.register { watcher = null }
     }
 
     override fun onEnable() {
-        lastBeatNs = System.nanoTime()
+        lastBeat = TimeSource.Monotonic.markNow()
         watcher = Workers.start("freeze-capture", ::watch)
     }
 
@@ -46,24 +47,24 @@ object FreezeCapture : Feature(
 
     private fun watch() {
         val self = Thread.currentThread()
-        var capturedBeat = -1L
+        var capturedBeat: TimeSource.Monotonic.ValueTimeMark? = null
         while (watcher === self) {
             try {
                 Thread.sleep(POLL_MS)
-                val beat = lastBeatNs
+                val beat = lastBeat
                 if (clientThread == null || beat == capturedBeat ||
-                    System.nanoTime() - beat < TimeUnit.MILLISECONDS.toNanos(STALL_MS) ||
+                    beat.elapsedNow() < STALL ||
                     Minecraft.getInstance().currentOverlay != null) continue
 
                 capturedBeat = beat
                 val client = clientThread ?: continue
-                val started = System.nanoTime()
+                val started = TimeSource.Monotonic.markNow()
                 val bean = ManagementFactory.getThreadMXBean()
                 val report = buildString {
-                    appendLine("Client stall at least $STALL_MS ms; render thread: ${client.name} (${client.threadId()})")
+                    appendLine("Client stall at least ${STALL.inWholeMilliseconds} ms; render thread: ${client.name} (${client.threadId()})")
                     repeat(3) { sample ->
                         if (sample > 0) Thread.sleep(SAMPLE_GAP_MS)
-                        appendLine("\nSample ${sample + 1}, ${TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started)} ms after detection")
+                        appendLine("\nSample ${sample + 1}, ${started.elapsedNow().inWholeMilliseconds} ms after detection")
                         val threads = bean.dumpAllThreads(true, true)
                         threads.firstOrNull { it.threadId == client.threadId() }?.let { appendThread(it) }
                         threads.filter { it.threadId != client.threadId() }.forEach { appendThread(it) }

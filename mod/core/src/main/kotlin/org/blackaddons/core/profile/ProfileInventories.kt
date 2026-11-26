@@ -6,6 +6,7 @@ import org.blackaddons.api.skyblock.profile.ProfileMember
 import org.blackaddons.api.util.concurrent.OffThread
 import java.util.WeakHashMap
 import java.util.concurrent.CompletableFuture
+import kotlin.time.TimeSource
 
 /**
  * Decodes a member's inventories the first time they're asked for and keeps them with the member. The Profile Viewer
@@ -37,9 +38,9 @@ internal object ProfileInventories {
     }
 
     private fun decode(member: ProfileMember): ProfileInventory {
-        val started = System.nanoTime()
+        val started = TimeSource.Monotonic.markNow()
         return RawHypixelParser.inventory(member.raw).also {
-            LoadTrace.write("inventory of ${member.uuid}: decoded in ${LoadTrace.ms(System.nanoTime() - started)} ms")
+            LoadTrace.write("inventory of ${member.uuid}: decoded in ${started.elapsedNow().inWholeMilliseconds} ms")
         }
     }
 }

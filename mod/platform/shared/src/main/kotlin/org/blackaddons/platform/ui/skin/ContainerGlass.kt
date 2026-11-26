@@ -15,6 +15,8 @@ import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.platform.compat.currentScreen
 import org.blackaddons.platform.mixin.gui.AbstractContainerScreenAccessor
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /**
  * Container screens in [Glass]: a card panel and a cell per slot under the texture's own marks ([Decor]),
@@ -32,7 +34,7 @@ object ContainerGlass {
     private var seen: AbstractContainerScreen<*>? = null
     private var seenTitle = ""
     private var seenClass: Class<*>? = null
-    private var seenAtMs = 0L
+    private var seenAt = TimeSource.Monotonic.markNow()
 
     private var fillerStacks = arrayOfNulls<ItemStack>(0)
     private var fillerResults = BooleanArray(0)
@@ -134,10 +136,9 @@ object ContainerGlass {
     }
 
     private fun openAlpha(screen: AbstractContainerScreen<*>): Float {
-        val now = System.currentTimeMillis()
         if (screen !== seen) {
             val title = screen.title.string
-            val reopen = title == seenTitle && screen.javaClass == seenClass && now - seenAtMs < REOPEN_MS
+            val reopen = title == seenTitle && screen.javaClass == seenClass && seenAt.elapsedNow() < REOPEN
             if (!reopen) {
                 fadeIn.set(0f)
                 fadeIn.animateTo(1f)
@@ -146,12 +147,12 @@ object ContainerGlass {
             seenTitle = title
             seenClass = screen.javaClass
         }
-        seenAtMs = now
+        seenAt = TimeSource.Monotonic.markNow()
         return fadeIn.get()
     }
 
     private const val ITEM = 16
-    private const val REOPEN_MS = 1000L
+    private val REOPEN = 1.seconds
     private const val PLAIN_BLIT_ARGS = 10
     private const val VANILLA_LABEL = -12566464
     private val NO_HOLES = IntArray(0)

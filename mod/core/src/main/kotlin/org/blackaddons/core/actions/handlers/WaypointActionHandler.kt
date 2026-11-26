@@ -17,12 +17,14 @@ import org.blackaddons.core.render.WorldRenderPrefs
 import java.awt.Color
 import java.util.UUID
 import kotlin.math.abs
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 internal object WaypointActionHandler {
     private const val OTHERS_RANGE = 128.0
 
     private var playerInsideState = HashMap<Pair<UUID, String>, Boolean>()
-    private val lastTriggerTimes = mutableMapOf<Pair<UUID, String>, Long>()
+    private val lastTriggerTimes = mutableMapOf<Pair<UUID, String>, TimeSource.Monotonic.ValueTimeMark>()
 
     fun init() {
         EventBus.subscribe<ClientTickEvent.Post> { onTick() }
@@ -139,15 +141,14 @@ internal object WaypointActionHandler {
         }
 
         if (triggeredAny) {
-            lastTriggerTimes[key] = System.currentTimeMillis()
+            lastTriggerTimes[key] = TimeSource.Monotonic.markNow()
         }
     }
 
     private fun isOnCooldown(wp: WaypointDefinition, key: Pair<UUID, String>): Boolean {
         if (wp.reuseCooldownSeconds <= 0f) return false
         val last = lastTriggerTimes[key] ?: return false
-        val cooldownMs = (wp.reuseCooldownSeconds * 1000f).toLong()
-        return System.currentTimeMillis() - last < cooldownMs
+        return last.elapsedNow() < wp.reuseCooldownSeconds.toDouble().seconds
     }
 
     private fun onRenderWorld() {

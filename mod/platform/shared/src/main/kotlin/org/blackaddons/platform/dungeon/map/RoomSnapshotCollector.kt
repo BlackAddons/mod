@@ -20,11 +20,13 @@ import org.blackaddons.core.log.Log
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.math.abs
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Captures rooms on the client thread, writes validated Sponge v2/v3 NBT off it. The worker never reads the world. */
 internal object RoomSnapshotCollector {
     private val logger = Log.area("unknown-room-snapshots")
-    private const val BUDGET_NANOS = 2_000_000L
+    private val BUDGET = 2.milliseconds
     private const val SNAPSHOT_MIN_Y = 0
     private const val SNAPSHOT_MAX_Y = 256
     private const val METADATA_FILE = "metadata.json"
@@ -62,9 +64,9 @@ internal object RoomSnapshotCollector {
         if (!capture.allChunksHaveBlocks(level)) {
             return
         }
-        val deadline = System.nanoTime() + BUDGET_NANOS
+        val deadline = TimeSource.Monotonic.markNow() + BUDGET
         val pos = BlockPos.MutableBlockPos()
-        while (System.nanoTime() < deadline && !capture.complete) {
+        while (!deadline.hasPassedNow() && !capture.complete) {
             capture.read(level, pos)
         }
         if (!capture.complete) return

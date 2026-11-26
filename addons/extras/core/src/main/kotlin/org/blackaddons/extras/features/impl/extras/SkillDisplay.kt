@@ -19,9 +19,11 @@ import org.blackaddons.api.ui.layout.row
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.formatDecimals
 import org.blackaddons.extras.core.iconItem
-import org.blackaddons.extras.features.impl.extras.SkillDisplay.FADE_OUT_MS
 import java.awt.Color
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /** Skill-xp pop-up as a movable HUD element, fading out after the last gain like SkyblockAddons' SKILL_DISPLAY. */
 object SkillDisplay : Feature(
@@ -44,14 +46,14 @@ object SkillDisplay : Feature(
     @Volatile
     private var current: SkillGain? = null
     @Volatile
-    private var lastUpdateMs = 0L
+    private var lastUpdate = TimeSource.Monotonic.markNow()
 
-    private const val FADE_OUT_MS = 800L
+    private val FADE_OUT = 800.milliseconds
 
     override fun init() {
         register<SkillXpEvent> {
             current = event.gain
-            lastUpdateMs = System.currentTimeMillis()
+            lastUpdate = TimeSource.Monotonic.markNow()
         }
         register<ActionBarEvent> {
             if (!Platform.skyblock.onSkyblock) return@register
@@ -68,14 +70,14 @@ object SkillDisplay : Feature(
         register<WorldChangeEvent> { current = null }
     }
 
-    /** 1 while fresh, easing to 0 over [FADE_OUT_MS]. */
+    /** 1 while fresh, easing to 0 over [FADE_OUT]. */
     private fun displayAlpha(): Float {
         if (current == null) return 0f
-        val elapsed = System.currentTimeMillis() - lastUpdateMs
-        val total = (fadeSeconds.value * 1000.0).toLong()
+        val elapsed = lastUpdate.elapsedNow()
+        val total = fadeSeconds.value.seconds
         return when {
             elapsed >= total -> 0f
-            elapsed >= total - FADE_OUT_MS -> ((total - elapsed).toFloat() / FADE_OUT_MS).coerceIn(0f, 1f)
+            elapsed >= total - FADE_OUT -> ((total - elapsed) / FADE_OUT).toFloat().coerceIn(0f, 1f)
             else -> 1f
         }
     }

@@ -10,6 +10,8 @@ import org.blackaddons.api.util.graphemes
 import java.awt.Color
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * Caret, selection, clipboard and undo over one line; wrapped by [TextInput] and [StringWidget]. Chars fade
@@ -32,20 +34,20 @@ class TextEditor(
     private val history = TextHistory()
     private val view = TextEditorView()
 
-    private var lastEditMs = System.currentTimeMillis()
+    private var lastEdit = TimeSource.Monotonic.markNow()
     private var pendingHighSurrogate: Char? = null
 
     var cursor = 0
         set(value) {
             field = value
-            lastEditMs = System.currentTimeMillis()
+            lastEdit = TimeSource.Monotonic.markNow()
         }
 
     /** Fixed end of the selection; equals [cursor] when nothing is selected. */
     var anchor = 0
         set(value) {
             field = value
-            lastEditMs = System.currentTimeMillis()
+            lastEdit = TimeSource.Monotonic.markNow()
         }
 
     var text: String
@@ -70,8 +72,8 @@ class TextEditor(
 
     /** Steady right after an edit. */
     val caretHidden: Boolean get() {
-        val idle = System.currentTimeMillis() - lastEditMs
-        return idle >= BLINK_MS && ((idle - BLINK_MS) / BLINK_MS) % 2 == 1L
+        val idle = lastEdit.elapsedNow()
+        return idle >= BLINK && ((idle - BLINK) / BLINK).toLong() % 2 == 1L
     }
 
     /** Skip the tween - on focus or after undo. */
@@ -234,6 +236,6 @@ class TextEditor(
 
     private companion object {
         /** Caret holds steady this long after an edit, then blinks with this half-period. */
-        const val BLINK_MS = 500L
+        val BLINK = 500.milliseconds
     }
 }

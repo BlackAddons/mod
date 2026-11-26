@@ -10,6 +10,8 @@ import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.api.util.io.str
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /** Server positions. A revoked run moves everyone below it. */
 internal data class BoardEntry(
@@ -50,14 +52,14 @@ internal object SoloClearBoard {
     val CATEGORIES = listOf(OVERALL, NO_SKIPS, WITH_SKIPS)
 
     /** Matches the board's 30s `Cache-Control`. */
-    private const val CACHE_MILLIS = 30_000L
+    private val CACHE_TTL = 30.seconds
 
     private val cached = HashMap<String, Cached>()
 
     fun board(floor: String, category: String): Board? {
         val key = "$floor/$category"
         synchronized(cached) {
-            cached[key]?.takeIf { System.currentTimeMillis() - it.at < CACHE_MILLIS }?.let { return it.board }
+            cached[key]?.takeIf { it.at.elapsedNow() < CACHE_TTL }?.let { return it.board }
         }
 
         val response = Platform.http.getBlocking("${Backend.API_V1}/soloclears/leaderboard/$floor?category=$category")
@@ -71,7 +73,7 @@ internal object SoloClearBoard {
                 ?.mapNotNull { element -> (element as? JsonObject)?.let(::entry) }
                 ?: emptyList(),
         )
-        synchronized(cached) { cached[key] = Cached(board, System.currentTimeMillis()) }
+        synchronized(cached) { cached[key] = Cached(board, TimeSource.Monotonic.markNow()) }
         return board
     }
 
@@ -116,5 +118,5 @@ internal object SoloClearBoard {
     private fun JsonElement.asStringOrNull(): String? =
         takeIf { it.isJsonPrimitive }?.asString
 
-    private class Cached(val board: Board, val at: Long)
+    private class Cached(val board: Board, val at: TimeSource.Monotonic.ValueTimeMark)
 }

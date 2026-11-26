@@ -37,6 +37,8 @@ import java.util.function.Supplier
 import kotlin.math.abs
 import kotlin.math.hypot
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * Player preview for the cosmetic editor, wardrobe and Profile Viewer, at an explicit yaw/pitch, framed in the caller's
@@ -50,7 +52,7 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
 
     private data class Request(
         val x0: Int, val y0: Int, val x1: Int, val y1: Int,
-        val yaw: Float, val pitch: Float, val at: Long,
+        val yaw: Float, val pitch: Float, val at: TimeSource.Monotonic.ValueTimeMark,
         /** Null means the local player. */
         val target: Target?,
         val focusOnCosmetic: Boolean = false,
@@ -95,7 +97,7 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
         PlayerScale.setPreview(Scale(scaleX, scaleY, scaleZ))
         record(key, Request(
             x.toInt(), y.toInt(), (x + w).toInt(), (y + h).toInt(),
-            yawDeg, pitchDeg, System.currentTimeMillis(), target = null,
+            yawDeg, pitchDeg, TimeSource.Monotonic.markNow(), target = null,
             showNameTag = showNameTag,
         ))
     }
@@ -114,7 +116,7 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
         // The real UUID shows a size cosmetic, and framing reads the same scale.
         record(key, Request(
             x.toInt(), y.toInt(), (x + w).toInt(), (y + h).toInt(),
-            yawDeg, pitchDeg, System.currentTimeMillis(),
+            yawDeg, pitchDeg, TimeSource.Monotonic.markNow(),
             target = Target(id, name, textures, signature, skinTexture),
             focusOnCosmetic = focusOnCosmetic,
             showNameTag = showNameTag,
@@ -139,7 +141,7 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
     /** Drops stale previews and tells the renderer who's being previewed. Drawing happens in [record]. */
     fun endFrame() {
         // Unrequested previews expire: closed screens and scrolled-off tiles free themselves.
-        pending.values.removeIf { System.currentTimeMillis() - it.at > FRESH_MS }
+        pending.values.removeIf { it.at.elapsedNow() > FRESH }
         // Previewed players might not be in the tab list, and 3D cosmetics only track known players.
         val previewed = pending.values.mapNotNullTo(HashSet()) { it.target?.uuid }
         Cosmetic3dManager.setPreviewTargets(previewed)
@@ -281,7 +283,7 @@ object MinecraftPlayerModelPreview : PlayerModelPreview {
     /** Only read as an item-model seed. */
     private const val PREVIEW_ENTITY_ID = Int.MAX_VALUE
 
-    private const val FRESH_MS = 150L
+    private val FRESH = 150.milliseconds
 
     // Model size in blocks (32x16x8 px). Height is the 2-block model, not the 1.8 hitbox. Shared with the scale mixin.
     private const val MODEL_HEIGHT = 2.0f

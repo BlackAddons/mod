@@ -14,6 +14,8 @@ import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.ui.widget.ScrollableList
 import org.blackaddons.core.config.portable.PortableImports
 import org.blackaddons.core.ui.screen.portable.PortableExportModal.Companion.MAX_LINES
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * Shows the exported string, not a toast. Toasts draw under open screens, and
@@ -35,7 +37,7 @@ internal class PortableExportModal(
 
     private val hint get() = PortableImports.tr("share_hint", "They import it from the same menu, or with /b import.")
 
-    private var copiedAt = 0L
+    private var copiedAt: TimeSource.Monotonic.ValueTimeMark? = null
     private var selected = false
 
     // Wrapped once per width, because each measurement is a text layout.
@@ -85,7 +87,7 @@ internal class PortableExportModal(
     }
 
     private fun copyLabel(): String {
-        val fresh = System.currentTimeMillis() - copiedAt < CONFIRM_MS
+        val fresh = copiedAt?.let { it.elapsedNow() < CONFIRM } == true
         return PortableImports.tr(if (fresh) "copied_mark" else "copy_again", if (fresh) "Copied" else "Copy again")
     }
 
@@ -127,14 +129,14 @@ internal class PortableExportModal(
 
     private fun copy() {
         Platform.clipboard.copy(exported)
-        copiedAt = System.currentTimeMillis()
+        copiedAt = TimeSource.Monotonic.markNow()
     }
 
     companion object {
         private const val LINE_STEP = 1.35f
         private const val HINT_LINE_STEP = 1.3f
         private const val HINT_GAP = 4f
-        private const val CONFIRM_MS = 1600L
+        private val CONFIRM = 1600.milliseconds
         private const val MAX_LINES = 8
         private const val BOX_PAD = 6f
 

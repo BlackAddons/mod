@@ -41,6 +41,8 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.io.path.extension
 import kotlin.io.path.name
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /**
  * The BlackAddons chat window. It's the real chat, because only it can edit or delete lines ([ChatMirror] is just a
@@ -117,7 +119,7 @@ class ChatScreen : ModalPanel(I18n.tr("blackaddons.bachat.title")) {
 
     private val attachments = mutableListOf<Attachment>()
     private var attachNotice: String? = null
-    private var attachNoticeAt = 0L
+    private var attachNoticeAt = TimeSource.Monotonic.markNow()
 
     override fun onShow() {
         BackendNotifier.ensureConnected()
@@ -214,11 +216,11 @@ class ChatScreen : ModalPanel(I18n.tr("blackaddons.bachat.title")) {
 
     /** One status line: refusal, then mute, then typing. */
     private fun drawStatus(x: Float, y: Float, w: Float) {
-        val refusal = ChatStore.refusal?.takeIf { System.currentTimeMillis() - it.at < REFUSAL_MS }
+        val refusal = ChatStore.refusal?.takeIf { it.at.elapsedNow() < REFUSAL }
         val mute = ChatStore.mute
         val typists = ChatStore.typists(channel)
 
-        val notice = attachNotice?.takeIf { System.currentTimeMillis() - attachNoticeAt < REFUSAL_MS }
+        val notice = attachNotice?.takeIf { attachNoticeAt.elapsedNow() < REFUSAL }
         val (text, color) = when {
             notice != null -> notice to Theme.DANGER
             // A failed upload blocks the message until it's removed.
@@ -329,7 +331,7 @@ class ChatScreen : ModalPanel(I18n.tr("blackaddons.bachat.title")) {
 
     private fun notice(text: String) {
         attachNotice = text
-        attachNoticeAt = System.currentTimeMillis()
+        attachNoticeAt = TimeSource.Monotonic.markNow()
     }
 
     override fun filesDropped(paths: List<Path>): Boolean {
@@ -426,7 +428,7 @@ class ChatScreen : ModalPanel(I18n.tr("blackaddons.bachat.title")) {
         private const val REMOVE_SIZE = 12f
         private const val GAP = 6f
 
-        private const val REFUSAL_MS = 8_000L
+        private val REFUSAL = 8.seconds
 
         fun open() {
             UiManager.open(ChatScreen())

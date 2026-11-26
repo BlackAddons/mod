@@ -24,6 +24,8 @@ import org.blackaddons.platform.util.modId
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /**
  * [Glass] drawn by vanilla's GUI batcher instead of a Skija layer: Skia rasterizes white coverage masks once per shape,
@@ -143,7 +145,7 @@ object BakedGlass {
     private var bakedScale = 0
     private var uses = 0L
     private var nextId = 0
-    private var failedAtMs = 0L
+    private var failedAt: TimeSource.Monotonic.ValueTimeMark? = null
 
     private fun rescale() {
         val scale = Minecraft.getInstance().window.guiScale
@@ -184,12 +186,12 @@ object BakedGlass {
         val shapeH = if (wholeH > 0) wholeH * scale else cornerPx * 2 + 1
         val texW = if (borderPx > 0f) shapeW * 2 + GAP else shapeW
         val unbaked = Mask(radiusPx, borderPx, wholeW, wholeH, corner, cornerPx, shapeW, texW, shapeH, null)
-        if (System.currentTimeMillis() - failedAtMs < RETRY_MS) return unbaked
+        if (failedAt?.let { it.elapsedNow() < RETRY } == true) return unbaked
         val coverage = try {
             rasterize(radiusPx, borderPx, shapeW, shapeH, texW)
         } catch (t: Throwable) {
-            if (failedAtMs == 0L) Log.main.warn("Glass masks unavailable, drawing square corners", t)
-            failedAtMs = System.currentTimeMillis()
+            if (failedAt == null) Log.main.warn("Glass masks unavailable, drawing square corners", t)
+            failedAt = TimeSource.Monotonic.markNow()
             return unbaked
         }
         val image = NativeImage(texW, shapeH, false)
@@ -281,5 +283,5 @@ object BakedGlass {
     private const val CORNER = 2
     private const val MAX_MASKS = 48
     private const val GAP = 2
-    private const val RETRY_MS = 1000L
+    private val RETRY = 1.seconds
 }

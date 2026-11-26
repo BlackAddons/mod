@@ -9,6 +9,8 @@ import org.blackaddons.api.event.subscribe
 import org.blackaddons.api.skyblock.player.ActionBar
 import org.blackaddons.api.skyblock.player.ActionBarStats
 import org.blackaddons.api.skyblock.player.SkyblockStatsProvider
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Reads every action bar off the packet, so hiding the bar doesn't stop the stats. */
 object StatsTracker : SkyblockStatsProvider {
@@ -17,28 +19,28 @@ object StatsTracker : SkyblockStatsProvider {
     override var current = ActionBarStats()
         private set
 
-    private var vitalitySeenAtMs = 0L
+    private var vitalitySeenAt: TimeSource.Monotonic.ValueTimeMark? = null
 
     fun start() {
         EventBus.subscribe<ActionBarReceiveEvent> {
             if (!Platform.skyblock.onSkyblock) return@subscribe
-            read(event.raw, System.currentTimeMillis())
+            read(event.raw)
         }
         EventBus.subscribe<WorldChangeEvent> {
             current = ActionBarStats()
-            vitalitySeenAtMs = 0L
+            vitalitySeenAt = null
         }
     }
 
-    internal fun read(raw: String, nowMs: Long) {
+    internal fun read(raw: String) {
         val bar = ActionBar.stats(raw)
-        if (bar.vitality != null) vitalitySeenAtMs = nowMs
+        if (bar.vitality != null) vitalitySeenAt = TimeSource.Monotonic.markNow()
         var next = current.merge(bar)
         // Vitality only shows while u hold an item that has it, so a merged old value would just stick around forever.
-        if (nowMs - vitalitySeenAtMs >= VITALITY_GRACE_MS) next = next.copy(vitality = null, maxVitality = null)
+        if (vitalitySeenAt?.let { it.elapsedNow() < VITALITY_GRACE } != true) next = next.copy(vitality = null, maxVitality = null)
         current = next
         ActionBar.skillGain(raw)?.let { EventBus.post(SkillXpEvent(it)) }
     }
 
-    private const val VITALITY_GRACE_MS = 1_500L
+    private val VITALITY_GRACE = 1_500.milliseconds
 }

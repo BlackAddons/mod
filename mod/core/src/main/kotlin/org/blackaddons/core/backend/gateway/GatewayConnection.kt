@@ -18,6 +18,8 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /** Why a connection ended. All of them mean "come back" except [Unsupported]. */
 internal sealed interface GatewayOutcome {
@@ -70,7 +72,7 @@ internal class GatewayConnection(
      */
     @Volatile private var arrival: ScheduledFuture<*>? = null
 
-    @Volatile private var lastFrameAt = System.nanoTime()
+    @Volatile private var lastFrameAt = TimeSource.Monotonic.markNow()
 
     @Volatile private var pending: GatewayOutcome? = null
 
@@ -134,7 +136,7 @@ internal class GatewayConnection(
     }
 
     private fun onFrame(frame: Frame) {
-        lastFrameAt = System.nanoTime()
+        lastFrameAt = TimeSource.Monotonic.markNow()
         if (frame.op != Op.HEARTBEAT_ACK) NetLog.trace("Gateway frame {}", frame.op)
         when (frame.op) {
             Op.HELLO -> identify(frame.d)
@@ -174,9 +176,9 @@ internal class GatewayConnection(
 
     /** Silence past [SILENCE_FACTOR] intervals means a dead socket (dropped route, sleeping laptop). */
     private fun pulse(intervalSeconds: Long) {
-        val silentFor = (System.nanoTime() - lastFrameAt) / 1_000_000_000.0
-        if (silentFor > intervalSeconds * SILENCE_FACTOR) {
-            NetLog.trace("Gateway went silent for {}s - dropping the socket", silentFor.toInt())
+        val silentFor = lastFrameAt.elapsedNow()
+        if (silentFor > (intervalSeconds * SILENCE_FACTOR).seconds) {
+            NetLog.trace("Gateway went silent for {}s - dropping the socket", silentFor.inWholeSeconds)
             drop()
             return
         }

@@ -55,7 +55,7 @@ internal fun RunRecorder.record(type: String, build: JsonObject.() -> Unit = {})
 }
 
 internal fun RunRecorder.offset(): Long {
-    val elapsed = (System.nanoTime() - startedAtNanos) / 1_000_000L
+    val elapsed = startedAt.elapsedNow().inWholeMilliseconds
     lastOffset = maxOf(lastOffset, elapsed)
     return lastOffset
 }

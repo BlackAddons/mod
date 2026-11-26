@@ -13,6 +13,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.WebSocket
 import java.time.Duration
+import kotlin.time.TimeSource
 
 /**
  * The mod's single pooled HTTP client. Reused connections skip TLS and DNS (see [BackendDns]). It owns timeouts,
@@ -163,9 +164,9 @@ object Http {
             }
         }.build()
 
-        val startedAt = System.currentTimeMillis()
+        val startedAt = TimeSource.Monotonic.markNow()
         val response = client.send(request, HttpResponse.BodyHandlers.ofInputStream())
-        NetLog.trace("{} {} -> {} in {} ms", method, url, response.statusCode(), System.currentTimeMillis() - startedAt)
+        NetLog.trace("{} {} -> {} in {} ms", method, url, response.statusCode(), startedAt.elapsedNow().inWholeMilliseconds)
         val bytes = readCapped(response, url, maxBytes) ?: return null
         Response(
             status = response.statusCode(),

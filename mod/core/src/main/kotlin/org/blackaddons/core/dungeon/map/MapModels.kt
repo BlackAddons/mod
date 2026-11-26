@@ -15,6 +15,7 @@ import org.blackaddons.api.world.BlockPos3
 import org.blackaddons.core.features.impl.dungeons.map.DungeonMap
 import java.awt.Color
 import kotlin.math.max
+import kotlin.time.TimeSource
 
 data class BlockCoord(
     val x: Int = 0,
@@ -87,7 +88,7 @@ data class MapPlayer(
     var lerpStartX: Float = 0f,
     var lerpStartZ: Float = 0f,
     var lerpStartYaw: Float = 0f,
-    var lerpStartTime: Long = 0L,
+    var lerpStartedAt: TimeSource.Monotonic.ValueTimeMark? = null,
 )
 
 interface Tile {

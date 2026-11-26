@@ -5,6 +5,8 @@ import org.blackaddons.api.cosmetics.Scale
 import org.blackaddons.core.cosmetics.PlayerScale.setPreview
 import org.blackaddons.core.features.impl.visual.PlayerSize
 import java.util.UUID
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * The size part of [PlayerCosmetics]: local [PlayerSize], server cosmetic and the editor preview. Local wins for
@@ -15,21 +17,21 @@ object PlayerScale {
 
     /** Editor preview override. Refreshed every frame and expires soon after, so closing the editor reverts it. */
     @Volatile private var preview: Scale? = null
-    @Volatile private var previewAt: Long = 0L
+    @Volatile private var previewAt = TimeSource.Monotonic.markNow()
 
     fun setPreview(scale: Scale?) {
         preview = scale
-        previewAt = System.currentTimeMillis()
+        previewAt = TimeSource.Monotonic.markNow()
     }
 
     fun of(uuid: UUID?): Scale? {
         if (uuid == null) return null
         if (uuid == Platform.player.uuid) {
-            preview?.takeIf { System.currentTimeMillis() - previewAt < PREVIEW_TTL_MS }?.let { return it }
+            preview?.takeIf { previewAt.elapsedNow() < PREVIEW_TTL }?.let { return it }
             PlayerSize.scale()?.let { return it }
         }
         return PlayerCosmetics.server(uuid)?.size
     }
 
-    private const val PREVIEW_TTL_MS = 200L
+    private val PREVIEW_TTL = 200.milliseconds
 }

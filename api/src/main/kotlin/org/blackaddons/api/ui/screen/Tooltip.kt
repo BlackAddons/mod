@@ -12,6 +12,8 @@ import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Glass
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.widget.Scroll
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * The single hover tooltip, painted by [UiManager] after the panel so it's never clipped. Last [show] in a
@@ -20,7 +22,7 @@ import org.blackaddons.api.ui.widget.Scroll
 object Tooltip {
 
     /** So sweeping across a list stays quiet. */
-    private const val DELAY_MS = 350L
+    private val DELAY = 350.milliseconds
 
     private const val MAX_WIDTH = 220f
 
@@ -39,7 +41,7 @@ object Tooltip {
     private var pendingStyle = Style.UI
     private var shownText: List<ChatSpan>? = null
     private var style = Style.UI
-    private var shownAtMs = 0L
+    private var shownAt = TimeSource.Monotonic.markNow()
     private var drawn = false
 
     // Cached until the text changes; re-measuring long lore every frame thrashed the layout cache.
@@ -78,16 +80,16 @@ object Tooltip {
         if (text != shownText || pendingStyle != style) {
             shownText = text
             style = pendingStyle
-            shownAtMs = System.currentTimeMillis()
+            shownAt = TimeSource.Monotonic.markNow()
             drawn = false
             scroll.reset()
             lines = emptyList()
             return
         }
-        if (System.currentTimeMillis() - shownAtMs < DELAY_MS) return
+        if (shownAt.elapsedNow() < DELAY) return
         if (lines.isEmpty()) lines = wrappedLines(text, if (style == Style.ITEM) ITEM_MAX_WIDTH else MAX_WIDTH)
 
-        // No fade-in on purpose (tried and reverted): [DELAY_MS] already waits for the reader to stop.
+        // No fade-in on purpose (tried and reverted): [DELAY] already waits for the reader to stop.
         draw(lines, mouseX, mouseY)
         drawn = true
     }

@@ -1,6 +1,8 @@
 package org.blackaddons.api.ui.anim
 
 import org.blackaddons.api.ui.theme.Theme
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * Frame-rate-independent tween. Defaults ([Theme.ANIM_FAST], [Easing.easeOutCubic]) are the house style;
@@ -19,13 +21,13 @@ class Animation(
     private var from: Float = initial
     private var to: Float = initial
 
-    /** 0 = idle. */
-    private var startedAt: Long = 0L
+    /** Null = idle. */
+    private var startedAt: TimeSource.Monotonic.ValueTimeMark? = null
 
     fun set(value: Float) {
         from = value
         to = value
-        startedAt = 0L
+        startedAt = null
     }
 
     /** No-op if already heading there. */
@@ -33,22 +35,22 @@ class Animation(
         if (target == to) return
         from = get()
         to = target
-        startedAt = System.currentTimeMillis().let { if (it == 0L) 1L else it }
+        startedAt = TimeSource.Monotonic.markNow()
     }
 
     fun get(): Float {
-        if (startedAt == 0L) return to
-        val elapsed = System.currentTimeMillis() - startedAt
-        if (elapsed >= durationMs) {
+        val elapsed = startedAt?.elapsedNow() ?: return to
+        val duration = durationMs.milliseconds
+        if (elapsed >= duration) {
             from = to
-            startedAt = 0L
+            startedAt = null
             return to
         }
-        val t = (elapsed.toDouble() / durationMs).toFloat()
+        val t = (elapsed / duration).toFloat()
         return from + (to - from) * easing(t)
     }
 
-    val isRunning: Boolean get() = startedAt != 0L
+    val isRunning: Boolean get() = startedAt != null
     val target: Float get() = to
 }
 

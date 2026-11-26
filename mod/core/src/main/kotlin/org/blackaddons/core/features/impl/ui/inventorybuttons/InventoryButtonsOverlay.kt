@@ -17,6 +17,8 @@ import org.blackaddons.api.util.I18n
 import org.blackaddons.core.actions.ActionStorage
 import org.blackaddons.core.actions.ShortcutAction
 import org.blackaddons.core.actions.execution.ActionExecutor
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 private val tr = I18n.scope("blackaddons.inventory_buttons")
 
@@ -28,8 +30,8 @@ internal object InventoryButtonsOverlay : ContainerOverlay {
     // Edit mode starts once the inventory actually shows, which can be a tick after the request.
     private var editPending = false
 
-    private var drawnAtMs = 0L
-    private val live: Boolean get() = System.currentTimeMillis() - drawnAtMs < LIVE_MS
+    private var drawnAt: TimeSource.Monotonic.ValueTimeMark? = null
+    private val live: Boolean get() = drawnAt?.let { it.elapsedNow() < LIVE } == true
 
     private var hovered: InventoryButton? = null
     private val clock = FrameClock()
@@ -58,7 +60,7 @@ internal object InventoryButtonsOverlay : ContainerOverlay {
             pencilBox = null
             return
         }
-        drawnAtMs = System.currentTimeMillis()
+        drawnAt = TimeSource.Monotonic.markNow()
         if (editPending && Platform.container.isPlayerInventoryOpen()) {
             editPending = false
             editMode = true
@@ -214,5 +216,5 @@ internal object InventoryButtonsOverlay : ContainerOverlay {
         return if (button.label.isBlank()) action else "${button.label}\n$action"
     }
 
-    private const val LIVE_MS = 250L
+    private val LIVE = 250.milliseconds
 }

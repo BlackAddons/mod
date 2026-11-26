@@ -20,6 +20,9 @@ import org.blackaddons.core.emoji.CustomEmojiStore
 import org.blackaddons.core.emoji.Emoji
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /**
  * BlackAddons chat I/O. Sending is a socket frame, backfill is HTTP. The socket doesn't replay, so recovery is a
@@ -32,19 +35,19 @@ internal object ChatService {
         val content: String,
         val replyToId: Long?,
         val attachments: List<String>,
-        val sentAt: Long,
+        val sentAt: TimeSource.Monotonic.ValueTimeMark,
     )
 
     /** Unacked lines by nonce. Sending a nonce again returns the original id and doesn't post twice. */
     private val pending = ConcurrentHashMap<String, Pending>()
 
-    private val typingSaidAt = ConcurrentHashMap<ChatChannel, Long>()
+    private val typingSaidAt = ConcurrentHashMap<ChatChannel, TimeSource.Monotonic.ValueTimeMark>()
 
     private val olderInFlight = ConcurrentHashMap.newKeySet<ChatChannel>()
 
     // Paging back is the request a reader can send the fastest. On a 429, the next scroll waits until the limit resets.
     @Volatile
-    private var olderBlockedUntil = 0L
+    private var olderBlockedUntil = TimeSource.Monotonic.markNow()
 
     /** Null until asked. READY has no permissions, so we test access by requesting a page. */
     @Volatile
@@ -64,7 +67,7 @@ internal object ChatService {
         }
 
         val nonce = UUID.randomUUID().toString()
-        val sent = Pending(channel, text, replyToId, attachments, System.currentTimeMillis())
+        val sent = Pending(channel, text, replyToId, attachments, TimeSource.Monotonic.markNow())
         pending[nonce] = sent
         ChatStore.clearRefusal()
         if (say(nonce, sent)) return true
@@ -76,9 +79,8 @@ internal object ChatService {
     }
 
     fun typing(channel: ChatChannel) {
-        val now = System.currentTimeMillis()
-        if (now - (typingSaidAt[channel] ?: 0L) < TYPING_INTERVAL_MS) return
-        typingSaidAt[channel] = now
+        if (typingSaidAt[channel]?.let { it.elapsedNow() < TYPING_INTERVAL } == true) return
+        typingSaidAt[channel] = TimeSource.Monotonic.markNow()
         Gateway.say(Op.TYPING_START, JsonObject().apply { addProperty("channel", channel.id) })
     }
 
@@ -110,7 +112,7 @@ internal object ChatService {
      * time.
      */
     fun loadOlder(channel: ChatChannel) {
-        if (!ChatStore.hasOlder(channel) || System.currentTimeMillis() < olderBlockedUntil) return
+        if (!ChatStore.hasOlder(channel) || !olderBlockedUntil.hasPassedNow()) return
         val before = ChatStore.firstId(channel) ?: return
         if (!olderInFlight.add(channel)) return
         OffThread.run(
@@ -120,8 +122,8 @@ internal object ChatService {
             onResult = { response ->
                 when {
                     response?.status == 200 -> parsePage(response.body).let { ChatStore.onOlder(channel, it.lines, it.hasMore) }
-                    response?.status == 429 -> olderBlockedUntil = System.currentTimeMillis() +
-                        (response.retryAfterSeconds ?: OLDER_RETRY_FALLBACK_S) * 1000L
+                    response?.status == 429 -> olderBlockedUntil = TimeSource.Monotonic.markNow() +
+                        (response.retryAfterSeconds ?: OLDER_RETRY_FALLBACK_S).seconds
                     else -> Unit
                 }
                 olderInFlight.remove(channel)
@@ -216,9 +218,8 @@ internal object ChatService {
     }
 
     fun onReady() {
-        val now = System.currentTimeMillis()
         pending.entries.removeIf { entry ->
-            val expired = now - entry.value.sentAt > NONCE_LIFETIME_MS
+            val expired = entry.value.sentAt.elapsedNow() > NONCE_LIFETIME
             if (expired) refuse(ERROR_LOST, null)
             expired
         }
@@ -275,7 +276,7 @@ internal object ChatService {
 
     private const val OLDER_RETRY_FALLBACK_S = 5
 
-    private const val TYPING_INTERVAL_MS = 3_000L
+    private val TYPING_INTERVAL = 3.seconds
 
-    private const val NONCE_LIFETIME_MS = 10 * 60 * 1000L
+    private val NONCE_LIFETIME = 10.minutes
 }

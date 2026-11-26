@@ -10,6 +10,8 @@ import org.blackaddons.api.hypixel.PartyRole
 import org.blackaddons.core.hypixel.CoreParty
 import java.awt.Color
 import java.util.Locale
+import kotlin.time.DurationUnit
+import kotlin.time.TimeSource
 
 /**
  * Dev tool: what [Party] holds and how it got there - which channel asks, what made it ask last, and what the server
@@ -46,9 +48,9 @@ internal object PartyDebugger : Feature(
             add(Line("Source: ${CoreParty.transport?.source ?: "none"}"))
             add(Line(if (members.isEmpty()) "Party: none" else "Party: ${members.size} | You lead: ${Party.isLeader}"))
             members.forEach { add(member(it)) }
-            add(Line("Asked: ${ago(d.sentMs)} | Answer: ${ago(d.answerMs)}", MUTED))
+            add(Line("Asked: ${ago(d.sentAt)} | Answer: ${ago(d.answeredAt)}", MUTED))
             add(Line("Requests ${d.requests} | Answers ${d.answers} | Refused ${d.refusals}${if (CoreParty.isQueued) " | queued" else ""}", MUTED))
-            d.trigger?.let { add(Line("Why: ${it.take(TRIGGER_MAX)} (${ago(d.triggerMs)})", MUTED)) }
+            d.trigger?.let { add(Line("Why: ${it.take(TRIGGER_MAX)} (${ago(d.triggeredAt)})", MUTED)) }
             if (!d.lastSendWentOut) add(Line("Last request not sent: the server does not take it", ERROR))
             d.error?.let { add(Line("Refused: $it", ERROR)) }
         }
@@ -65,8 +67,8 @@ internal object PartyDebugger : Feature(
         return Line("  $tag  $name$you", color)
     }
 
-    private fun ago(ms: Long): String =
-        if (ms == 0L) "never" else "%.1fs ago".format(Locale.ROOT, (System.currentTimeMillis() - ms) / 1000.0)
+    private fun ago(at: TimeSource.Monotonic.ValueTimeMark?): String =
+        at?.let { "%.1fs ago".format(Locale.ROOT, it.elapsedNow().toDouble(DurationUnit.SECONDS)) } ?: "never"
 
     private val EXAMPLE = listOf(
         Line("Source: own hypixel:party_info"),

@@ -2,19 +2,21 @@ package org.blackaddons.core.profile
 
 import org.blackaddons.api.skyblock.profile.PlayerProfiles
 import org.blackaddons.api.util.Uuids
-import org.blackaddons.core.profile.ProfileService.CACHE_TTL_MS
+import org.blackaddons.core.profile.ProfileService.CACHE_TTL
 import org.blackaddons.core.profile.ProfileService.Entry
 import org.blackaddons.core.profile.ProfileService.MAX_CACHED_PLAYERS
 import java.util.UUID
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.TimeSource
 
 /**
  * Profile lookup: resolve the account, check the cache, then go through the [ProfileSource] chain. A source that's down
- * falls through to the next one, while "no profiles" stops the chain. Results are cached per UUID for [CACHE_TTL_MS],
+ * falls through to the next one, while "no profiles" stops the chain. Results are cached per UUID for [CACHE_TTL],
  * for at most [MAX_CACHED_PLAYERS] players. Blocking.
  */
 internal object ProfileService {
 
-    private const val CACHE_TTL_MS = 5 * 60 * 1000L
+    private val CACHE_TTL = 5.minutes
 
     // Each entry keeps Hypixel's member JSON for `ProfileMember.raw`, which is a megabyte or two per player.
     private const val MAX_CACHED_PLAYERS = 32
@@ -22,7 +24,7 @@ internal object ProfileService {
     // Backend `/v1/skyblock/profiles`, parsed by [RawHypixelParser]. (Not Soopy: wrong at skill caps, fields missing.)
     private val sources: List<ProfileSource> = listOf(HypixelProfileSource)
 
-    private class Entry(val loaded: LoadResult.Loaded, val expiresAt: Long)
+    private class Entry(val loaded: LoadResult.Loaded, val expiresAt: TimeSource.Monotonic.ValueTimeMark)
 
     private val cache = object : LinkedHashMap<UUID, Entry>(16, 0.75f, true) {
         override fun removeEldestEntry(eldest: MutableMap.MutableEntry<UUID, Entry>): Boolean =
@@ -94,14 +96,13 @@ internal object ProfileService {
     }
 
     private fun loadedNamed(name: String): PlayerProfiles? = synchronized(cache) {
-        val now = System.currentTimeMillis()
-        cache.values.firstOrNull { it.expiresAt > now && it.loaded.profiles.name.equals(name, ignoreCase = true) }
+        cache.values.firstOrNull { !it.expiresAt.hasPassedNow() && it.loaded.profiles.name.equals(name, ignoreCase = true) }
             ?.loaded?.profiles
     }
 
     private fun cached(uuid: UUID): LoadResult.Loaded? = synchronized(cache) {
         val entry = cache[uuid] ?: return null
-        if (System.currentTimeMillis() >= entry.expiresAt) {
+        if (entry.expiresAt.hasPassedNow()) {
             cache.remove(uuid)
             return null
         }
@@ -109,7 +110,7 @@ internal object ProfileService {
     }
 
     private fun store(uuid: UUID, loaded: LoadResult.Loaded) = synchronized(cache) {
-        cache[uuid] = Entry(loaded, System.currentTimeMillis() + CACHE_TTL_MS)
+        cache[uuid] = Entry(loaded, TimeSource.Monotonic.markNow() + CACHE_TTL)
     }
 }
 

@@ -1,6 +1,8 @@
 package org.blackaddons.core.profile
 
 import org.blackaddons.api.util.dev.DevFileLogger
+import kotlin.time.Duration
+import kotlin.time.TimeSource
 
 /**
  * Phase timings of one profile lookup, written to the `pv-load` dev log (DevMode -> Verbose Logging). Bound to the
@@ -8,19 +10,19 @@ import org.blackaddons.api.util.dev.DevFileLogger
  */
 internal class LoadTrace private constructor(private val who: String) {
 
-    private class Span(var nanos: Long = 0L, var count: Int = 0)
+    private class Span(var time: Duration = Duration.ZERO, var count: Int = 0)
 
-    private val started = System.nanoTime()
+    private val started = TimeSource.Monotonic.markNow()
     private val spans = LinkedHashMap<String, Span>()
     private val notes = mutableListOf<String>()
 
     private fun <T> time(name: String, block: () -> T): T {
-        val start = System.nanoTime()
+        val start = TimeSource.Monotonic.markNow()
         try {
             return block()
         } finally {
             spans.getOrPut(name, ::Span).apply {
-                nanos += System.nanoTime() - start
+                time += start.elapsedNow()
                 count++
             }
         }
@@ -28,10 +30,11 @@ internal class LoadTrace private constructor(private val who: String) {
 
     private fun line(outcome: String): String {
         val phases = spans.entries.joinToString { (name, span) ->
-            if (span.count > 1) "$name ${ms(span.nanos)} ms x${span.count}" else "$name ${ms(span.nanos)} ms"
+            val ms = span.time.inWholeMilliseconds
+            if (span.count > 1) "$name $ms ms x${span.count}" else "$name $ms ms"
         }
         val extra = if (notes.isEmpty()) "" else "; " + notes.joinToString()
-        return "$who: $outcome in ${ms(System.nanoTime() - started)} ms ($phases$extra)"
+        return "$who: $outcome in ${started.elapsedNow().inWholeMilliseconds} ms ($phases$extra)"
     }
 
     companion object {
@@ -59,7 +62,5 @@ internal class LoadTrace private constructor(private val who: String) {
         }
 
         fun write(line: String) = log.write(line)
-
-        fun ms(nanos: Long): Long = nanos / 1_000_000
     }
 }

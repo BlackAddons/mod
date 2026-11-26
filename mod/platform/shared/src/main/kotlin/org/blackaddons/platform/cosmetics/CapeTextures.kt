@@ -17,15 +17,18 @@ import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.imageio.ImageIO
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /** Stops decoding an unseen cape, resumes when it's rendered. */
-internal const val IDLE_PAUSE_MS = 2_000L
+internal val IDLE_PAUSE = 2.seconds
 
 /** Then frees its texture. A streamed cape can rebuild one. */
-private const val IDLE_TEXTURE_MS = 30_000L
+private val IDLE_TEXTURE = 30.seconds
 
 /** Then drops it entirely, so it doesn't get re-downloaded on every glimpse. */
-private const val IDLE_EVICT_MS = 300_000L
+private val IDLE_EVICT = 5.minutes
 
 /**
  * Downloads and caches capes, giving the render path an [Identifier] per player. The catalog's `capeUrl` carries a
@@ -49,7 +52,7 @@ object CapeTextures {
     private const val MAX_FRAMES = 600
 
     /** Back off after a failed URL. */
-    private const val RETRY_AFTER_MS = 30_000L
+    private val RETRY_AFTER = 30.seconds
 
     /** Decoder nap when every cape is fed or paused. */
     private const val DECODE_IDLE_SLEEP_MS = 15L
@@ -63,7 +66,7 @@ object CapeTextures {
         }
     }
     private val inFlight = HashSet<String>()
-    private val failedUntil = HashMap<String, Long>()
+    private val failedUntil = HashMap<String, TimeSource.Monotonic.ValueTimeMark>()
 
     /** The decoder removes dropped ones itself. */
     private val streaming = CopyOnWriteArrayList<AnimatedCape>()
@@ -81,7 +84,7 @@ object CapeTextures {
     fun identifierFor(capeUrl: String, rotated: Boolean = false): Identifier? {
         loaded[capeUrl]?.let { return it.identifier(rotated) }
         if (capeUrl in inFlight) return null
-        failedUntil[capeUrl]?.let { if (System.currentTimeMillis() < it) return null }
+        failedUntil[capeUrl]?.let { if (!it.hasPassedNow()) return null }
         inFlight += capeUrl
         startLoad(capeUrl)
         return null
@@ -131,7 +134,7 @@ object CapeTextures {
     private fun finish(capeUrl: String, pending: Pending?) {
         inFlight -= capeUrl
         if (pending == null) {
-            failedUntil[capeUrl] = System.currentTimeMillis() + RETRY_AFTER_MS
+            failedUntil[capeUrl] = TimeSource.Monotonic.markNow() + RETRY_AFTER
             return
         }
         try {
@@ -144,7 +147,7 @@ object CapeTextures {
         } catch (t: Throwable) {
             // Swallowing this would re-download every frame, so log and back off.
             Log.main.error("Cape GL upload failed for {}", capeUrl, t)
-            failedUntil[capeUrl] = System.currentTimeMillis() + RETRY_AFTER_MS
+            failedUntil[capeUrl] = TimeSource.Monotonic.markNow() + RETRY_AFTER
         }
     }
 
@@ -172,13 +175,12 @@ object CapeTextures {
 
     /** Client thread. Two-stage release of idle capes. */
     private fun sweep() {
-        val now = System.currentTimeMillis()
         for ((url, entry) in loaded.entries.toList()) {
-            val idle = now - entry.lastUsedMs
+            val idle = entry.lastUsed.elapsedNow()
             when {
-                idle > IDLE_EVICT_MS -> { loaded.remove(url); drop(entry) }
+                idle > IDLE_EVICT -> { loaded.remove(url); drop(entry) }
                 // A still cape can't rebuild its texture, so it waits for eviction.
-                idle > IDLE_TEXTURE_MS -> (entry as? AnimatedCape)?.releaseTextures()
+                idle > IDLE_TEXTURE -> (entry as? AnimatedCape)?.releaseTextures()
             }
         }
     }

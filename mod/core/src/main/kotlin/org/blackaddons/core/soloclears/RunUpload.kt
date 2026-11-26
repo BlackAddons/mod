@@ -13,13 +13,15 @@ import org.blackaddons.core.backend.gateway.Gateway
 import org.blackaddons.core.log.Log
 import java.nio.file.Path
 import java.util.UUID
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /** Uploads the recording over HTTP, because a large body would block the socket. Commitments are already made. */
 internal object RunUpload {
 
     private const val EXCERPT = 400
 
-    private const val RECONNECT_TIMEOUT_MS = 5000L
+    private val RECONNECT_TIMEOUT = 5.seconds
 
     sealed interface Outcome {
 
@@ -47,8 +49,8 @@ internal object RunUpload {
         // A refused build gets no socket back, and the upload is plain HTTP anyway.
         if (!Gateway.connected && !Gateway.unsupported) {
             BackendNotifier.ensureConnected()
-            val deadline = System.currentTimeMillis() + RECONNECT_TIMEOUT_MS
-            while (!Gateway.connected && System.currentTimeMillis() < deadline) {
+            val deadline = TimeSource.Monotonic.markNow() + RECONNECT_TIMEOUT
+            while (!Gateway.connected && !deadline.hasPassedNow()) {
                 try {
                     Thread.sleep(100)
                 } catch (ignored: InterruptedException) {

@@ -5,6 +5,7 @@ import org.blackaddons.api.util.concurrent.Workers
 import java.net.InetAddress
 import java.net.URI
 import java.security.Security
+import kotlin.time.TimeSource
 
 /**
  * Keeps the backend host resolved, so the player never waits on DNS. By default the JVM only caches DNS for 30s, and a
@@ -36,9 +37,9 @@ object BackendDns {
 
     private fun resolve(host: String) {
         Workers.start("dns") {
-            val started = System.currentTimeMillis()
+            val started = TimeSource.Monotonic.markNow()
             runCatching { InetAddress.getByName(host) }
-                .onSuccess { NetLog.trace("Resolved {} to {} in {} ms", host, it.hostAddress, System.currentTimeMillis() - started) }
+                .onSuccess { NetLog.trace("Resolved {} to {} in {} ms", host, it.hostAddress, started.elapsedNow().inWholeMilliseconds) }
                 .onFailure { NetLog.trace("Could not resolve {}: {}", host, it.toString()) }
         }
     }

@@ -14,6 +14,8 @@ import org.blackaddons.api.skyblock.dungeon.Dungeon
 import org.blackaddons.api.skyblock.dungeon.DungeonClass
 import org.blackaddons.api.skyblock.dungeon.SpiritLeapMenu
 import org.blackaddons.api.world.Vec3d
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 object LeapMenu : Feature(
     description = "Replaces the Spirit Leap menu with teammate cards showing their view and location, with keybinds and map leaping.",
@@ -144,9 +146,7 @@ object LeapMenu : Feature(
     )
 
     private const val HIDE_RADIUS_SQ = 4.0
-    private const val MS_PER_SECOND = 1000.0
-
-    private var hideUntil = 0L
+    private var hideUntil = TimeSource.Monotonic.markNow()
 
     override fun init() {
         register<SpiritLeapEvent.Started> { leapingTo = event.target }
@@ -159,7 +159,7 @@ object LeapMenu : Feature(
         register<WorldChangeEvent> {
             LeapMenuOverlay.reset()
             TeammateLocation.reset()
-            hideUntil = 0L
+            hideUntil = TimeSource.Monotonic.markNow()
         }
         register<ChatReceiveEvent> {
             if (!LocationUtils.inDungeon) return@register
@@ -168,10 +168,10 @@ object LeapMenu : Feature(
             if (announce.value) {
                 announceMessage.value.replace("{name}", name).takeIf { it.isNotBlank() }?.let { Platform.chat.sendCommand("pc $it") }
             }
-            if (hidePlayers.value) hideUntil = System.currentTimeMillis() + (hideTime.value * MS_PER_SECOND).toLong()
+            if (hidePlayers.value) hideUntil = TimeSource.Monotonic.markNow() + hideTime.value.seconds
         }
         register<PlayerVisibilityEvent> {
-            if (System.currentTimeMillis() > hideUntil) return@register
+            if (hideUntil.hasPassedNow()) return@register
             if (Platform.player.pos.distanceSqr(Vec3d(event.x, event.y, event.z)) > HIDE_RADIUS_SQ) return@register
             if (Dungeon.team.player(event.name) != null) event.cancelled = true
         }
@@ -180,6 +180,6 @@ object LeapMenu : Feature(
     override fun onDisable() {
         super.onDisable()
         LeapMenuOverlay.reset()
-        hideUntil = 0L
+        hideUntil = TimeSource.Monotonic.markNow()
     }
 }

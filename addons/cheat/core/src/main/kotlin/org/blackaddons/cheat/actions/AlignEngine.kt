@@ -6,6 +6,8 @@ import org.blackaddons.api.world.ViewAngles
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.hypot
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Runs an ALIGN step. The math lives in [AlignSolver] so we can test it. */
 object AlignEngine {
@@ -24,7 +26,7 @@ object AlignEngine {
     var targetZ: Double = 0.0
         internal set
 
-    private var startTimeMs: Long = 0L
+    private var startedAt = TimeSource.Monotonic.markNow()
     private var currentTimeoutMs: Long = 5000L
     private var finishWhileMoving: Boolean = false
 
@@ -99,7 +101,7 @@ object AlignEngine {
             alignState = 0
             attemptsCount = 0
             driftWaitTicks = 0
-            startTimeMs = System.currentTimeMillis()
+            startedAt = TimeSource.Monotonic.markNow()
             debugTotalTicks = 0
 
             val p = Platform.player
@@ -141,7 +143,7 @@ object AlignEngine {
             return
         }
 
-        if (System.currentTimeMillis() - startTimeMs > currentTimeoutMs) {
+        if (startedAt.elapsedNow() > currentTimeoutMs.milliseconds) {
             cancel()
             return
         }
@@ -334,7 +336,7 @@ object AlignEngine {
 
     private fun finish() {
         val player = Platform.player
-        AlignDebugger.onFinish(targetX, targetZ, player.x, player.z, attemptsCount, MAX_ALIGN_ATTEMPTS, debugTotalTicks, startTimeMs)
+        AlignDebugger.onFinish(targetX, targetZ, player.x, player.z, attemptsCount, MAX_ALIGN_ATTEMPTS, debugTotalTicks, startedAt)
 
         shouldSnapVisualAfterCompletion = false
         active = false

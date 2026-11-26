@@ -24,6 +24,7 @@ import org.blackaddons.core.dungeon.DungeonTracker
 import org.blackaddons.core.features.impl.dungeons.simonSays.SimonSays.solution
 import org.blackaddons.core.log.Log
 import java.awt.Color
+import kotlin.time.TimeSource
 
 /**
  * Legit F7/M7 Simon Says solver. Reads the lantern sequence, highlights buttons in order, tracks clicks and announces
@@ -133,13 +134,13 @@ object SimonSays : Feature(
     private val serverClock = ServerClock()
     private var breakAt = serverClock.after(BREAK_TICKS)
     private var slowBreakAt = serverClock.after(SLOW_HANDBACK_TICKS)
-    private var quietSinceMs = 0L
+    private var quietSince = TimeSource.Monotonic.markNow()
     private var canBreak = false
     private var askedForInput = false
     private var lastLitCount = 0
     private var lastButtonsUp = false
     private var wallTicks = 0
-    private var wallSinceMs = 0L
+    private var wallSince = TimeSource.Monotonic.markNow()
     private var wasBroken = false
     private val chatTimer = SimonSaysChatTimer()
     private var nearbyPlayers = emptySet<String>()
@@ -330,7 +331,7 @@ object SimonSays : Feature(
         wasBroken = true
         logger.debug(
             "SS break: dark, no buttons for {} ms after {} (pattern {}, pressed {})",
-            System.currentTimeMillis() - quietSinceMs, if (askedForInput) "input" else "a lantern", pattern.size, pressed,
+            quietSince.elapsedNow().inWholeMilliseconds, if (askedForInput) "input" else "a lantern", pattern.size, pressed,
         )
         // The device restarts from zero. An autosolver shouldn't wait on old state.
         beginRound()
@@ -343,20 +344,20 @@ object SimonSays : Feature(
     private fun restartWindow() {
         breakAt = serverClock.after(BREAK_TICKS)
         slowBreakAt = serverClock.after(SLOW_HANDBACK_TICKS)
-        quietSinceMs = System.currentTimeMillis()
+        quietSince = TimeSource.Monotonic.markNow()
     }
 
     private fun logWallChange(lit: Int, buttonsUp: Boolean) {
         if (lit == lastLitCount && buttonsUp == lastButtonsUp) return
         logger.debug(
             "SS wall: lit {} -> {}, buttons {} -> {} after {} server ticks / {} ms (pattern {}, pressed {})",
-            lastLitCount, lit, lastButtonsUp, buttonsUp, wallTicks, System.currentTimeMillis() - wallSinceMs,
+            lastLitCount, lit, lastButtonsUp, buttonsUp, wallTicks, wallSince.elapsedNow().inWholeMilliseconds,
             pattern.size, pressed,
         )
         lastLitCount = lit
         lastButtonsUp = buttonsUp
         wallTicks = 0
-        wallSinceMs = System.currentTimeMillis()
+        wallSince = TimeSource.Monotonic.markNow()
     }
 
     private fun onRender() {
@@ -390,7 +391,7 @@ object SimonSays : Feature(
         thingsDone = 0
         restartWindow()
         wallTicks = 0
-        wallSinceMs = quietSinceMs
+        wallSince = quietSince
         canBreak = false
         askedForInput = false
         wasBroken = false

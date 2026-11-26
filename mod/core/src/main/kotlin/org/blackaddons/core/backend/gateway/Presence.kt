@@ -7,9 +7,11 @@ import org.blackaddons.api.event.ClientTickEvent
 import org.blackaddons.api.event.EventBus
 import org.blackaddons.api.event.subscribe
 import org.blackaddons.api.util.Uuids
-import org.blackaddons.core.backend.gateway.Presence.WATCH_TTL_MS
+import org.blackaddons.core.backend.gateway.Presence.WATCH_TTL
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /**
  * Who nearby has a BlackAddons socket. Absence proves nothing (live updates can be off). Subscribes the tab list's
@@ -23,7 +25,7 @@ object Presence {
     private const val MAX_SUBSCRIPTIONS = 200
 
     /** Longer than a reconcile tick. Expires soon after a screen closes. */
-    private const val WATCH_TTL_MS = 30_000L
+    private val WATCH_TTL = 30.seconds
 
     /** The reconcile it feeds runs every 5 s. */
     private const val LOBBY_REFRESH_TICKS = 20
@@ -37,16 +39,16 @@ object Presence {
     @Volatile private var lobby: List<UUID> = emptyList()
     private var lobbyTicks = 0
     private val subscribed: MutableSet<UUID> = ConcurrentHashMap.newKeySet()
-    private val watched = ConcurrentHashMap<UUID, Long>()
+    private val watched = ConcurrentHashMap<UUID, TimeSource.Monotonic.ValueTimeMark>()
 
     /** Lock-free, so safe while drawing. */
     fun isOnline(uuid: UUID?): Boolean = uuid != null && uuid in onlineNow
 
     val anyOnline: Boolean get() = onlineNow.isNotEmpty()
 
-    /** Interest in a player outside the lobby (an open profile). Renewed each frame. Expires after [WATCH_TTL_MS]. */
+    /** Interest in a player outside the lobby (an open profile). Renewed each frame. Expires after [WATCH_TTL]. */
     fun watch(uuid: UUID) {
-        watched[uuid] = System.currentTimeMillis()
+        watched[uuid] = TimeSource.Monotonic.markNow()
     }
 
     internal fun start() {
@@ -94,8 +96,7 @@ object Presence {
     }
 
     private fun liveWatches(): List<UUID> {
-        val cutoff = System.currentTimeMillis() - WATCH_TTL_MS
-        watched.entries.removeIf { it.value < cutoff }
+        watched.entries.removeIf { it.value.elapsedNow() > WATCH_TTL }
         return watched.keys.toList()
     }
 

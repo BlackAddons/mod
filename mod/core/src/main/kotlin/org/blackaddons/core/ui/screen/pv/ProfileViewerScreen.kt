@@ -44,6 +44,7 @@ import org.blackaddons.core.ui.screen.pv.tabs.PvPetsTab
 import org.blackaddons.core.ui.screen.pv.tabs.PvRecentTab
 import org.blackaddons.core.ui.screen.pv.tabs.PvSkillsTab
 import java.util.UUID
+import kotlin.time.TimeSource
 
 private val tr = I18n.scope("blackaddons.pv")
 
@@ -197,7 +198,7 @@ internal class ProfileViewerScreen(private var query: String) : Panel() {
     })
 
     fun onResult(result: LoadResult) {
-        resultAt = System.nanoTime()
+        resultAt = TimeSource.Monotonic.markNow()
         firstFramePending = result is LoadResult.Loaded
         // Set after the plain fields, because the render thread reads them once it sees this @Volatile one.
         this.result = result
@@ -215,8 +216,8 @@ internal class ProfileViewerScreen(private var query: String) : Panel() {
     private val lookups = LatestOnly()
 
     // For the `pv-load` dev log. The lookup's own phases are traced on the worker, these cover the screen.
-    private var loadStartedAt = 0L
-    private var resultAt = 0L
+    private var loadStartedAt = TimeSource.Monotonic.markNow()
+    private var resultAt = TimeSource.Monotonic.markNow()
     private var firstFramePending = false
 
     private fun load(name: String) = lookUp(name) { ProfileService.load(name) }
@@ -230,7 +231,7 @@ internal class ProfileViewerScreen(private var query: String) : Panel() {
     private fun lookUp(label: String, work: () -> LoadResult) {
         query = label
         result = null
-        loadStartedAt = System.nanoTime()
+        loadStartedAt = TimeSource.Monotonic.markNow()
         firstFramePending = false
         builtFrom = null
         membersFor = null
@@ -296,15 +297,15 @@ internal class ProfileViewerScreen(private var query: String) : Panel() {
     ) {
         tabs.hideInactive()
         if (!tabs.active.keepsPlayerPreview) Platform.playerPreview?.clear()
-        val frameStart = System.nanoTime()
+        val frameStart = TimeSource.Monotonic.markNow()
         tabs.active.render(TabContext(content, profiles, textures, profile, mouseX, mouseY, deltaTicks))
         if (firstFramePending) {
             firstFramePending = false
-            val now = System.nanoTime()
+            val now = TimeSource.Monotonic.markNow()
             LoadTrace.write(
-                "$query: on screen ${LoadTrace.ms(now - loadStartedAt)} ms after the lookup started " +
-                    "(result to frame ${LoadTrace.ms(frameStart - resultAt)} ms, " +
-                    "first ${tabs.active.id} frame ${LoadTrace.ms(now - frameStart)} ms)",
+                "$query: on screen ${(now - loadStartedAt).inWholeMilliseconds} ms after the lookup started " +
+                    "(result to frame ${(frameStart - resultAt).inWholeMilliseconds} ms, " +
+                    "first ${tabs.active.id} frame ${(now - frameStart).inWholeMilliseconds} ms)",
             )
         }
     }

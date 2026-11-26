@@ -29,6 +29,7 @@ import org.blackaddons.core.dungeon.ScoreCalculation
 import org.blackaddons.core.log.Log
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.time.TimeSource
 
 /**
  * Records a solo clear and uploads it.
@@ -75,7 +76,7 @@ object RunRecorder {
     internal var log: RunLog? = null
     private var session: RunSession? = null
     internal var floor = ""
-    internal var startedAtNanos = 0L
+    internal var startedAt = TimeSource.Monotonic.markNow()
     internal var lastOffset = 0L
     private var ticks = 0
     private var finishTicks = 0
@@ -181,7 +182,7 @@ object RunRecorder {
         }
 
         floor = LocationUtils.dungeonFloor?.name ?: return
-        startedAtNanos = System.nanoTime()
+        startedAt = TimeSource.Monotonic.markNow()
         lastOffset = 0L
         phase = Phase.ASKING
 

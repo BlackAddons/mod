@@ -12,18 +12,20 @@ import org.blackaddons.api.skyblock.Minister
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.TimeSource
 
 object CoreElection : ElectionProvider {
 
     private const val URL = "${Backend.HYPIXEL_URL}/v2/resources/skyblock/election"
-    private const val WORLD_REFRESH_MS = 60L * 60L * 1000L
+    private val WORLD_REFRESH = 1.hours
 
     @Volatile
     override var mayor: Mayor? = null
         internal set
 
     @Volatile
-    private var fetchedAt = 0L
+    private var fetchedAt = TimeSource.Monotonic.markNow()
     private var started = false
     private val gson = Gson()
 
@@ -34,7 +36,7 @@ object CoreElection : ElectionProvider {
         // Refreshing at a run start keeps Paul's score bonus exact. A world change only catches a new term.
         EventBus.subscribe<DungeonRunStartedEvent> { refresh() }
         EventBus.subscribe<WorldChangeEvent> {
-            if (System.currentTimeMillis() - fetchedAt >= WORLD_REFRESH_MS) refresh()
+            if (fetchedAt.elapsedNow() >= WORLD_REFRESH) refresh()
         }
     }
 
@@ -44,7 +46,7 @@ object CoreElection : ElectionProvider {
     }.getOrNull()
 
     private fun refresh() {
-        fetchedAt = System.currentTimeMillis()
+        fetchedAt = TimeSource.Monotonic.markNow()
         OffThread.run(
             name = "election",
             work = { Http.get(URL, authenticated = true)?.takeIf { it.status == 200 }?.let { parse(it.body) } },

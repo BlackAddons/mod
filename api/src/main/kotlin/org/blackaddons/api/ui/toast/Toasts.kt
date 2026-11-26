@@ -24,6 +24,9 @@ import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.stripFormatting
 import java.awt.Color
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Picks icon and color. */
 enum class ToastKind {
@@ -116,7 +119,7 @@ object Toasts {
         val image: ToastImage?,
         val actions: List<ToastAction>,
     ) {
-        val shownAt = System.currentTimeMillis()
+        val shownAt = TimeSource.Monotonic.markNow()
         val lifetimeMs = (
             (BASE_LIFETIME_MS + LIFETIME_PER_CHAR_MS * (text.stripFormatting().length + (detail?.stripFormatting()?.length ?: 0)))
                 .coerceIn(MIN_LIFETIME_MS, MAX_LIFETIME_MS) * durationScale()
@@ -132,13 +135,13 @@ object Toasts {
         @Volatile var dismissed = false
 
         // Hover time doesn't count, so it can't expire under the pointer.
-        var held = 0L
+        var held = Duration.ZERO
         var lastSeen = shownAt
         var hovered = false
 
-        fun remaining(now: Long): Float = 1f - (now - shownAt - held).toFloat() / lifetimeMs
+        fun remaining(now: TimeSource.Monotonic.ValueTimeMark): Float = 1f - ((now - shownAt - held) / lifetimeMs.milliseconds).toFloat()
 
-        fun leaving(now: Long): Boolean = dismissed || remaining(now) <= 0f
+        fun leaving(now: TimeSource.Monotonic.ValueTimeMark): Boolean = dismissed || remaining(now) <= 0f
     }
 
     private class Shown(
@@ -224,7 +227,7 @@ object Toasts {
 
     @Synchronized
     private fun live(): List<Shown> {
-        val now = System.currentTimeMillis()
+        val now = TimeSource.Monotonic.markNow()
         // Never-drawn dismissed notices clear at once.
         toasts.removeAll { it.leaving(now) && !it.reveal.get().isVisible }
         return toasts.map { toast ->

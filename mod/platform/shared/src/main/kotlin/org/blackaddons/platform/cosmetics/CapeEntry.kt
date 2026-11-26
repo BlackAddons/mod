@@ -12,6 +12,8 @@ import java.util.concurrent.ArrayBlockingQueue
 import javax.imageio.ImageIO
 import javax.imageio.ImageReader
 import javax.imageio.stream.ImageInputStream
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Frames decoded ahead. Enough to hide a decode, more is just latency. */
 private const val QUEUE_DEPTH = 3
@@ -19,7 +21,7 @@ private const val QUEUE_DEPTH = 3
 internal abstract class CapeEntry {
     /** Written on the client thread, read by the decoder. */
     @Volatile
-    var lastUsedMs = System.currentTimeMillis()
+    var lastUsed = TimeSource.Monotonic.markNow()
 
     /** Client thread, null until the first frame is up. */
     abstract fun identifier(rotated: Boolean): Identifier?
@@ -46,7 +48,7 @@ internal class StillCape(private val base: String, image: NativeImage) : CapeEnt
     private var rotationFailed = false
 
     override fun identifier(rotated: Boolean): Identifier {
-        lastUsedMs = System.currentTimeMillis()
+        lastUsed = TimeSource.Monotonic.markNow()
         if (!rotated || rotationFailed) return normal.id
         val variant = this.rotated ?: try {
             registerVariant(base, rotated = true, image = CapeImages.rotate(normal.texture.pixels))
@@ -97,7 +99,7 @@ internal class AnimatedCape(
     // Client thread only.
     private var normal: Variant? = null
     private var rotated: Variant? = null
-    private var nextFrameAt = 0L
+    private var nextFrameAt = TimeSource.Monotonic.markNow()
 
     // Decoder thread only.
     private var reader: ImageReader? = null
@@ -106,7 +108,7 @@ internal class AnimatedCape(
     private var cursor = 0
 
     override fun identifier(rotated: Boolean): Identifier? {
-        lastUsedMs = System.currentTimeMillis()
+        lastUsed = TimeSource.Monotonic.markNow()
         if (rotated) wantsRotated = true else wantsNormal = true
         advance()
         return (if (rotated) this.rotated else this.normal)?.id
@@ -114,12 +116,12 @@ internal class AnimatedCape(
 
     /** Client thread. */
     private fun advance() {
-        val now = System.currentTimeMillis()
+        val now = TimeSource.Monotonic.markNow()
         // Never wait on the first frame.
         if ((normal != null || rotated != null) && now < nextFrameAt) return
         val frame = queue.poll() ?: return // Decoder behind: keep the current frame.
         show(frame)
-        nextFrameAt = now + frame.delayMs
+        nextFrameAt = now + frame.delayMs.milliseconds
     }
 
     /**
@@ -157,7 +159,7 @@ internal class AnimatedCape(
 
     /** Decoder thread: in view and room to decode ahead? */
     fun hungry(): Boolean = !failed &&
-        System.currentTimeMillis() - lastUsedMs < IDLE_PAUSE_MS && queue.remainingCapacity() > 0
+        lastUsed.elapsedNow() < IDLE_PAUSE && queue.remainingCapacity() > 0
 
     /** Decoder thread. False on failure (the cape then freezes). */
     fun decodeNext(): Boolean {

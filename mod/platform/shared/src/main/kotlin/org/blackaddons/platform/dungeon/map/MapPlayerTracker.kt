@@ -9,6 +9,7 @@ import org.blackaddons.core.dungeon.DungeonTracker
 import org.blackaddons.core.dungeon.map.MapPlayer
 import org.blackaddons.core.dungeon.map.MapState
 import org.blackaddons.platform.mixin.world.MapItemSavedDataAccessor
+import kotlin.time.TimeSource
 
 /**
  * Player positions from the map's decorations. Separate from [HotbarMapScanner]: rooms come from color bytes, players
@@ -78,6 +79,6 @@ internal object MapPlayerTracker {
         player.targetX = targetX
         player.targetZ = targetZ
         player.targetYaw = targetYaw
-        player.lerpStartTime = System.currentTimeMillis()
+        player.lerpStartedAt = TimeSource.Monotonic.markNow()
     }
 }

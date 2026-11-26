@@ -20,6 +20,9 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /**
  * Keeps one backend socket open. It's an update channel (cosmetics, versions...). The player's switch ([Connection])
@@ -51,7 +54,7 @@ object Gateway {
     @Volatile var lastOutcome: String? = null
         private set
 
-    @Volatile private var notBeforeNanos = 0L
+    @Volatile private var notBefore = TimeSource.Monotonic.markNow()
 
     @Volatile private var blocked = false
 
@@ -100,7 +103,7 @@ object Gateway {
         connection?.abort()
         // Runs after the abort, which sets its own backoff.
         backoff.reset()
-        notBeforeNanos = 0L
+        notBefore = TimeSource.Monotonic.markNow()
         lastIdleReason = null
         reconcile()
     }
@@ -111,14 +114,14 @@ object Gateway {
             if (connection != null || connecting) return@execute
             NetLog.trace("Gateway hurried: skipping the backoff")
             backoff.reset()
-            notBeforeNanos = 0L
+            notBefore = TimeSource.Monotonic.markNow()
             lastIdleReason = null
             reconcile()
         }
     }
 
     fun describe(): String {
-        val waitSeconds = TimeUnit.NANOSECONDS.toSeconds((notBeforeNanos - System.nanoTime()).coerceAtLeast(0L))
+        val waitSeconds = (notBefore - TimeSource.Monotonic.markNow()).coerceAtLeast(Duration.ZERO).inWholeSeconds
         return when {
             blocked -> "blocked: this build is below the supported version"
             !Connection.liveUpdates -> "off: Live Updates is disabled"
@@ -153,8 +156,8 @@ object Gateway {
             return
         }
         if (connecting) return idle("an attempt is already in flight")
-        val wait = notBeforeNanos - System.nanoTime()
-        if (wait > 0) return idle("backing off for ${TimeUnit.NANOSECONDS.toSeconds(wait) + 1}s")
+        val wait = notBefore - TimeSource.Monotonic.markNow()
+        if (wait.isPositive()) return idle("backing off for ${wait.inWholeSeconds + 1}s")
         lastIdleReason = null
         connect()
     }
@@ -247,7 +250,7 @@ object Gateway {
 
     private fun defer(seconds: Long) {
         NetLog.trace("Gateway next attempt in {}s", seconds)
-        notBeforeNanos = System.nanoTime() + TimeUnit.SECONDS.toNanos(seconds)
+        notBefore = TimeSource.Monotonic.markNow() + seconds.seconds
     }
 
     private const val RECONCILE_SECONDS = 5L

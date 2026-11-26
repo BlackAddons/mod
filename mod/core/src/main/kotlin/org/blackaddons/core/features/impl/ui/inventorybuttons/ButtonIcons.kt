@@ -5,6 +5,8 @@ import org.blackaddons.api.Platform
 import org.blackaddons.api.util.concurrent.Workers
 import org.blackaddons.core.skyblock.SkyblockItems
 import java.util.Base64
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 internal object ButtonIcons {
 
@@ -21,7 +23,7 @@ internal object ButtonIcons {
     private val specs = LinkedHashMap<String, String>()
 
     @Volatile private var fetching = false
-    @Volatile private var lastRequestMs = 0L
+    @Volatile private var lastRequest: TimeSource.Monotonic.ValueTimeMark? = null
 
     // Null until it can be drawn: bad text, no world yet, or the item table is still loading.
     fun spec(icon: String): String? {
@@ -79,9 +81,8 @@ internal object ButtonIcons {
     // Retried, since the fetch needs the backend login, which can come later than the first icon.
     fun requestItemTable() {
         if (fetching || SkyblockItems.ids() != null) return
-        val now = System.currentTimeMillis()
-        if (now - lastRequestMs < RETRY_MS) return
-        lastRequestMs = now
+        if (lastRequest?.let { it.elapsedNow() < RETRY } == true) return
+        lastRequest = TimeSource.Monotonic.markNow()
         fetching = true
         Workers.start("inventory-button-items") {
             try {
@@ -92,11 +93,11 @@ internal object ButtonIcons {
         }
     }
 
-    val itemTableFailed: Boolean get() = !fetching && lastRequestMs != 0L && SkyblockItems.ids() == null
+    val itemTableFailed: Boolean get() = !fetching && lastRequest != null && SkyblockItems.ids() == null
 
     private const val SKULL_PREFIX = "skull:"
     private const val MAX_CACHED = 256
-    private const val RETRY_MS = 15_000L
+    private val RETRY = 15.seconds
     private val TEXTURE_HASH = Regex("[0-9a-fA-F]{32,64}")
 
     // "/give @s stone" or "give Steve stone"; the target is ignored.

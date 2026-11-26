@@ -31,6 +31,7 @@ import java.nio.file.Path
 import io.github.humbleui.skija.Image as SkImage
 import io.github.humbleui.skija.skottie.Animation as SkAnimation
 import org.blackaddons.blackskija.api.Gradient as SkGradient
+import kotlin.time.TimeSource
 
 /**
  * The only [Renderer] talking to BlackSkija, the UI goes through [Render]. Draws append to BlackSkija's per-frame
@@ -152,7 +153,9 @@ object SkijaRenderer : Renderer {
         return SkijaImages.fromEncoded(path, bytes).also { images[path] = it }
     }
 
-    private fun elapsedMs(): Long = System.nanoTime() / 1_000_000L
+    private val clock = TimeSource.Monotonic.markNow()
+
+    private fun elapsedMs(): Long = clock.elapsedNow().inWholeMilliseconds
 
     private fun GradientDir.toSkija(): SkGradient = when (this) {
         GradientDir.LEFT_RIGHT -> SkGradient.LEFT_RIGHT

@@ -5,6 +5,8 @@ import org.blackaddons.api.ui.UiScaling
 import org.blackaddons.api.ui.layout.LayoutNode
 import org.blackaddons.api.ui.theme.FontChoice
 import org.blackaddons.api.ui.widget.MouseButtonInput
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Draggable HUD element: one of nine anchors plus an offset, so it stays put across resolutions and GUI scales. */
 abstract class HudElement {
@@ -60,7 +62,7 @@ abstract class HudElement {
     open fun mouseClicked(mouse: MouseButtonInput): Boolean = false
 
     // Stale bounds must not catch clicks.
-    private var lastDrawnAt = 0L
+    private var lastDrawnAt: TimeSource.Monotonic.ValueTimeMark? = null
     private var lastScaleX = 1f
     private var lastScaleY = 1f
 
@@ -101,7 +103,7 @@ abstract class HudElement {
             val sy = scaleY * factor
             lastScaleX = sx
             lastScaleY = sy
-            if (!example) lastDrawnAt = System.currentTimeMillis()
+            if (!example) lastDrawnAt = TimeSource.Monotonic.markNow()
             // CENTER/RIGHT anchors depend on size, so measure this frame's tree first.
             lastWidth = node.width * sx
             lastHeight = node.height * sy
@@ -121,7 +123,7 @@ abstract class HudElement {
 
     /** Called by the host for every element; true if drawn recently, reachable, hit and [mouseClicked] consumed it. */
     fun offerClick(button: Int): Boolean {
-        if (System.currentTimeMillis() - lastDrawnAt > STALE_MS) return false
+        if (lastDrawnAt?.let { it.elapsedNow() <= STALE } != true) return false
         val at = pointerInContent() ?: return false
         return mouseClicked(MouseButtonInput(at.x, at.y, button))
     }
@@ -197,7 +199,7 @@ abstract class HudElement {
 
     private companion object {
         /** A few frames at the lowest frame rate worth caring about. */
-        const val STALE_MS = 250L
+        val STALE = 250.milliseconds
     }
 }
 

@@ -9,6 +9,9 @@ import org.blackaddons.api.ui.widget.UiKeys
 import org.blackaddons.api.ui.widget.UiMouse
 import kotlin.math.hypot
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.DurationUnit
+import kotlin.time.TimeSource
 
 internal class NodeCanvasInput(private val canvas: NodeCanvas) {
 
@@ -61,8 +64,9 @@ internal class NodeCanvasInput(private val canvas: NodeCanvas) {
     private val hoverProbe = DoubleArray(7)
 
     private val samples = ArrayDeque<DoubleArray>()
+    private val clock = TimeSource.Monotonic.markNow()
 
-    private var lastClickMs = 0L
+    private var lastClick = TimeSource.Monotonic.markNow()
     private var lastClickNode = -1
 
     private val scratch = IntList(64)
@@ -146,9 +150,8 @@ internal class NodeCanvasInput(private val canvas: NodeCanvas) {
             return
         }
         if (node != null) {
-            val now = System.currentTimeMillis()
-            val double = node.id == lastClickNode && now - lastClickMs < DOUBLE_CLICK_MS
-            lastClickMs = now
+            val double = node.id == lastClickNode && lastClick.elapsedNow() < DOUBLE_CLICK
+            lastClick = TimeSource.Monotonic.markNow()
             lastClickNode = node.id
             if (double && !UiKeys.shift && !UiKeys.ctrl) {
                 lastClickNode = -1
@@ -232,7 +235,7 @@ internal class NodeCanvasInput(private val canvas: NodeCanvas) {
             Gesture.PAN -> {
                 if (rightClickPending && hypot(mx - pressX, my - pressY) > CLICK_SLOP) rightClickPending = false
                 camera.panBy(pointer.dx, pointer.dy)
-                samples.addLast(doubleArrayOf(pointer.dx.toDouble(), pointer.dy.toDouble(), System.currentTimeMillis().toDouble()))
+                samples.addLast(doubleArrayOf(pointer.dx.toDouble(), pointer.dy.toDouble(), clockMs()))
                 while (samples.size > 8) samples.removeFirst()
             }
             Gesture.MOVE -> {
@@ -372,7 +375,7 @@ internal class NodeCanvasInput(private val canvas: NodeCanvas) {
 
     private fun coast() {
         if (samples.size < 2) return
-        val now = System.currentTimeMillis().toDouble()
+        val now = clockMs()
         val recent = samples.filter { now - it[2] < COAST_WINDOW_MS }
         if (recent.size < 2) return
         val span = (recent.last()[2] - recent.first()[2]).coerceAtLeast(1.0) / 1000.0
@@ -380,6 +383,8 @@ internal class NodeCanvasInput(private val canvas: NodeCanvas) {
         val vy = recent.drop(1).sumOf { it[1] } / span
         camera.fling(vx.toFloat(), vy.toFloat())
     }
+
+    private fun clockMs(): Double = clock.elapsedNow().toDouble(DurationUnit.MILLISECONDS)
 
     private fun snap(v: Float): Float = (v / NodeMetrics.GRID).roundToInt() * NodeMetrics.GRID
 
@@ -437,7 +442,7 @@ internal class NodeCanvasInput(private val canvas: NodeCanvas) {
         private const val SCROLL_PAN = 40f
         private const val NUDGE = 10f
         private const val NUDGE_FAR = 50f
-        private const val DOUBLE_CLICK_MS = 350L
+        private val DOUBLE_CLICK = 350.milliseconds
         private const val COAST_WINDOW_MS = 90.0
     }
 }

@@ -1,6 +1,8 @@
 package org.blackaddons.api.util.concurrent
 
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /**
  * Values that are loaded off the client thread the first time someone asks for them, then kept for the rest of the
@@ -16,13 +18,13 @@ class LoadOnce<K : Any, V : Any>(
     private val load: (K) -> V?,
 ) {
     private val ready = ConcurrentHashMap<K, V>()
-    private val failedAt = ConcurrentHashMap<K, Long>()
+    private val failedAt = ConcurrentHashMap<K, TimeSource.Monotonic.ValueTimeMark>()
     private val inFlight = ConcurrentHashMap.newKeySet<K>()
 
     /** Null while the value is loading or after a failure. The first ask starts the load. */
     operator fun get(key: K): V? {
         ready[key]?.let { return it }
-        failedAt[key]?.let { if (System.currentTimeMillis() - it < retryAfterMs) return null }
+        failedAt[key]?.let { if (it.elapsedNow() < retryAfterMs.milliseconds) return null }
         if (!inFlight.add(key)) return null
         OffThread.run(
             name = name,
@@ -30,7 +32,7 @@ class LoadOnce<K : Any, V : Any>(
             onFailure = { null },
             onResult = { value ->
                 if (value == null) {
-                    failedAt[key] = System.currentTimeMillis()
+                    failedAt[key] = TimeSource.Monotonic.markNow()
                 } else {
                     failedAt -= key
                     ready[key] = value

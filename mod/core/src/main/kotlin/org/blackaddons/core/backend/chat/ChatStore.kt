@@ -8,6 +8,8 @@ import org.blackaddons.core.backend.gateway.stringOrNull
 import org.blackaddons.core.chat.ChatMirror
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 internal enum class Arrival {
     NEW,
@@ -26,9 +28,9 @@ object ChatStore {
     /** From `READY`. The server still checks every send. */
     data class Mute(val reason: String?, val expiresAt: Long?)
 
-    data class Refusal(val code: String, val detail: String?, val at: Long)
+    data class Refusal(val code: String, val detail: String?, val at: TimeSource.Monotonic.ValueTimeMark)
 
-    private class Typist(val name: String, val until: Long)
+    private class Typist(val name: String, val until: TimeSource.Monotonic.ValueTimeMark)
 
     private val lines = ConcurrentHashMap<ChatChannel, List<ChatLine>>()
     private val typing = ConcurrentHashMap<ChatChannel, MutableMap<UUID, Typist>>()
@@ -79,9 +81,8 @@ object ChatStore {
 
     fun typists(channel: ChatChannel): List<String> {
         val entries = typing[channel] ?: return emptyList()
-        val now = System.currentTimeMillis()
         synchronized(this) {
-            entries.values.removeIf { it.until < now }
+            entries.values.removeIf { it.until.hasPassedNow() }
             return entries.values.map { it.name }
         }
     }
@@ -96,7 +97,7 @@ object ChatStore {
     }
 
     internal fun onRefused(code: String, detail: String?) {
-        refusal = Refusal(code, detail, System.currentTimeMillis())
+        refusal = Refusal(code, detail, TimeSource.Monotonic.markNow())
     }
 
     /** Duplicates after a reconnect must not echo again. An edit that adds a picture must. */
@@ -135,7 +136,7 @@ object ChatStore {
     internal fun onTyping(channel: ChatChannel, uuid: UUID, name: String): Unit = synchronized(this) {
         if (uuid == selfUuid) return
         typing.getOrPut(channel) { LinkedHashMap() }[uuid] =
-            Typist(name, System.currentTimeMillis() + TYPING_TTL_MS)
+            Typist(name, TimeSource.Monotonic.markNow() + TYPING_TTL)
     }
 
     internal fun onReady(payload: JsonObject) {
@@ -196,5 +197,5 @@ object ChatStore {
     private const val MAX_PICTURES = 1024
 
     /** Longer than the server's 3-second throttle. */
-    private const val TYPING_TTL_MS = 5_000L
+    private val TYPING_TTL = 5.seconds
 }

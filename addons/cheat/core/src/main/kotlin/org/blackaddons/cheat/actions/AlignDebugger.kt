@@ -8,10 +8,12 @@ import org.blackaddons.cheat.CheatAddon
 import java.awt.Color
 import java.util.Locale
 import kotlin.math.hypot
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 object AlignDebugger {
     private val logger = CheatAddon.log.area("align")
-    private const val VISUAL_KEEP_MS = 5000L
+    private val VISUAL_KEEP = 5.seconds
 
     var active: Boolean = false
         private set
@@ -27,8 +29,7 @@ object AlignDebugger {
     var playerY: Double = 0.0
         private set
 
-    var finishTimeMs: Long = 0L
-        private set
+    private var finishedAt: TimeSource.Monotonic.ValueTimeMark? = null
     var finalErrMm: Double = 0.0
         private set
 
@@ -43,7 +44,7 @@ object AlignDebugger {
         playerY = py
         active = true
         finalErrMm = 0.0
-        finishTimeMs = 0L
+        finishedAt = null
 
         actualPoints.clear()
         predictedPoints.clear()
@@ -104,11 +105,12 @@ object AlignDebugger {
         }
     }
 
-    fun onFinish(tx: Double, tz: Double, px: Double, pz: Double, attempts: Int, maxAttempts: Int, totalTicks: Int, startTimeMs: Long) {
+    fun onFinish(tx: Double, tz: Double, px: Double, pz: Double, attempts: Int, maxAttempts: Int, totalTicks: Int, startedAt: TimeSource.Monotonic.ValueTimeMark) {
         val endDist = hypot(tx - px, tz - pz)
         finalErrMm = endDist * 1000.0
-        finishTimeMs = System.currentTimeMillis()
-        val durationMs = finishTimeMs - startTimeMs
+        val now = TimeSource.Monotonic.markNow()
+        finishedAt = now
+        val durationMs = (now - startedAt).inWholeMilliseconds
 
         val dxMm = (px - tx) * 1000.0
         val dzMm = (pz - tz) * 1000.0
@@ -133,7 +135,7 @@ object AlignDebugger {
     fun onRenderWorld() {
         if (!AlignSettings.isDebuggerEnabled) return
 
-        val keepVisuals = active || (System.currentTimeMillis() - finishTimeMs < VISUAL_KEEP_MS)
+        val keepVisuals = active || finishedAt?.let { it.elapsedNow() < VISUAL_KEEP } == true
         if (!keepVisuals || targetX == 0.0) return
 
         val py = playerY

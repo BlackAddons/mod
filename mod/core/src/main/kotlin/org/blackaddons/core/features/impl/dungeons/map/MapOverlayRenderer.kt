@@ -21,6 +21,7 @@ import org.blackaddons.core.dungeon.map.RoomTile
 import org.blackaddons.core.dungeon.map.Tile
 import org.blackaddons.core.dungeon.map.UniqueRoom
 import java.awt.Color
+import kotlin.time.Duration.Companion.milliseconds
 
 internal object MapOverlayRenderer {
     fun drawLabels(originX: Float, originY: Float) {
@@ -232,9 +233,7 @@ internal object MapOverlayRenderer {
     }
 
     private fun updatePlayerLerp(player: MapPlayer) {
-        val elapsed = System.currentTimeMillis() - player.lerpStartTime
-        val duration = 350L
-        val t = (elapsed.toFloat() / duration).coerceAtMost(1f)
+        val t = player.lerpStartedAt?.let { (it.elapsedNow() / 350.milliseconds).toFloat().coerceAtMost(1f) } ?: 1f
 
         player.mapX = lerp(player.lerpStartX, player.targetX, t)
         player.mapZ = lerp(player.lerpStartZ, player.targetZ, t)

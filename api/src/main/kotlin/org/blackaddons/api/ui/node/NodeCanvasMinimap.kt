@@ -7,6 +7,8 @@ import org.blackaddons.api.ui.render.ShapePath
 import org.blackaddons.api.ui.theme.Theme
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 internal class NodeCanvasMinimap(private val canvas: NodeCanvas, private val style: NodeCanvasStyle) {
 
@@ -14,7 +16,7 @@ internal class NodeCanvasMinimap(private val canvas: NodeCanvas, private val sty
     private val camera get() = canvas.camera
 
     private var shape: ShapePath? = null
-    private var builtAt = 0L
+    private var builtAt = TimeSource.Monotonic.markNow()
     private val key = IntArray(2) { Int.MIN_VALUE }
     private val bounds = FloatArray(4)
     private val view = FloatArray(4)
@@ -32,12 +34,11 @@ internal class NodeCanvasMinimap(private val canvas: NodeCanvas, private val sty
     fun draw(x: Float, y: Float, w: Float, h: Float) {
         shown = false
         if (!canvas.showMinimap || graph.nodeCount == 0 || w < MIN_VIEW || h < MIN_VIEW) return
-        val now = System.currentTimeMillis()
         val stale = key[0] != graph.visualVersion || key[1] != graph.structureVersion
-        if (shape == null || (stale && now - builtAt > REBUILD_MS)) {
+        if (shape == null || (stale && builtAt.elapsedNow() > REBUILD)) {
             key[0] = graph.visualVersion
             key[1] = graph.structureVersion
-            builtAt = now
+            builtAt = TimeSource.Monotonic.markNow()
             shape?.let(Render::deleteShape)
             hasNodes = graph.bounds(bounds)
             path.clear()
@@ -98,6 +99,6 @@ internal class NodeCanvasMinimap(private val canvas: NodeCanvas, private val sty
         const val ASPECT = 0.62f
         const val PAD = 6f
         const val MIN_VIEW = 240f
-        const val REBUILD_MS = 250L
+        val REBUILD = 250.milliseconds
     }
 }

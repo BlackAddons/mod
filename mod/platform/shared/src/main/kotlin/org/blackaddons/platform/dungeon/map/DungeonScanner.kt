@@ -32,10 +32,12 @@ import org.blackaddons.core.dungeon.map.Unknown
 import org.blackaddons.core.features.impl.dungeons.map.DungeonMap
 import org.blackaddons.platform.compat.isBloodDoorWool
 import org.blackaddons.platform.compat.isBlueTerracotta
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.TimeSource
 
 /** Scans dungeon blocks every 250ms to find rooms and doors for [MapState]. */
 object DungeonScanner {
-    private const val SCAN_INTERVAL = 250L
+    private val SCAN_INTERVAL = 250.milliseconds
     private const val DOOR_FLOOR_Y = 68
     private const val DOOR_BLOCK_Y = 69
     private const val BOBBY_FAKE_CHUNK = "de.johni0702.minecraft.bobby.FakeChunk"
@@ -51,7 +53,7 @@ object DungeonScanner {
         }.getOrDefault(false)
     }
 
-    private var lastScanTime = 0L
+    private var lastScanTime: TimeSource.Monotonic.ValueTimeMark? = null
     private val loggedUnknownCores = mutableSetOf<Int>()
     private val reportedUnknownTiles = mutableSetOf<Pair<Int, Int>>()
 
@@ -66,7 +68,7 @@ object DungeonScanner {
 
     fun init() {
         EventBus.subscribe<WorldChangeEvent> {
-            lastScanTime = 0L
+            lastScanTime = null
             loggedUnknownCores.clear()
             reportedUnknownTiles.clear()
             MapState.reset()
@@ -74,8 +76,8 @@ object DungeonScanner {
 
         EventBus.subscribe<ClientTickEvent.Post> {
             if (!LocationUtils.inDungeonRooms) return@subscribe
-            val now = System.currentTimeMillis()
-            if (now - lastScanTime < SCAN_INTERVAL) return@subscribe
+            val now = TimeSource.Monotonic.markNow()
+            if (lastScanTime?.let { now - it < SCAN_INTERVAL } == true) return@subscribe
             scan(now)
             val floor = LocationUtils.dungeonFloorNumber ?: return@subscribe
             if (floor < 6) return@subscribe
@@ -85,7 +87,7 @@ object DungeonScanner {
         }
     }
 
-    private fun scan(now: Long) {
+    private fun scan(now: TimeSource.Monotonic.ValueTimeMark) {
         val mc = Minecraft.getInstance()
         val level = mc.level ?: return
 

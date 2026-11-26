@@ -13,8 +13,12 @@ import org.blackaddons.api.host.Cancellation
 import org.blackaddons.api.hypixel.PartyMember
 import org.blackaddons.api.hypixel.PartyProvider
 import org.blackaddons.api.hypixel.PartyRole
+import org.blackaddons.api.util.inWholeTicks
 import org.blackaddons.core.log.Log
 import java.util.UUID
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 /** How a party request reaches the server. [send] says whether the request went out. */
 class PartyTransport(val source: String, val send: () -> Boolean)
@@ -34,7 +38,7 @@ object CoreParty : PartyProvider {
     internal val diagnostics = PartyDiagnostics()
 
     private var queued: Cancellation? = null
-    private var notBeforeMs = 0L
+    private var notBefore = TimeSource.Monotonic.markNow()
 
     fun start() {
         EventBus.subscribe<ChatReceiveEvent> {
@@ -56,14 +60,14 @@ object CoreParty : PartyProvider {
     // Notices come in bursts (a disband is several lines), and Hypixel rate-limits the request: one per burst.
     internal fun ask(reason: String) {
         diagnostics.trigger = reason
-        diagnostics.triggerMs = System.currentTimeMillis()
+        diagnostics.triggeredAt = TimeSource.Monotonic.markNow()
         if (queued != null) return
-        val wait = (notBeforeMs - System.currentTimeMillis()).coerceAtLeast(0L)
-        queued = Platform.scheduler.schedule(BURST_TICKS + (wait / MS_PER_TICK).toInt()) {
+        val wait = (notBefore - TimeSource.Monotonic.markNow()).coerceAtLeast(Duration.ZERO)
+        queued = Platform.scheduler.schedule(BURST_TICKS + wait.inWholeTicks.toInt()) {
             queued = null
             val sent = transport?.send?.invoke() == true
             diagnostics.sent(sent)
-            if (sent) notBeforeMs = System.currentTimeMillis() + MIN_GAP_MS
+            if (sent) notBefore = TimeSource.Monotonic.markNow() + MIN_GAP
         }
     }
 
@@ -81,7 +85,7 @@ object CoreParty : PartyProvider {
         diagnostics.refused(reason)
         if (!rateLimited) return
         Log.main.debug("Party request rate-limited, asking again later")
-        notBeforeMs = System.currentTimeMillis() + RATE_LIMIT_BACKOFF_MS
+        notBefore = TimeSource.Monotonic.markNow() + RATE_LIMIT_BACKOFF
         ask("retry after rate limit")
     }
 
@@ -99,20 +103,19 @@ object CoreParty : PartyProvider {
     }
 
     private const val BURST_TICKS = 10
-    private const val MIN_GAP_MS = 1_000L
-    private const val RATE_LIMIT_BACKOFF_MS = 5_000L
-    private const val MS_PER_TICK = 50L
+    private val MIN_GAP = 1.seconds
+    private val RATE_LIMIT_BACKOFF = 5.seconds
 }
 
 /** What the Party Debugger shows: the last trigger, request and answer, and how many of each. */
 internal class PartyDiagnostics {
     var trigger: String? = null
-    var triggerMs = 0L
-    var sentMs = 0L
+    var triggeredAt: TimeSource.Monotonic.ValueTimeMark? = null
+    var sentAt: TimeSource.Monotonic.ValueTimeMark? = null
         private set
     var lastSendWentOut = true
         private set
-    var answerMs = 0L
+    var answeredAt: TimeSource.Monotonic.ValueTimeMark? = null
         private set
     var error: String? = null
         private set
@@ -126,18 +129,18 @@ internal class PartyDiagnostics {
     fun sent(wentOut: Boolean) {
         lastSendWentOut = wentOut
         if (!wentOut) return
-        sentMs = System.currentTimeMillis()
+        sentAt = TimeSource.Monotonic.markNow()
         requests++
     }
 
     fun answered() {
-        answerMs = System.currentTimeMillis()
+        answeredAt = TimeSource.Monotonic.markNow()
         answers++
         error = null
     }
 
     fun refused(reason: String) {
-        answerMs = System.currentTimeMillis()
+        answeredAt = TimeSource.Monotonic.markNow()
         refusals++
         error = reason
     }
