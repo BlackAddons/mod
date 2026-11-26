@@ -136,7 +136,7 @@ of its own declares it in `Addon.categories`.
 ## Gotchas
 
 - `:api` is what addons compile against, and `api/api/api.api` is its dump. A change to its public surface fails
-  `check` until you run `gradle :api:updateKotlinAbi` and commit the new dump, so the change shows in review.
+  `check` and `build-all` until you run `gradle :api:updateKotlinAbi` and commit the new dump, so the change shows in review.
 - After adding or renaming a feature/`object`, **restart the game** - discovery
   (ClassGraph) runs once at startup, there is no hot reload.
 - The mod version lives **only** in the root `gradle.properties` (`mod_version`).

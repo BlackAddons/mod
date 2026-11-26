@@ -177,6 +177,7 @@ tasks.register("build-all") {
     dependsOn(
         checkCommitTypes,
         checkModuleBoundaries,
+        ":api:checkKotlinAbi",
         "build-26.3-legit", "build-26.3-cheat", "build-26.3-extras",
         "build-26.2-legit", "build-26.2-cheat", "build-26.2-extras",
     )

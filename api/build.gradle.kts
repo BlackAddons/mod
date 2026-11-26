@@ -44,11 +44,6 @@ kotlin {
     abiValidation()
 }
 
-tasks.check {
-    @OptIn(ExperimentalAbiValidation::class)
-    dependsOn(kotlin.abiValidation.checkTaskProvider)
-}
-
 tasks.register<JavaExec>("reuseReport") {
     group = "verification"
     description = "Leaderboard of copied function bodies and repeated lines across every module, to pick what to reuse."
