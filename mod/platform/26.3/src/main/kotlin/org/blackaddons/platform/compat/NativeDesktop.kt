@@ -33,12 +33,16 @@ object NativeDesktop {
     )
 
     // SDL dialogs are main-thread only.
-    @Suppress("UNUSED_PARAMETER")
     fun chooseFile(title: String, extensions: Set<String>, onResult: (Path?) -> Unit) = onClient {
         val name = MemoryUtil.memUTF8("Files")
         val pattern = MemoryUtil.memUTF8(extensions.joinToString(";"))
         val filters = SDL_DialogFileFilter.calloc(1)
         filters.get(0).name(name).pattern(pattern)
+        val props = SDLProperties.SDL_CreateProperties()
+        SDLProperties.SDL_SetStringProperty(props, SDLDialog.SDL_PROP_FILE_DIALOG_TITLE_STRING, title)
+        SDLProperties.SDL_SetPointerProperty(props, SDLDialog.SDL_PROP_FILE_DIALOG_WINDOW_POINTER, window())
+        SDLProperties.SDL_SetPointerProperty(props, SDLDialog.SDL_PROP_FILE_DIALOG_FILTERS_POINTER, filters.address())
+        SDLProperties.SDL_SetNumberProperty(props, SDLDialog.SDL_PROP_FILE_DIALOG_NFILTERS_NUMBER, 1)
         lateinit var callback: SDL_DialogFileCallback
         callback = SDL_DialogFileCallback.create { _, fileList, _ ->
             val first = if (fileList == MemoryUtil.NULL) MemoryUtil.NULL else MemoryUtil.memGetAddress(fileList)
@@ -46,9 +50,10 @@ object NativeDesktop {
             MemoryUtil.memFree(name)
             MemoryUtil.memFree(pattern)
             filters.free()
+            SDLProperties.SDL_DestroyProperties(props)
             callback.free()
             onResult(selected)
         }
-        SDLDialog.SDL_ShowOpenFileDialog(callback, MemoryUtil.NULL, window(), filters, null as CharSequence?, false)
+        SDLDialog.SDL_ShowFileDialogWithProperties(SDLDialog.SDL_FILEDIALOG_OPENFILE, callback, MemoryUtil.NULL, props)
     }
 }

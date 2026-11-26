@@ -62,6 +62,7 @@ tasks.withType<JavaCompile>().configureEach {
 
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions.jvmTarget.set(JvmTarget.fromTarget(targetJavaVersion.toString()))
+    compilerOptions.allWarningsAsErrors.set(providers.environmentVariable("CI").isPresent)
 }
 
 /*

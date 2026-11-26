@@ -101,23 +101,21 @@ internal object ActionJson {
     }
 
     private object CompactActions : TypeAdapterFactory {
-        private val compacted = setOf(
-            ActionCondition::class.java, ChatAction::class.java, WaypointAction::class.java,
-            WaypointDefinition::class.java, ActionGroup::class.java, ShortcutAction::class.java, LocationAction::class.java,
-            ActionProfile::class.java,
+        private val compacted: Map<Class<*>, () -> Any> = mapOf(
+            ActionCondition::class.java to { ActionCondition() }, ChatAction::class.java to { ChatAction() },
+            WaypointAction::class.java to { WaypointAction() }, WaypointDefinition::class.java to { WaypointDefinition() },
+            ActionGroup::class.java to { ActionGroup() }, ShortcutAction::class.java to { ShortcutAction() },
+            LocationAction::class.java to { LocationAction() }, ActionProfile::class.java to { ActionProfile() },
         )
 
         override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
             @Suppress("UNCHECKED_CAST")
             if (type.rawType == ActionStep::class.java) return StepAdapter(gson) as TypeAdapter<T>
-            if (type.rawType !in compacted) return null
+            val blank = compacted[type.rawType] ?: return null
             val delegate = gson.getDelegateAdapter(this, type)
             val elements = gson.getAdapter(JsonElement::class.java)
-            // All compacted classes have defaults for all fields, so they have a no-arg constructor.
             @Suppress("UNCHECKED_CAST")
-            val defaults: JsonObject by lazy {
-                delegate.toJsonTree(type.rawType.getDeclaredConstructor().newInstance() as T).asJsonObject
-            }
+            val defaults: JsonObject by lazy { delegate.toJsonTree(blank() as T).asJsonObject }
             return object : TypeAdapter<T>() {
                 override fun write(out: JsonWriter, value: T?) {
                     if (value == null) {

@@ -2,7 +2,9 @@ package org.blackaddons.core.actions
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
+import org.blackaddons.api.actions.StepContext
 import org.blackaddons.api.actions.StepFlag
+import org.blackaddons.api.actions.StepType
 import org.blackaddons.core.actions.steps.RepeatStep
 import org.blackaddons.core.actions.steps.SendMessageStep
 import org.blackaddons.core.actions.steps.TextOverlayStep
@@ -150,5 +152,34 @@ class ActionJsonTest {
 
         assertEquals(WaitMode.POSITION, wait?.waitMode)
         assertEquals(4.0, wait?.targetX)
+    }
+
+    @Test
+    fun `a param that defaults to null is still a param, not an unknown field`() {
+        val type = Typed("test:nullable") { NullableParams() }
+        assertNull(StepTypes.register(type))
+
+        val step = read("""{"type":"test:nullable","note":"hi","extra":1}""")
+
+        assertEquals("hi", step.paramsOf(type)?.note)
+        assertEquals(setOf("extra"), step.extras.keySet())
+        assertFalse(step.lossy)
+    }
+
+    @Test
+    fun `params without a no-arg constructor are refused`() {
+        assertNotNull(StepTypes.register(Typed("test:no-defaults") { RequiredParams("x") }))
+    }
+
+    private data class NullableParams(var note: String? = null, var count: Int = 1)
+
+    private data class RequiredParams(var note: String)
+
+    private class Typed<P : Any>(id: String, private val params: () -> P) : StepType<P>(id) {
+        override val displayName: String get() = id
+
+        override fun newParams() = params()
+
+        override fun execute(params: P, context: StepContext) = Unit
     }
 }
