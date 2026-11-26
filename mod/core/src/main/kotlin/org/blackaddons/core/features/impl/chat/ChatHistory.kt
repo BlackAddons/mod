@@ -6,6 +6,7 @@ import org.blackaddons.api.chat.ChatRetentions
 import org.blackaddons.api.feature.Feature
 import org.blackaddons.api.util.concurrent.Workers
 import org.blackaddons.api.util.io.Disk
+import org.blackaddons.core.log.Log
 
 object ChatHistory : Feature(
     description = "Keeps more chat, keeps it when you disconnect or restart, and remembers what you sent across restarts.",
@@ -45,17 +46,22 @@ object ChatHistory : Feature(
     override fun restoreMessages(): List<String> {
         if (restoredMessages || !keepOnRestart.value) return emptyList()
         restoredMessages = true
-        return runCatching { Disk.read(messagesPath()) }.getOrNull()?.lines()?.filter { it.isNotBlank() }.orEmpty()
+        return runCatching { Disk.read(messagesPath()) }
+            .onFailure { Log.main.warn("Could not read chat history", it) }
+            .getOrNull()?.lines()?.filter { it.isNotBlank() }.orEmpty()
     }
 
     override fun saveMessages(messages: List<String>) {
         runCatching { Disk.write(messagesPath(), messages.joinToString("\n")) }
+            .onFailure { Log.main.warn("Could not save chat history", it) }
     }
 
     override fun restoreSent(current: List<String>): List<String> {
         if (restored || !saveSent.value) return current
         restored = true
-        val saved = runCatching { Disk.read(path()) }.getOrNull()?.lines()?.filter { it.isNotBlank() }.orEmpty()
+        val saved = runCatching { Disk.read(path()) }
+            .onFailure { Log.main.warn("Could not read sent message history", it) }
+            .getOrNull()?.lines()?.filter { it.isNotBlank() }.orEmpty()
         return merge(saved, current, historyLength.value.toInt())
     }
 

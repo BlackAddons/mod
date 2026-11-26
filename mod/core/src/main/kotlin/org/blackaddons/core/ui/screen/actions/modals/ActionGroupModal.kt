@@ -9,6 +9,7 @@ import org.blackaddons.api.ui.widget.Button
 import org.blackaddons.api.ui.widget.text.TextInput
 import org.blackaddons.core.actions.ActionGroup
 import org.blackaddons.core.actions.ActionStorage
+import org.blackaddons.core.log.Log
 import org.blackaddons.core.ui.screen.actions.actionTr
 import org.blackaddons.core.ui.screen.actions.fields.LocationFilterFields
 
@@ -42,6 +43,7 @@ internal class ActionGroupModal(
 
     private val captureLocationBtn = widgets.add(Button(actionTr("group.use_current_location", "Use Current Location")) {
         if (Platform.player.isInGame) runCatching { location.readFromCurrentLocation() }
+            .onFailure { Log.main.error("Could not read the current location", it) }
     })
 
     private val saveBtn = widgets.add(Button(actionTr("save", "Save")) {

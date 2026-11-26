@@ -16,6 +16,7 @@ import org.blackaddons.core.actions.ActionStorage
 import org.blackaddons.core.actions.ShortcutAction
 import org.blackaddons.core.actions.execution.ActionExecutor
 import org.blackaddons.core.actions.steps.SendMessageStep
+import org.blackaddons.core.log.Log
 
 internal object ShortcutActionHandler {
 
@@ -42,7 +43,7 @@ internal object ShortcutActionHandler {
                     )
                 }
             Platform.commands.syncDynamicAliases(list)
-        }
+        }.onFailure { Log.main.error("Could not sync shortcut aliases", it) }
     }
 
     private fun onChatSend(event: ChatSendEvent) {

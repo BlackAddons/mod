@@ -96,7 +96,7 @@ internal object SkyblockItems {
                     )
                 }
             }
-        }.getOrNull() ?: return
+        }.onFailure { Log.main.warn("Skyblock item table unreadable", it) }.getOrNull() ?: return
         if (table.isNotEmpty()) items = table
     }
 

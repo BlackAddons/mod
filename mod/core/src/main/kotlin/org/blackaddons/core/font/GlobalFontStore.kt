@@ -6,7 +6,6 @@ import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.util.color.toColorOrNull
 import org.blackaddons.api.util.color.toHex
-import org.blackaddons.api.util.io.Disk
 import org.blackaddons.api.util.io.Gsons
 import org.blackaddons.api.util.io.array
 import org.blackaddons.api.util.io.bool
@@ -15,6 +14,7 @@ import org.blackaddons.api.util.io.double
 import org.blackaddons.api.util.io.str
 import org.blackaddons.core.font.GlobalFontStore.isLegacy
 import org.blackaddons.core.log.Log
+import org.blackaddons.core.storage.GuardedFile
 import java.awt.Color
 
 internal data class GlobalFontDocument(val font: InstalledFont, val draft: GlobalFontDraft) {
@@ -46,20 +46,23 @@ internal data class FontsDocument(
 
 internal object GlobalFontStore {
     private val path get() = Platform.configDir.resolve("font.json")
+    private var file: GuardedFile? = null
     private const val AUTO_2D_KEY = "auto2d"
 
     fun load(legacyEnabled: () -> Boolean?): FontsDocument = runCatching {
-        val json = Disk.read(path)?.let { JsonParser.parseString(it).asJsonObject }
+        val json = guard().read()?.let { JsonParser.parseString(it).asJsonObject }
         if (json != null && !isLegacy(json)) return@runCatching readAll(json)
         migrate(json, legacyEnabled()).also(::save)
     }.onFailure {
         Log.main.warn("Could not read {}, using the default font", path, it)
+        guard().refuseWrites("it could not be parsed")
     }.getOrNull() ?: FontsDocument.DEFAULT
 
     fun save(document: FontsDocument) {
-        runCatching { Disk.write(path, Gsons.pretty.toJson(writeAll(document))) }
-            .onFailure { Log.main.error("Failed to save {}", path, it) }
+        guard().write(Gsons.pretty.toJson(writeAll(document)))
     }
+
+    private fun guard(): GuardedFile = file?.takeIf { it.path == path } ?: GuardedFile(path).also { file = it }
 
     fun writeAll(document: FontsDocument): JsonObject = JsonObject().apply {
         addProperty(AUTO_2D_KEY, true)

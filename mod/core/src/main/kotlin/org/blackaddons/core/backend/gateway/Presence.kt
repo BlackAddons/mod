@@ -55,7 +55,7 @@ object Presence {
         EventBus.subscribe<ClientTickEvent.Post> {
             if (++lobbyTicks < LOBBY_REFRESH_TICKS) return@subscribe
             lobbyTicks = 0
-            lobby = runCatching { Platform.world.onlinePlayerUuids }.getOrDefault(emptyList())
+            lobby = Platform.world.onlinePlayerUuids
         }
     }
 
