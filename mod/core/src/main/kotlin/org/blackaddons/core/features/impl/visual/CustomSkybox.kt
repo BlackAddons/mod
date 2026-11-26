@@ -23,6 +23,8 @@ object CustomSkybox : Feature(
 ), SkyOverride {
 
     private const val THEME = "Theme"
+    private const val CUSTOM = "Custom"
+    private const val COLORS = "Colors"
     private const val LANDSCAPE = "Landscape"
     private const val SYNTHWAVE = "Synthwave"
     private const val GALAXY = "Galaxy"
@@ -38,8 +40,16 @@ object CustomSkybox : Feature(
                 "Synthwave = a striped sun over a neon canyon.\n" +
                 "Galaxy = a spiral galaxy over a starry nebula.",
         )
-    private val palette by mode("Palette", default = "Default", modes = listOf("Default", THEME))
-        .withDescription("Default = the BlackAddons colors.\nTheme = follows your UI theme's accent and background.")
+    private val palette by mode("Palette", default = "Default", modes = listOf("Default", THEME, CUSTOM))
+        .withDescription("Default = the BlackAddons colors.\nTheme = follows your UI theme's accent and background.\nCustom = your own colors below.")
+        .group(COLORS)
+    private val customBottom by color("Background Bottom", NebulaPalette.FLOW.bottom, allowAlpha = false).group(COLORS)
+        .showIf { isCustom() && style.value == LANDSCAPE }
+    private val customDeep by color("Color 1", NebulaPalette.FLOW.deep, allowAlpha = false).group(COLORS)
+        .showIf { isCustom() && style.value != LANDSCAPE }
+    private val customMain by color("Color 2", NebulaPalette.FLOW.main, allowAlpha = false).group(COLORS).showIf(::isCustom)
+    private val customHot by color("Color 3", NebulaPalette.FLOW.hot, allowAlpha = false).group(COLORS).showIf(::isCustom)
+    private val customPlum by color("Color 4", NebulaPalette.FLOW.plum, allowAlpha = false).group(COLORS).showIf(::isCustom)
     private val brightness by number("Brightness", 100.0, 20.0, 150.0, 5.0, unit = "%")
         .withDescription("Sky brightness.")
 
@@ -60,7 +70,13 @@ object CustomSkybox : Feature(
 
     override fun look(sunAngle: Float, rain: Float): SkyLook {
         seconds = (seconds + frameClock.tick()) % CLOCK_WRAP
-        val colors = if (palette.value == THEME) themed.current() else NebulaPalette.FLOW
+        val colors = when (palette.value) {
+            THEME -> themed.current()
+            CUSTOM -> NebulaPalette(
+                NebulaPalette.FLOW.top, customBottom.value, customDeep.value, customMain.value, customHot.value, customPlum.value,
+            )
+            else -> NebulaPalette.FLOW
+        }
         val strength = brightness.value.toFloat() / 100
         return when (style.value) {
             SYNTHWAVE -> designed(SkyStyle.SYNTHWAVE, colors, strength, horizon = colors.plum.scaled(SYNTHWAVE_HORIZON * strength))
@@ -68,6 +84,8 @@ object CustomSkybox : Feature(
             else -> landscape(colors, skyLight(cos(sunAngle), rain) * strength)
         }
     }
+
+    private fun isCustom() = palette.value == CUSTOM
 
     private fun landscape(colors: NebulaPalette, light: Float): SkyLook {
         val main = colors.main.scaled(light)

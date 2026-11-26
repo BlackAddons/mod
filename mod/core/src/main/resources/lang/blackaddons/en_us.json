@@ -1432,11 +1432,27 @@
         },
         "palette": {
           "name": "Palette",
-          "desc": "Default = the BlackAddons colors.\nTheme = follows your UI theme's accent and background.",
+          "desc": "Default = the BlackAddons colors.\nTheme = follows your UI theme's accent and background.\nCustom = your own colors below.",
           "option": {
             "default": "Default",
-            "theme": "Theme"
+            "theme": "Theme",
+            "custom": "Custom"
           }
+        },
+        "background_bottom": {
+          "name": "Background Bottom"
+        },
+        "color_1": {
+          "name": "Color 1"
+        },
+        "color_2": {
+          "name": "Color 2"
+        },
+        "color_3": {
+          "name": "Color 3"
+        },
+        "color_4": {
+          "name": "Color 4"
         },
         "brightness": {
           "name": "Brightness",

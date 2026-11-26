@@ -1432,11 +1432,27 @@
         },
         "palette": {
           "name": "Paleta",
-          "desc": "Predeterminada = los colores de BlackAddons.\nTema = sigue el acento y el fondo de tu tema.",
+          "desc": "Predeterminada = los colores de BlackAddons.\nTema = sigue el acento y el fondo de tu tema.\nPersonalizada = tus colores de abajo.",
           "option": {
             "default": "Predeterminada",
-            "theme": "Tema"
+            "theme": "Tema",
+            "custom": "Personalizada"
           }
+        },
+        "background_bottom": {
+          "name": "Fondo abajo"
+        },
+        "color_1": {
+          "name": "Color 1"
+        },
+        "color_2": {
+          "name": "Color 2"
+        },
+        "color_3": {
+          "name": "Color 3"
+        },
+        "color_4": {
+          "name": "Color 4"
         },
         "brightness": {
           "name": "Brillo",
