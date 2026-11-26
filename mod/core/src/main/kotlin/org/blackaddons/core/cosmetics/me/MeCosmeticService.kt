@@ -2,6 +2,7 @@ package org.blackaddons.core.cosmetics.me
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.cosmetics.NickFont
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.cosmetics.store.CosmeticJson
@@ -68,7 +69,7 @@ internal object MeCosmeticService {
         ) ?: return NameChange.Refused(null)
 
         if (response.status != 200) return NameChange.Refused(response.error)
-        val json = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull()
+        val json = parseJsonObject(response.body)
             ?: return NameChange.Refused(null)
         val status = json.get("status")?.takeIf { !it.isJsonNull }?.asString
         val ticket = json.get("ticketId")?.takeIf { !it.isJsonNull }?.asLong

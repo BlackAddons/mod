@@ -7,6 +7,7 @@ import org.blackaddons.api.Platform
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.util.concurrent.LoadOnce
 import org.blackaddons.api.util.io.Disk
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.api.util.io.str
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
@@ -72,7 +73,7 @@ internal object HypixelGlyphs {
         val downloads = Platform.gameDir.resolve("downloads")
         val log = downloads.resolve("log.json").takeIf { it.exists() } ?: return null
         val names = runCatching { Files.readAllLines(log) }.getOrNull().orEmpty().mapNotNull { line ->
-            val entry = runCatching { JsonParser.parseString(line).asJsonObject }.getOrNull() ?: return@mapNotNull null
+            val entry = parseJsonObject(line) ?: return@mapNotNull null
             if (entry.str("url")?.contains(PACK_HOST) != true) return@mapNotNull null
             entry.getAsJsonObject("file")?.str("name")
         }

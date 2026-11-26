@@ -7469,6 +7469,7 @@ public final class org/blackaddons/api/util/LangScope {
 }
 
 public final class org/blackaddons/api/util/LerpKt {
+	public static final fun expSmoothing (DD)D
 	public static final fun lerp (FFF)F
 	public static final fun logLerp (FFF)F
 }
@@ -7761,6 +7762,7 @@ public final class org/blackaddons/api/util/io/JsonExtKt {
 	public static final fun long (Lcom/google/gson/JsonObject;Ljava/lang/String;J)J
 	public static synthetic fun long$default (Lcom/google/gson/JsonObject;Ljava/lang/String;JILjava/lang/Object;)J
 	public static final fun longOrNull (Lcom/google/gson/JsonObject;Ljava/lang/String;)Ljava/lang/Long;
+	public static final fun parseJsonObject (Ljava/lang/String;)Lcom/google/gson/JsonObject;
 	public static final fun str (Lcom/google/gson/JsonObject;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static synthetic fun str$default (Lcom/google/gson/JsonObject;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
 	public static final fun withoutNulls (Lcom/google/gson/JsonElement;)Lcom/google/gson/JsonElement;

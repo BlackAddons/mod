@@ -4,26 +4,18 @@ import org.blackaddons.api.Platform
 import org.blackaddons.api.gui.PlayerModelPreview
 import org.blackaddons.api.gui.PreviewGear
 import org.blackaddons.api.skyblock.profile.PlayerProfiles
-import org.blackaddons.api.ui.layout.Rect
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.TextStyle
 import org.blackaddons.api.ui.theme.Theme
-import org.blackaddons.api.ui.widget.InputTarget
-import org.blackaddons.api.ui.widget.MouseButtonInput
-import org.blackaddons.api.ui.widget.MouseDragInput
 import org.blackaddons.api.util.I18n
 import org.blackaddons.core.profile.SkinTextures
 import org.blackaddons.core.profile.dashless
+import org.blackaddons.core.ui.screen.ModelTurntable
 
 private val tr = I18n.scope("blackaddons.pv")
 
 /** The player's 3D model in a framed box: spins slowly by itself, and dragging turns and tilts it. */
-internal class PvTurntable(private val key: Any = PlayerModelPreview.MAIN) : InputTarget {
-
-    private val box = Rect()
-    private var dragging = false
-    private var yaw = 0f
-    private var pitch = 0f
+internal class PvTurntable(private val key: Any = PlayerModelPreview.MAIN) : ModelTurntable() {
 
     /** Drops the hitbox while the model isn't on screen, so nothing behind it stays draggable. */
     fun hide() {
@@ -50,28 +42,7 @@ internal class PvTurntable(private val key: Any = PlayerModelPreview.MAIN) : Inp
         )
     }
 
-    override fun mouseClicked(mouse: MouseButtonInput): Boolean {
-        if (Platform.playerPreview == null || !box.has(mouse.x, mouse.y)) return false
-        dragging = true
-        return true
-    }
-
-    override fun mouseReleased(mouse: MouseButtonInput): Boolean {
-        dragging = false
-        return false
-    }
-
-    override fun mouseDragged(drag: MouseDragInput): Boolean {
-        if (!dragging) return false
-        // Yaw has no limit. Pitch is clamped, so the model, anchored at its feet, can't swing away.
-        yaw -= drag.dx * DRAG_SENS
-        pitch = (pitch - drag.dy * DRAG_SENS).coerceIn(-PITCH_LIMIT, PITCH_LIMIT)
-        return true
-    }
-
     private companion object {
         const val AUTO_SPIN_PER_TICK = 0.33f
-        const val DRAG_SENS = 0.6f
-        const val PITCH_LIMIT = 30f
     }
 }

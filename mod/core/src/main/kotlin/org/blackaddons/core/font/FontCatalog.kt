@@ -8,6 +8,7 @@ import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.api.util.io.Disk
 import org.blackaddons.api.util.io.FileFormat
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.storage.ContentCache
 import java.net.URI
@@ -335,12 +336,12 @@ internal object FontCatalog {
     }
 
     private fun readNickFiles(): JsonObject =
-        Disk.read(nickFilesPath())?.let { text -> runCatching { JsonParser.parseString(text).asJsonObject }.getOrNull() }
+        Disk.read(nickFilesPath())?.let { text -> parseJsonObject(text) }
             ?: JsonObject()
 
     private fun readInstallations(): JsonObject =
         Disk.read(installationsPath())?.let { text ->
-            runCatching { JsonParser.parseString(text).asJsonObject }.getOrNull()
+            parseJsonObject(text)
         } ?: JsonObject()
 
     private fun readLibrary(): List<InstalledFont> {
@@ -357,7 +358,7 @@ internal object FontCatalog {
 
     private fun recoverInstalledFonts(catalog: List<FontCatalogEntry>) {
         val text = Disk.read(installationsPath()) ?: return
-        val installations = runCatching { JsonParser.parseString(text).asJsonObject }.getOrNull() ?: return
+        val installations = parseJsonObject(text) ?: return
         val byId = catalog.associateBy(FontCatalogEntry::id)
         val recovered = installations.entrySet().mapNotNull { (installation, value) ->
             val entry = byId[installation.substringBefore(':')] ?: return@mapNotNull null

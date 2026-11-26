@@ -8,6 +8,7 @@ import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
+import org.blackaddons.api.util.color.lerpColor
 import org.blackaddons.platform.impl.gui.TitleMenu.Slot
 import java.awt.Color
 
@@ -39,7 +40,7 @@ internal fun TitleMenu.drawText(slot: Slot, hover: Float) {
     val enabled = w.active
     val color = when {
         !enabled -> Theme.TEXT_DISABLED
-        else -> blend(Theme.TEXT_PRIMARY, Theme.ACCENT, hover)
+        else -> lerpColor(Theme.TEXT_PRIMARY, Theme.ACCENT, hover)
     }
     var x = w.x + sf(ITEM_PAD)
     slot.icon?.let {
@@ -59,9 +60,9 @@ internal fun TitleMenu.drawText(slot: Slot, hover: Float) {
 internal fun TitleMenu.drawIcon(slot: Slot, hover: Float) {
     val w = slot.widget
     val accent = accentOf(slot)
-    val fill = blend(Theme.SURFACE.withAlpha(150), accent.withAlpha(70), hover)
+    val fill = lerpColor(Theme.SURFACE.withAlpha(150), accent.withAlpha(70), hover)
     Render.rect(w.x, w.y, si(CELL), si(CELL), fill, radius = sf(Theme.RADIUS_SMALL))
-    val color = if (w.active) blend(Theme.TEXT_SECONDARY, accent, hover) else Theme.TEXT_DISABLED
+    val color = if (w.active) lerpColor(Theme.TEXT_SECONDARY, accent, hover) else Theme.TEXT_DISABLED
     slot.icon?.let { Render.icon(it, w.x + (si(CELL) - sf(CELL_ICON)) / 2, w.y + (si(CELL) - sf(CELL_ICON)) / 2, sf(CELL_ICON), color) }
 }
 
@@ -82,21 +83,15 @@ internal fun TitleMenu.drawTooltip(slot: Slot) {
 
 internal fun TitleMenu.drawLegalToggle(slot: Slot, hover: Float) {
     val w = slot.widget
-    val color = blend(Theme.TEXT_MUTED, Theme.TEXT_PRIMARY, maxOf(hover, if (legalOpen) 1f else 0f))
+    val color = lerpColor(Theme.TEXT_MUTED, Theme.TEXT_PRIMARY, maxOf(hover, if (legalOpen) 1f else 0f))
     slot.icon?.let { Render.icon(it, w.x, w.y, si(LEGAL_SIZE), color) }
 }
 
 internal fun TitleMenu.drawLegal(slot: Slot, hover: Float) {
     val w = slot.widget
     val version = "Minecraft ${SharedConstants.getCurrentVersion().name()}"
-    val color = blend(Theme.TEXT_MUTED, Theme.TEXT_PRIMARY, hover)
+    val color = lerpColor(Theme.TEXT_MUTED, Theme.TEXT_PRIMARY, hover)
     val y = Render.centerY(w.y, w.height, sf(LEGAL_TEXT), Fonts.regular)
     Render.text(version, w.x, y - Render.textHeight(sf(LEGAL_TEXT), Fonts.regular) - sf(LEGAL_LINE_GAP), sf(LEGAL_TEXT), Theme.TEXT_MUTED, Fonts.regular)
     Render.text(slot.label, w.x, y, sf(LEGAL_TEXT), color, Fonts.regular)
-}
-
-internal fun TitleMenu.blend(from: Color, to: Color, t: Float): Color {
-    val k = t.coerceIn(0f, 1f)
-    fun mix(a: Int, b: Int) = (a + (b - a) * k).toInt()
-    return Color(mix(from.red, to.red), mix(from.green, to.green), mix(from.blue, to.blue), mix(from.alpha, to.alpha))
 }

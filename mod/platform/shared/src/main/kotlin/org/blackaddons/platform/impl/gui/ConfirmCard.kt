@@ -2,16 +2,14 @@ package org.blackaddons.platform.impl.gui
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.AbstractWidget
+import org.blackaddons.api.ui.anim.DecayAnimation
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
-import org.blackaddons.api.util.FrameClock
 import org.blackaddons.api.util.color.lerpColor
 import java.util.IdentityHashMap
-import kotlin.math.exp
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * A small "are you sure" card next to a vanilla button: the question over a row of choices. The choices are real vanilla
@@ -28,8 +26,7 @@ internal class ConfirmCard {
     private var question = ""
     private var choices = emptyList<Choice>()
     private var scale = 1f
-    private val hover = IdentityHashMap<AbstractWidget, Float>()
-    private val frameClock = FrameClock(cap = 100.milliseconds)
+    private val hover = IdentityHashMap<AbstractWidget, DecayAnimation>()
 
     val shown: Boolean get() = box != null
 
@@ -67,16 +64,13 @@ internal class ConfirmCard {
 
     fun draw() {
         val box = box ?: return
-        val dt = frameClock.tick()
         Render.rect(box.x, box.y, box.width, box.height, Theme.SURFACE.withAlpha(240), radius = sf(Theme.RADIUS_SMALL))
         Render.hollowRect(box.x, box.y, box.width, box.height, 1f, Theme.BORDER, radius = sf(Theme.RADIUS_SMALL))
         Render.textCentered(question, box.x + box.width / 2, box.y + si(PAD), sf(TEXT), Theme.TEXT_PRIMARY, Fonts.medium)
         choices.forEach { choice ->
             val w = choice.widget
             val target = if (w.active && highlighted(w)) 1f else 0f
-            val current = hover[w] ?: 0f
-            val lit = current + (target - current) * (1 - exp(-dt * HOVER_RATE)).toFloat()
-            hover[w] = lit
+            val lit = hover.getOrPut(w) { DecayAnimation(0f) }.get(target)
             val fill = lerpColor(Theme.SURFACE_HOVER, if (choice.danger) Theme.DANGER.withAlpha(200) else Theme.SURFACE_ACTIVE, lit)
             Render.rect(w.x, w.y, w.width, w.height, fill, radius = sf(Theme.RADIUS_SMALL))
             val color = if (choice.danger) lerpColor(Theme.DANGER, Theme.TEXT_PRIMARY, lit) else Theme.TEXT_PRIMARY
@@ -92,7 +86,6 @@ internal class ConfirmCard {
         const val BUTTON_HEIGHT = 14
         const val BUTTON_PAD = 8
         const val EDGE = 6
-        const val HOVER_RATE = 14.0
     }
 }
 

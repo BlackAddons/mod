@@ -12,7 +12,6 @@ import org.blackaddons.core.theme.NebulaPalette
 import org.blackaddons.core.theme.ThemedPalette
 import java.awt.Color
 import kotlin.math.cos
-import kotlin.time.Duration.Companion.milliseconds
 
 /*
  * A shader scene as the overworld sky. The platform draws it, this picks its colors (for Landscape, based on the time
@@ -54,7 +53,7 @@ object CustomSkybox : Feature(
         .withDescription("Sky brightness.")
 
     private var seconds = 0.0
-    private val frameClock = FrameClock(cap = 100.milliseconds)
+    private val frameClock = FrameClock()
 
     private val themed = ThemedPalette(NebulaPalette::flow)
 

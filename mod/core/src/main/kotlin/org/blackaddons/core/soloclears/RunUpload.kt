@@ -1,10 +1,10 @@
 package org.blackaddons.core.soloclears
 
-import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.api.util.io.Disk
 import org.blackaddons.api.util.io.int
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.api.util.io.str
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.BackendNotifier
@@ -69,7 +69,7 @@ internal object RunUpload {
             return Outcome.Unreachable
         }
 
-        val json = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull()
+        val json = parseJsonObject(response.body)
 
         return when {
             response.status == 201 && json != null -> Outcome.Accepted(

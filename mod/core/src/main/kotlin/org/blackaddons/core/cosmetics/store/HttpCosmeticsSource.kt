@@ -1,7 +1,7 @@
 package org.blackaddons.core.cosmetics.store
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.log.Log
 import java.util.UUID
@@ -19,7 +19,7 @@ internal class HttpCosmeticsSource(private val url: String) : CosmeticsSource {
         // Wait exactly as long as told. A sooner retry just gets another refusal.
         if (response.busy) return CosmeticsAnswer.Later(response.retryAfterSeconds)
         if (response.status != 200) return CosmeticsAnswer.Failed
-        val manifest = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull()
+        val manifest = parseJsonObject(response.body)
             ?: return CosmeticsAnswer.Failed
         return if (supportedSchema(manifest)) CosmeticsAnswer.Manifest(manifest) else CosmeticsAnswer.Failed
     }

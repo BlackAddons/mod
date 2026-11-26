@@ -12,13 +12,13 @@ import org.blackaddons.api.event.EventPriority
 import org.blackaddons.api.feature.Categories
 import org.blackaddons.api.feature.Feature
 import org.blackaddons.api.feature.translatedName
+import org.blackaddons.api.ui.anim.DecayAnimation
 import org.blackaddons.api.ui.icon.LucideIcons
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
 import org.blackaddons.api.ui.theme.Theme
 import org.blackaddons.api.ui.theme.Theme.withAlpha
-import org.blackaddons.api.util.FrameClock
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.color.lerpColor
 import org.blackaddons.core.config.BlackaddonsConfig
@@ -28,9 +28,7 @@ import org.blackaddons.platform.compat.openScreen
 import org.blackaddons.platform.event.impl.RenderScreenEvent
 import java.util.Collections
 import java.util.IdentityHashMap
-import kotlin.math.exp
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * The [Categories.Client.Menu] features as switches behind a corner button of the title screen, with or without the
@@ -57,7 +55,6 @@ internal object TitleQuickToggles {
     private const val DIVIDER = 2 * GAP + 1
     private const val TOOLTIP_PAD = 5f
     private const val TOOLTIP_PAD_Y = 3f
-    private const val RATE = 14.0
 
     // feature == null is the settings link.
     private class Row(val widget: Button, val label: String, val feature: Feature?)
@@ -67,12 +64,11 @@ internal object TitleQuickToggles {
      * are.
      */
     private val owned: MutableSet<AbstractWidget> = Collections.newSetFromMap(IdentityHashMap())
-    private val hover = IdentityHashMap<AbstractWidget, Float>()
-    private val switches = HashMap<String, Float>()
+    private val hover = IdentityHashMap<AbstractWidget, DecayAnimation>()
+    private val switches = HashMap<String, DecayAnimation>()
     private var corner: Button? = null
     private var rows = emptyList<Row>()
     private var open = false
-    private val frameClock = FrameClock(cap = 100.milliseconds)
 
     // Measured once per screen init, not per frame, in menu units before the scale.
     private var cardWidth = 0
@@ -161,18 +157,16 @@ internal object TitleQuickToggles {
         // A screen that got initialized again without us has no such button to click.
         if (toggle !in Screens.getWidgets(screen)) return
         layout(screen)
-        val dt = frameClock.tick()
-
-        val lit = ease(toggle, if (open || highlighted(toggle)) 1f else 0f, dt)
+        val lit = ease(toggle, if (open || highlighted(toggle)) 1f else 0f)
         Render.rect(toggle.x, toggle.y, si(CELL), si(CELL), lerpColor(Theme.SURFACE.withAlpha(150), Theme.ACCENT.withAlpha(70), lit), radius = sf(Theme.RADIUS_SMALL))
         val inset = (si(CELL) - sf(CELL_ICON)) / 2
         Render.icon(LucideIcons.appWindow, toggle.x + inset, toggle.y + inset, sf(CELL_ICON), lerpColor(Theme.TEXT_SECONDARY, Theme.ACCENT, lit))
 
-        if (open) drawCard(screen, dt) else if (highlighted(toggle)) drawTooltip(toggle)
+        if (open) drawCard(screen) else if (highlighted(toggle)) drawTooltip(toggle)
         hover.keys.retainAll(owned)
     }
 
-    private fun drawCard(screen: TitleScreen, dt: Double) {
+    private fun drawCard(screen: TitleScreen) {
         val x = (screen.width - si(EDGE) - si(cardWidth)).toFloat()
         val y = cardTop().toFloat()
         Render.rect(x, y, si(cardWidth), cardHeight(), Theme.SURFACE.withAlpha(240), radius = sf(Theme.RADIUS_SMALL))
@@ -181,7 +175,7 @@ internal object TitleQuickToggles {
 
         rows.forEach { row ->
             val w = row.widget
-            val lit = ease(w, if (highlighted(w)) 1f else 0f, dt)
+            val lit = ease(w, if (highlighted(w)) 1f else 0f)
             if (row.feature == null) {
                 Render.rect(x + si(PAD), w.y - si(DIVIDER) / 2f - 0.5f, si(cardWidth) - 2f * si(PAD), 1f, Theme.BORDER)
             }
@@ -191,7 +185,7 @@ internal object TitleQuickToggles {
             Render.text(row.label, textX, Render.centerY(w.y, si(ROW_HEIGHT), sf(TEXT), Fonts.medium), sf(TEXT), Theme.TEXT_PRIMARY, Fonts.medium)
             val feature = row.feature
             if (feature != null) {
-                val on = ease(feature.id, if (feature.enabled) 1f else 0f, dt)
+                val on = ease(feature.id, if (feature.enabled) 1f else 0f)
                 Render.toggleSwitch(right - sf(SWITCH_WIDTH), w.y + (si(ROW_HEIGHT) - sf(SWITCH_HEIGHT)) / 2, sf(SWITCH_WIDTH), sf(SWITCH_HEIGHT), on)
             } else {
                 val color = lerpColor(Theme.TEXT_SECONDARY, Theme.ACCENT, lit)
@@ -210,13 +204,8 @@ internal object TitleQuickToggles {
         Render.text(tr("customize", "Customize Menu"), x + sf(TOOLTIP_PAD), y + sf(TOOLTIP_PAD_Y), sf(CAPTION), Theme.TEXT_PRIMARY, Fonts.regular)
     }
 
-    private fun ease(widget: AbstractWidget, target: Float, dt: Double): Float =
-        approach(hover[widget] ?: target, target, dt).also { hover[widget] = it }
+    private fun ease(widget: AbstractWidget, target: Float): Float = hover.getOrPut(widget, ::DecayAnimation).get(target)
 
     // Keyed by feature, so a switch keeps animating across the rebuilt screen after a flip.
-    private fun ease(featureId: String, target: Float, dt: Double): Float =
-        approach(switches[featureId] ?: target, target, dt).also { switches[featureId] = it }
-
-    private fun approach(current: Float, target: Float, dt: Double): Float =
-        current + (target - current) * (1 - exp(-dt * RATE)).toFloat()
+    private fun ease(featureId: String, target: Float): Float = switches.getOrPut(featureId, ::DecayAnimation).get(target)
 }

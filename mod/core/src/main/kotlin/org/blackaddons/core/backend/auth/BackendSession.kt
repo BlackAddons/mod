@@ -5,6 +5,7 @@ import com.google.gson.JsonParser
 import org.blackaddons.api.host.SessionOwnership
 import org.blackaddons.api.util.Uuids
 import org.blackaddons.api.util.io.Gsons
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.BackendNotifier
 import org.blackaddons.core.backend.Http
@@ -160,7 +161,7 @@ internal object BackendSession {
             return SessionOwnership.UNAVAILABLE
         }
 
-        val json = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull()
+        val json = parseJsonObject(response.body)
         if (json == null) {
             BackendNotifier.notifyAuthFailure()
             return SessionOwnership.UNAVAILABLE

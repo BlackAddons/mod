@@ -9,17 +9,16 @@ import org.blackaddons.api.ui.render.GradientDir
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.theme.Theme.withAlpha
 import org.blackaddons.api.util.FrameClock
+import org.blackaddons.api.util.expSmoothing
 import org.blackaddons.core.theme.NebulaPalette
 import org.blackaddons.core.theme.ThemedPalette
 import java.awt.Color
 import kotlin.math.PI
 import kotlin.math.cos
-import kotlin.math.exp
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.random.Random
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * A dark menu background instead of the rotating panorama: nebula streaks drifting over near-black, with twinkling
@@ -149,7 +148,7 @@ object MenuBackground : Feature(
 
     // The scene's own clock. Pausing it keeps a still picture where it was instead of snapping to a fixed pose.
     private var seconds = 0.0
-    private val frameClock = FrameClock(cap = 100.milliseconds)
+    private val frameClock = FrameClock()
     private var lookX = 0f
     private var lookY = 0f
 
@@ -272,7 +271,7 @@ object MenuBackground : Feature(
             0f to 0f
         }
         // Frame-rate independent ease toward the target.
-        val ease = (1 - exp(-dt * PARALLAX_RATE)).toFloat()
+        val ease = expSmoothing(dt, PARALLAX_RATE).toFloat()
         lookX += (targetX - lookX) * ease
         lookY += (targetY - lookY) * ease
         /*

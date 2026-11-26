@@ -14,6 +14,7 @@ import org.blackaddons.api.ui.widget.MouseButtonInput
 import org.blackaddons.api.ui.widget.MouseDragInput
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.color.ColorStop
+import org.blackaddons.api.util.color.GradientColors
 import org.blackaddons.core.cosmetics.GradientStops
 import org.blackaddons.core.cosmetics.me.CosmeticDraft
 import java.awt.Color
@@ -218,17 +219,7 @@ internal class GradientEditor(
     private fun fractionAt(mx: Float) = ((mx - bar.x) / bar.w).coerceIn(0f, 1f)
 
     /** The gradient's current color at [fraction], so adding a point doesn't change the look. */
-    private fun colorAt(stops: List<ColorStop>, fraction: Float): Int {
-        val sorted = stops.sortedBy { it.fraction }
-        val left = sorted.lastOrNull { it.fraction <= fraction }
-        val right = sorted.firstOrNull { it.fraction >= fraction }
-        return when {
-            left == null && right == null -> 0xFFFFFF
-            left == null -> right!!.rgb
-            right == null || right.fraction == left.fraction -> left.rgb
-            else -> lerp(left.rgb, right.rgb, (fraction - left.fraction) / (right.fraction - left.fraction))
-        }
-    }
+    private fun colorAt(stops: List<ColorStop>, fraction: Float): Int = GradientColors.colorAt(stops.sortedBy { it.fraction }, fraction)
 
     private companion object {
         const val BAR_H = 14f
@@ -242,14 +233,5 @@ internal class GradientEditor(
         fun snap(fraction: Float) = (fraction * 100f).roundToInt() / 100f
 
         fun rgb(stop: ColorStop) = Color(stop.rgb and 0xFFFFFF)
-
-        fun lerp(a: Int, b: Int, t: Float): Int {
-            fun channel(shift: Int): Int {
-                val av = (a shr shift) and 0xFF
-                val bv = (b shr shift) and 0xFF
-                return (av + (bv - av) * t).roundToInt()
-            }
-            return (channel(16) shl 16) or (channel(8) shl 8) or channel(0)
-        }
     }
 }

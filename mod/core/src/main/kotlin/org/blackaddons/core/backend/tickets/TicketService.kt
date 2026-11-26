@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.OffThread
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.backend.chat.ChatStore
@@ -47,7 +48,7 @@ internal object TicketService {
             onFailure = { null },
             onResult = { response ->
                 val ticket = response?.takeIf { it.status == 200 }
-                    ?.let { runCatching { JsonParser.parseString(it.body).asJsonObject }.getOrNull() }
+                    ?.let { parseJsonObject(it.body) }
                     ?.let(TicketJson::ticket)
                     ?: return@run
                 TicketStore.onTicket(ticket)
@@ -75,7 +76,7 @@ internal object TicketService {
                 when {
                     response == null -> onDone(tr("offline", "Could not reach the server"))
                     response.status == 200 -> {
-                        runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull()
+                        parseJsonObject(response.body)
                             ?.let(TicketJson::message)
                             ?.let { message ->
                                 // By id, because the player can open another ticket while this request runs.

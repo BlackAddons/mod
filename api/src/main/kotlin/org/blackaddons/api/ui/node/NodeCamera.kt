@@ -1,6 +1,7 @@
 package org.blackaddons.api.ui.node
 
 import org.blackaddons.api.ui.node.NodeCamera.Companion.STEP
+import org.blackaddons.api.util.expSmoothing
 import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.math.hypot
@@ -147,7 +148,7 @@ class NodeCamera {
         if (step == 0.0) return false
         var changed = false
         if (flying) {
-            val k = 1.0 - exp(-step * EASE_RATE)
+            val k = expSmoothing(step, EASE_RATE)
             val centerX = originX + viewportWidth / 2.0 / zoom
             val centerY = originY + viewportHeight / 2.0 / zoom
             zoom = exp(ln(zoom) + (ln(targetZoom) - ln(zoom)) * k)
@@ -159,7 +160,7 @@ class NodeCamera {
             if (settled) finishFlight()
             changed = true
         } else if (isZooming) {
-            val k = 1.0 - exp(-step * EASE_RATE)
+            val k = expSmoothing(step, EASE_RATE)
             zoom = exp(ln(zoom) + (ln(targetZoom) - ln(zoom)) * k)
             if (!isZooming) zoom = targetZoom
             applyAnchor()

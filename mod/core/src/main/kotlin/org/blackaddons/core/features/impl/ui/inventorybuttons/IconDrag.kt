@@ -3,8 +3,9 @@ package org.blackaddons.core.features.impl.ui.inventorybuttons
 import org.blackaddons.api.gui.GuiBox
 import org.blackaddons.api.ui.anim.Animation
 import org.blackaddons.api.ui.render.Render
+import org.blackaddons.api.util.expSmoothing
+import org.blackaddons.api.util.lerp
 import java.awt.Color
-import kotlin.math.exp
 import kotlin.math.min
 
 internal class IconDrag(val raw: String, private var x: Float, private var y: Float) {
@@ -36,7 +37,7 @@ internal class IconDrag(val raw: String, private var x: Float, private var y: Fl
         val size: Float
         val alpha: Float
         if (landing == null) {
-            val follow = 1f - exp(-FOLLOW_RATE * dt)
+            val follow = expSmoothing(dt.toDouble(), FOLLOW_RATE).toFloat()
             x += (mouseX - x) * follow
             y += (mouseY - y) * follow
             cx = x
@@ -64,12 +65,10 @@ internal class IconDrag(val raw: String, private var x: Float, private var y: Fl
         return true
     }
 
-    private fun lerp(a: Float, b: Float, t: Float) = a + (b - a) * t
-
     private companion object {
         const val ITEM_SIZE = 16f
         const val LIFT_GROW = 0.25f
-        const val FOLLOW_RATE = 28f
+        const val FOLLOW_RATE = 28.0
         const val LAND_MS = 180L
         const val SHADOW_BLUR = 6f
         const val SHADOW_ALPHA = 110

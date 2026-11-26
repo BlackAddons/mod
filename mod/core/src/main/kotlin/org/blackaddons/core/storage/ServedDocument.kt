@@ -1,10 +1,10 @@
 package org.blackaddons.core.storage
 
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.api.util.io.Disk
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.log.Log
 import java.nio.file.Files
@@ -65,7 +65,7 @@ internal object ServedDocument {
     }
 
     private fun parse(body: String): JsonObject? =
-        runCatching { JsonParser.parseString(body).asJsonObject }.getOrNull()
+        parseJsonObject(body)
 
     private fun file(cache: String, extension: String): Path =
         Platform.configDir.resolve("$cache.$extension").also { Files.createDirectories(it.parent) }

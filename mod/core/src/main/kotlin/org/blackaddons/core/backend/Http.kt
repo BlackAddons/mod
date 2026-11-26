@@ -1,7 +1,7 @@
 package org.blackaddons.core.backend
 
-import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.auth.BackendSession
 import org.blackaddons.core.backend.gateway.stringOrNull
 import org.blackaddons.core.log.Log
@@ -57,7 +57,7 @@ object Http {
         val unavailable: Boolean get() = status == 503 && unavailableReason != null
 
         /** The backend's own message for a refusal (`{"error": "..."}`). Null when the body has none. */
-        val error: String? get() = runCatching { JsonParser.parseString(body).asJsonObject.stringOrNull("error") }.getOrNull()
+        val error: String? get() = parseJsonObject(body)?.stringOrNull("error")
     }
 
     /**

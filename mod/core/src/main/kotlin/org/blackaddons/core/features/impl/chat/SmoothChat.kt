@@ -3,9 +3,9 @@ package org.blackaddons.core.features.impl.chat
 import org.blackaddons.api.chat.ChatMotion
 import org.blackaddons.api.chat.ChatMotions
 import org.blackaddons.api.feature.Feature
+import org.blackaddons.api.util.expSmoothing
 import kotlin.math.PI
 import kotlin.math.abs
-import kotlin.math.exp
 import kotlin.math.sin
 
 /** Ported from ChatAnimation (MIT, (c) Ezzenix). */
@@ -44,7 +44,7 @@ object SmoothChat : Feature(
 
     override fun scroll(drawn: Double, target: Int, seconds: Double): Double {
         if (!smoothScroll.value) return target.toDouble()
-        val next = drawn + (target - drawn) * (1.0 - exp(-seconds * SCROLL_RATE))
+        val next = drawn + (target - drawn) * expSmoothing(seconds, SCROLL_RATE)
         return if (abs(target - next) < SCROLL_SNAP) target.toDouble() else next
     }
 

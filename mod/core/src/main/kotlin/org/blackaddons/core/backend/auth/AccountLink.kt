@@ -1,12 +1,12 @@
 package org.blackaddons.core.backend.auth
 
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.chat.ChatClick
 import org.blackaddons.api.chat.ChatMessage
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.OffThread
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.chat.Brand
@@ -36,14 +36,14 @@ internal object AccountLink {
      */
     private fun accountName(): String? {
         val response = Http.get(Backend.ME_URL, authenticated = true)?.takeIf { it.status == 200 } ?: return null
-        val json = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull() ?: return null
+        val json = parseJsonObject(response.body) ?: return null
         return json.get("nickname")?.takeIf { !it.isJsonNull }?.asString?.takeIf { it.isNotBlank() }
     }
 
     private fun code(): Answer? {
         val response = Http.send(Backend.LINK_CODE_URL, method = Http.Method.POST, authenticated = true)
         val json = response?.takeIf { it.status == 200 }
-            ?.let { runCatching { JsonParser.parseString(it.body).asJsonObject }.getOrNull() } ?: return null
+            ?.let { parseJsonObject(it.body) } ?: return null
         val code = json.get("code")?.takeIf { !it.isJsonNull }?.asString
         return if (code.isNullOrBlank()) null else Answer(code, minutes(json))
     }

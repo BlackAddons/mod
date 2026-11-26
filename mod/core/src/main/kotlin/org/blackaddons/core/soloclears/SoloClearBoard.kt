@@ -2,11 +2,11 @@ package org.blackaddons.core.soloclears
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.util.io.array
 import org.blackaddons.api.util.io.int
 import org.blackaddons.api.util.io.long
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.api.util.io.str
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
@@ -62,7 +62,7 @@ internal object SoloClearBoard {
 
         val response = Platform.http.getBlocking("${Backend.API_V1}/soloclears/leaderboard/$floor?category=$category")
             ?.takeIf { it.status == 200 } ?: return null
-        val json = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull() ?: return null
+        val json = parseJsonObject(response.body) ?: return null
 
         val board = Board(
             floor = json.str("floor") ?: floor,
@@ -80,7 +80,7 @@ internal object SoloClearBoard {
             "${Backend.API_V1}/me/soloclears?page=$page&pageSize=$pageSize",
             authenticated = true,
         )?.takeIf { it.status == 200 } ?: return null
-        val json = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull() ?: return null
+        val json = parseJsonObject(response.body) ?: return null
 
         return json.array("items")?.mapNotNull { item -> (item as? JsonObject)?.let(::run) } ?: emptyList()
     }

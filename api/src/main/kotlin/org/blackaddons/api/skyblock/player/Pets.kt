@@ -1,9 +1,9 @@
 package org.blackaddons.api.skyblock.player
 
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.blackaddons.api.HostApi
 import org.blackaddons.api.util.cleanName
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.api.util.stripFormatting
 import org.blackaddons.api.world.ItemInfo
 
@@ -21,7 +21,7 @@ data class Pet(val name: String, val level: Int? = null, val uuid: String? = nul
 
         /** Reads a pet item (from the pets menu or the inventory). Null for anything else. */
         fun of(item: ItemInfo): Pet? {
-            val info = item.petInfo?.let(::parse) ?: return null
+            val info = item.petInfo?.let(::parseJsonObject) ?: return null
             val display = ITEM_NAME.matchEntire(item.name.stripFormatting().trim())
             val name = display?.groupValues?.get(2)?.trim()
                 ?: info.string("type")?.split('_')?.joinToString(" ") { it.lowercase().replaceFirstChar(Char::titlecase) }
@@ -30,9 +30,6 @@ data class Pet(val name: String, val level: Int? = null, val uuid: String? = nul
         }
 
         fun normalize(name: String): String = name.cleanName().replace("✦", "").trim()
-
-        private fun parse(json: String): JsonObject? =
-            runCatching { JsonParser.parseString(json).asJsonObject }.getOrNull()
 
         private fun JsonObject.string(key: String): String? =
             get(key)?.takeIf { it.isJsonPrimitive }?.asString?.takeIf { it.isNotBlank() }

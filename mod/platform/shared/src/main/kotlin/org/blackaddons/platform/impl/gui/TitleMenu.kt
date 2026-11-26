@@ -16,21 +16,19 @@ import net.minecraft.network.chat.contents.TranslatableContents
 import org.blackaddons.api.Platform
 import org.blackaddons.api.event.EventListener
 import org.blackaddons.api.event.EventPriority
+import org.blackaddons.api.ui.anim.DecayAnimation
 import org.blackaddons.api.ui.icon.LucideIcons
 import org.blackaddons.api.ui.icon.VectorIcon
 import org.blackaddons.api.ui.render.Render
 import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.ui.theme.Fonts
-import org.blackaddons.api.util.FrameClock
 import org.blackaddons.api.util.I18n
 import org.blackaddons.core.ui.screen.ClickGuiScreen
 import org.blackaddons.platform.event.impl.RenderScreenEvent
 import java.awt.Color
 import java.util.Collections
 import java.util.IdentityHashMap
-import kotlin.math.exp
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * The clean title screen: text entries with icons in the middle, minor buttons as a row of icons under them, and the
@@ -81,7 +79,6 @@ internal object TitleMenu {
     internal const val LEGAL_TEXT = 8f
     internal const val LEGAL_LINE_GAP = 2f
     private const val EDGE = 6
-    private const val HOVER_RATE = 14.0
     internal const val UNDERLINE = 1.5f
     internal const val TOOLTIP_PAD_X = 5f
     internal const val TOOLTIP_PAD_Y = 3f
@@ -108,12 +105,11 @@ internal object TitleMenu {
 
     // Widgets this screen draws itself. Vanilla skips rendering them (AbstractWidgetRenderMixin).
     private val owned: MutableSet<AbstractWidget> = Collections.newSetFromMap(IdentityHashMap())
-    internal val hover = IdentityHashMap<AbstractWidget, Float>()
+    private val hover = IdentityHashMap<AbstractWidget, DecayAnimation>()
     internal var slots = emptyList<Slot>()
     internal var legalOpen = false
     private var quitConfirmOpen = false
     private val quitCard = ConfirmCard()
-    private val frameClock = FrameClock(cap = 100.milliseconds)
 
     private val ours = IdentityHashMap<AbstractWidget, Own>()
 
@@ -331,13 +327,10 @@ internal object TitleMenu {
     }
 
     private fun draw(screen: TitleScreen) {
-        val dt = frameClock.tick()
         if (options.title == Title.BLACKADDONS) drawTitle(screen)
         slots.forEach { slot ->
             val target = if (slot.widget.active && highlighted(slot.widget)) 1f else 0f
-            val current = hover[slot.widget] ?: 0f
-            val eased = current + (target - current) * (1 - exp(-dt * HOVER_RATE)).toFloat()
-            hover[slot.widget] = eased
+            val eased = hover.getOrPut(slot.widget) { DecayAnimation(0f) }.get(target)
             when (slot.role) {
                 Role.TEXT -> drawText(slot, eased)
                 Role.ICON -> drawIcon(slot, eased)

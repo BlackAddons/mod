@@ -1,13 +1,13 @@
 package org.blackaddons.core.backend.auth
 
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.chat.ChatClick
 import org.blackaddons.api.chat.ChatMessage
 import org.blackaddons.api.util.I18n
 import org.blackaddons.api.util.concurrent.OffThread
 import org.blackaddons.api.util.io.Gsons
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.backend.auth.Elevation.possible
@@ -147,7 +147,7 @@ internal object Elevation {
             else -> return Outcome.FAILED
         }
 
-        val json = runCatching { JsonParser.parseString(response.body).asJsonObject }.getOrNull()
+        val json = parseJsonObject(response.body)
             ?: return Outcome.FAILED
         val raised = json.string("token") ?: return Outcome.FAILED
 

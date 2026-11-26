@@ -1,7 +1,7 @@
 package org.blackaddons.core.backend.gateway
 
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.gateway.Op.MESSAGE_SEND
 import org.blackaddons.core.backend.gateway.Op.RUN_START
 
@@ -99,7 +99,7 @@ internal data class Frame(val op: String, val d: JsonObject) {
 
     companion object {
         fun decode(text: String): Frame? {
-            val root = runCatching { JsonParser.parseString(text).asJsonObject }.getOrNull() ?: return null
+            val root = parseJsonObject(text) ?: return null
             val op = root.get("op")?.takeIf { it.isJsonPrimitive }?.asString?.takeIf { it.isNotBlank() } ?: return null
             val payload = root.get("d")?.takeIf { it.isJsonObject }?.asJsonObject ?: JsonObject()
             return Frame(op, payload)

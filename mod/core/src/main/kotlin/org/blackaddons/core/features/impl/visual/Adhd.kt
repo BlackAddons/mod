@@ -14,7 +14,6 @@ import org.blackaddons.api.util.io.FileFormat
 import java.awt.Color
 import java.nio.file.Path
 import kotlin.random.Random
-import kotlin.time.Duration.Companion.milliseconds
 
 object Adhd : Feature(
     description = "Bounces an image around your screen like the DVD logo.",
@@ -56,7 +55,7 @@ object Adhd : Feature(
     private class Bouncer(var x: Float, var y: Float, var dirX: Float, var dirY: Float, var tint: Color? = null)
 
     private val bouncers = mutableListOf<Bouncer>()
-    private val frameClock = FrameClock(cap = 100.milliseconds)
+    private val frameClock = FrameClock()
 
     override fun init() {
         register<RenderHudEvent> { draw() }

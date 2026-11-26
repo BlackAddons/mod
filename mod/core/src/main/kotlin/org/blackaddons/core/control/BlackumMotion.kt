@@ -3,6 +3,7 @@ package org.blackaddons.core.control
 import org.blackaddons.api.player.BlackumAim
 import org.blackaddons.api.player.ReactionMode
 import org.blackaddons.api.util.TICKS_PER_SECOND
+import org.blackaddons.api.util.expSmoothing
 import org.blackaddons.api.world.Vec3d
 import org.blackaddons.api.world.ViewAngles
 import org.blackaddons.core.control.CorrectionTable.CORRECTION_GAIN
@@ -342,7 +343,7 @@ internal class BlackumMotion(private val params: BlackumAim, private val random:
 
     private fun refractoryDraw(): Double = hand.refractory * uniform(0.85, 1.15)
 
-    private fun smoothing(dt: Double, time: Double): Double = if (time <= 0) 1.0 else 1 - exp(-dt / time)
+    private fun smoothing(dt: Double, time: Double): Double = if (time <= 0) 1.0 else expSmoothing(dt, 1 / time)
 
     private fun gauss(): Double = random.nextGaussian()
 

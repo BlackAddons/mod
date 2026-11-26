@@ -2,9 +2,13 @@ package org.blackaddons.api.util.io
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 
 /** Null-tolerant Gson navigation: missing or wrong-typed fields become null/defaults instead of throwing. */
+
+/** [text] as a JSON object, or null when it doesn't parse or isn't an object. */
+fun parseJsonObject(text: String): JsonObject? = runCatching { JsonParser.parseString(text).asJsonObject }.getOrNull()
 
 fun JsonObject?.child(key: String): JsonObject? =
     this?.get(key) as? JsonObject

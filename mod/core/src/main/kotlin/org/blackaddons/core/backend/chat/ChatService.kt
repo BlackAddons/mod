@@ -2,7 +2,6 @@ package org.blackaddons.core.backend.chat
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import org.blackaddons.api.Platform
 import org.blackaddons.api.event.EventBus
 import org.blackaddons.api.event.chat.IrcMessageEvent
@@ -10,6 +9,7 @@ import org.blackaddons.api.event.chat.IrcQuote
 import org.blackaddons.api.event.chat.IrcSource
 import org.blackaddons.api.util.Uuids
 import org.blackaddons.api.util.concurrent.OffThread
+import org.blackaddons.api.util.io.parseJsonObject
 import org.blackaddons.core.backend.Backend
 import org.blackaddons.core.backend.Http
 import org.blackaddons.core.backend.gateway.Gateway
@@ -254,7 +254,7 @@ internal object ChatService {
     private class Page(val lines: List<ChatLine>, val hasMore: Boolean)
 
     private fun parsePage(body: String): Page {
-        val root = runCatching { JsonParser.parseString(body).asJsonObject }.getOrNull() ?: return Page(emptyList(), false)
+        val root = parseJsonObject(body) ?: return Page(emptyList(), false)
         val messages = root.get("messages")?.takeIf { it.isJsonArray }?.asJsonArray ?: return Page(emptyList(), false)
         val lines = messages.mapNotNull { element ->
             element?.takeIf { it.isJsonObject }?.asJsonObject?.let(ChatJson::line)
