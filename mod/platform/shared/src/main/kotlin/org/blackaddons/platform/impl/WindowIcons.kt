@@ -7,8 +7,6 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.DataOutputStream
 import java.io.InputStream
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Proxy
 
 /**
  * The game reads its window icon from a pack (`icons/...` at the root), so a custom icon is that pack with our files on
@@ -30,27 +28,9 @@ internal object WindowIcons {
     fun iconSet(custom: Boolean): IconSet =
         if (custom || SharedConstants.getCurrentVersion().stable()) IconSet.RELEASE else IconSet.SNAPSHOT
 
-    /** [pack], but root lookups check [files] first. [type] is the interface setIcon takes on this version. */
-    fun <T : Any> overlay(pack: T, type: Class<T>, files: Map<String, ByteArray>): T =
-        type.cast(
-            Proxy.newProxyInstance(type.classLoader, arrayOf(type)) { _, method, args ->
-                val bytes = if (method.name == ROOT_LOOKUP) files[rootPath(args)] else null
-                if (bytes != null) {
-                    IoSupplier<InputStream> { ByteArrayInputStream(bytes) }
-                } else {
-                    try {
-                        method.invoke(pack, *(args ?: emptyArray()))
-                    } catch (e: InvocationTargetException) {
-                        throw e.cause ?: e
-                    }
-                }
-            },
-        )
-
-    private const val ROOT_LOOKUP = "getRootResource"
-
-    private fun rootPath(args: Array<out Any?>?): String? =
-        (args?.singleOrNull() as? Array<*>)?.joinToString("/")
+    /** Our file at a root [path] the game asks a pack for, or null to let the pack answer. */
+    fun rootResource(files: Map<String, ByteArray>, path: Array<out String>): IoSupplier<InputStream>? =
+        files[path.joinToString("/")]?.let { bytes -> IoSupplier { ByteArrayInputStream(bytes) } }
 
     private fun icns(pngBySize: Map<Int, ByteArray>): ByteArray? {
         val entries = ICNS_TYPES.mapNotNull { (size, type) -> pngBySize[size]?.let { type to it } }

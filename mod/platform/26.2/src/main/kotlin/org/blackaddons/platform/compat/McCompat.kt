@@ -105,7 +105,12 @@ internal fun ClientboundPlayerChatPacket.unsignedContentOrNull(): Component? = u
 /** 26.3 changed the pack type that window icons are read through. */
 internal fun Minecraft.setWindowIcon(files: Map<String, ByteArray>?) {
     val vanilla: PackResources = vanillaPackResources
-    val pack = files?.let { WindowIcons.overlay(vanilla, PackResources::class.java, it) } ?: vanilla
+    val pack = files?.let {
+        object : PackResources by vanilla {
+            override fun getRootResource(vararg path: String) =
+                WindowIcons.rootResource(it, path) ?: vanilla.getRootResource(*path)
+        }
+    } ?: vanilla
     window.setIcon(pack, WindowIcons.iconSet(custom = files != null))
 }
 
