@@ -1,11 +1,14 @@
 package org.blackaddons.platform.hypixel
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.loader.api.FabricLoader
 import net.hypixel.modapi.HypixelModAPI
 import net.hypixel.modapi.packet.impl.clientbound.ClientboundPartyInfoPacket
 import net.hypixel.modapi.packet.impl.serverbound.ServerboundPartyInfoPacket
+import net.minecraft.client.Minecraft
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
@@ -43,6 +46,11 @@ internal object PartyInfoChannel {
     private fun ownChannel(): PartyTransport {
         PayloadTypeRegistry.serverboundPlay().register(Request.TYPE, Request.CODEC)
         PayloadTypeRegistry.clientboundPlay().register(Answer.TYPE, Answer.CODEC)
+        PayloadTypeRegistry.clientboundConfiguration().register(Hello.TYPE, Hello.CODEC)
+        PayloadTypeRegistry.clientboundPlay().register(Hello.TYPE, Hello.CODEC)
+        ClientConfigurationNetworking.registerGlobalReceiver(Hello.TYPE) { _, _ -> onHypixel = true }
+        ClientPlayNetworking.registerGlobalReceiver(Hello.TYPE) { _, _ -> onHypixel = true }
+        ClientPlayConnectionEvents.DISCONNECT.register { _, _ -> onHypixel = false }
         ClientPlayNetworking.registerGlobalReceiver(Answer.TYPE) { answer, _ ->
             when {
                 answer.roles != null -> CoreParty.answered(answer.roles)
@@ -50,10 +58,23 @@ internal object PartyInfoChannel {
                 else -> CoreParty.refused("answer in another protocol version", rateLimited = false)
             }
         }
-        // The server lists the channels it takes, so this is false off Hypixel.
+        // Hypixel never lists its channels, so canSend stays false there. Its hello is the sign, like the Mod API mod.
         return PartyTransport("own hypixel:party_info") {
-            ClientPlayNetworking.canSend(Request.TYPE).also { if (it) ClientPlayNetworking.send(Request) }
+            (onHypixel && Minecraft.getInstance().connection != null).also { if (it) ClientPlayNetworking.send(Request) }
         }
+    }
+
+    @Volatile
+    private var onHypixel = false
+
+    private object Hello : CustomPacketPayload {
+        val TYPE = CustomPacketPayload.Type<Hello>(Identifier.fromNamespaceAndPath("hypixel", "hello"))
+        val CODEC: StreamCodec<FriendlyByteBuf, Hello> = CustomPacketPayload.codec({ _, _ -> }) { buf ->
+            buf.skipBytes(buf.readableBytes())
+            Hello
+        }
+
+        override fun type() = TYPE
     }
 
     private val ID = Identifier.fromNamespaceAndPath("hypixel", "party_info")

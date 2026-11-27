@@ -1,19 +1,20 @@
 package org.blackaddons.platform.event
 
+import net.fabricmc.fabric.impl.networking.RegistrationPayload
 import net.minecraft.client.Minecraft
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket
 import net.minecraft.network.protocol.common.custom.BrandPayload
+import net.minecraft.resources.Identifier
 import org.blackaddons.api.event.EventBus
 import org.blackaddons.api.event.EventListener
 import org.blackaddons.api.event.EventPriority
 import org.blackaddons.api.event.network.CustomPayloadSendEvent
 import org.blackaddons.core.log.Log
 import org.blackaddons.platform.event.impl.PacketEvent
-import org.blackaddons.platform.util.PayloadHelper
 
 /**
  * Posts outgoing custom payloads as [CustomPayloadSendEvent] and applies the result: cancel drops, an announce list
- * re-sends the handshake. Lives here because rebuilding needs reflection over Fabric internals ([PayloadHelper]).
+ * re-sends the handshake. Lives here because the handshake is Fabric's internal [RegistrationPayload].
  */
 object CustomPayloadEmitter {
 
@@ -33,7 +34,8 @@ object CustomPayloadEmitter {
 
         val channel = payload.type().id.toString()
         val registration = channel == "minecraft:register" || channel == "minecraft:unregister"
-        val announced = if (registration) PayloadHelper.readChannels(payload).orEmpty() else emptyList()
+        val registered = payload as? RegistrationPayload
+        val announced = registered?.channels()?.map(Identifier::toString).orEmpty()
 
         val decision = EventBus.post(CustomPayloadSendEvent(channel, registration, announced))
         if (decision.cancelled) {
@@ -42,14 +44,14 @@ object CustomPayloadEmitter {
         }
 
         val announce = decision.announceChannels?.takeIf { registration } ?: return
-        val rewritten = PayloadHelper.createRegisterPayload(payload, announce.toSet())
-        if (rewritten == null) {
+        if (registered == null) {
             // Sending the original beats dropping a handshake the server might be waiting on.
-            Log.main.warn("No compatible payload constructor for $channel - sent unchanged")
+            Log.main.warn("$channel is not Fabric's RegistrationPayload - sent unchanged")
             return
         }
         event.cancelled = true
-        resend(ServerboundCustomPayloadPacket(rewritten))
+        val ids = announce.toSet().mapNotNull(Identifier::tryParse)
+        resend(ServerboundCustomPayloadPacket(RegistrationPayload(registered.type(), ids)))
     }
 
     private fun resend(packet: ServerboundCustomPayloadPacket) {
