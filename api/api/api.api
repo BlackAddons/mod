@@ -7832,16 +7832,18 @@ public final class org/blackaddons/api/util/io/PortableRead$TooLarge : org/black
 public final class org/blackaddons/api/world/BlockAppearance {
 	public static final field Companion Lorg/blackaddons/api/world/BlockAppearance$Companion;
 	public static final field UNTINTED I
-	public fun <init> (Ljava/lang/String;ILjava/util/Map;)V
-	public synthetic fun <init> (Ljava/lang/String;ILjava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;ILjava/util/Map;Z)V
+	public synthetic fun <init> (Ljava/lang/String;ILjava/util/Map;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()I
 	public final fun component3 ()Ljava/util/Map;
-	public final fun copy (Ljava/lang/String;ILjava/util/Map;)Lorg/blackaddons/api/world/BlockAppearance;
-	public static synthetic fun copy$default (Lorg/blackaddons/api/world/BlockAppearance;Ljava/lang/String;ILjava/util/Map;ILjava/lang/Object;)Lorg/blackaddons/api/world/BlockAppearance;
+	public final fun component4 ()Z
+	public final fun copy (Ljava/lang/String;ILjava/util/Map;Z)Lorg/blackaddons/api/world/BlockAppearance;
+	public static synthetic fun copy$default (Lorg/blackaddons/api/world/BlockAppearance;Ljava/lang/String;ILjava/util/Map;ZILjava/lang/Object;)Lorg/blackaddons/api/world/BlockAppearance;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBlockId ()Ljava/lang/String;
 	public final fun getProperties ()Ljava/util/Map;
+	public final fun getReshape ()Z
 	public final fun getTintRgb ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -7923,6 +7925,21 @@ public final class org/blackaddons/api/world/BlockPos3 {
 	public final fun getX ()I
 	public final fun getY ()I
 	public final fun getZ ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class org/blackaddons/api/world/BlockStateProperty {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;)Lorg/blackaddons/api/world/BlockStateProperty;
+	public static synthetic fun copy$default (Lorg/blackaddons/api/world/BlockStateProperty;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;ILjava/lang/Object;)Lorg/blackaddons/api/world/BlockStateProperty;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDefault ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getValues ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -8136,7 +8153,9 @@ public abstract interface class org/blackaddons/api/world/WorldHost {
 	public abstract fun blockAimPoint (III)Lorg/blackaddons/api/world/Vec3d;
 	public abstract fun blockIdAt (III)Ljava/lang/String;
 	public fun blockOutlineBoxes (III)Ljava/util/List;
+	public fun blockProperties (III)Ljava/util/Map;
 	public fun blockProperty (IIILjava/lang/String;)Ljava/lang/String;
+	public fun blockStateProperties (Ljava/lang/String;)Ljava/util/List;
 	public fun chunkSnapshot (II)Lorg/blackaddons/api/world/TerrainSnapshot;
 	public fun collides (Lorg/blackaddons/api/world/Box3d;)Z
 	public abstract fun entitiesNear (DDDD)Ljava/util/List;
@@ -8169,7 +8188,9 @@ public abstract interface class org/blackaddons/api/world/WorldHost {
 
 public final class org/blackaddons/api/world/WorldHost$DefaultImpls {
 	public static fun blockOutlineBoxes (Lorg/blackaddons/api/world/WorldHost;III)Ljava/util/List;
+	public static fun blockProperties (Lorg/blackaddons/api/world/WorldHost;III)Ljava/util/Map;
 	public static fun blockProperty (Lorg/blackaddons/api/world/WorldHost;IIILjava/lang/String;)Ljava/lang/String;
+	public static fun blockStateProperties (Lorg/blackaddons/api/world/WorldHost;Ljava/lang/String;)Ljava/util/List;
 	public static fun chunkSnapshot (Lorg/blackaddons/api/world/WorldHost;II)Lorg/blackaddons/api/world/TerrainSnapshot;
 	public static fun collides (Lorg/blackaddons/api/world/WorldHost;Lorg/blackaddons/api/world/Box3d;)Z
 	public static fun flattenLegacyBlock (Lorg/blackaddons/api/world/WorldHost;Ljava/lang/String;)Lorg/blackaddons/api/world/BlockPlacement;
