@@ -10,6 +10,7 @@ import org.blackaddons.api.ui.screen.UiManager
 import org.blackaddons.api.util.dev.DevFileLogger
 import org.blackaddons.api.util.equalsIgnoreCase
 import org.blackaddons.api.util.startsWithIgnoreCase
+import org.blackaddons.core.features.impl.client.ModlistHider.FABRIC_API_CHANNELS
 import org.blackaddons.core.features.impl.client.ModlistHider.HYPIXEL_CHANNELS
 import org.blackaddons.core.features.impl.client.ModlistHider.chooseMods
 import org.blackaddons.core.ui.screen.ModPickerScreen
@@ -18,8 +19,8 @@ import org.blackaddons.core.ui.screen.ModPickerScreen
  * Hides installed mods from the server. All disclosure points are events.
  * - Vanilla: drops every C2S custom payload, channel registration included, hides fabric packs, brand `"vanilla"`. The
  *   brand payload still goes out, because vanilla always sends one.
- * - Hypixel: like Vanilla, but [HYPIXEL_CHANNELS] pass and are the only ones announced (the Mod API isn't a
- *   fingerprint).
+ * - Hypixel: looks like Fabric + Fabric API + the Hypixel Mod API. Fabric's brand, and only [HYPIXEL_CHANNELS] and
+ *   [FABRIC_API_CHANNELS] pass and get announced. No real client sends vanilla's brand with a channel list.
  * - Custom: allowed channels/mods and a custom brand. "Disable Custom Payloads" also filters the announcement.
  * No "Modded" mode: that's just this feature off (Fabric already reports `"fabric"`).
  */
@@ -31,6 +32,9 @@ object ModlistHider : Feature(
 
     /** `hyevent:` carries the location packet other mods wait for. */
     private val HYPIXEL_CHANNELS = listOf("hypixel:", "hyevent:")
+
+    /** The Hypixel Mod API mod needs Fabric API, so its channels belong in that shape. */
+    private val FABRIC_API_CHANNELS = listOf("fabric:", "fabric-")
 
     private val modeSetting by mode(
         name = "Mode",
@@ -55,7 +59,7 @@ object ModlistHider : Feature(
         default = listOf(
             "fabric:attachment_sync_v1",
             "fabric:recipe_sync",
-            "fabric-screen-handler-api-v1:open_screen",
+            "fabric-menu-api-v1:open_screen",
             "hypixel:ping",
             "hypixel:party_info",
             "hypixel:player_info",
@@ -104,7 +108,7 @@ object ModlistHider : Feature(
     private fun allowed(channel: String): Boolean {
         val prefixes = when (mode) {
             Mode.VANILLA -> return false
-            Mode.HYPIXEL -> HYPIXEL_CHANNELS
+            Mode.HYPIXEL -> HYPIXEL_CHANNELS + FABRIC_API_CHANNELS
             Mode.CUSTOM -> allowedChannelsSetting.value
         }
         return prefixes.any { channel.startsWithIgnoreCase(it) }
@@ -135,7 +139,8 @@ object ModlistHider : Feature(
         register<ClientBrandEvent> {
             if (!shouldSpoof) return@register
             event.brand = when (mode) {
-                Mode.VANILLA, Mode.HYPIXEL -> event.vanillaBrand
+                Mode.VANILLA -> event.vanillaBrand
+                Mode.HYPIXEL -> null
                 Mode.CUSTOM -> customBrand.value.takeIf { it.isNotEmpty() }
             }
         }
