@@ -83,14 +83,17 @@ public abstract class ModelBlockRendererMixin {
         BakedQuad quad,
         CallbackInfo ci
     ) {
-        if (this.blackaddons$fmeTint == 0xFFFFFF) {
+        int tint = this.blackaddons$fmeTint;
+        if (this.blackaddons$fmeTextureState != null) {
+            tint = FmeBlockRemapper.multiplyTint(
+                tint, FmeBlockRemapper.textureTint(this.blackaddons$fmeTextureState, quad.direction(), level, pos)
+            );
+        }
+        if ((tint & 0xFFFFFF) == 0xFFFFFF) {
             return;
         }
         for (int vertex = 0; vertex < 4; vertex++) {
-            this.quadInstance.setColor(
-                vertex,
-                FmeBlockRemapper.multiplyTint(this.quadInstance.getColor(vertex), this.blackaddons$fmeTint)
-            );
+            this.quadInstance.setColor(vertex, FmeBlockRemapper.multiplyTint(this.quadInstance.getColor(vertex), tint));
         }
     }
 }

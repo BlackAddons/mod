@@ -28,13 +28,14 @@ internal class FmeWorldEditor(
     private val profileId: () -> String,
     private val activeScope: () -> FmeScope,
     private val selectedBlockId: () -> String,
+    private val selectedProperties: () -> Map<String, String>,
     private val anyBlock: () -> Boolean,
     private val scopeLabel: (FmeScope) -> String,
     private val renderIndex: () -> FmeRenderIndex,
     private val blockEntry: (String) -> BlockCatalogEntry?,
     private val snapshot: () -> FmeSnapshot,
     private val beforeMutation: () -> Unit,
-    private val selectBlock: (String) -> Boolean,
+    private val selectBlockState: (String, Map<String, String>) -> Boolean,
     private val onReplacementChanged: (FmeSnapshot) -> Unit,
 ) {
     fun handleClick(button: Int) {
@@ -52,13 +53,21 @@ internal class FmeWorldEditor(
         }
     }
 
-    /** Picks by what's drawn, so clicking an edited block picks its replacement. */
-    fun pickBlock() {
+    /**
+     * Picks by what's drawn, so clicking an edited block picks its replacement. [withState] copies its drawn state too.
+     */
+    fun pickBlock(withState: Boolean) {
         val target = pickTarget() ?: return
-        val shown = if (target.ghost) target.blockId else {
-            Fme.appearanceAt(target.pos.x, target.pos.y, target.pos.z, target.blockId, originalIsAir = false)?.blockId ?: target.blockId
+        val appearance = Fme.appearanceAt(
+            target.pos.x, target.pos.y, target.pos.z, if (target.ghost) AIR_ID else target.blockId, originalIsAir = target.ghost,
+        )
+        val shown = if (target.ghost) target.blockId else appearance?.blockId ?: target.blockId
+        if (!withState) {
+            selectBlockState(shown, emptyMap())
+            return
         }
-        selectBlock(shown)
+        val real = if (target.ghost) emptyMap() else Platform.world.blockProperties(target.pos.x, target.pos.y, target.pos.z)
+        selectBlockState(shown, real + appearance?.properties.orEmpty())
     }
 
     /** In a dungeon, only the boss room counts as a location. */
@@ -108,6 +117,12 @@ internal class FmeWorldEditor(
         return nearest
     }
 
+    fun quarterTurns(scope: FmeScope, scopeKey: String): Int {
+        if (scope != FmeScope.DUNGEON) return 0
+        val room = MapState.uniqueRooms[scopeKey] ?: MapState.uniqueRooms.values.find { it.name == scopeKey }
+        return room?.transform?.quarterTurns ?: 0
+    }
+
     fun worldPosition(key: FmePositionKey): BlockPos3? = worldTransform(key.scope, key.scopeKey)
         ?.invoke(key.x, key.z)
         ?.let { (x, z) -> BlockPos3(x, key.y, z) }
@@ -142,11 +157,13 @@ internal class FmeWorldEditor(
         val name = selected.substringAfter(':').split('_').joinToString(" ") { word -> word.replaceFirstChar { it.uppercase() } }
         val scope = scopeLabel(activeScope())
         val mode = if (anyBlock()) tr("any_block", "Any block") else null
+        val state = selectedProperties().entries.joinToString(", ") { "${it.key}=${it.value}" }.takeIf(String::isNotEmpty)
         val nameW = Render.textWidth(name, Theme.FONT_SMALL, Fonts.medium)
         val scopeW = Render.textWidth(scope, Theme.FONT_SMALL, Fonts.regular)
         val modeW = mode?.let { Render.textWidth(it, Theme.FONT_SMALL, Fonts.medium) } ?: 0f
-        val w = maxOf(nameW, scopeW, modeW) + if (entry == null) 16f else 38f
-        val h = if (mode == null) 34f else 47f
+        val stateW = state?.let { Render.textWidth(it, Theme.FONT_SMALL, Fonts.regular) } ?: 0f
+        val w = maxOf(nameW, scopeW, modeW, stateW) + if (entry == null) 16f else 38f
+        val h = 34f + (if (mode == null) 0f else 13f) + (if (state == null) 0f else 13f)
         return column {
             cell(w, h) { x, y ->
                 Render.rect(x, y, w, h, Theme.BACKGROUND.withAlpha(205), Theme.RADIUS_SMALL)
@@ -155,6 +172,7 @@ internal class FmeWorldEditor(
                 Render.text(name, textX, y + 6f, TextStyle.SMALL_PRIMARY_MEDIUM)
                 Render.text(scope, textX, y + 19f, TextStyle.SMALL_MUTED)
                 if (mode != null) Render.text(mode, textX, y + 32f, Theme.FONT_SMALL, Theme.ACCENT, Fonts.medium)
+                if (state != null) Render.text(state, textX, y + if (mode == null) 32f else 45f, TextStyle.SMALL_MUTED)
             }
         }
     }
@@ -195,7 +213,9 @@ internal class FmeWorldEditor(
         beforeMutation()
         val placement = Platform.world.placementAt(selected, target.pos, target.face, target.point)
         val blockId = placement?.blockId ?: selected
-        val properties = placement?.properties.orEmpty()
+        // Pinned keys win. A wall variant only keeps the ones it has.
+        val names = Platform.world.blockStateProperties(blockId).mapTo(HashSet()) { it.name }
+        val properties = placement?.properties.orEmpty() + selectedProperties().filterKeys(names::contains)
         val stored = when (val scope = activeScope()) {
             FmeScope.GLOBAL -> return false
             FmeScope.LOCATION -> FmeReplacement(

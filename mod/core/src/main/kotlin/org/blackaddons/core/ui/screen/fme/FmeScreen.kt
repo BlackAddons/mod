@@ -248,6 +248,9 @@ internal class FmeScreen : ModalPanel("") {
                 })
             }
             add(ContextMenu.Item(tr("change_tint", "Change tint..."), LucideIcons.settings) { openBlockTint(entry.blockId, anchor) })
+            if (Platform.world.blockStateProperties(entry.blockId).isNotEmpty()) {
+                add(ContextMenu.Item(tr("block_state", "Block state..."), LucideIcons.settings) { openSelectedState(entry.blockId) })
+            }
             add(ContextMenu.Separator)
             add(ContextMenu.Item(
                 if (favorite) tr("unfavorite", "Remove from favorites") else tr("favorite", "Add to favorites"),
@@ -259,6 +262,13 @@ internal class FmeScreen : ModalPanel("") {
             add(ContextMenu.Item(tr("copy_block_id", "Copy block ID"), LucideIcons.copy) { Platform.clipboard.copy(entry.blockId) })
         }
         UiManager.contextMenu(entries)
+    }
+
+    private fun openSelectedState(blockId: String) {
+        val current = if (blockId == Fme.selectedBlockId()) Fme.selectedProperties() else emptyMap()
+        UiManager.push(FmeBlockStateModal(blockId, listOf(current)) { edits ->
+            Fme.selectBlockState(blockId, current.withFmeEdits(edits))
+        })
     }
 
     private fun openBlockTint(blockId: String, anchor: Rect) {
@@ -310,6 +320,11 @@ internal class FmeScreen : ModalPanel("") {
             add(ContextMenu.Item(tr("set_tint", "Set tint..."), LucideIcons.settings) { openTint(group, anchor) })
             if (group.tintRgb != DEFAULT_TINT_RGB) {
                 add(ContextMenu.Item(tr("reset_tint", "Reset tint"), LucideIcons.rotateCcw) { Fme.setTint(group, DEFAULT_TINT_RGB) })
+            }
+            if (!anyTint && Platform.world.blockStateProperties(group.blockId).isNotEmpty()) {
+                add(ContextMenu.Item(tr("edit_state", "Edit state..."), LucideIcons.settings) {
+                    UiManager.push(FmeBlockStateModal(group.blockId, Fme.groupStates(group)) { edits -> Fme.setGroupState(group, edits) })
+                })
             }
             add(ContextMenu.Item(if (group.enabled) tr("disable_rule", "Disable") else tr("enable_rule", "Enable"), if (group.enabled) LucideIcons.eyeOff else LucideIcons.eye) {
                 Fme.setGroupEnabled(group, !group.enabled)
@@ -396,7 +411,12 @@ internal class FmeScreen : ModalPanel("") {
         val key = contextKey(activeScope) ?: return
         val target = Fme.selectedBlockId()
         val group = replaceGroup
-        val saved = if (group != null) Fme.setPositionReplacement(group, target) else Fme.setTypeReplacement(activeScope, key, source, target)
+        val pinned = Fme.selectedProperties()
+        val saved = if (group != null) {
+            Fme.setPositionReplacement(group, target, pinned)
+        } else {
+            Fme.setTypeReplacement(activeScope, key, source, target, pinned)
+        }
         if (!saved) return
         cancelRule()
         Toasts.show(tr("rule_saved", "Saved %s → %s.", displayName(source), displayName(target)), kind = ToastKind.SUCCESS)

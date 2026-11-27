@@ -194,6 +194,9 @@ internal class FmeBlockBrowser(
         if (group.kind == FmeManagedKind.POSITION) append(" ×").append(group.count)
         append('\n').append(tr("scope_value", "Scope: %s", group.scopeKey.ifEmpty { tr("everywhere", "Everywhere") }))
         append('\n').append(tr("tint_value", "Tint: #%06X", group.tintRgb))
+        Fme.groupStates(group).filter(Map<String, String>::isNotEmpty).forEach { state ->
+            append('\n').append(tr("state_value", "State: %s", state.entries.joinToString(", ") { "${it.key}=${it.value}" }))
+        }
         if (!group.enabled) append('\n').append(tr("disabled", "Disabled"))
         if (group.ghost) append('\n').append(tr("visual_block", "Visual block"))
     }

@@ -2,6 +2,7 @@ package org.blackaddons.platform.mixin.fme.sodium;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.blackaddons.platform.features.impl.visual.fme.FmeBlockRemapper;
@@ -29,7 +30,7 @@ public abstract class SodiumLevelSliceMixin {
     )
     private void blackaddons$remapFmeState(int x, int y, int z, CallbackInfoReturnable<BlockState> cir) {
         BlockState original = cir.getReturnValue();
-        BlockState mapped = FmeBlockRemapper.remap(original, x, y, z);
+        BlockState mapped = FmeBlockRemapper.remap(original, x, y, z, (BlockGetter) (Object) this, this.level);
         if (mapped != original) {
             cir.setReturnValue(mapped);
         }

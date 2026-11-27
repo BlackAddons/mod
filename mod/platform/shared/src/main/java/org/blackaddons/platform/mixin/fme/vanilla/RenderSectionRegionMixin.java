@@ -3,6 +3,7 @@ package org.blackaddons.platform.mixin.fme.vanilla;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.chunk.RenderSectionRegion;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.blackaddons.platform.features.impl.visual.fme.FmeBlockRemapper;
@@ -22,7 +23,7 @@ public abstract class RenderSectionRegionMixin {
     @Inject(method = "getBlockState", at = @At("RETURN"), cancellable = true)
     private void blackaddons$remapFmeState(BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
         BlockState original = cir.getReturnValue();
-        BlockState mapped = FmeBlockRemapper.remap(original, pos.getX(), pos.getY(), pos.getZ());
+        BlockState mapped = FmeBlockRemapper.remap(original, pos.getX(), pos.getY(), pos.getZ(), (BlockGetter) (Object) this, this.level);
         if (mapped != original) {
             cir.setReturnValue(mapped);
         }

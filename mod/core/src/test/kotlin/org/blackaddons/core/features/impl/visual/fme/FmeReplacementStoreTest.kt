@@ -362,4 +362,56 @@ class FmeReplacementStoreTest {
         assertEquals(mapOf("facing" to "east"), store.get("default", context, 5, 71, 2)?.properties)
         assertFalse(store.updateBlock(setOf(gold), "minecraft:diamond_block"))
     }
+
+    @Test
+    fun `editing a group's state pins and unpins only the edited properties of every variant`() {
+        val positions = FmeReplacementStore()
+        val types = FmeTypeReplacementStore()
+        val rules = FmeRules(
+            replacements = positions,
+            typeReplacements = types,
+            profileId = { "default" },
+            isKnownBlock = { true },
+            snapshot = { FmeSnapshot(positions.snapshot(), types.lines()) },
+            remember = {},
+            persistAll = {},
+            persistReplacements = {},
+            persistTypeReplacements = {},
+            refreshRendering = {},
+        )
+        val empty = FmeReplacement(scopeKey = "F7 P3", x = 1, y = 70, z = 2, sourceBlockId = FME_ANY_SOURCE, blockId = "minecraft:respawn_anchor")
+        positions.put(empty)
+        positions.put(empty.copy(x = 2, properties = mapOf("charges" to "4", "lit" to "true")))
+        val context = FmeContext(FmeScope.LOCATION, "F7 P3")
+        val group = FmeManagedGroup(
+            kind = FmeManagedKind.POSITION, scope = FmeScope.LOCATION, scopeKey = "F7 P3",
+            sourceBlockId = FME_ANY_SOURCE, blockId = "minecraft:respawn_anchor", ghost = false,
+            tintRgb = DEFAULT_TINT_RGB, enabled = true, updatedAt = 0L,
+            ruleKeys = positions.rules("default", FmeScope.LOCATION).mapTo(linkedSetOf(), FmePositionRule::key),
+        )
+        val edits = mapOf("charges" to "2", "lit" to null)
+
+        assertTrue(rules.setProperties(group) { it.withFmeEdits(edits) })
+
+        assertEquals(mapOf("charges" to "2"), positions.get("default", context, 1, 70, 2)?.properties)
+        assertEquals(mapOf("charges" to "2"), positions.get("default", context, 2, 70, 2)?.properties)
+        assertEquals(1, positions.rules("default", FmeScope.LOCATION).size)
+        assertFalse(rules.setProperties(group.copy(ruleKeys = positions.rules("default", FmeScope.LOCATION).mapTo(linkedSetOf()) { it.key })) {
+            it.withFmeEdits(edits)
+        })
+
+        types.put(FmeTypeReplacement(sourceBlockId = "minecraft:stone", blockId = "minecraft:respawn_anchor"))
+        val typeKey = FmeTypeKey("default", FmeScope.GLOBAL, "", "minecraft:stone")
+        assertTrue(rules.setProperties(group.copy(kind = FmeManagedKind.TYPE, ruleKeys = emptySet(), typeKey = typeKey)) { it.withFmeEdits(edits) })
+        assertEquals(mapOf("charges" to "2"), types.get(typeKey)?.properties)
+    }
+
+    @Test
+    fun `selected state text keeps valid pairs only`() {
+        val state = parseFmeState("charges=4, lit=true,Bad Name=x,candles=,=3,waterlogged=no spaces")
+
+        assertEquals(mapOf("charges" to "4", "lit" to "true"), state)
+        assertEquals("charges=4,lit=true", formatFmeState(state))
+        assertEquals(emptyMap<String, String>(), parseFmeState(""))
+    }
 }

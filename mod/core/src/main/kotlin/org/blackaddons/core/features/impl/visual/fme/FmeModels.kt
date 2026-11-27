@@ -189,7 +189,11 @@ internal class FmeReplacementStore {
 
     fun updateSource(keys: Set<FmeRuleKey>, sourceBlockId: String): Boolean = rekey(keys) { it.copy(sourceBlockId = sourceBlockId) }
 
-    fun updateBlock(keys: Set<FmeRuleKey>, blockId: String): Boolean = rekey(keys) { it.copy(blockId = blockId) }
+    fun updateBlock(keys: Set<FmeRuleKey>, blockId: String, pinned: Map<String, String> = emptyMap()): Boolean =
+        rekey(keys) { it.copy(blockId = blockId, properties = it.properties + pinned) }
+
+    fun updateProperties(keys: Set<FmeRuleKey>, change: (FmeRuleKey) -> Map<String, String>): Boolean =
+        rekey(keys) { it.copy(properties = change(it)) }
 
     fun snapshot(): Map<FmeRuleKey, FmePositionRule> = rules
 
@@ -232,6 +236,7 @@ internal data class FmeTypeReplacement(
     val tintRgb: Int = DEFAULT_TINT_RGB,
     val enabled: Boolean = true,
     val updatedAt: Long = 0L,
+    val properties: Map<String, String> = emptyMap(),
 ) {
     val key get() = FmeTypeKey(profileId, scope, scopeKey, sourceBlockId)
 }
@@ -289,6 +294,13 @@ internal class FmeTypeReplacementStore {
         return true
     }
 
+    fun updateProperties(key: FmeTypeKey, properties: Map<String, String>): Boolean {
+        val existing = values[key] ?: return false
+        if (existing.properties == properties) return false
+        values[key] = existing.copy(properties = properties, updatedAt = System.currentTimeMillis())
+        return true
+    }
+
     fun lines(): List<String> = values.values
         .sortedWith(compareBy(FmeTypeReplacement::profileId, FmeTypeReplacement::scope, FmeTypeReplacement::scopeKey, FmeTypeReplacement::sourceBlockId))
         .map { it.toJson().toString() }
@@ -317,6 +329,7 @@ internal class FmeTypeReplacementStore {
             tintRgb = json.int("tint", DEFAULT_TINT_RGB) and DEFAULT_TINT_RGB,
             enabled = json.bool("enabled", true),
             updatedAt = json.long("updated"),
+            properties = json.get("state")?.takeIf { it.isJsonObject }?.asJsonObject?.let(::parseFmeProperties).orEmpty(),
         )
     }
 }
@@ -349,6 +362,7 @@ private fun FmeTypeReplacement.toJson() = JsonObject().apply {
     addProperty("tint", tintRgb)
     addProperty("enabled", enabled)
     addProperty("updated", updatedAt)
+    if (properties.isNotEmpty()) add("state", fmePropertiesJson(properties))
 }
 
 private fun parseObject(line: String): JsonObject? = runCatching {
@@ -361,6 +375,27 @@ internal fun parseFmeProperties(json: JsonObject): Map<String, String> = json.en
         if (isValidFmeProperty(name, text)) name to text else null
     }
     .toMap()
+
+/** `charges=4,lit=true`. Invalid pairs get skipped. */
+internal fun parseFmeState(text: String): Map<String, String> = text.split(',')
+    .mapNotNull { pair ->
+        val name = pair.substringBefore('=', "").trim()
+        val value = pair.substringAfter('=', "").trim()
+        if (isValidFmeProperty(name, value)) name to value else null
+    }
+    .toMap()
+
+internal fun formatFmeState(properties: Map<String, String>): String =
+    properties.entries.filter { isValidFmeProperty(it.key, it.value) }.joinToString(",") { "${it.key}=${it.value}" }
+
+/** A null value unpins that property. */
+internal fun Map<String, String>.withFmeEdits(edits: Map<String, String?>): Map<String, String> {
+    val next = LinkedHashMap(this)
+    edits.forEach { (name, value) -> if (value == null) next.remove(name) else next[name] = value }
+    return next
+}
+
+internal fun fmePropertiesJson(properties: Map<String, String>) = JsonObject().apply { properties.forEach(::addProperty) }
 
 internal fun isValidFmeProperty(name: String, value: String): Boolean = PROPERTY_TOKEN.matches(name) && PROPERTY_TOKEN.matches(value)
 

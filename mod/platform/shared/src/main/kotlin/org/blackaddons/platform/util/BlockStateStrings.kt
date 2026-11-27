@@ -5,6 +5,7 @@ import net.minecraft.resources.Identifier
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.Property
+import org.blackaddons.api.world.BlockStateProperty
 
 fun blockById(id: String): Block? = Identifier.tryParse(id)?.let { BuiltInRegistries.BLOCK.getOptional(it).orElse(null) }
 
@@ -26,3 +27,6 @@ private fun <T : Comparable<T>> BlockState.valueName(property: Property<T>): Str
 
 private fun <T : Comparable<T>> BlockState.withParsed(property: Property<T>, value: String): BlockState =
     property.getValue(value).map { setValue(property, it) }.orElse(this)
+
+fun <T : Comparable<T>> Property<T>.describe(state: BlockState): BlockStateProperty =
+    BlockStateProperty(name, possibleValues.map { getName(it) }, getName(state.getValue(this)))

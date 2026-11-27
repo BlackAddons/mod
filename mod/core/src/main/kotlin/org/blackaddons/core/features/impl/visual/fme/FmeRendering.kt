@@ -280,7 +280,7 @@ internal fun Map<String, BlockAppearance>.typeAppearance(sourceBlockId: String):
     (get(sourceBlockId) ?: get(FME_ANY_SOURCE))?.let { if (it.blockId == FME_ANY_SOURCE) it.copy(blockId = sourceBlockId) else it }
 
 private fun List<FmeTypeReplacement>.toAppearanceMap(): Map<String, BlockAppearance> =
-    associate { it.sourceBlockId to BlockAppearance(it.blockId, it.tintRgb) }
+    associate { it.sourceBlockId to BlockAppearance(it.blockId, it.tintRgb, it.properties) }
 
 private val FmeRuleKey.targetable: Boolean get() = ghost && blockId != "minecraft:air"
 
@@ -290,6 +290,7 @@ private fun FmeRuleKey.renderPosition(quarterTurns: Int) = FmeRenderPosition(
     appearance = BlockAppearance(
         blockId, tintRgb,
         if (quarterTurns == 0) properties else Platform.world.rotateProperties(blockId, properties, quarterTurns),
+        reshape = true,
     ),
 )
 

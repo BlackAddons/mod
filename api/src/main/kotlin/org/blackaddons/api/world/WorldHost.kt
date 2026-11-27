@@ -10,6 +10,9 @@ data class BlockCatalogEntry(val blockId: String, val itemId: String)
 /** Only non-default state properties, e.g. `facing=north`. */
 data class BlockPlacement(val blockId: String, val properties: Map<String, String>)
 
+/** One state property of a block, values as the game spells them, e.g. `charges` with `0`..`4`. */
+data class BlockStateProperty(val name: String, val values: List<String>, val default: String)
+
 /** Loaded world, computed on read; null/0 without a world. Redraw methods only touch client render data. */
 interface WorldHost {
     val isLoaded: Boolean
@@ -62,6 +65,9 @@ interface WorldHost {
     /** State property as the game spells it (`"true"`, `"north"`); null if absent. */
     fun blockProperty(x: Int, y: Int, z: Int, name: String): String? = null
 
+    /** Every state property of the block, defaults included; empty without a world. */
+    fun blockProperties(x: Int, y: Int, z: Int): Map<String, String> = emptyMap()
+
     /** Profile UUID of a player head's owner; null for other blocks or an unowned head. */
     fun skullOwnerId(x: Int, y: Int, z: Int): String? = null
 
@@ -100,10 +106,13 @@ interface WorldHost {
      */
     fun placementAt(blockId: String, pos: BlockPos3, face: BlockFace, point: Vec3d): BlockPlacement? = null
 
+    /** In the game's order; empty for unknown blocks and blocks without state. */
+    fun blockStateProperties(blockId: String): List<BlockStateProperty> = emptyList()
+
     /** Pre-1.13 state (e.g. `minecraft:stained_glass[color=pink]`) as its modern block, or null. Safe off-thread. */
     fun flattenLegacyBlock(state: String): BlockPlacement? = null
 
-    /** Clockwise from above. */
+    /** Clockwise from above. Keeps every key of [properties], even at its default value. */
     fun rotateProperties(blockId: String, properties: Map<String, String>, quarterTurns: Int): Map<String, String> = properties
 
     /** Rebuilds the render mesh around one block; world state is untouched. */

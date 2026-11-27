@@ -2,12 +2,14 @@ package org.blackaddons.api.world
 
 /**
  * Render-only block replacement; everything else sees the original. [properties]: non-default properties, in world
- * space.
+ * space. [reshape]: draw the state even over the same block, so it connects to drawn neighbors instead of only
+ * retexturing the real one.
  */
 data class BlockAppearance(
     val blockId: String,
     val tintRgb: Int = UNTINTED,
     val properties: Map<String, String> = emptyMap(),
+    val reshape: Boolean = false,
 ) {
     companion object {
         const val UNTINTED = 0xFFFFFF

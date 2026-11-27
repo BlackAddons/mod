@@ -23,7 +23,7 @@ internal class FmeRules(
     fun groups(scope: FmeScope, scopeKey: String): List<FmeManagedGroup> = groups(scope)
         .filter { it.scopeKey == scopeKey }
 
-    fun setTypeReplacement(scope: FmeScope, scopeKey: String, from: String, to: String): Boolean {
+    fun setTypeReplacement(scope: FmeScope, scopeKey: String, from: String, to: String, properties: Map<String, String>): Boolean {
         cancelPendingTint()
         if (scope != FmeScope.GLOBAL && scopeKey.isBlank()) return false
         val anyTint = from == FME_ANY_SOURCE && to == FME_ANY_SOURCE
@@ -38,6 +38,7 @@ internal class FmeRules(
                 tintRgb = existing?.tintRgb ?: DEFAULT_TINT_RGB,
                 enabled = existing?.enabled ?: true,
                 updatedAt = System.currentTimeMillis(),
+                properties = properties,
             ),
         )
         if (!changed) return false
@@ -146,14 +147,31 @@ internal class FmeRules(
         return true
     }
 
-    fun setPositionReplacement(group: FmeManagedGroup, blockId: String): Boolean {
+    fun setPositionReplacement(group: FmeManagedGroup, blockId: String, pinned: Map<String, String>): Boolean {
         if (group.kind != FmeManagedKind.POSITION || !isKnownBlock(blockId)) return false
         cancelPendingTint()
         val before = snapshot()
-        if (!replacements.updateBlock(group.ruleKeys, blockId)) return false
+        if (!replacements.updateBlock(group.ruleKeys, blockId, pinned)) return false
         invalidate()
         remember(before)
         persistReplacements()
+        refreshRendering()
+        return true
+    }
+
+    fun setProperties(group: FmeManagedGroup, change: (Map<String, String>) -> Map<String, String>): Boolean {
+        cancelPendingTint()
+        val before = snapshot()
+        val changed = when (group.kind) {
+            FmeManagedKind.TYPE -> group.typeKey?.let { key ->
+                typeReplacements.get(key)?.let { typeReplacements.updateProperties(key, change(it.properties)) }
+            } == true
+            FmeManagedKind.POSITION -> replacements.updateProperties(group.ruleKeys) { change(it.properties) }
+        }
+        if (!changed) return false
+        invalidate()
+        remember(before)
+        persistAll()
         refreshRendering()
         return true
     }
@@ -181,6 +199,7 @@ internal class FmeRules(
                 profileId = profileId(), scope = targetScope, scopeKey = targetScopeKey,
                 sourceBlockId = group.sourceBlockId, blockId = group.blockId,
                 tintRgb = group.tintRgb, enabled = group.enabled, updatedAt = System.currentTimeMillis(),
+                properties = group.typeKey?.let(typeReplacements::get)?.properties.orEmpty(),
             ),
         )
         if (move) group.typeKey?.let(typeReplacements::remove)

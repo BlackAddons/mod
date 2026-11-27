@@ -367,6 +367,7 @@ internal class FmeStorage(
         val tint: String? = null,
         val enabled: Boolean? = null,
         val updatedAt: Long? = null,
+        val state: JsonObject? = null,
     ) {
         fun replacement(profileId: String): FmeTypeReplacement? {
             val parsedScope = scope?.let { runCatching { FmeScope.valueOf(it) }.getOrNull() } ?: return null
@@ -381,6 +382,7 @@ internal class FmeStorage(
                 tintRgb = parseTint(tint) ?: DEFAULT_TINT_RGB,
                 enabled = enabled ?: true,
                 updatedAt = updatedAt ?: 0L,
+                properties = state?.let(::parseFmeProperties).orEmpty(),
             )
         }
     }
@@ -394,8 +396,7 @@ internal class FmeStorage(
         tint = key.tintRgb.takeUnless { it == DEFAULT_TINT_RGB }?.hex(),
         enabled = key.enabled.takeUnless { it },
         updatedAt = updatedAt.takeUnless { it == 0L },
-        state = key.properties.takeIf(Map<String, String>::isNotEmpty)
-            ?.let { properties -> JsonObject().apply { properties.forEach(::addProperty) } },
+        state = key.properties.takeIf(Map<String, String>::isNotEmpty)?.let(::fmePropertiesJson),
         cells = buildList {
             cells.forEachBox { minX, minY, minZ, maxX, maxY, maxZ ->
                 add(if (minX == maxX && minY == maxY && minZ == maxZ) "$minX,$minY,$minZ" else "$minX,$minY,$minZ,$maxX,$maxY,$maxZ")
@@ -411,6 +412,7 @@ internal class FmeStorage(
         tint = tintRgb.takeUnless { it == DEFAULT_TINT_RGB }?.hex(),
         enabled = enabled.takeUnless { it },
         updatedAt = updatedAt.takeUnless { it == 0L },
+        state = properties.takeIf(Map<String, String>::isNotEmpty)?.let(::fmePropertiesJson),
     )
 
     private class CellBudget {

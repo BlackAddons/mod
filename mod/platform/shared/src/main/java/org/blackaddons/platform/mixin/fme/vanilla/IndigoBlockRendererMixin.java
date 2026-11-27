@@ -26,6 +26,9 @@ public abstract class IndigoBlockRendererMixin {
     @Shadow(remap = false) private BlockState blockState;
     @Unique private int blackaddons$fmeTint = 0xFFFFFF;
     @Unique private BlockState blackaddons$fmeTextureState;
+    @Unique private BlockAndTintGetter blackaddons$level;
+    @Unique private BlockPos blackaddons$pos;
+    @Unique private int blackaddons$textureTint = 0xFFFFFF;
 
     @Inject(method = "tesselateBlock", at = @At("HEAD"), remap = false)
     private void blackaddons$captureFmeTint(
@@ -42,6 +45,8 @@ public abstract class IndigoBlockRendererMixin {
     ) {
         this.blackaddons$fmeTint = FmeBlockRemapper.tintAt(pos.getX(), pos.getY(), pos.getZ());
         this.blackaddons$fmeTextureState = FmeBlockRemapper.textureStateAt(pos.getX(), pos.getY(), pos.getZ());
+        this.blackaddons$level = level;
+        this.blackaddons$pos = pos;
     }
 
     @Inject(
@@ -62,6 +67,7 @@ public abstract class IndigoBlockRendererMixin {
             remap = false
     )
     private void blackaddons$retextureFmeQuad(MutableQuadView quad, CallbackInfoReturnable<Boolean> cir) {
+        this.blackaddons$textureTint = 0xFFFFFF;
         if (this.blackaddons$fmeTextureState != null) {
             /*
              * Atlas manager, not TextureManager: this is a chunk-compile worker, and getTexture loads missing textures
@@ -85,6 +91,9 @@ public abstract class IndigoBlockRendererMixin {
                 quad.itemRenderType(face.getMaterial().itemRenderType());
             }
             quad.tintIndex(-1);
+            this.blackaddons$textureTint = FmeBlockRemapper.textureTint(
+                    this.blackaddons$fmeTextureState, quad.nominalFace(), this.blackaddons$level, this.blackaddons$pos
+            );
         }
     }
 
@@ -98,8 +107,9 @@ public abstract class IndigoBlockRendererMixin {
             remap = false
     )
     private void blackaddons$applyFmeTint(MutableQuadView quad, CallbackInfoReturnable<Boolean> cir) {
-        if (this.blackaddons$fmeTint != 0xFFFFFF) {
-            quad.multiplyColor(0xFF000000 | this.blackaddons$fmeTint);
+        int tint = FmeBlockRemapper.multiplyTint(this.blackaddons$fmeTint, this.blackaddons$textureTint);
+        if ((tint & 0xFFFFFF) != 0xFFFFFF) {
+            quad.multiplyColor(0xFF000000 | tint);
         }
     }
 }

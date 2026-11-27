@@ -76,13 +76,14 @@ object Fme : Feature(
             profileId = { activeProfile().id },
             activeScope = ::activeScope,
             selectedBlockId = ::selectedBlockId,
+            selectedProperties = ::selectedProperties,
             anyBlock = ::isAnyBlockMode,
             scopeLabel = ::currentScopeLabel,
             renderIndex = { renderIndex },
             blockEntry = blocksById::get,
             snapshot = ::snapshot,
             beforeMutation = ::cancelTintApply,
-            selectBlock = ::selectBlock,
+            selectBlockState = ::selectBlockState,
             onReplacementChanged = { before ->
                 rules.invalidate()
                 remember(before)
@@ -120,6 +121,7 @@ object Fme : Feature(
     private val redoKey by keybind("Redo")
         .withDescription("In Edit Mode, reapply the last undone FME edit.")
     private val selectedBlock by string("Selected Block", "minecraft:stone", maxLength = 128).hidden()
+    private val selectedState by string("Selected State", "", maxLength = 512).hidden()
     private val editScopeSetting by string("Edit Scope", FmeScope.LOCATION.name, maxLength = 16).hidden()
     private val anyBlockMode by boolean("Any Block").hidden()
 
@@ -150,7 +152,7 @@ object Fme : Feature(
                 editModeKey.matches(event) -> toggleEditMode()
                 !editMode.value -> Unit
                 anyBlockKey.matches(event) -> toggleAnyBlockMode()
-                pickBlockKey.matches(event) -> worldEditor.pickBlock()
+                pickBlockKey.matches(event) -> worldEditor.pickBlock(withState = event.ctrl)
                 ghostBlockKey.matches(event) -> worldEditor.placeGhostBlock()
                 undoKey.matches(event) -> changeHistory(undo = true)
                 redoKey.matches(event) -> changeHistory(undo = false)
@@ -166,7 +168,7 @@ object Fme : Feature(
             if (!editMode.value || !event.isPress) return@register
             when {
                 anyBlockKey.matches(event) -> toggleAnyBlockMode()
-                pickBlockKey.matches(event) -> worldEditor.pickBlock()
+                pickBlockKey.matches(event) -> worldEditor.pickBlock(withState = event.ctrl)
                 ghostBlockKey.matches(event) -> worldEditor.placeGhostBlock()
                 undoKey.matches(event) -> changeHistory(undo = true)
                 redoKey.matches(event) -> changeHistory(undo = false)
@@ -218,13 +220,25 @@ object Fme : Feature(
 
     fun preserveBlockShape(): Boolean = preserveShapeEnabled
 
+    /** Keeps the pinned state when it's the same block. */
     fun selectBlock(id: String): Boolean {
         val normalized = normalizeBlockId(id)
+        if (normalized == selectedBlock.value) return normalized in knownBlockIds
+        return selectBlockState(normalized, emptyMap())
+    }
+
+    /** Pinned properties override placement. Ones the block doesn't have get dropped. */
+    fun selectBlockState(id: String, properties: Map<String, String>): Boolean {
+        val normalized = normalizeBlockId(id)
         if (normalized !in knownBlockIds) return false
+        val names = Platform.world.blockStateProperties(normalized).mapTo(HashSet()) { it.name }
         selectedBlock.value = normalized
+        selectedState.value = formatFmeState(properties.filterKeys(names::contains))
         Platform.config.save()
         return true
     }
+
+    fun selectedProperties(): Map<String, String> = parseFmeState(selectedState.value)
 
     fun isEditMode(): Boolean = editMode.value
 
@@ -378,8 +392,13 @@ object Fme : Feature(
     fun canUndo(): Boolean = undoHistory.isNotEmpty()
     fun canRedo(): Boolean = redoHistory.isNotEmpty()
 
-    internal fun setTypeReplacement(scope: FmeScope, scopeKey: String, from: String, to: String): Boolean =
-        rules.setTypeReplacement(scope, scopeKey, normalizeBlockId(from), normalizeBlockId(to))
+    internal fun setTypeReplacement(
+        scope: FmeScope,
+        scopeKey: String,
+        from: String,
+        to: String,
+        properties: Map<String, String> = emptyMap(),
+    ): Boolean = rules.setTypeReplacement(scope, scopeKey, normalizeBlockId(from), normalizeBlockId(to), properties)
 
     fun clearReplacements(): Int = rules.clearProfile()
 
@@ -456,8 +475,30 @@ object Fme : Feature(
 
     internal fun matchAnyBlock(group: FmeManagedGroup): Boolean = rules.matchAnyBlock(group)
 
-    internal fun setPositionReplacement(group: FmeManagedGroup, blockId: String): Boolean =
-        rules.setPositionReplacement(group, normalizeBlockId(blockId))
+    internal fun setPositionReplacement(group: FmeManagedGroup, blockId: String, pinned: Map<String, String>): Boolean =
+        rules.setPositionReplacement(group, normalizeBlockId(blockId), pinned)
+
+    /** As seen in the world. Room edits store their state room-local, like their coordinates. */
+    internal fun groupStates(group: FmeManagedGroup): List<Map<String, String>> {
+        val stored = when (group.kind) {
+            FmeManagedKind.TYPE -> listOfNotNull(group.typeKey?.let(typeReplacements::get)?.properties)
+            FmeManagedKind.POSITION -> group.ruleKeys.map(FmeRuleKey::properties)
+        }
+        val turns = storedTurns(group)
+        return stored.map { Platform.world.rotateProperties(group.blockId, it, turns) }.distinct()
+    }
+
+    internal fun setGroupState(group: FmeManagedGroup, edits: Map<String, String?>): Boolean {
+        val turns = storedTurns(group)
+        return rules.setProperties(group) { stored ->
+            val world = Platform.world.rotateProperties(group.blockId, stored, turns).withFmeEdits(edits)
+            Platform.world.rotateProperties(group.blockId, world, -turns)
+        }
+    }
+
+    /* Type rules draw their state unturned, so only position edits turn with the room. */
+    private fun storedTurns(group: FmeManagedGroup): Int =
+        if (group.kind == FmeManagedKind.POSITION) worldEditor.quarterTurns(group.scope, group.scopeKey) else 0
 
     internal fun nearestPosition(group: FmeManagedGroup): FmePositionKey? = worldEditor.nearestPosition(group)
 

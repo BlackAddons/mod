@@ -1,5 +1,7 @@
 package org.blackaddons.platform.features.impl.visual.fme
 
+import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.block.BlockAndTintGetter
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -7,6 +9,8 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.StandingAndWallBlockItem
+import net.minecraft.util.RandomSource
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.EmptyBlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
@@ -34,6 +38,8 @@ object FmeBlockRemapper {
     private val tints = ThreadLocal.withInitial { HashMap<Long, Int>() }
     private val blockEntityStates = ThreadLocal.withInitial { HashMap<Long, BlockState>() }
     private val textureStates = ThreadLocal.withInitial { HashMap<Long, BlockState>() }
+    private val shaping = ThreadLocal.withInitial { false }
+    private val random = ThreadLocal.withInitial(RandomSource::create)
 
     /** Cached [blockEntityTint] answers, valid for the current render index and block state. Render thread only. */
     private class BlockEntityTint(val state: BlockState, val tint: Int)
@@ -42,7 +48,12 @@ object FmeBlockRemapper {
     private var blockEntityTintsFor: Any? = null
 
     @JvmStatic
-    fun remap(original: BlockState, x: Int, y: Int, z: Int): BlockState {
+    fun remap(original: BlockState, x: Int, y: Int, z: Int, region: BlockGetter, level: Level): BlockState {
+        if (shaping.get()) {
+            val appearance = appearanceOf(original, x, y, z) ?: return original
+            val mapped = mappedState(original, appearance) ?: return original
+            return if (textureOnly(original, mapped, appearance)) original else mapped
+        }
         val key = pack(x, y, z)
         val appearance = appearanceOf(original, x, y, z)
         if (appearance == null) {
@@ -53,24 +64,13 @@ object FmeBlockRemapper {
         }
         rememberTint(key, appearance.tintRgb)
 
-        val base = baseStates.computeIfAbsent(appearance.blockId, ::resolveBaseState)
-        var mapped = if (appearance.properties.isEmpty() || base.isAir) base else {
-            placedStates.computeIfAbsent(appearance.blockId to appearance.properties) { base.withProperties(appearance.properties) }
-        }
-        if (mapped.isAir) {
+        val mapped = mappedState(original, appearance)
+        if (mapped == null) {
             blockEntityStates.get().remove(key)
             textureStates.get().remove(key)
             return original
         }
-        original.properties.forEach { property ->
-            if (mapped.hasProperty(property)) mapped = copyProperty(mapped, original, property)
-        }
-        if (Fme.preserveBlockShape() && !original.isAir && !original.hasBlockEntity() && !seeThroughOverSolid(original, mapped) &&
-            original.renderShape == RenderShape.MODEL &&
-            (mapped.renderShape == RenderShape.MODEL ||
-                    FmeEntityTextureProviders.supports(mapped)) &&
-            original.fluidState.isEmpty && mapped.fluidState.isEmpty
-        ) {
+        if (textureOnly(original, mapped, appearance)) {
             val cache = textureStates.get()
             if (cache.size >= THREAD_CACHE_LIMIT) cache.clear()
             cache[key] = mapped
@@ -78,8 +78,65 @@ object FmeBlockRemapper {
             return original
         }
         textureStates.get().remove(key)
-        rememberBlockEntityState(key, original, mapped)
+        val shaped = shape(mapped, appearance.properties, x, y, z, region, level)
+        rememberBlockEntityState(key, original, shaped)
+        return shaped
+    }
+
+    /* Null for air, FME never draws it. */
+    private fun mappedState(original: BlockState, appearance: BlockAppearance): BlockState? {
+        val base = baseStates.computeIfAbsent(appearance.blockId, ::resolveBaseState)
+        var mapped = if (appearance.properties.isEmpty() || base.isAir) base else {
+            placedStates.computeIfAbsent(appearance.blockId to appearance.properties) { base.withProperties(appearance.properties) }
+        }
+        if (mapped.isAir) return null
+        original.properties.forEach { property ->
+            if (mapped.hasProperty(property) && property.name !in appearance.properties) {
+                mapped = copyProperty(mapped, original, property)
+            }
+        }
         return mapped
+    }
+
+    /* An edit of the same block draws its own state. Retexturing the real one would drop connections and pins. */
+    private fun textureOnly(original: BlockState, mapped: BlockState, appearance: BlockAppearance): Boolean =
+        Fme.preserveBlockShape() && !original.isAir && !original.hasBlockEntity() &&
+            !(appearance.reshape && mapped.block === original.block) &&
+            !seeThroughOverSolid(original, mapped) && original.renderShape == RenderShape.MODEL &&
+            original.fluidState.isEmpty && mapped.fluidState.isEmpty &&
+            (mapped.renderShape == RenderShape.MODEL || FmeEntityTextureProviders.supports(mapped))
+
+    /*
+     * Runs vanilla's neighbor updates against what's drawn, so visual walls, fences and panes connect like placed ones.
+     * A step that would change the block (an unsupported plant, a lone door half) gets skipped, and stored state wins.
+     * shortcut: reshapes on every read of the position, six or more neighbor reads each; cache per section build if
+     * spark shows it.
+     */
+    private fun shape(
+        state: BlockState,
+        stored: Map<String, String>,
+        x: Int,
+        y: Int,
+        z: Int,
+        region: BlockGetter,
+        level: Level,
+    ): BlockState {
+        if (state.properties.isEmpty()) return state
+        val pos = BlockPos(x, y, z)
+        val reader = FmeShapeLevel(region, level)
+        shaping.set(true)
+        try {
+            var shaped = state
+            for (direction in Direction.entries) {
+                val neighborPos = pos.relative(direction)
+                val neighbor = region.getBlockState(neighborPos)
+                val next = shaped.updateShape(reader, level, pos, direction, neighborPos, neighbor, random.get())
+                if (next.block === shaped.block) shaped = next
+            }
+            return if (stored.isEmpty()) shaped else shaped.withProperties(stored)
+        } finally {
+            shaping.set(false)
+        }
     }
 
     private fun seeThroughOverSolid(original: BlockState, mapped: BlockState): Boolean =
@@ -132,6 +189,17 @@ object FmeBlockRemapper {
         if (layer == ChunkSectionLayer.SOLID) return false
         val visual = textureStateAt(neighbor.x + face.stepX, neighbor.y + face.stepY, neighbor.z + face.stepZ) ?: state
         return !visual.skipRendering(texture, face.opposite)
+    }
+
+    /**
+     * Biome color for the target's face. Retextured quads drop their tint index (it's the source block's), so grass and
+     * leaves went gray.
+     */
+    @JvmStatic
+    fun textureTint(target: BlockState, face: Direction, level: BlockAndTintGetter, pos: BlockPos): Int {
+        val index = FmeTextureRemapper.faceFor(target, face).material?.tintIndex() ?: return 0xFFFFFF
+        val source = Minecraft.getInstance().blockColors.getTintSources(target).getOrNull(index) ?: return 0xFFFFFF
+        return source.colorInWorld(target, level, pos)
     }
 
     @JvmStatic

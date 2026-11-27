@@ -114,6 +114,34 @@ class FmeStorageTest {
     }
 
     @Test
+    fun `type rule state survives save, load and undo`() {
+        val types = FmeTypeReplacementStore()
+        val storage = FmeStorage(FmeReplacementStore(), types)
+        storage.load()
+        val charged = FmeTypeReplacement(
+            scope = FmeScope.LOCATION, scopeKey = "F7 P3", sourceBlockId = "minecraft:stone",
+            blockId = "minecraft:respawn_anchor", properties = mapOf("charges" to "4"),
+        )
+        types.put(charged)
+        types.put(FmeTypeReplacement(sourceBlockId = "minecraft:dirt", blockId = "minecraft:gold_block"))
+
+        storage.saveProfile("default")
+
+        val rules = JsonParser.parseString(Files.readString(tempDir.resolve("fme/default.json"))).asJsonObject.getAsJsonArray("typeRules")
+        assertEquals("4", rules.single { it.asJsonObject.get("sourceBlock").asString == "minecraft:stone" }
+            .asJsonObject.getAsJsonObject("state").get("charges").asString)
+        assertFalse(rules.single { it.asJsonObject.get("sourceBlock").asString == "minecraft:dirt" }.asJsonObject.has("state"))
+
+        val restored = FmeTypeReplacementStore()
+        FmeStorage(FmeReplacementStore(), restored).load()
+        assertEquals(charged.properties, restored.get(charged.key)?.properties)
+
+        val undo = FmeTypeReplacementStore()
+        assertTrue(undo.replaceAll(types.lines()))
+        assertEquals(charged, undo.get(charged.key))
+    }
+
+    @Test
     fun `a version 1 profile with one entry per place still loads`() {
         Files.createDirectories(tempDir.resolve("fme"))
         Files.writeString(

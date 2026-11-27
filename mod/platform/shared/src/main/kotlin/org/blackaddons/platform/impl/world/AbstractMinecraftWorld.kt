@@ -152,6 +152,11 @@ abstract class AbstractMinecraftWorld : WorldHost {
         state.propertyValue(name)
     }
 
+    override fun blockProperties(x: Int, y: Int, z: Int): Map<String, String> = readOnClient {
+        val state = mc.level?.getBlockState(BlockPos(x, y, z)) ?: return@readOnClient emptyMap()
+        state.properties.mapNotNull { property -> state.propertyValue(property.name)?.let { property.name to it } }.toMap()
+    }
+
     override fun skullOwnerId(x: Int, y: Int, z: Int): String? = readOnClient {
         val skull = mc.level?.getBlockEntity(BlockPos(x, y, z)) as? SkullBlockEntity ?: return@readOnClient null
         skull.ownerProfile?.partialProfile()?.id()?.toString()
@@ -238,11 +243,17 @@ abstract class AbstractMinecraftWorld : WorldHost {
         BlockPlacement(BuiltInRegistries.BLOCK.getKey(state.block).toString(), state.changedProperties())
     }
 
+    override fun blockStateProperties(blockId: String): List<BlockStateProperty> {
+        val default = blockById(blockId)?.defaultBlockState() ?: return emptyList()
+        return default.properties.map { it.describe(default) }
+    }
+
     override fun rotateProperties(blockId: String, properties: Map<String, String>, quarterTurns: Int): Map<String, String> {
         val turns = Math.floorMod(quarterTurns, 4)
         if (turns == 0) return properties
         val block = blockById(blockId) ?: return properties
-        return block.defaultBlockState().withProperties(properties).rotate(Rotation.entries[turns]).changedProperties()
+        val rotated = block.defaultBlockState().withProperties(properties).rotate(Rotation.entries[turns])
+        return rotated.changedProperties() + properties.keys.mapNotNull { name -> rotated.propertyValue(name)?.let { name to it } }
     }
 
     override fun flattenLegacyBlock(state: String): BlockPlacement? {

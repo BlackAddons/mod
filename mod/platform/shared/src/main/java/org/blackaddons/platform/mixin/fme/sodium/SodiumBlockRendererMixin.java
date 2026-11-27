@@ -1,6 +1,9 @@
 package org.blackaddons.platform.mixin.fme.sodium;
 
+import net.caffeinemc.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;
+import net.caffeinemc.mods.sodium.client.render.chunk.translucent_sorting.TranslucentGeometryCollector;
 import net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl;
+import net.caffeinemc.mods.sodium.client.world.LevelSlice;
 import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.core.BlockPos;
@@ -21,8 +24,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SodiumBlockRendererMixin {
     @Unique private int blackaddons$fmeTint = 0xFFFFFF;
     @Unique private BlockState blackaddons$fmeTextureState;
+    @Unique private LevelSlice blackaddons$level;
+    @Unique private BlockPos blackaddons$blockPos;
+    @Unique private int blackaddons$textureTint = 0xFFFFFF;
     @Unique private final Vector2f blackaddons$uv = new Vector2f();
     @Unique private final Vector3f blackaddons$pos = new Vector3f();
+
+    @Inject(method = "prepare", at = @At("HEAD"), require = 0, remap = false)
+    private void blackaddons$captureLevel(
+        ChunkBuildBuffers buffers,
+        LevelSlice level,
+        TranslucentGeometryCollector collector,
+        CallbackInfo ci
+    ) {
+        this.blackaddons$level = level;
+    }
 
     @Inject(method = "renderModel", at = @At("HEAD"), require = 0, remap = false)
     private void blackaddons$captureFmeTint(
@@ -34,10 +50,12 @@ public abstract class SodiumBlockRendererMixin {
     ) {
         this.blackaddons$fmeTint = FmeBlockRemapper.tintAt(pos.getX(), pos.getY(), pos.getZ());
         this.blackaddons$fmeTextureState = FmeBlockRemapper.textureStateAt(pos.getX(), pos.getY(), pos.getZ());
+        this.blackaddons$blockPos = pos;
     }
 
     @Inject(method = "processQuad", at = @At("HEAD"), require = 0, remap = false)
     private void blackaddons$retextureFmeQuad(MutableQuadViewImpl quad, CallbackInfo ci) {
+        this.blackaddons$textureTint = 0xFFFFFF;
         if (this.blackaddons$fmeTextureState != null) {
             var source = quad.cachedSprite();
             var face = FmeTextureRemapper.faceFor(this.blackaddons$fmeTextureState, quad.getNominalFace());
@@ -59,6 +77,11 @@ public abstract class SodiumBlockRendererMixin {
                 quad.setItemRenderType(face.getMaterial().itemRenderType());
             }
             quad.setTintIndex(-1);
+            if (this.blackaddons$level != null) {
+                this.blackaddons$textureTint = FmeBlockRemapper.textureTint(
+                    this.blackaddons$fmeTextureState, quad.getNominalFace(), this.blackaddons$level, this.blackaddons$blockPos
+                );
+            }
         }
     }
 
@@ -73,11 +96,12 @@ public abstract class SodiumBlockRendererMixin {
         remap = false
     )
     private void blackaddons$applyFmeTint(MutableQuadViewImpl quad, CallbackInfo ci) {
-        if (this.blackaddons$fmeTint == 0xFFFFFF) {
+        int tint = FmeBlockRemapper.multiplyTint(this.blackaddons$fmeTint, this.blackaddons$textureTint);
+        if ((tint & 0xFFFFFF) == 0xFFFFFF) {
             return;
         }
         for (int vertex = 0; vertex < 4; vertex++) {
-            quad.setColor(vertex, FmeBlockRemapper.multiplyTint(quad.baseColor(vertex), this.blackaddons$fmeTint));
+            quad.setColor(vertex, FmeBlockRemapper.multiplyTint(quad.baseColor(vertex), tint));
         }
     }
 }
