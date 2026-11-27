@@ -1886,6 +1886,7 @@
     "trappedChests": 0,
     "reviveStones": 0,
     "secrets": 1,
+    "maxSecrets": 3,
     "crypts": 1
   },
   {

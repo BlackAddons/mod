@@ -2,6 +2,7 @@ package org.blackaddons.core.backend
 
 import org.blackaddons.api.Platform
 import org.blackaddons.api.chat.ChatMessage
+import org.blackaddons.api.host.Cancellation
 import org.blackaddons.api.ui.toast.ToastKind
 import org.blackaddons.api.ui.toast.Toasts
 import org.blackaddons.api.util.I18n
@@ -22,6 +23,10 @@ internal object BackendStatus {
     @Volatile private var unsupported = false
 
     @Volatile private var announced = false
+
+    // A lone refused request is usually a blip the next one clears; only an outage that lasts is worth a toast.
+    private const val ANNOUNCE_DELAY_TICKS = 200
+    private var pendingAnnounce: Cancellation? = null
 
     /** UNSUPPORTED wins over DEGRADED: a refused build stays refused after recovery. */
     private val state: State
@@ -62,19 +67,34 @@ internal object BackendStatus {
     }
 
     /**
-     * Announces from the combined state, so one source alone can't declare recovery. Only players who heard about the
-     * outage hear about the recovery. Synchronized, because both sources are network threads.
+     * Announces from the combined state, so one source alone can't declare recovery. An outage is only told once it
+     * outlasts [ANNOUNCE_DELAY_TICKS], and only players who heard about it hear about the recovery. Synchronized,
+     * because both sources are network threads.
      */
     @Synchronized
     private fun settle() {
         // The update check announces an unsupported build. Keep [announced] as it is.
         if (state == State.UNSUPPORTED) return
 
-        val degraded = state == State.DEGRADED
-        if (degraded == announced) return
-        announced = degraded
-        if (degraded) say("blackaddons.backend.unavailable", Brand.FAIL, ToastKind.ERROR)
-        else say("blackaddons.backend.restored", Brand.OK, ToastKind.SUCCESS)
+        if (state == State.DEGRADED) {
+            if (announced || pendingAnnounce != null) return
+            pendingAnnounce = Platform.scheduler.schedule(ANNOUNCE_DELAY_TICKS, ::announceIfStillDown)
+            return
+        }
+
+        pendingAnnounce?.cancel()
+        pendingAnnounce = null
+        if (!announced) return
+        announced = false
+        say("blackaddons.backend.restored", Brand.OK, ToastKind.SUCCESS)
+    }
+
+    @Synchronized
+    private fun announceIfStillDown() {
+        pendingAnnounce = null
+        if (state != State.DEGRADED || announced) return
+        announced = true
+        say("blackaddons.backend.unavailable", Brand.FAIL, ToastKind.ERROR)
     }
 
     private fun say(key: String, color: Color, kind: ToastKind) {

@@ -1,5 +1,6 @@
 package org.blackaddons.core.actions.execution
 
+import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
@@ -10,7 +11,8 @@ internal object ActionHudTimer : ActionHudText("Timer")
 internal object ActionTextOverlay : ActionHudText("")
 
 internal open class ActionHudText(private val defaultName: String) {
-    private var endsAt: TimeSource.Monotonic.ValueTimeMark? = null
+    internal var clock: TimeSource.WithComparableMarks = TimeSource.Monotonic
+    private var endsAt: ComparableTimeMark? = null
 
     var name: String = defaultName
         private set
@@ -23,12 +25,12 @@ internal open class ActionHudText(private val defaultName: String) {
             return
         }
         this.name = name.trim().ifEmpty { defaultName }
-        endsAt = TimeSource.Monotonic.markNow() + seconds.toDouble().seconds
+        endsAt = clock.markNow() + seconds.toDouble().seconds
     }
 
     fun remainingSeconds(): Double {
         val endsAt = endsAt ?: return 0.0
-        return (endsAt - TimeSource.Monotonic.markNow()).coerceAtLeast(Duration.ZERO).toDouble(DurationUnit.SECONDS)
+        return (endsAt - clock.markNow()).coerceAtLeast(Duration.ZERO).toDouble(DurationUnit.SECONDS)
     }
 
     fun reset() {

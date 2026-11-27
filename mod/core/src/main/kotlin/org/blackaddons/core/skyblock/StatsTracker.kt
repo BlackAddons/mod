@@ -9,6 +9,7 @@ import org.blackaddons.api.event.subscribe
 import org.blackaddons.api.skyblock.player.ActionBar
 import org.blackaddons.api.skyblock.player.ActionBarStats
 import org.blackaddons.api.skyblock.player.SkyblockStatsProvider
+import kotlin.time.ComparableTimeMark
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource
 
@@ -19,7 +20,8 @@ object StatsTracker : SkyblockStatsProvider {
     override var current = ActionBarStats()
         private set
 
-    private var vitalitySeenAt: TimeSource.Monotonic.ValueTimeMark? = null
+    internal var clock: TimeSource.WithComparableMarks = TimeSource.Monotonic
+    private var vitalitySeenAt: ComparableTimeMark? = null
 
     fun start() {
         EventBus.subscribe<ActionBarReceiveEvent> {
@@ -34,7 +36,7 @@ object StatsTracker : SkyblockStatsProvider {
 
     internal fun read(raw: String) {
         val bar = ActionBar.stats(raw)
-        if (bar.vitality != null) vitalitySeenAt = TimeSource.Monotonic.markNow()
+        if (bar.vitality != null) vitalitySeenAt = clock.markNow()
         var next = current.merge(bar)
         // Vitality only shows while u hold an item that has it, so a merged old value would just stick around forever.
         if (vitalitySeenAt?.let { it.elapsedNow() < VITALITY_GRACE } != true) next = next.copy(vitality = null, maxVitality = null)
