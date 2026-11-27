@@ -25,6 +25,8 @@ internal object GatewayRouter : GatewayHandler {
         if (account != null && ready != account) switchedAccount()
         account = ready
 
+        // SERVER_STATUS only comes on a change, so a socket that missed the "ok" would stay degraded forever.
+        BackendStatus.onServerStatus(degraded = false)
         cosmeticsVersion(payload)
         // Chat sends again anything unacked on the dead socket, with its original nonce.
         ChatStore.onReady(payload)
