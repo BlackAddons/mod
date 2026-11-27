@@ -16,6 +16,7 @@ import net.minecraft.network.protocol.game.ServerboundChatPacket
 import org.blackaddons.api.chat.*
 import org.blackaddons.api.event.EventBus
 import org.blackaddons.api.event.chat.ChatPacketEvent
+import org.blackaddons.api.ui.layout.Rect
 import org.blackaddons.platform.chat.ChatLines
 import org.blackaddons.platform.compat.chatComponent
 import org.blackaddons.platform.compat.openScreen
@@ -51,7 +52,6 @@ object MinecraftChat : ChatHost {
         onClient { mc ->
             val chat = mc.chatComponent
             chat.addClientSystemMessage(component)
-            // Asked for, not assumed: ChatComponentMixin might store a copy with cosmetic names.
             line.bind((chat as? ChatLines)?.blackaddonsNewestMessage())
         }
         return line
@@ -75,13 +75,39 @@ object MinecraftChat : ChatHost {
     override fun openInput(text: String) = onClient { it.openScreen(ChatScreen(text, false)) }
 
     @Volatile private var view: ((ChatLine) -> Boolean)? = null
+    @Volatile private var closedView: ((ChatLine) -> Boolean)? = null
 
-    fun shows(line: ChatLine): Boolean = view?.invoke(line) ?: true
+    private var focused = false
+
+    override fun shows(line: ChatLine): Boolean =
+        (view?.invoke(line) ?: true) && (focused || (closedView?.invoke(line) ?: true))
 
     override fun showOnly(filter: ((ChatLine) -> Boolean)?) = onClient { mc ->
         view = filter
         (mc.chatComponent as? ChatLines)?.blackaddonsRefreshView()
     }
+
+    override fun showWhileClosed(filter: ((ChatLine) -> Boolean)?) = onClient { mc ->
+        closedView = filter
+        (mc.chatComponent as? ChatLines)?.blackaddonsRefreshView()
+    }
+
+    fun focusChanged(open: Boolean) {
+        if (focused == open) return
+        focused = open
+        if (closedView != null) (Minecraft.getInstance().chatComponent as? ChatLines)?.blackaddonsRefreshView()
+    }
+
+    override fun scrolledPast(line: ChatLine): Boolean =
+        readOnClient { (Minecraft.getInstance().chatComponent as? ChatLines)?.blackaddonsScrolledPast(line) == true }
+
+    override fun scrollTo(line: ChatLine) = onClient { (it.chatComponent as? ChatLines)?.blackaddonsScrollTo(line) }
+
+    override fun inView(line: ChatLine): Boolean =
+        readOnClient { (Minecraft.getInstance().chatComponent as? ChatLines)?.blackaddonsInView(line) == true }
+
+    override val openLinesArea: Rect?
+        get() = readOnClient { (Minecraft.getInstance().chatComponent as? ChatLines)?.blackaddonsOpenLinesArea() }
 
     override fun clear() = onClient { it.chatComponent.clearMessages(false) }
 
@@ -157,7 +183,6 @@ object MinecraftChat : ChatHost {
             onClient { mc ->
                 val original = held ?: return@onClient
                 val chat = mc.chatComponent as? ChatLines ?: return@onClient
-                // Null once it aged out of history.
                 chat.blackaddonsReplaceMessage(original, component)?.let { held = it }
             }
         }

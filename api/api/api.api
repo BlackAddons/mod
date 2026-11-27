@@ -302,6 +302,8 @@ public final class org/blackaddons/api/chat/ChatClick$SuggestCommand : org/black
 public abstract interface class org/blackaddons/api/chat/ChatHost {
 	public fun clear ()V
 	public fun getLines ()Ljava/util/List;
+	public fun getOpenLinesArea ()Lorg/blackaddons/api/ui/layout/Rect;
+	public fun inView (Lorg/blackaddons/api/chat/ChatLine;)Z
 	public fun lineAt (DD)Lorg/blackaddons/api/chat/ChatLine;
 	public abstract fun local (Ljava/lang/String;)V
 	public abstract fun local (Ljava/lang/String;Ljava/awt/Color;)V
@@ -309,17 +311,27 @@ public abstract interface class org/blackaddons/api/chat/ChatHost {
 	public fun openInput (Ljava/lang/String;)V
 	public abstract fun releaseHeld ()V
 	public abstract fun revisable (Lorg/blackaddons/api/chat/ChatMessage;)Lorg/blackaddons/api/chat/RevisableLine;
+	public fun scrollTo (Lorg/blackaddons/api/chat/ChatLine;)V
+	public fun scrolledPast (Lorg/blackaddons/api/chat/ChatLine;)Z
 	public abstract fun send (Ljava/lang/String;)V
 	public abstract fun sendCommand (Ljava/lang/String;)V
 	public fun showOnly (Lkotlin/jvm/functions/Function1;)V
+	public fun showWhileClosed (Lkotlin/jvm/functions/Function1;)V
+	public fun shows (Lorg/blackaddons/api/chat/ChatLine;)Z
 }
 
 public final class org/blackaddons/api/chat/ChatHost$DefaultImpls {
 	public static fun clear (Lorg/blackaddons/api/chat/ChatHost;)V
 	public static fun getLines (Lorg/blackaddons/api/chat/ChatHost;)Ljava/util/List;
+	public static fun getOpenLinesArea (Lorg/blackaddons/api/chat/ChatHost;)Lorg/blackaddons/api/ui/layout/Rect;
+	public static fun inView (Lorg/blackaddons/api/chat/ChatHost;Lorg/blackaddons/api/chat/ChatLine;)Z
 	public static fun lineAt (Lorg/blackaddons/api/chat/ChatHost;DD)Lorg/blackaddons/api/chat/ChatLine;
 	public static fun openInput (Lorg/blackaddons/api/chat/ChatHost;Ljava/lang/String;)V
+	public static fun scrollTo (Lorg/blackaddons/api/chat/ChatHost;Lorg/blackaddons/api/chat/ChatLine;)V
+	public static fun scrolledPast (Lorg/blackaddons/api/chat/ChatHost;Lorg/blackaddons/api/chat/ChatLine;)Z
 	public static fun showOnly (Lorg/blackaddons/api/chat/ChatHost;Lkotlin/jvm/functions/Function1;)V
+	public static fun showWhileClosed (Lorg/blackaddons/api/chat/ChatHost;Lkotlin/jvm/functions/Function1;)V
+	public static fun shows (Lorg/blackaddons/api/chat/ChatHost;Lorg/blackaddons/api/chat/ChatLine;)Z
 }
 
 public abstract interface class org/blackaddons/api/chat/ChatLine {
@@ -4779,6 +4791,7 @@ public final class org/blackaddons/api/ui/icon/LucideIcons {
 	public final fun getPaperclip ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getPencil ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getPets ()Lorg/blackaddons/api/ui/icon/VectorIcon;
+	public final fun getPin ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getPower ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getRotateCcw ()Lorg/blackaddons/api/ui/icon/VectorIcon;
 	public final fun getRotateCw ()Lorg/blackaddons/api/ui/icon/VectorIcon;

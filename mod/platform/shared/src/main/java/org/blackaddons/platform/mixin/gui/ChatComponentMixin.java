@@ -31,6 +31,7 @@ import org.blackaddons.api.event.EventBus;
 import org.blackaddons.api.event.chat.ChatLineAddedEvent;
 import org.blackaddons.api.event.chat.ChatMessageEvent;
 import org.blackaddons.api.event.chat.ChatMessageType;
+import org.blackaddons.api.ui.layout.Rect;
 import org.blackaddons.platform.chat.ChatLines;
 import org.blackaddons.platform.chat.StoredChatLine;
 import org.blackaddons.platform.cosmetics.NameReplacer;
@@ -83,6 +84,9 @@ public abstract class ChatComponentMixin implements ChatLines {
 
     /** Far enough in the past that a restored line is already faded out, without overflowing the age. */
     @Unique private static final int blackaddons$RESTORED_AT = Integer.MIN_VALUE / 2;
+
+    /** Rows the smooth scroll may still be off by and count as arrived. */
+    @Unique private static final double blackaddons$SETTLED = 0.05;
 
     /**
      * Vanilla's hit test is inside the render walk, so this repeats it: undo the chat scale, drop the 4px inset, and
@@ -194,6 +198,53 @@ public abstract class ChatComponentMixin implements ChatLines {
         blackaddons$refreshTrimmedMessages();
         resetChatScroll();
         blackaddons$drawnScroll = 0.0;
+    }
+
+    @Override
+    public boolean blackaddonsScrolledPast(ChatLine message) {
+        if (!isChatFocused()) return false;
+        int highest = -1;
+        for (int i = 0; i < trimmedMessages.size(); i++) {
+            if ((Object) trimmedMessages.get(i).parent() == message) highest = i;
+        }
+        return highest >= 0 && highest < chatScrollbarPos;
+    }
+
+    @Override
+    public void blackaddonsScrollTo(ChatLine message) {
+        int lowest = -1;
+        int highest = -1;
+        for (int i = 0; i < trimmedMessages.size(); i++) {
+            if ((Object) trimmedMessages.get(i).parent() != message) continue;
+            if (lowest < 0) lowest = i;
+            highest = i;
+        }
+        if (lowest < 0) return;
+        int target = Math.max(0, (lowest + highest) / 2 - getLinesPerPage() / 2);
+        scrollChat(target - chatScrollbarPos);
+    }
+
+    @Override
+    public boolean blackaddonsInView(ChatLine message) {
+        if (!isChatFocused() || Math.abs(blackaddons$drawnScroll - chatScrollbarPos) > blackaddons$SETTLED) return false;
+        int end = chatScrollbarPos + getLinesPerPage();
+        for (int i = chatScrollbarPos; i < Math.min(end, trimmedMessages.size()); i++) {
+            if ((Object) trimmedMessages.get(i).parent() == message) return true;
+        }
+        return false;
+    }
+
+    /** Same box vanilla fills behind the lines: scaled, 4px inset each side plus the tag gutter. */
+    @Override
+    public Rect blackaddonsOpenLinesArea() {
+        if (!isChatFocused()) return null;
+        double scale = getScale();
+        int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+        int bottom = (int) Math.floor((screenHeight - 40) / scale);
+        int rows = Math.max(0, Math.min(getLinesPerPage(), trimmedMessages.size() - chatScrollbarPos));
+        int top = bottom - rows * getLineHeight();
+        int width = (int) Math.ceil(getWidth() / scale) + 12;
+        return new Rect(0f, (float) (top * scale), (float) (width * scale), (float) ((bottom - top) * scale));
     }
 
     @Inject(method = "addMessageToDisplayQueue", at = @At("HEAD"), cancellable = true)

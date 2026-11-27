@@ -1618,6 +1618,18 @@
         "play_sound": {
           "name": "Reproducir sonido",
           "desc": "Suena un aviso cuando llega una mención."
+        },
+        "mention_mode": {
+          "name": "Modo menciones",
+          "desc": "Con el chat cerrado solo se ven las menciones y los mensajes privados para ti. Al abrir el chat, las que llegaron se fijan encima."
+        },
+        "unpin_on": {
+          "name": "Desfijar al",
+          "desc": "Al hacer clic en un mensaje fijado, el chat se desplaza hasta él y lo quita. Pasar de largo también lo quita al desplazarte más arriba de su mensaje.",
+          "option": {
+            "scroll_past": "Pasar de largo",
+            "click": "Clic"
+          }
         }
       }
     },

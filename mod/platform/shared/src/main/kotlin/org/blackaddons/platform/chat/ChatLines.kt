@@ -3,6 +3,7 @@ package org.blackaddons.platform.chat
 import net.minecraft.client.multiplayer.chat.GuiMessage
 import net.minecraft.network.chat.Component
 import org.blackaddons.api.chat.ChatLine
+import org.blackaddons.api.ui.layout.Rect
 
 /**
  * Cursor-to-message lookup, duck-typed onto `ChatComponent` by `ChatComponentMixin`, because it needs private state
@@ -27,6 +28,17 @@ interface ChatLines {
     fun blackaddonsRemoveMessage(message: GuiMessage)
 
     fun blackaddonsRefreshView()
+
+    /** Every wrapped row of [message] sits below the open chat's scroll window. */
+    fun blackaddonsScrolledPast(message: ChatLine): Boolean
+
+    fun blackaddonsScrollTo(message: ChatLine)
+
+    /** A row of [message] is in the scroll window and the smooth scroll has caught up. */
+    fun blackaddonsInView(message: ChatLine): Boolean
+
+    /** The open chat's drawn lines in GUI units, null while it's shut. */
+    fun blackaddonsOpenLinesArea(): Rect?
 
     /** Newest first, one JSON line each, for restoring next run. */
     fun blackaddonsSavedMessages(): List<String>

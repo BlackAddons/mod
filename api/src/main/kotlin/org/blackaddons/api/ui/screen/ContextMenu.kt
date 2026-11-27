@@ -21,10 +21,12 @@ import java.awt.Color
  * [Item.confirm] closes the menu and asks via [ConfirmPopover]. A [KeybindItem] binds in place and keeps it open.
  */
 class ContextMenu(
-    private val entries: List<Entry>,
+    entries: List<Entry>,
     private val anchorX: Float = UiMouse.x,
     private val anchorY: Float = UiMouse.y,
 ) : Popover() {
+
+    private val entries = tidySeparators(entries)
 
     sealed interface Entry
 
@@ -168,3 +170,10 @@ class ContextMenu(
         const val KEY_GAP = 16f
     }
 }
+
+/** Drops separators at either end and repeats, so each one sits between two groups. */
+internal fun tidySeparators(entries: List<ContextMenu.Entry>): List<ContextMenu.Entry> =
+    entries.filterIndexed { i, entry ->
+        val separator = ContextMenu.Separator
+        entry != separator || i > 0 && entries[i - 1] != separator && entries.drop(i + 1).any { it != separator }
+    }

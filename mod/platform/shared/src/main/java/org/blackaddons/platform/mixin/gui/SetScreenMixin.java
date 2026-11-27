@@ -1,9 +1,11 @@
 package org.blackaddons.platform.mixin.gui;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import org.blackaddons.api.event.EventBus;
 import org.blackaddons.platform.event.impl.ScreenEvent;
+import org.blackaddons.platform.impl.chat.MinecraftChat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,6 +31,7 @@ public abstract class SetScreenMixin {
 
     @Inject(method = "setScreen", at = @At("RETURN"))
     private void blackaddons$afterSetScreen(Screen screen, CallbackInfo ci) {
+        MinecraftChat.INSTANCE.focusChanged(this.screen instanceof ChatScreen);
         EventBus.INSTANCE.post(new ScreenEvent.Open(screen));
     }
 }

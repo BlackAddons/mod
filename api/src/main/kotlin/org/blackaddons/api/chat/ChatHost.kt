@@ -1,5 +1,6 @@
 package org.blackaddons.api.chat
 
+import org.blackaddons.api.ui.layout.Rect
 import java.awt.Color
 
 /** [local] prints client-side only; [send] and [sendCommand] reach the server and no-op outside a world. */
@@ -35,6 +36,27 @@ interface ChatHost {
 
     /** Shows only lines [filter] accepts (null = all). Hidden lines are kept. Client thread only. */
     fun showOnly(filter: ((ChatLine) -> Boolean)?) {}
+
+    /**
+     * Narrows the closed chat on top of [showOnly]: while it's shut only lines [filter] accepts show (null = all).
+     * Client thread only.
+     */
+    fun showWhileClosed(filter: ((ChatLine) -> Boolean)?) {}
+
+    /** Whether the current view lets [line] through: [showOnly], and [showWhileClosed] while the chat is shut. */
+    fun shows(line: ChatLine): Boolean = true
+
+    /** The open chat is scrolled up so far that all of [line] sits below its view. False while shut or when hidden. */
+    fun scrolledPast(line: ChatLine): Boolean = false
+
+    /** Scrolls the open chat so [line] sits mid-view, or as close as the history allows. */
+    fun scrollTo(line: ChatLine) {}
+
+    /** [line] shows in the open chat and its scroll has come to rest. */
+    fun inView(line: ChatLine): Boolean = false
+
+    /** Where the open chat draws its lines, in GUI units; null while shut. */
+    val openLinesArea: Rect? get() = null
 
     /** Removes every chat line. The sent-message history stays. */
     fun clear() {}

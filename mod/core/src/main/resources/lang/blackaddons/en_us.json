@@ -1618,6 +1618,18 @@
         "play_sound": {
           "name": "Play Sound",
           "desc": "Ping when a mention arrives."
+        },
+        "mention_mode": {
+          "name": "Mention Mode",
+          "desc": "While chat is closed, only mentions and private messages to you show. Opening chat pins the ones that came in above it."
+        },
+        "unpin_on": {
+          "name": "Unpin On",
+          "desc": "Clicking a pin scrolls to its message and drops it there. Scroll Past also drops one once you scroll up past its message.",
+          "option": {
+            "scroll_past": "Scroll Past",
+            "click": "Click"
+          }
         }
       }
     },
