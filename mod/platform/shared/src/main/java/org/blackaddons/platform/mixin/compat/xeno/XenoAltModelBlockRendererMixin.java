@@ -34,18 +34,18 @@ public abstract class XenoAltModelBlockRendererMixin {
     @Unique private BlockPos blackaddons$pos;
     @Unique private int blackaddons$textureTint = 0xFFFFFF;
 
-    @Inject(method = "tesselateBlock", at = @At("HEAD"), require = 0, remap = false)
+    @Inject(method = "tesselateBlock", at = @At("HEAD"), remap = false)
     private void blackaddons$captureFmeTint(
-        QuadEmitter output,
-        float x,
-        float y,
-        float z,
-        BlockAndTintGetter level,
-        BlockPos pos,
-        BlockState blockState,
-        BlockStateModel model,
-        long seed,
-        CallbackInfo ci
+            QuadEmitter output,
+            float x,
+            float y,
+            float z,
+            BlockAndTintGetter level,
+            BlockPos pos,
+            BlockState blockState,
+            BlockStateModel model,
+            long seed,
+            CallbackInfo ci
     ) {
         this.blackaddons$fmeTint = FmeBlockRemapper.tintAt(pos.getX(), pos.getY(), pos.getZ());
         this.blackaddons$fmeTextureState = FmeBlockRemapper.textureStateAt(pos.getX(), pos.getY(), pos.getZ());
@@ -54,14 +54,10 @@ public abstract class XenoAltModelBlockRendererMixin {
     }
 
     @Inject(
-        method = "shouldCullFace",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"
-        ),
-        cancellable = true,
-        require = 0,
-        remap = false
+            method = "shouldCullFace",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"),
+            cancellable = true,
+            remap = false
     )
     private void blackaddons$keepFaceBehindFmeSeeThrough(Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (FmeBlockRemapper.seeThroughFace(this.blockState, this.scratchPos, direction.getOpposite())) {
@@ -70,13 +66,9 @@ public abstract class XenoAltModelBlockRendererMixin {
     }
 
     @Inject(
-        method = "transform",
-        at = @At(
-            value = "INVOKE",
-            target = "Lcom/xeno/fabric/client/render/frapi/render/XenoAltModelBlockRenderer;tintQuad(Lnet/fabricmc/fabric/api/client/renderer/v1/mesh/MutableQuadView;)V"
-        ),
-        require = 0,
-        remap = false
+            method = "transform",
+            at = @At(value = "INVOKE", target = "Lcom/xeno/fabric/client/render/frapi/render/XenoAltModelBlockRenderer;tintQuad(Lnet/fabricmc/fabric/api/client/renderer/v1/mesh/MutableQuadView;)V"),
+            remap = false
     )
     private void blackaddons$retextureFmeQuad(MutableQuadView quad, CallbackInfoReturnable<Boolean> cir) {
         this.blackaddons$textureTint = 0xFFFFFF;
@@ -87,9 +79,9 @@ public abstract class XenoAltModelBlockRendererMixin {
             if (source != null && source != face.getSprite()) {
                 for (int vertex = 0; vertex < 4; vertex++) {
                     long uv = FmeTextureRemapper.mapUv(
-                        quad.u(vertex), quad.v(vertex), source, face,
-                        this.blackaddons$fmeTextureState, quad.nominalFace(),
-                        quad.x(vertex), quad.y(vertex), quad.z(vertex)
+                            quad.u(vertex), quad.v(vertex), source, face,
+                            this.blackaddons$fmeTextureState, quad.nominalFace(),
+                            quad.x(vertex), quad.y(vertex), quad.z(vertex)
                     );
                     quad.uv(vertex, UVPair.unpackU(uv), UVPair.unpackV(uv));
                 }
@@ -100,20 +92,19 @@ public abstract class XenoAltModelBlockRendererMixin {
             }
             quad.tintIndex(-1);
             this.blackaddons$textureTint = FmeBlockRemapper.textureTint(
-                this.blackaddons$fmeTextureState, quad.nominalFace(), this.blackaddons$level, this.blackaddons$pos
+                    this.blackaddons$fmeTextureState, quad.nominalFace(), this.blackaddons$level, this.blackaddons$pos
             );
         }
     }
 
     @Inject(
-        method = "transform",
-        at = @At(
-            value = "INVOKE",
-            target = "Lcom/xeno/fabric/client/render/frapi/render/XenoAltModelBlockRenderer;tintQuad(Lnet/fabricmc/fabric/api/client/renderer/v1/mesh/MutableQuadView;)V",
-            shift = At.Shift.AFTER
-        ),
-        require = 0,
-        remap = false
+            method = "transform",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lcom/xeno/fabric/client/render/frapi/render/XenoAltModelBlockRenderer;tintQuad(Lnet/fabricmc/fabric/api/client/renderer/v1/mesh/MutableQuadView;)V",
+                    shift = At.Shift.AFTER
+            ),
+            remap = false
     )
     private void blackaddons$applyFmeTint(MutableQuadView quad, CallbackInfoReturnable<Boolean> cir) {
         int tint = FmeBlockRemapper.multiplyTint(this.blackaddons$fmeTint, this.blackaddons$textureTint);

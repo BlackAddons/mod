@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class XenoFluidRendererMixin {
     @Unique private final ThreadLocal<Integer> blackaddons$fmeTint = ThreadLocal.withInitial(() -> 0xFFFFFF);
 
-    @Inject(method = "tesselate", at = @At("HEAD"), require = 0, remap = false)
+    @Inject(method = "tesselate", at = @At("HEAD"), remap = false)
     private void blackaddons$captureFmeTint(
         BlockAndTintGetter level,
         BlockPos pos,
@@ -38,7 +38,6 @@ public abstract class XenoFluidRendererMixin {
             target = "Lnet/minecraft/util/ARGB;scaleRGB(IF)I"
         ),
         index = 0,
-        require = 0,
         remap = false
     )
     private int blackaddons$applyFmeTint(int color) {

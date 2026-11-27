@@ -23,7 +23,6 @@ public abstract class XenoOcclusionGraphMixin {
             value = "INVOKE",
             target = "Lcom/xeno/client/common/render/culling/XenoOcclusionCuller;collectVisibleSections(Lnet/minecraft/client/renderer/culling/Frustum;ZIIIIIILjava/util/List;Ljava/util/List;)V"
         ),
-        require = 0,
         remap = false
     )
     private void blackaddons$useSyncFrustumForEntityView(
@@ -40,28 +39,17 @@ public abstract class XenoOcclusionGraphMixin {
         List<SectionRenderDispatcher.RenderSection> outNearby,
         Operation<Void> original
     ) {
-        if (EntityView.getRendering()) {
-            EntityView.View view = EntityView.getCurrent();
-            if (view != null) {
-                BlockPos camPos = view.getEntity().blockPosition();
-                original.call(
-                    culler,
-                    frustum,
-                    true,
-                    SectionPos.blockToSectionCoord(camPos.getX()),
-                    SectionPos.blockToSectionCoord(camPos.getY()),
-                    SectionPos.blockToSectionCoord(camPos.getZ()),
-                    camPos.getX(),
-                    camPos.getY(),
-                    camPos.getZ(),
-                    outVisible,
-                    outNearby
-                );
-                return;
-            }
-            original.call(culler, frustum, true, camSecX, camSecY, camSecZ, camBlockX, camBlockY, camBlockZ, outVisible, outNearby);
-            return;
+        boolean entityView = EntityView.getRendering();
+        EntityView.View view = entityView ? EntityView.getCurrent() : null;
+        if (view != null) {
+            BlockPos camPos = view.getEntity().blockPosition();
+            camBlockX = camPos.getX();
+            camBlockY = camPos.getY();
+            camBlockZ = camPos.getZ();
+            camSecX = SectionPos.blockToSectionCoord(camBlockX);
+            camSecY = SectionPos.blockToSectionCoord(camBlockY);
+            camSecZ = SectionPos.blockToSectionCoord(camBlockZ);
         }
-        original.call(culler, frustum, forceSyncFallback, camSecX, camSecY, camSecZ, camBlockX, camBlockY, camBlockZ, outVisible, outNearby);
+        original.call(culler, frustum, forceSyncFallback || entityView, camSecX, camSecY, camSecZ, camBlockX, camBlockY, camBlockZ, outVisible, outNearby);
     }
 }

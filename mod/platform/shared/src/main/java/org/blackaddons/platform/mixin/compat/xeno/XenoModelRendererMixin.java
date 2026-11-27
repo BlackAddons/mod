@@ -30,7 +30,7 @@ public abstract class XenoModelRendererMixin {
     @Unique private int blackaddons$fmeTint = 0xFFFFFF;
     @Unique private BlockState blackaddons$fmeTextureState;
 
-    @Inject(method = "emitCollected", at = @At("HEAD"), require = 0, remap = false)
+    @Inject(method = "emitCollected", at = @At("HEAD"), remap = false)
     private void blackaddons$captureFmeTint(
         BlockQuadOutput output,
         float x,
@@ -53,7 +53,6 @@ public abstract class XenoModelRendererMixin {
             target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"
         ),
         cancellable = true,
-        require = 0,
         remap = false
     )
     private void blackaddons$keepFaceBehindFmeSeeThrough(
@@ -73,14 +72,13 @@ public abstract class XenoModelRendererMixin {
         at = @At("HEAD"),
         argsOnly = true,
         index = 8,
-        require = 0,
         remap = false
     )
     private BakedQuad blackaddons$retextureFmeQuad(BakedQuad quad) {
         return this.blackaddons$fmeTextureState == null ? quad : FmeTextureRemapper.retexture(quad, this.blackaddons$fmeTextureState);
     }
 
-    @Inject(method = "putQuadWithTint", at = @At("HEAD"), require = 0, remap = false)
+    @Inject(method = "putQuadWithTint", at = @At("HEAD"), remap = false)
     private void blackaddons$applyFmeTint(
         BlockQuadOutput output,
         float x,

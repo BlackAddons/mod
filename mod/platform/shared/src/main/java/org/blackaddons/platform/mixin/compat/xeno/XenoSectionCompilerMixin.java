@@ -23,7 +23,6 @@ public abstract class XenoSectionCompilerMixin {
             value = "INVOKE",
             target = "Lnet/minecraft/world/level/chunk/PalettedContainer;get(III)Ljava/lang/Object;"
         ),
-        require = 0,
         remap = false
     )
     private Object blackaddons$remapFmeState(
