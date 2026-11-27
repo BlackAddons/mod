@@ -30,6 +30,7 @@ val modmenuVersion = mcProp("modmenu_version")
 val irisVersion = mcProp("iris_version")
 val sodiumVersion = mcProp("sodium_version")
 val reiVersion = mcProp("rei_version")
+val bobbyVersion = mcProp("bobby_version")
 val skijaVersion = mcProp("skija_version")
 
 base {
@@ -101,6 +102,10 @@ dependencies {
     // Optional REI support. REI's Rectangle class comes from its basic-math library.
     compileOnly("maven.modrinth:rei:$reiVersion") { isTransitive = false }
     compileOnly("me.shedaniel.cloth:basic-math:${prop("rei_basic_math_version")}") { isTransitive = false }
+
+    // Optional mods the dungeon scanner and party request talk to. The Hypixel mod nests its API, so we take the API jar.
+    compileOnly("maven.modrinth:bobby:$bobbyVersion") { isTransitive = false }
+    compileOnly("net.hypixel:mod-api:${prop("hypixel_mod_api_version")}") { isTransitive = false }
 }
 
 /*

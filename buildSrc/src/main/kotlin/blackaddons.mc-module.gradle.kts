@@ -52,6 +52,10 @@ repositories {
         name = "Shedaniel"
         content { includeGroup("me.shedaniel.cloth") }
     }
+    maven("https://repo.hypixel.net/repository/Hypixel/") {
+        name = "Hypixel"
+        content { includeGroup("net.hypixel") }
+    }
 }
 
 tasks.withType<JavaCompile>().configureEach {

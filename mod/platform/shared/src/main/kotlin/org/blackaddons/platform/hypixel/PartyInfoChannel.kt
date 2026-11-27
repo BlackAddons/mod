@@ -3,6 +3,9 @@ package org.blackaddons.platform.hypixel
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.loader.api.FabricLoader
+import net.hypixel.modapi.HypixelModAPI
+import net.hypixel.modapi.packet.impl.clientbound.ClientboundPartyInfoPacket
+import net.hypixel.modapi.packet.impl.serverbound.ServerboundPartyInfoPacket
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
@@ -11,7 +14,6 @@ import org.blackaddons.api.hypixel.PartyRole
 import org.blackaddons.core.hypixel.CoreParty
 import org.blackaddons.core.hypixel.PartyTransport
 import org.blackaddons.core.log.Log
-import java.lang.reflect.Proxy
 import java.util.UUID
 
 /**
@@ -90,52 +92,25 @@ internal object PartyInfoChannel {
         }
     }
 
-    /** The Hypixel Mod API mod, by reflection: it's optional, and its API ships nested in its jar. */
+    /** The Hypixel Mod API mod. Only touched when it's installed, so its classes never load otherwise. */
     private object ModApiBridge {
 
         fun install(): PartyTransport = runCatching {
-            val api = Class.forName("net.hypixel.modapi.HypixelModAPI").getMethod("getInstance").invoke(null)
-            val answer = Class.forName("net.hypixel.modapi.packet.impl.clientbound.ClientboundPartyInfoPacket")
-            val handlerType = Class.forName("net.hypixel.modapi.handler.ClientboundPacketHandler")
-            val registeredType = Class.forName("net.hypixel.modapi.handler.RegisteredHandler")
-            val errorType = Class.forName("net.hypixel.modapi.handler.ErrorHandler")
-            val reasonId = Class.forName("net.hypixel.modapi.error.ErrorReason").getMethod("getId")
-            val packetType = Class.forName("net.hypixel.modapi.packet.HypixelPacket")
-            val request = Class.forName("net.hypixel.modapi.packet.impl.serverbound.ServerboundPartyInfoPacket")
-
-            val handler = proxy(handlerType) { packet -> CoreParty.answered(roles(packet)) }
-            val registered = api.javaClass.getMethod("createHandler", Class::class.java, handlerType).invoke(api, answer, handler)
-            // Through the interfaces, because the classes behind them aren't public.
-            val onError = proxy(errorType) { reason -> refused(reasonId.invoke(reason) as Int) }
-            registeredType.getMethod("onError", errorType).invoke(registered, onError)
-
-            val send = api.javaClass.getMethod("sendPacket", packetType)
-            PartyTransport("Hypixel Mod API mod") { send.invoke(api, request.getConstructor().newInstance()) as Boolean }
+            val api = HypixelModAPI.getInstance()
+            api.createHandler(ClientboundPartyInfoPacket::class.java) { packet -> CoreParty.answered(roles(packet)) }
+                .onError { reason -> refused(reason.id) }
+            PartyTransport("Hypixel Mod API mod") { api.sendPacket(ServerboundPartyInfoPacket()) }
         }.getOrElse { e ->
             Log.main.warn("Hypixel Mod API is installed but its party request could not be reached; Party stays empty", e)
             PartyTransport("Hypixel Mod API mod, not reachable") { false }
         }
 
-        private fun roles(packet: Any): Map<UUID, PartyRole> {
-            val members = packet.javaClass.getMethod("getMemberMap").invoke(packet) as Map<*, *>
-            return members.entries.associate { (uuid, member) ->
-                val role = member!!.javaClass.getMethod("getRole").invoke(member) as Enum<*>
-                uuid as UUID to when (role.name) {
-                    "LEADER" -> PartyRole.LEADER
-                    "MOD" -> PartyRole.MODERATOR
-                    else -> PartyRole.MEMBER
-                }
+        private fun roles(packet: ClientboundPartyInfoPacket): Map<UUID, PartyRole> = packet.memberMap.mapValues { (_, member) ->
+            when (member.role) {
+                ClientboundPartyInfoPacket.PartyRole.LEADER -> PartyRole.LEADER
+                ClientboundPartyInfoPacket.PartyRole.MOD -> PartyRole.MODERATOR
+                else -> PartyRole.MEMBER
             }
         }
-
-        private fun proxy(type: Class<*>, body: (Any) -> Unit): Any =
-            Proxy.newProxyInstance(type.classLoader, arrayOf(type)) { self, method, args ->
-                when (method.name) {
-                    "equals" -> self === args?.get(0)
-                    "hashCode" -> System.identityHashCode(self)
-                    "toString" -> "BlackAddons party handler"
-                    else -> body(args!![0]).let { null }
-                }
-            }
     }
 }

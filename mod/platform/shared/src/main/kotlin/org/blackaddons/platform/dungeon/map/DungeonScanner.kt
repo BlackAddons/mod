@@ -1,5 +1,6 @@
 package org.blackaddons.platform.dungeon.map
 
+import de.johni0702.minecraft.bobby.Bobby
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
@@ -37,12 +38,7 @@ object DungeonScanner {
 
     private val bobbyManagesWorlds by lazy {
         runCatching {
-            if (!FabricLoader.getInstance().isModLoaded("bobby")) return@runCatching false
-            val bobby = Class.forName("de.johni0702.minecraft.bobby.Bobby")
-                .getMethod("getInstance")
-                .invoke(null)
-            val config = bobby.javaClass.getMethod("getConfig").invoke(bobby)
-            config.javaClass.getMethod("isDynamicMultiWorld").invoke(config) as Boolean
+            FabricLoader.getInstance().isModLoaded("bobby") && Bobby.getInstance().config.isDynamicMultiWorld
         }.getOrDefault(false)
     }
 
